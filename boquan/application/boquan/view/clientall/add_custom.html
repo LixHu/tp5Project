@@ -1,0 +1,177 @@
+{include file="public/header" /}
+<style>
+    body {
+        background-color: #eeeeee;
+    }
+
+    .content {
+        padding: 0 15px !important;
+    }
+
+    .small-box {
+        margin-bottom: 0px;
+        color: #FFFFFF;
+    }
+
+    .table-header-sort {
+        cursor: pointer;
+        color: black !important;
+    }
+
+    .tooltip>.tooltip-inner {
+        background-color: #e5e5e5;
+        color: #0c0c0c
+    }
+
+    .tooltip.top .tooltip-arrow {
+        border-top-color: #e5e5e5;
+    }
+
+    #wait {
+        background: rgba(255, 255, 255, 0.5) url("/resource/images/wait.gif")
+        center no-repeat;
+        position: fixed;
+        width: 100%;
+        height: 100%;
+        z-index: 9000;
+    }
+
+    .dnone {
+        display: none;
+    }
+
+    [v-cloak] {
+        display: none
+    }
+
+    .iconfont {
+        width: 50px !important;
+    }
+
+    .dropdown-menu>li a {
+        transition: background-color ease .3s, color ease .3s, border-color ease
+        .3s;
+    }
+
+    .dropdown-menu>li a:hover {
+        background-color: #3c8dbc;
+        color: white;
+        border-color: #3c8dbc;
+    }
+
+    .dropdown-toggle {
+        transition: background-color ease .3s, color ease .3s, border-color ease
+        .3s;
+    }
+
+    .dropdown-toggle:hover {
+        background-color: #3c8dbc;
+        color: white;
+        border-color: #3c8dbc;
+    }
+
+    .open .dropdown-toggle {
+        background-color: #3c8dbc !important;
+        color: white !important;
+        border-color: #3c8dbc !important;
+    }
+
+    .btn-default1 {
+        background-color: #f4f4f4;
+        color: #444;
+        border-color: #ddd;
+    }
+
+    .small-box .icon {
+        top: -25px !important;
+    }
+
+    .small-box h3 {
+        font-size: 30px !important;
+        margin: 0 0 10px 0 !important;
+        white-space: nowrap !important;
+        padding: 0 !important;
+        font-weight: normal !important;
+    }
+
+    .table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th,
+    .table>thead>tr>td, .table>thead>tr>th {
+        line-height: 2.4;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+    }
+</style>
+<!--<div class="" id="main">-->
+<!--<section class="content" style="min-width: 760px !important;">-->
+    <form id="mainForm" method="post"  id="myform">
+        <!--<div class="box box-solid">-->
+            <!--<div class="box-body">-->
+        <div class="col-md-12 form-group" style="clear:both;padding: 10px;">
+            <label class="col-md-4 col-sm-3" style="padding: 10px;text-align: right;">
+                <span class="text-red">* </span>名称：</label>
+            <div class="col-md-8 col-sm-7">
+                <input type="text" class="form-control" id="client_name" name="client_name" >
+            </div>
+        </div>
+        <div class="col-md-12 form-group" style="clear:both;">
+            <label class="col-md-4 col-sm-3" style="padding: 10px;text-align: right;">
+                <span class="text-red">* </span>联系方式：
+            </label>
+            <div class="col-md-8 col-sm-7" style="padding: 10px;">
+                <input type="text" class="form-control" id="client_tel" name="client_tel"
+                       onkeyup="this.value=this.value.replace(/\D/g,'')" placeholder="只允许数字" >
+            </div>
+        </div>
+        <input type="hidden" name="id" value="">
+        <div class="col-md-12 form-group" style="clear:both;">
+            <label class="col-md-4 col-sm-3" style="padding: 10px;text-align: right;">
+                <span class="text-red">* </span>联系地址：
+            </label>
+            <div class="col-md-8 col-sm-7" style="padding: 10px;">
+                <input type="text" class="form-control" id="client_address" name="client_address">
+            </div>
+        </div>
+        <div style="clear: both;text-align: right;margin-right:17%;" class="col-md-12 form-group">
+            <button type="button" onclick="sub_form()" class="btn btn-primary">确认</button>
+            <button type="button" class="btn btn-default">关闭</button>
+        </div>
+            <!--</div>-->
+        <!--</div>-->
+    </form>
+<!--</section>-->
+<!--</div>-->
+<script>
+    //js验证表单提交方法
+    function sub_form(){
+        var client_name = $('input[name="client_name"]').val();
+        var client_tel = $('input[name="client_tel"]').val();
+        var client_address = $('input[name="client_address"]').val();
+        if($.trim(client_name) == ''){
+            alert('请填写名称');
+            return false;
+        }
+        if($.trim(client_tel) == ''){
+            alert('请填写联系方式');
+            return false;
+        }
+        if($.trim(client_address) == ''){
+            alert('请填写区域');
+            return false;
+        }
+        var data = {};
+        data.client_name = client_name;
+        data.client_tel = client_tel;
+        data.client_address = client_address;
+        $.post('add_custom',data,function (res) {
+            console.log(res);
+            alert(res.msg);
+            if(res.code == 1){
+                parent.layer.closeAll();
+                parent.location.reload();
+            }
+        })
+    }
+
+</script>
+{include file="public/footer" /}

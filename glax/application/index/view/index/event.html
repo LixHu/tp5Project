@@ -1,0 +1,168 @@
+{include file="public/header" /}
+    <style>
+        -webkit-input-placeholder {
+            font-family: REFSAN;
+        }
+
+        .swiper-container {
+            width: 100%;
+            height: 100%;
+        }
+
+        .swiper-container1 .swiper-slide {
+            /* Center slide text vertically */
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: -webkit-flex;
+            display: flex;
+            -webkit-box-pack: center;
+            -ms-flex-pack: center;
+            -webkit-justify-content: center;
+            justify-content: center;
+            -webkit-box-align: center;
+            -ms-flex-align: center;
+            -webkit-align-items: center;
+            align-items: center;
+        }
+
+        .swiper-container2 .swiper-slide {
+            /* Center slide text vertically */
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: -webkit-flex;
+            display: flex;
+            -webkit-box-pack: center;
+            -ms-flex-pack: center;
+            -webkit-justify-content: center;
+            justify-content: center;
+            -webkit-box-align: center;
+            -ms-flex-align: center;
+            -webkit-align-items: center;
+            align-items: center;
+        }
+
+        .swiper-container3 .swiper-slide {
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: -webkit-flex;
+            display: flex;
+            -webkit-box-pack: center;
+            -ms-flex-pack: center;
+            -webkit-justify-content: center;
+            justify-content: center;
+            -webkit-box-align: center;
+            -ms-flex-align: center;
+            -webkit-align-items: center;
+            align-items: center;
+        }
+
+        .iw_poi_title {
+            color: #CC5522;
+            font-size: 14px;
+            font-weight: bold;
+            overflow: hidden;
+            padding-right: 13px;
+            white-space: nowrap
+        }
+
+        .iw_poi_content {
+            font: 12px arial, sans-serif;
+            overflow: visible;
+            padding-top: 4px;
+            white-space: -moz-pre-wrap;
+            word-wrap: break-word
+        }
+
+        .swiper-container2 .swiper-button-prev {
+            width: 12px;
+            height: 18px;
+            background-image: url(__AGO__/image/leftBtn.png);
+            background-size: 12px 18px;
+            left: 0;
+        }
+
+        .swiper-container2 .swiper-button-next {
+            width: 12px;
+            height: 18px;
+            background-image: url(__AGO__/image/rightBtn.png);
+            background-size: 12px 18px;
+            right: 0;
+        }
+
+        .swiper-container3 {
+            height: 440px;
+        }
+
+        .swiper-container3 .swiper-button-prev {
+            width: 25px;
+            height: 14px;
+            background-image: url(__AGO__/image/topBtn.png);
+            background-size: 25px 14px;
+            top: 40px;
+            left: 45%;
+        }
+
+        .swiper-container3 .swiper-button-next {
+            width: 25px;
+            height: 14px;
+            background-image: url(__AGO__/image/downBtn.png);
+            background-size: 25px 14px;
+            top: 425px;
+            left: 45%;
+        }
+
+        .swiper-container1 .swiper-pagination-bullet-active {
+            background: rgba(255, 255, 255, 1);
+            border: 0px solid #ffffff;
+        }
+
+        .swiper-container1 .swiper-pagination-bullet {
+            width: 14px;
+            height: 14px;
+            display: inline-block;
+            border-radius: 100%;
+            border: 2px solid #ffffff;
+        }
+
+        .swiper-container-horizontal > .swiper-pagination-bullets, .swiper-pagination-custom, .swiper-pagination-fraction {
+            bottom: 43px;
+        }
+    </style>
+<div class="layer allContent ">
+    <div class="allContentMar allContentEvent overflowAuto">
+        <div class="ConTop">
+            <div>
+                <button class="fontBold ConTopBtn ConTopBtnLeft">
+                    Event
+                </button>
+            </div>
+            <div class="ConTopLabel">
+                <a href="index.html">Home</a> >
+                <a href="event.html">Event</a>
+            </div>
+        </div>
+        {volist name="list" id="vo"}
+            <div>
+                <div class="pullLeft list">
+                    <div class="pullLeft"><img src="{$vo.eimg}" alt="" width="230" height="180" class="listImg"></div>
+                    <div class="pullLeft overflowAuto listCon">
+                        <div class="ellipsis listTitle">{$vo.etitle}
+                        </div>
+                        <div class="ellipsis font14 listDes">{$vo.edesc}
+                        </div>
+                        <div class="listTime">
+                            <img class="pullLeft listTimeImg" src="__AGO__/image/Event_03.png" alt="" width="20" height="20">
+                            <span class="pullLeft listTimeCon">&nbsp;<span>{$vo.etime|date="M.d,Y",###}</span></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="overflowAuto listBlock"></div>
+            </div>
+        {/volist}
+    </div>
+    <div class="clear"></div>
+    {include file="public/footer" /}
+<script>
+
+
+</script>

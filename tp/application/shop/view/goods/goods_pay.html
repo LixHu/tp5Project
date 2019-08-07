@@ -1,0 +1,213 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>确认兑换</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="_css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="_css/all.css" />
+	</head>
+
+	<body>
+	<form action="ad_order" method="post" id="form1">
+		
+		<div class="left full bcol_f driver_confirm_divs mt_10 bor_bdc uid">
+			<div class="left driver_service_divsl wnobr thirteen">
+				另选收货地址
+			</div>
+			<div class="left driver_service_divsr thirteen">
+				<span class="mui-icon mui-icon-arrowright " style="color: #adadad;font-size: 15px;"></span>
+			</div>
+		</div>
+		<div class="full bcol_f left bor_bdc">
+				<input type="hidden" name="goods_id" value="{$se['goods_id']}">
+				<input type="hidden" name="goods_img" value="{$se['img']}">
+				<input type="hidden" name="goods_name" value="{$se['name']}">
+				<input type="hidden" name="user_name" value="{$data['user_name']}">
+				<input type="hidden" name="user_tel" value="{$data['user_tel']}">
+				<input type="hidden" name="address" value="{$data['address']}">
+				<input type="hidden" name="address_list" value="{$data['address_list']}">
+
+				
+				<p class="dr_chooseAdd_pl left mb_0 thirteen col_3 mt_3 mb_5">
+					&nbsp;&nbsp;&nbsp;{$data['user_name']}
+				</p>
+				<p class="dr_chooseAdd_pr left mb_0 thirteen col_3 mt_3 ju_right mb_5">
+					{$data['user_tel']}&nbsp;&nbsp;
+				</p>
+				<p class="full lef thirteen col_3 mb_5">
+					{if condition="$data['status'] eq 1"}
+					
+					<span class="col_c10b0b">&nbsp;[默认地址]</span>&nbsp;&nbsp;{$data['address']}&nbsp;&nbsp;{$data['address_list']}
+					{else}
+					&nbsp;&nbsp;&nbsp;{$data['address']}&nbsp;&nbsp;{$data['address_list']}
+					{/if}
+				</p>
+
+			</div>
+		
+		<div class="left full bcol_f driver_confirm_div mt_10 bor_tdc bor_bdc">
+			<div class="full left bor_bdc father">
+				<input type="hidden" name="uid" value="{$uid}">
+				<div class="left driver_confirm_divl ju_mid">
+					<img class="driver_confirm_img" src="{$se['img']}" />
+				</div>
+				<div class="left driver_confirm_divr ju_mid">
+					<p class="col_3 wnobr thirteen ju_left mb_5">{$se['name']}</p>
+					<p class="col_c10b0b elveteen wnobr ju_left">
+						<img style="vertical-align: middle;" src="_images/driver_gold.png" />
+						&nbsp;{$se['price']}
+					</p>
+				</div>
+				<div class="son div_confirm_plus">
+					<div id="numbox" class="mui-numbox">
+						<!-- "-"按钮，点击可减小当前数值 -->
+						{if condition="$se['num'] eq 1"}
+						<button class="mui-btn mui-numbox-btn-minus sub" style="background-color: white;color: #888;">-</button>
+						{else}
+						<button class="mui-btn mui-numbox-btn-minus sub" style="background-color: white;color: #c10b0b;" type="button" data-id="{$se['id']}">-</button>
+						{/if}
+						<input class="mui-numbox-input" type="number" id="num" value="{$se['num']}" readonly/>
+						<!-- "+"按钮，点击可增大当前数值 -->
+						<button class="mui-btn mui-numbox-btn-plus add" style="background-color: white;color: #c10b0b;" type="button" data-id="{$se['id']}">+</button>
+					</div>
+				</div>
+			</div>
+			<div class="left full bcol_f">
+				<div class="full left">
+					<div class="div_confirm_divls left thirteen">
+						留言
+					</div>
+					<div class="div_confirm_divrs left thirteen">
+						<input style="height: 30px;border: 0px;font-size: 13px;" type="text" placeholder="给卖家留言" name="content"/>
+					</div>
+				</div>
+			</div>
+			<p class="left full ju_right thirteen col_3">
+				共{$se['num']}件商品，合计:&nbsp;
+				<img style="vertical-align: middle;margin-bottom: 3px;" src="_images/driver_gold.png" />
+				&nbsp;<span class="col_c10b0b">{$se['to_price']}</span>&nbsp;
+			</p>
+		</div>
+		<div class="div_confirm_bot full left bcol_f bor_tdc">
+			<p class="ju_mid thirteen div_confirm_anniu col_f right ad_order">提交订单</p>
+			<p class="right thirteen col_3 mr_3 mt_10 mb_0" style="margin-top: 19px;">
+				应付总额:&nbsp;
+				<img style="vertical-align: middle;margin-bottom: 3px;" src="_images/driver_gold.png" />
+				&nbsp;<span class="col_c10b0b">{$se['to_price']}</span>&nbsp;
+			</p>
+			<!-- <p class="div_confirm_p ten left col_3 ju_right mt_fu4 mb_0">共计一件商品</p> -->
+		</div>
+	</form>
+		<script src="_js/mui.min.js"></script>
+		<script src="_js/jquery.js"></script>
+		<script type="text/javascript">
+			mui.init()
+			mui("body").on('tap','.driver_head_son',function(){
+				 
+				location.href="{:url('Goods/goods_all')}";
+				
+		    });
+		    mui("body").on('tap','.uid',function(){
+				 
+				// var goods_id = this.getAttribute('data-id');
+				var uid = $('input[name="uid"]').val();
+				location.href="{:url('Goods/users_address')}?uid="+uid;
+		    });
+		    mui("body").on('tap','.ad_order',function(){
+		    	mui.confirm('你确定要提交吗？', '', ['否', '是'], function(e) {
+                    if (e.index == 1) {
+                        $.ajax({ 
+			                type: "POST",//方法类型
+			                dataType: "json",//预期服务器返回的数据类型
+			                url: "{:url('Goods/ad_order')}" ,//url
+			                data: $('#form1').serialize(),
+			                success: function (data) {
+			                	
+			                	if (data['code'] == 1) {
+			                		mui.alert(data['mages'], '', function(){
+			                				if (data['uid']) {
+				                				var uid = data['uid']*2+10000;
+				                				location.href="{:url('Index/index')}?uid="+uid;
+				                			}else if(data['did']){
+				                				var did = data['did']*2+10000;
+				                				location.href="{:url('Index/index')}?did="+did;
+				                			}else{
+				                				location.href="{:url('Index/index')}";
+				                			}
+				                			
+				                		});
+			                	}else if(data['code'] == 0) {
+			                		mui.alert(data['mages'], '', function(){});
+			                	}else if(data['code'] == 3) {
+			                		mui.alert(data['mages'], '', function(){});
+			                	}else if(data['code'] == 5) {
+			                		mui.alert(data['mages'], '', function(){});
+			                	}else if(data['code'] == 6) {
+			                		mui.alert(data['mages'], '', function(){});
+			                	}else if(data['code'] == 7) {
+			                		mui.alert(data['mages'], '', function(){});
+			                	}
+			                   
+			                }
+			            })
+                    }
+                })
+				
+		    });
+			
+			mui.ready(function(){
+				// document.getElementById("number").value = 1;
+				// var num = document.getElementById("number").value;
+				// mui.toast(num);
+				//mui("#numbox").numbox().getValue();
+			});
+			//增加数量
+			mui("body").on('tap','.add',function(){
+				 
+				var id = this.getAttribute('data-id');
+				var num = parseInt($(this).parent().find('#num').val());
+				// mui.toast(num);
+				
+					$.post("{:url('Goods/save_num')}",{id:id,num:num},function(data){
+						if(data == 3) {
+							mui.alert('操作异常', '', function(){});
+						}else if(data == 0) {
+							mui.alert('操作失败', '', function(){});
+						}else if(data == 1) {
+							location.reload();
+						}
+					})
+				
+				
+		    });
+		    //减少数量
+			mui("body").on('tap','.sub',function(){
+				 
+				var id = this.getAttribute('data-id');
+				var num = parseInt($(this).parent().find('#num').val());
+				// mui.toast(num);
+
+					$.post("{:url('Goods/save_num')}",{id:id,num:num},function(data){
+						if(data == 3) {
+							mui.toast("修改数量异常");
+						}else if(data == 0) {
+							mui.toast("修改数量异常");
+						}else if(data == 1) {
+							location.reload();
+						}else if(data == 4) {
+							mui.alert('最少一个', '', function(){
+								location.reload();
+							});
+							
+						}
+					})
+				
+		    });
+
+
+		</script>
+	</body>
+
+</html>

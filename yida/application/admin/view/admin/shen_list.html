@@ -1,0 +1,133 @@
+{include file="public/header" /}
+<body style="padding:10px;">
+    <blockquote class="layui-elem-quote layui-text">
+        案例管理
+    </blockquote>
+    <div style="float:right;padding:10px;">
+        <button type="button" class="layui-btn layui-btn-normal" data-method="add" data-url="edit_shen">添加描述</button>
+    </div>
+    <table class="layui-table">
+        <tr>
+            <td><input type="checkbox" id="checkall" /></td>
+            <td>属于</td>
+            <td style="width:400px;">描述</td>
+            <td>操作</td>
+        </tr>
+        {volist name="list" id="vo"}
+            <tr>
+                <td><input type="checkbox" name="id[]" value="{$vo.s_id}"> </td>
+                <td>
+                    <?php
+                        if($vo['pid'] == 1) {
+                            echo '外贸出口';
+                        }else if($vo['pid'] == 2) {
+                            echo '国内贸易';
+                        }else if($vo['pid'] == 3) {
+                            echo '进口贸易';
+                        }else if($vo['pid'] == 4) {
+                            echo '生产制造';
+                        }else if($vo['pid'] == 5) {
+                            echo '服装 服饰 家纺 纺织';
+                        }else{
+                            echo '';
+                        }
+                    ?>
+                </td>
+                <td>{$vo.s_content}</td>
+                <td>
+                    <div class="layui-btn-group">
+                        <a href="edit_shen?id={$vo.s_id}" class="layui-btn layui-btn-normal">编辑</a>
+                        <!-- <button type="button" class="layui-btn layui-btn-danger" data-method="del" data-id="{$vo.s_id}">删除</button> -->
+                    </div>
+                </td>
+            </tr>
+        {/volist}
+        <tr>
+            <td colspan="15">
+                <div class="pagelist">{$page}</div>
+            </td>
+        </tr>
+        <!-- <tr>
+            <td><button type="button" class="layui-btn layui-btn-danger" data-method="delAll">删除</button></td>
+            <td colspan="15"></td>
+        </tr> -->
+    </table>
+
+    <script type="text/javascript">
+    var changest = function (type,status,under_com_id){
+        var data = {};
+        data.type = type;
+        data.status = status;
+        data.under_com_id = under_com_id;
+        $.post('up_status',data,function(ret){
+            if (ret.code == 1) {
+                layer.msg(ret.msg,{icon:1});
+                setTimeout("location.reload()",2000);
+            }else {
+                layer.msg(ret.msg,{icon:2});
+            }
+        })
+    }
+    var active = {
+    'add':function(){
+        location.href=$(this).data('url');
+    },del:function(){
+        var data = {};
+        data.id = $(this).data('id');
+        layer.confirm('确定要删除吗？',{
+            btn:['确定','取消']
+        },function(){
+            $.post('del_under',data,function(msg){
+                msg = JSON.parse(msg);
+                if(msg.code == 1){
+                    layer.msg(msg.msg,{icon:1});
+                    setTimeout("location.reload()",2000);
+                }else{
+                    layer.msg(msg.msg,{icon:2});
+                }
+            })
+        },function(){
+            console.log('error');
+        })
+    },
+    delAll:function(){
+        var id = [];
+        $.each($("input[name='id[]']"),function(k,v){
+            if(v.checked){
+                id.push(v.value);
+            }
+        })
+        if(id.length < 1){
+            layer.msg('请选择要删除的公司',{icon:2});
+            return false;
+        }
+        var data = {};
+        data.id = id;
+        layer.confirm('确定要删除吗？',{
+            btn:['确定','取消']
+        },function(){
+            $.post('del_under',data,function(msg){
+                msg = JSON.parse(msg);
+                if(msg.code == 1){
+                    layer.msg(msg.msg,{icon:1});
+                    setTimeout("location.reload()",2000);
+                }else{
+                    layer.msg(msg.msg,{icon:2});
+                }
+            })
+        },function(){
+
+        })
+    }
+    }
+    $("#checkall").click(function(){
+    $.each($("input[name='id[]']"),function(k,v){
+        v.checked = !v.checked;
+    })
+    })
+    $(".layui-btn").on('click',function(){
+    var othis = $(this), method = othis.data('method');
+    active[method] ? active[method].call(this, othis) : '';
+    })
+    </script>
+{include file="public/footer" /}

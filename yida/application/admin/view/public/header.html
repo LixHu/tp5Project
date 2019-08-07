@@ -1,0 +1,113 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta name="renderer" content="webkit|ie-comp|ie-stand">
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<link href="__ASS__/css/bootstrap.min.css" rel="stylesheet" />
+	<link rel="stylesheet" href="__ASS__/css/font-awesome.min.css" />
+	<!--[if IE 7]>
+	  <link rel="stylesheet" href="assets/css/font-awesome-ie7.min.css" />
+	<![endif]-->
+	<link rel="stylesheet" href="__ASS__/css/ace.min.css" />
+	<link rel="stylesheet" href="__ASS__/css/ace-rtl.min.css" />
+	<link rel="stylesheet" href="__ASS__/css/ace-skins.min.css" />
+	<link rel="stylesheet" href="__CSS__/style.css"/>
+	<link rel="stylesheet" href="__JS__/layui/css/layui.css">
+	<script src="__JS__/layui/layui.js"></script>
+	<!--[if lte IE 8]>
+	  <link rel="stylesheet" href="assets/css/ace-ie.min.css" />
+	<![endif]-->
+	<script src="__ASS__/js/ace-extra.min.js"></script>
+	<!--[if lt IE 9]>
+	<script src="assets/js/html5shiv.js"></script>
+	<script src="assets/js/respond.min.js"></script>
+	<![endif]-->
+	<!--[if !IE]> -->
+	<script src="__JS__/jquery-1.9.1.min.js"></script>
+	<!-- <![endif]-->
+	<!--[if IE]>
+	 <script type="text/javascript">window.jQuery || document.write("<script src='assets/js/jquery-1.10.2.min.js'>"+"<"+"script>");</script>
+	<![endif]-->
+	<script type="text/javascript">
+		if("ontouchend" in document) document.write("<script src='__ASS__/js/jquery.mobile.custom.min.js'>"+"<"+"script>");
+	</script>
+	<script src="__ASS__/js/bootstrap.min.js"></script>
+	<script src="__ASS__/js/typeahead-bs2.min.js"></script>
+	<!--[if lte IE 8]>
+	  <script src="assets/js/excanvas.min.js"></script>
+	<![endif]-->
+	<script src="__ASS__/js/ace-elements.min.js"></script>
+	<script src="__ASS__/js/ace.min.js"></script>
+	<script src="__ASS__/layer/layer.js" type="text/javascript"></script>
+	<script src="__ASS__/laydate/laydate.js" type="text/javascript"></script>
+	<script src="__JS__/vue.min.js"></script>
+	<title>后台管理中心</title>
+	<script type="text/javascript">
+		function previewImage(file)
+		{
+			var MAXWIDTH = 260;
+			var MAXHEIGHT = 180;
+			var div = document.getElementById('preview');
+			if (file.files && file.files[0])
+			{
+				div.innerHTML ='<img id=imghead>';
+				var img = document.getElementById('imghead');
+				img.onload = function(){
+				var rect = clacImgZoomParam(MAXWIDTH, MAXHEIGHT, img.offsetWidth, img.offsetHeight);
+				img.width = 100;
+				img.height = 100;
+				//         img.style.marginLeft = rect.left+'px';
+				img.style.marginTop = 0+'px';
+				}
+				var reader = new FileReader();
+				reader.onload = function(evt){img.src = evt.target.result;}
+				reader.readAsDataURL(file.files[0]);
+			}
+			else //兼容IE
+			{
+				var sFilter='filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod=scale,src="';
+				file.select();
+				var src = document.selection.createRange().text;
+				div.innerHTML = '<img id=imghead>';
+				var img = document.getElementById('imghead');
+				img.filters.item('DXImageTransform.Microsoft.AlphaImageLoader').src = src;
+				var rect = clacImgZoomParam(MAXWIDTH, MAXHEIGHT, img.offsetWidth, img.offsetHeight);
+				status =('rect:'+rect.top+','+rect.left+','+rect.width+','+rect.height);
+				div.innerHTML = "<div id=divhead style='width:"+rect.width+"px;height:"+rect.height+"px;margin-top:"+rect.top+"px;"+sFilter+src+"\"'></div>";
+			}
+		}
+		function clacImgZoomParam( maxWidth, maxHeight, width, height ){
+			var param = {top:0, left:0, width:width, height:height};
+			if( width>maxWidth || height>maxHeight )
+			{
+				rateWidth = width / maxWidth;
+				rateHeight = height / maxHeight;
+
+				if( rateWidth > rateHeight )
+				{
+					param.width = maxWidth;
+					param.height = Math.round(height / rateWidth);
+				}else
+				{
+					param.width = Math.round(width / rateHeight);
+					param.height = maxHeight;
+				}
+			}
+
+			param.left = Math.round((maxWidth - param.width) / 2);
+			param.top = Math.round((maxHeight - param.height) / 2);
+			return param;
+		}
+
+	</script>
+	<style>
+
+	.pagelist {padding:10px 0; text-align:center;}
+	.pagelist span,.pagelist a{ border-radius:3px; border:1px solid #dfdfdf;display:inline-block; padding:5px 12px;}
+	.pagelist a{ margin:0 3px;}
+	.pagelist span.current{ background:#09F; color:#FFF; border-color:#09F; margin:0 2px;}
+	.pagelist a:hover{background:#09F; color:#FFF; border-color:#09F; }
+	.pagelist label{ padding-left:15px; color:#999;}
+	.pagelist label b{color:red; font-weight:normal; margin:0 3px;}
+	</style>
+</head>

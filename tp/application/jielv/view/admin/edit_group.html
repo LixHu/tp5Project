@@ -1,0 +1,474 @@
+{include file="public/header" /}
+<style>
+body {
+	background-color: #eeeeee;
+}
+
+.content {
+	padding: 0 15px !important;
+}
+
+.small-box {
+	margin-bottom: 0px;
+	color: #FFFFFF;
+}
+
+.table-header-sort {
+	cursor: pointer;
+	color: black !important;
+}
+
+.tooltip>.tooltip-inner {
+	background-color: #e5e5e5;
+	color: #0c0c0c
+}
+
+.tooltip.top .tooltip-arrow {
+	border-top-color: #e5e5e5;
+}
+
+#wait {
+	background: rgba(255, 255, 255, 0.5) url("/resource/images/wait.gif")
+		center no-repeat;
+	position: fixed;
+	width: 100%;
+	height: 100%;
+	z-index: 9000;
+}
+
+.dnone {
+	display: none;
+}
+
+[v-cloak] {
+	display: none
+}
+
+.iconfont {
+	width: 50px !important;
+}
+
+.dropdown-menu>li a {
+	transition: background-color ease .3s, color ease .3s, border-color ease
+		.3s;
+}
+
+.dropdown-menu>li a:hover {
+	background-color: #3c8dbc;
+	color: white;
+	border-color: #3c8dbc;
+}
+
+.dropdown-toggle {
+	transition: background-color ease .3s, color ease .3s, border-color ease
+		.3s;
+}
+
+.dropdown-toggle:hover {
+	background-color: #3c8dbc;
+	color: white;
+	border-color: #3c8dbc;
+}
+
+.open .dropdown-toggle {
+	background-color: #3c8dbc !important;
+	color: white !important;
+	border-color: #3c8dbc !important;
+}
+
+.btn-default1 {
+	background-color: #f4f4f4;
+	color: #444;
+	border-color: #ddd;
+}
+
+.small-box .icon {
+	top: -25px !important;
+}
+
+.small-box h3 {
+	font-size: 30px !important;
+	margin: 0 0 10px 0 !important;
+	white-space: nowrap !important;
+	padding: 0 !important;
+	font-weight: normal !important;
+}
+
+.table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th,
+	.table>thead>tr>td, .table>thead>tr>th {
+	line-height: 2.4;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	overflow: hidden;
+}
+</style>
+<div class="" id="main">
+{if condition="!empty($se['gname'])"}
+	<!-- 修改区域信息 -->
+	<section class="content" style="min-width: 760px !important;">
+		<div class="">
+			<form id="mainForm" action="edit_group" method="post"
+				class="nice-validator n-default n-bootstrap" novalidate="novalidate"  onsubmit="return check_from();">
+				
+
+				<div class="box box-solid">
+					<div class="box-body">
+						<div class="row">
+							<div class="col-md-6 col-sm-6">
+								<button type="submit" class="btn btn-primary"
+									id="customerFrameSave">保存</button>
+								<div class="btn-group">
+									<a href="javascript:history.go(-1)" class="btn btn-default">取消</a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="box box-solid">
+					<div class="box-header with-border">
+						<span style="font-weight: bold">区域基本信息</span>
+					</div>
+
+					<div class="box-body">
+						<div class="row" style="margin: 0">
+							<input type="hidden" name="gid" value="{$se['gid']}">
+							<input type="hidden" name="uid" value="{$se['uid']}">
+							<div class="col-md-12 form-group">
+								<label class="col-md-2 col-sm-3 control-label text-right lh34"><span
+									class="text-red">* </span>区域名称：</label>
+								<div class="col-md-8 col-sm-7">
+									<input type="text" class="form-control" name="gname"
+										value="{$se['gname']}">
+								</div>
+							</div>
+							<div class="col-md-12 form-group">
+								<label class="col-md-2 col-sm-3 control-label text-right lh34"><span
+									class="text-red">* </span>账号：</label>
+								<div class="col-md-8 col-sm-7">
+									<input type="text" class="form-control" name="chager"
+										value="{$se['chager']}" >
+								</div>
+							</div>
+							<div class="col-md-12 form-group">
+								<label class="col-md-2 col-sm-3 control-label text-right lh34"><span
+									class="text-red">* </span>密码：</label>
+								<div class="col-md-8 col-sm-7">
+									<input type="password" class="form-control" name="password"
+										value="" >
+								</div>
+							</div>
+						</div>
+						<div class="col-md-12 form-group">
+							<label class="col-md-2 col-sm-3 control-label text-right lh34"><span
+								class="text-red">* </span>联系人：</label>
+							<div class="col-md-8 col-sm-7">
+								<input type="text" class="form-control" name="contacts"
+									value="{$se['contacts']}">
+							</div>
+						</div>
+						<div class="col-md-12 form-group">
+							<label class="col-md-2 col-sm-3 control-label text-right lh34"><span
+								class="text-red">* </span>联系人手机：</label>
+							<div class="col-md-8 col-sm-7">
+								<input type="text" class="form-control" name="mobile"
+									value="{$se['mobile']}">
+							</div>
+						</div>
+						<div class="col-md-12 form-group">
+							<label class="col-md-2 col-sm-3 control-label text-right lh34"><span
+								class="text-red">* </span>联系人地址：</label>
+							<div class="col-md-8 col-sm-7">
+								<input type="text" class="form-control" name="address"
+									value="{$se['address']}">
+							</div>
+						</div>
+
+						<div class="col-md-12 form-group">
+							<label class="col-md-2 col-sm-3 control-label text-right lh34"><span
+								class="text-red">* </span>权限设置：</label>
+						<div class="col-md-8 col-sm-7">
+
+
+							<div>
+	                        	<div class="box-body" style="background: #FFFFFF;">
+	                            <input type="checkbox" id="checkall"/> 所有权限 
+	                        	</div>
+	                    		<div class="box box-solid">
+		                        <div class="box-body">
+		                            <div class="box box-solid">
+		                                <div class="box-body no-padding">
+		                                    <div class="table-responsive list">
+		                                        <table class="table table-hover table-striped table-bordered text-center"
+		                                               id="taskTable" style="margin-bottom: 0px">
+		                                            <thead class="bg-blue2" style="color: #FFFFFF;">
+		                                                <tr>
+		                                                    {volist name="arr" id="vo"}
+		                                                    <th style="text-align: left;"> <input type="checkbox" value="{$vo.mid}" data-id="{$key}" class="checkchild" {if condition="in_array($vo['mid'],$se['mid'])"}checked{/if} name="mid[]" id="check"/>{$vo.mname}
+		                                                    </th>
+		                                                    {/volist}
+		                                                </tr>
+		                                            </thead>
+		                                            <tbody>
+		                                            
+		                                            <tr class="editpower"> 
+		                                            {volist name="arr" id="vo" key="k"}
+		                                                
+		                                                <td style="text-align: left;">
+		                                                {volist name="vo.child" id="v"}
+		                                                    <div>
+		                                                        <input type="checkbox" value="{$v.mid}" {if condition="in_array($v['mid'],$se['mid'])"}checked{/if} name="mid[]" id="check"/>{$v.mname}
+		                                                    </div>
+		                                                {/volist}
+		                                                </td>
+		                                                
+		                                            {/volist}
+		                                            </tr>
+		                                            
+		                                            </tbody>
+		                                        </table>
+		                                    </div>
+		                                </div>
+	                            	</div>
+		                        </div>
+	                    		</div>
+                			</div>
+
+
+
+						</div>
+					</div>
+						
+
+					</div>
+				</div>
+			</form>
+		</div>
+
+
+		
+
+
+</section>
+
+{else}
+
+<!-- 修改账户信息 -->
+<section class="content" style="min-width: 760px !important;">
+	<div class="">
+			<form id="mainForm" action="edit_group" method="post" class="nice-validator n-default n-bootstrap" novalidate="novalidate" onsubmit="return check_from();">
+				
+
+				<div class="box box-solid">
+					<div class="box-body">
+						<div class="row">
+							<div class="col-md-6 col-sm-6">
+								<button type="submit" class="btn btn-primary"
+									id="customerFrameSave">保存</button>
+								<div class="btn-group">
+									<a href="javascript:history.go(-1)" class="btn btn-default">取消</a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="box box-solid">
+					<div class="box-header with-border">
+						<span style="font-weight: bold">账户基本信息</span>
+					</div>
+
+					<div class="box-body">
+						<div class="row" style="margin: 0">
+							<input type="hidden" name="uid" value="{$se['uid']}">
+							<input type="hidden" name="gname" value="">
+							<div class="col-md-12 form-group">
+								<label class="col-md-2 col-sm-3 control-label text-right lh34"><span
+									class="text-red">* </span>账号：</label>
+								<div class="col-md-8 col-sm-7">
+									<input type="text" class="form-control" name="chager"
+										value="{$se['user_name']}" >
+								</div>
+							</div>
+							<div class="col-md-12 form-group">
+								<label class="col-md-2 col-sm-3 control-label text-right lh34"><span
+									class="text-red">* </span>密码：</label>
+								<div class="col-md-8 col-sm-7">
+									<input type="password" class="form-control" name="password"
+										value="" >
+								</div>
+							</div>
+						</div>
+						
+						<div class="col-md-12 form-group">
+							<label class="col-md-2 col-sm-3 control-label text-right lh34"><span
+								class="text-red">* </span>手机：</label>
+							<div class="col-md-8 col-sm-7">
+								<input type="text" class="form-control" name="mobile"
+									value="{$se['mobile']}">
+							</div>
+						</div>
+						
+						<div class="col-md-12 form-group">
+							<label class="col-md-2 col-sm-3 control-label text-right lh34"><span
+								class="text-red">* </span>权限设置：</label>
+						<div class="col-md-8 col-sm-7">
+
+
+							<div>
+	                        	<div class="box-body" style="background: #FFFFFF;">
+	                            <input type="checkbox" id="checkall"/> 所有权限 
+	                        	</div>
+	                    		<div class="box box-solid">
+		                        <div class="box-body">
+		                            <div class="box box-solid">
+		                                <div class="box-body no-padding">
+		                                    <div class="table-responsive list">
+		                                        <table class="table table-hover table-striped table-bordered text-center"
+		                                               id="taskTable" style="margin-bottom: 0px">
+		                                            <thead class="bg-blue2" style="color: #FFFFFF;">
+		                                                <tr>
+		                                                    {volist name="arr" id="vo"}
+		                                                    <th style="text-align: left;"> <input type="checkbox" value="{$vo.mid}" data-id="{$key}" class="checkchild" {if condition="in_array($vo['mid'],$se['mid'])"}checked{/if} name="mid[]" id="check"/>{$vo.mname}
+		                                                    </th>
+		                                                    {/volist}
+		                                                </tr>
+		                                            </thead>
+		                                            <tbody>
+		                                            
+		                                            <tr class="editpower"> 
+		                                            {volist name="arr" id="vo" key="k"}
+		                                                
+		                                                <td style="text-align: left;">
+		                                                {volist name="vo.child" id="v"}
+		                                                    <div>
+		                                                        <input type="checkbox" value="{$v.mid}" {if condition="in_array($v['mid'],$se['mid'])"}checked{/if} name="mid[]" id="check"/>{$v.mname}
+		                                                    </div>
+		                                                {/volist}
+		                                                </td>
+		                                                
+		                                            {/volist}
+		                                            </tr>
+		                                            
+		                                            </tbody>
+		                                        </table>
+		                                    </div>
+		                                </div>
+	                            	</div>
+		                        </div>
+	                    		</div>
+                			</div>
+
+
+
+						</div>
+					</div>
+
+				</div>
+			</div>
+		
+
+
+		</form>
+	</div>
+</section>
+{/if}
+
+</div>
+{include file="public/footer" /}
+<script>
+var sub = function () {
+        var str = '';
+        $.each($("#check"), function (k, v) {
+            if (v.checked == true) {
+                str += $(v).val() + ','
+            }
+        })
+        str = str.substr(0, str.length - 1);
+        var data = {};
+        data.mid = str;
+        data.rid = roleid;
+        $.post('setPower', data, function (res) {
+            alert(res.msg);
+        })
+    }
+//以下是复选框的选中
+    $("#checkall").change(function () {
+        if ($(this).is(':checked')) {
+            $("#check#check").prop("checked", "checked");
+        } else {
+            $("#check#check").removeAttr("checked");
+        }
+    });
+    $("#check").change(function () {
+        var flag = true;
+        $("#check").each(function () {
+            if (!$(this).is(':checked')) {
+                flag = false;
+                return false;
+            }
+        });
+        if (flag) {
+            $("#checkall").attr("checked", "checked");
+        } else {
+            $("#checkall").removeAttr("checked");
+        }
+    });
+    $("#checkall2").change(function () {
+        if ($(this).is(':checked')) {
+            $("input[name='rid[]']").prop("checked", "checked");
+        } else {
+            $("input[name='rid[]']").removeAttr("checked");
+        }
+    });
+    $("input[name='rid[]']").change(function () {
+        var flag = true;
+        $("input[name='rid[]']").each(function () {
+            if (!$(this).is(':checked')) {
+                flag = false;
+                return false;
+            }
+        });
+        if (flag) {
+            $("#checkall2").attr("checked", "checked");
+        } else {
+            $("#checkall2").removeAttr("checked");
+        }
+    });
+    //以上是复选框的选中
+    $('.checkchild').on('click',function () {
+        $('.editpower td').eq(index).find('input').removeAttr('checked');
+        var index = $(this).data('id');
+        $.each($('.editpower td').eq(index).find('input:checkbox'),function (k,v) {
+            if(v.checked == true){
+                v.checked = false;
+            }else{
+                v.checked = true;
+            }
+        })
+    })
+
+
+    //js验证表单提交方法
+function check_from(){
+    
+    var password = $('input[name="password"]').val();
+    var chager = $('input[name="chager"]').val();
+    var mid = $('input[name="mid[]"]').val();
+
+    
+    if($.trim(chager) == ''){
+        alert('请填写管理员账号');
+        return false;
+    }
+    if($.trim(password) == ''){
+        alert('密码不可为空');
+        return false;
+    }
+    if($.trim(mid) == ''){
+        alert('至少选择一个权限');
+        return false;
+    }
+    
+}
+</script>

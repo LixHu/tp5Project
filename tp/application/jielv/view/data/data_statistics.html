@@ -1,0 +1,410 @@
+{include file="public/header" /}
+    <style>
+        body {
+            background-color: #eeeeee;
+        }
+
+        .content {
+            padding: 0 15px !important;
+        }
+
+        .small-box {
+            margin-bottom: 0px;
+            color: #FFFFFF;
+        }
+
+        .table-header-sort {
+            cursor: pointer;
+            color: black !important;
+        }
+
+        .tooltip > .tooltip-inner {
+            background-color: #e5e5e5;
+            color: #0c0c0c
+        }
+
+        .tooltip.top .tooltip-arrow {
+            border-top-color: #e5e5e5;
+        }
+
+        #wait {
+            background: rgba(255, 255, 255, 0.5) url("/resource/images/wait.gif") center no-repeat;
+
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            z-index: 9000;
+        }
+
+        .dnone {
+            display: none;
+        }
+
+        [v-cloak] {
+            display: none
+        }
+
+        .iconfont {
+            width: 50px !important;
+        }
+
+        .dropdown-menu > li a {
+            transition: background-color ease .3s,
+            color ease .3s,
+            border-color ease .3s;
+        }
+
+        .dropdown-menu > li a:hover {
+            background-color: #3c8dbc;
+            color: white;
+            border-color: #3c8dbc;
+        }
+
+        .dropdown-toggle {
+            transition: background-color ease .3s,
+            color ease .3s,
+            border-color ease .3s;
+        }
+
+        .dropdown-toggle:hover {
+            background-color: #3c8dbc;
+            color: white;
+            border-color: #3c8dbc;
+        }
+
+        .open .dropdown-toggle {
+            background-color: #3c8dbc !important;
+            color: white !important;
+            border-color: #3c8dbc !important;
+        }
+
+        .btn-default1 {
+            background-color: #f4f4f4;
+            color: #444;
+            border-color: #ddd;
+        }
+
+        .small-box .icon {
+            top: -25px !important;
+        }
+
+        .small-box h3 {
+            font-size: 30px !important;
+            margin: 0 0 10px 0 !important;
+            white-space: nowrap !important;
+            padding: 0 !important;
+            font-weight: normal !important;
+        }
+
+        .table > tbody > tr > td, .table > tbody > tr > th, .table > tfoot > tr > td, .table > tfoot > tr > th, .table > thead > tr > td, .table > thead > tr > th {
+            line-height: 2.4;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            overflow: hidden;
+        }
+    </style>
+<div id="main">
+    <section class="content" style="min-width: 760px !important;">
+        <div class="box box-solid">
+            <div class="box-body">
+                <div class="row">
+                    <div class="col-md-12 col-sm-12 text-center text-bold" style="font-size: 18px;">
+                        服务营收
+                    </div>
+                    <div class="col-md-12 col-sm-12" style="margin-bottom: 10px;">
+                        <div class="pull-right" style="margin-right: 50px;">
+                            <div class="input-group">
+                                <button type="button" class="btn btn-default pull-right" id="daterange-btn"><i
+                                        class="fa fa-calendar"></i> <span>时间</span> <i class="fa fa-caret-down"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div id="serviceStatisticsChart"
+                             style="width: 100%;height:400px;margin-top: 30px;margin-bottom: 70px;"></div>
+                        <div class="col-md-12 col-sm-12" style="margin-bottom: 10px;">
+                        </div>
+                        <div id="serviceStatisticsChart2"
+                             style="width: 100%;height:400px;margin-top: 30px;margin-bottom: 70px;"></div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+</div>
+</section>
+</div>
+{include file="public/footer" /}
+<script>
+    $(document).ready(function () {
+        serviceStatisticsFun();
+    });
+
+    //服务统计版块时间段选择，用于图表
+    function serviceStatisticsFun() {
+        //定义locale汉化插件
+        var locale = {
+            "format": 'YYYY-MM-DD',
+            "separator": " -222 ",
+            "applyLabel": "确定",
+            "cancelLabel": "取消",
+            "fromLabel": "起始时间",
+            "toLabel": "结束时间'",
+            "customRangeLabel": "自定义",
+            "weekLabel": "W",
+            "daysOfWeek": ["日", "一", "二", "三", "四", "五", "六"],
+            "monthNames": ["一月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "十一月", "十二月"],
+            "firstDay": 1
+        };
+        //初始化显示最近7日时间
+        $('#daterange-btn span').html(moment().subtract(6, 'days').format('YYYY-MM-DD') + ' - ' + moment().format('YYYY-MM-DD'));
+        //把获取到的日期放到getAll里面获得这个时间段内所有的时间，用chart转化
+        serviceStatisticsChartFun(getAll($('#daterange-btn span').html().split(' - ')[0], $('#daterange-btn span').html().split(' - ')[1]));
+        //日期控件初始化
+        $('#daterange-btn').daterangepicker({
+                'locale': locale,
+                applyClass: "btn-primary",
+                //汉化按钮部分
+                ranges: {
+                    '今日': [moment(), moment()],
+                    '昨日': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+                    '最近7日': [moment().subtract(6, 'days'), moment()],
+                    '最近30日': [moment().subtract(29, 'days'), moment()],
+                    '本月': [moment().startOf('month'), moment().endOf('month')],
+                    '上月': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+                },
+                startDate: moment().subtract(6, 'days'),
+                endDate: moment()
+            },
+            function (start, end) {
+                $('#daterange-btn span').html(start.format('YYYY-MM-DD') + ' - ' + end.format('YYYY-MM-DD'));
+                serviceStatisticsChartFun(getAll(start.format('YYYY-MM-DD'), end.format('YYYY-MM-DD')));
+            }
+        );
+    };
+    //动态更新版块选择时间
+    $('#createTime').daterangepicker({
+        applyClass: "btn-primary",
+        locale: {
+            format: 'YYYY-MM-DD',
+            applyLabel: '确定',
+            applyClass: "btn-primary",
+            cancelLabel: '取消',
+            fromLabel: '开始',
+            toLabel: '结束',
+            daysOfWeek: '日_一_二_三_四_五_六'.split('_'),
+            monthNames: '1月_2月_3月_4月_5月_6月_7月_8月_9月_10月_11月_12月'.split('_'),
+        },
+        startDate: moment().subtract(6, 'days'),
+        endDate: moment()
+    });
+
+    Date.prototype.format = function () {
+        var s = '';
+        var mouth = (this.getMonth() + 1) >= 10 ? (this.getMonth() + 1) : ('0' + (this.getMonth() + 1));
+        var day = this.getDate() >= 10 ? this.getDate() : ('0' + this.getDate());
+        s += this.getFullYear() + '-'; // 获取年份。
+        s += mouth + "-"; // 获取月份。
+        s += day; // 获取日。
+        return (s); // 返回日期。
+    };
+
+    //获得时间段内所有的时间
+    function getAll(begin, end) {
+        var ab = begin.split("-");
+        var ae = end.split("-");
+        var db = new Date();
+        db.setUTCFullYear(ab[0], ab[1] - 1, ab[2]);
+        var de = new Date();
+        de.setUTCFullYear(ae[0], ae[1] - 1, ae[2]);
+        var unixDb = db.getTime();
+        var unixDe = de.getTime();
+        var all = '';
+        for (var k = unixDb; k <= unixDe;) {
+            all += "," + new Date(parseInt(k)).format();
+            k = k + 24 * 60 * 60 * 1000;
+        }
+        if (all.indexOf(",") == 0) {
+            all = all.substring(1);
+        }
+        return all;
+    }
+
+    //服务统计图表
+    function serviceStatisticsChartFun(xAxisData) {
+
+        var xAxisD = [];
+        if (xAxisData.indexOf(',') > 0) {
+            xAxisD = xAxisData.split(',');
+        } else {
+            xAxisD.push(xAxisData);
+        }
+
+        var good;
+        $.ajax({
+            type: "get",
+            url: "data.json",
+            async: false,
+            success: function (res) {
+                good = res.num[3];
+            }
+        });
+
+        // 基于准备好的dom，初始化echarts实例
+        var myChart = echarts.init(document.getElementById('serviceStatisticsChart'));
+
+        myChart.setOption({
+            color: ['#41b0e7', "#64e4d1"],
+            title: {
+                text: '',
+                subtext: '合计盈利：' + good,
+                subtextStyle: {
+                    color: '#000'
+                },
+                top: 15,
+                left: 'center'
+            },
+            tooltip: {
+                trigger: 'axis'
+            },
+            legend: {
+                data: ['已结算', '未结算']
+            },
+            grid: {
+                left: '3%',
+                right: '3%',
+                bottom: '3%',
+                containLabel: true
+            },
+            toolbox: {
+                feature: {
+                    saveAsImage: {}
+                }
+            },
+            xAxis: {
+                type: 'category',
+                boundaryGap: false,
+                data: xAxisD
+            },
+            yAxis: {},
+            series: [
+                {
+                    name: '已结算',
+                    type: 'line',
+                    stack: '总量',
+                    symbol: 'rect',
+                    symbolSize: 16,
+                    data: []
+                }, {
+                    name: '未结算',
+                    type: 'line',
+                    stack: '总量',
+                    symbol: 'rect',
+                    symbolSize: 16,
+                    data: []
+                }
+            ]
+        });
+
+
+        myChart.showLoading();
+        $.get('data.json').done(function (res) {
+            myChart.hideLoading();
+            // 填入数据
+            myChart.setOption({
+                series: [{
+                    name: '已结算',
+                    type: 'line',
+                    data: res.categories
+                }, {
+                    name: '未结算',
+                    type: 'line',
+                    data: res.series
+                }]
+            });
+
+        });
+
+        var normal;
+        var bad;
+        $.ajax({
+            type: "get",
+            url: "data.json",
+            async: false,
+            success: function (res) {
+                normal = res.num[4];
+                bad = res.num[5];
+            }
+        });
+
+        // 基于准备好的dom，初始化echarts实例
+        var myChart1 = echarts.init(document.getElementById('serviceStatisticsChart2'));
+
+        myChart1.setOption({
+            color: ['#41b0e7', "#64e4d1"],
+            title: {
+                text: '',
+                subtext: '合计收入：'+normal+'         合计毛利：'+bad,
+                subtextStyle: {
+                    color: '#000'
+                },
+                top: 15,
+                left: 'center'
+            },
+            tooltip: {
+                trigger: 'axis'
+            },
+            legend: {
+                data: ['收入', '毛利']
+            },
+            grid: {
+                left: '3%',
+                right: '3%',
+                bottom: '3%',
+                containLabel: true
+            },
+            toolbox: {
+                feature: {
+                    saveAsImage: {}
+                }
+            },
+            xAxis: {
+                type: 'category',
+                boundaryGap: false,
+                data: xAxisD
+            },
+            yAxis: {},
+            series: [
+                {
+                    name: '收入',
+                    type: 'line',
+                    data: []
+                }, {
+                    name: '毛利',
+                    type: 'line',
+                    data: []
+                }
+            ]
+        });
+
+
+        myChart1.showLoading();
+        $.get('data.json').done(function (res) {
+            myChart1.hideLoading();
+            // 填入数据
+            myChart1.setOption({
+                series: [{
+                    name: '收入',
+                    type: 'line',
+                    data: res.categories
+                }, {
+                    name: '毛利',
+                    type: 'line',
+                    data: res.series
+                }]
+            });
+
+        });
+
+    }
+
+</script>

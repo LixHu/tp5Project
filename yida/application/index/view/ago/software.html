@@ -1,0 +1,542 @@
+{include file="public/header" /}
+    <style>
+        .swiper-container {
+            width: 100%;
+            height: 100%;
+        }
+
+        .swiper-slide {
+            text-align: center;
+            font-size: 18px;
+            background: #ffffff;
+            /* Center slide text vertically */
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: -webkit-flex;
+            display: flex;
+            -webkit-box-pack: center;
+            -ms-flex-pack: center;
+            -webkit-justify-content: center;
+            justify-content: center;
+            -webkit-box-align: center;
+            -ms-flex-align: center;
+            -webkit-align-items: center;
+            align-items: center;
+        }
+
+        .swiper-pagination-bullet-active {
+            background: #fd443f !important;
+        }
+
+        .swiper-pagination-bullet {
+            background: #ffffff;
+            opacity: 1;
+            width: 16px;
+            border-radius: 15px;
+        }
+
+        .banner .swiper-slide img {
+            width: 1920px;
+            height: 600px;
+        }
+
+        .swiper-container2 .swiper-button-prev {
+            background-image: url("__AGO__/image/首页/合作客户/椭圆3.png");
+            -webkit-background-size: 44px 44px;
+            background-size: 44px 44px;
+            width: 44px;
+        }
+
+        .swiper-container2 .swiper-button-next {
+            background-image: url("__AGO__/image/首页/合作客户/椭圆3拷贝.png");
+            -webkit-background-size: 44px 44px;
+            background-size: 44px 44px;
+            width: 44px;
+        }
+
+        .swiper-container3 .swiper-button-prev {
+            background-image: url("__AGO__/image/图层17.png");
+            -webkit-background-size: 44px 44px;
+            background-size: 14px 24px;
+            width: 44px;
+        }
+
+        .swiper-container3 .swiper-button-next {
+            background-image: url("__AGO__/image/图层17拷贝.png");
+            -webkit-background-size: 44px 44px;
+            background-size: 14px 24px;
+            width: 44px;
+        }
+        .QQ{
+            height:50px;
+            line-height: 0;
+            margin:0 30px;
+        }
+    </style>
+</head>
+
+<body>
+<div id="vContent" v-cloak>
+    <div class="navBar">
+        <div class="pullLeft" style="line-height:50px; vertical-align:middle;padding-top: 5px;">
+            <a href="index.html">
+                <img src="{$info.company.logo}" alt="" style="width: 310px;height: 49px;line-height: 0px;">
+            </a>
+            <p class="font14" style="line-height: 0px;">新时代管理软件专家--智赢天下，助你智造赢未来</p>
+        </div>
+        <ul class="nav clearfix pullLeft">
+            <li class="m"><h3><a href="{:url('ago/index')}" title="首页">首页</a></h3></li>
+            <li class="m"><h3><a href="{:url('ago/software')}" title="体验精品">体验精品</a></h3></li>
+            <li class="m"><h3><a href="{:url('ago/industry')}" title="深耕行业">深耕行业</a></h3></li>
+            <li class="m"><h3><a href="{:url('ago/thanks')}" title="感谢客户">感谢客户</a></h3></li>
+            <li class="m"><h3><a href="{:url('ago/service')}" title="真诚服务">真诚服务</a></h3></li>
+            <li class="m"><h3><a href="{:url('ago/enterprise')}" title="良心企业">良心企业</a></h3></li>
+            <li class="m"><h3><a href="{:url('ago/signsingle')}" title="签单动态">签单动态</a></h3></li>
+            <li class="block" style="left: 100px;"></li>
+        </ul>
+        <div class="" style="line-height:25px; vertical-align:middle;padding-top: 35px;">
+            <div class="font20">全国免费服务热线</div>
+            <div class="font20 mainColor fontBold">{$info.company.free_server_phone}</div>
+        </div>
+    </div>
+    <div class="banner">
+        <div class="swiper-container swiper-container1">
+            {volist name="banner" id="vo"}
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide">
+                        <img src="{$vo.bn_url}" alt="">
+                    </div>
+                </div>
+            {/volist}
+        </div>
+    </div>
+    <div class="layer textCenter overflowAuto">
+        <div style="margin: 30px auto;">
+            {volist name="soft_list" id="vo"}
+                <div class="pullLeft hover{$vo.soft_id}" :class="[{'softwareTabHover':(tabHover=={$key}),'softwareTab':(tabHover!={$key})}]"
+                     @click="softTaba({$vo.soft_id})" onclick="softTab(this)" >
+                    <img src="__AGO__/image/体验精品/{$key +1}.png" alt="">{$vo.soft_name}
+                </div>
+            {/volist}
+        </div>
+    </div>
+    <div class="layer textCenter ">
+        <div class="overflowAuto" style="margin: 30px 0;">
+            <div class="pullLeft">
+                <img :src='listCon.soft_img_to' :data-echo="listCon.soft_img"
+                     onerror="this.src='__AGO__/image/error_img2.png'" alt=""
+                     style="width: 260px;height: 400px;display: block;margin-right: 20px;">
+            </div>
+            <div class="pullLeft"
+                 style="position:relative;width: 840px;height: 340px;padding: 30px;background: #ececec;border: 1px solid #cccccc;">
+                <div class="textLeft fontBold"
+                     style="height: 40px;padding-bottom: 20px;font-size: 30px;border-bottom: 1px solid #cccccc;">
+                    {{listCon.soft_name}}
+                </div>
+                <p class="textIndent textLeft gray ellipsis6" style="line-height: 30px;" v-html="listCon.soft_desc">
+
+                </p>
+                <div style="position:absolute;left:0px; bottom:0px;margin: 30px;">
+                    <div class="textLeft font20">适用行业：</div>
+                    <p class="textLeft gray ellipsis2">
+                        {{listCon.soft_apply}}
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="overflowAuto">
+            <div class="bigTitleRedWidth" style="margin-bottom: 30px;">
+                功能流程图
+            </div>
+            <div>
+                <img :src="listCon.fun_img" alt="" width="100%">
+            </div>
+        </div>
+        <div class="overflowAuto">
+            <div class="bigTitleRedWidth" style="margin: 30px auto;">
+                优势及价值
+            </div>
+            <div>
+                <img :src="listCon.soft_cost" alt="" width="100%">
+            </div>
+        </div>
+    </div>
+    <div class="overflowAuto textCenter">
+        <div class="bigTitleRedWidth" style="margin: 30px auto;">
+            功能列表
+        </div>
+        <div style="background: #ffffff url(__AGO__/image/首页/行业方案/矩形4.png) no-repeat center;background-size: 100% 500px;">
+            <div class="layer overflowAuto">
+                <ul class="features">
+                    <li class="pullLeft ellipsis" v-for="item in listCon.fun_list">{{item}}</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="layer textCenter">
+        <div class="overflowAuto">
+            <div class="bigTitleRedWidth" style="margin: 30px auto;">
+                客户案例
+            </div>
+            <div class="cooperationBg" style="width: inherit;">
+                <a class="pullLeft cooperationLeft" v-for="item in listCon.case" >
+                    <div class="overflowAuto cooperationOneBg">
+                        <div class="overflowAuto" style="margin: 3px;">
+                            <img :src="item.case_img" alt="" width="100%" height="161"
+                                 style="display: block;">
+                        </div>
+                        <div style="margin: 10px;">
+                            <div class="font20 textLeft">
+                                {{item.com_name}}
+                            </div>
+                            <p class="font16 gray textLeft">
+                                {{item.com_desc}}
+                            </p>
+                        </div>
+                    </div>
+                    <div class="font16 textLeft ellipsis3 cooperationContent">
+                        {{item.case_desc}}
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="layer textCenter">
+        <div class="overflowAuto">
+            <div class="bigTitleRedWidth" style="margin: 30px auto;">
+                进一步了解
+            </div>
+            <div>
+                <div class="videoTitle">软件演示视频</div>
+                <div class="videoBg" id="videoBg">
+                    <embed :src="'http://player.youku.com/player.php/sid/'+listCon.video_url+'/v.swf'" quality="high"
+                           width="1190"
+                           height="600" align="middle" allowScriptAccess="always" allowFullScreen="true"
+                           mode="transparent"
+                           type="application/x-shockwave-flash"></embed>
+                </div>
+            </div>
+            <div style="margin-top: 30px;">
+                <div class="pullLeft">
+                    <img src="__AGO__/image/体验精品/矩形545.png" alt="" style="display: block;">
+                </div>
+                <div class="pullLeft formTabBg">
+                    <div class="formTabTitle">
+                        <p class="pullLeft formTabHover" onclick="tab(this, 2)">远程演示讲解</p>
+                        <p class="pullLeft formTab" onclick="tab(this, 1)">预约上门演示</p>
+                    </div>
+                    <div id="formTab1" class="formTab1 disnone">
+                        <div class="formTab1Line">
+                            <div class="pullLeft formTab1Img">
+                                <img src="__AGO__/image/体验精品/公司.png" alt="">
+                            </div>
+                            <div class="pullLeft">
+                                <input type="text" placeholder="公司名称" id="comName"/>
+                            </div>
+                        </div>
+                        <div class="formTab1Line">
+                            <div class="pullLeft formTab1Img">
+                                <img src="__AGO__/image/体验精品/联系人.png" alt="">
+                            </div>
+                            <div class="pullLeft">
+                                <input type="text" placeholder="你的姓名" id="userName"/>
+                            </div>
+                        </div>
+                        <div class="formTab1Line">
+                            <div class="pullLeft formTab1Img">
+                                <img src="__AGO__/image/体验精品/电话.png" alt="">
+                            </div>
+                            <div class="pullLeft">
+                                <input type="text" placeholder="联系电话" id="tel"/>
+                            </div>
+                        </div>
+                        <div class="formTab1Line">
+                            <div class="pullLeft formTab1Img">
+                                <img src="__AGO__/image/体验精品/22-电子邮箱.png" alt="">
+                            </div>
+                            <div class="pullLeft">
+                                <input type="text" placeholder="电子邮箱" id="email"/>
+                            </div>
+                        </div>
+                        <div class="formTab1Line">
+                            <div class="pullLeft formTab1Img">
+                                <img src="__AGO__/image/体验精品/QQ.png" alt="">
+                            </div>
+                            <div class="pullLeft">
+                                <input type="text" placeholder="在线QQ" id="qqNum"/>
+                            </div>
+                        </div>
+                        <div class="formTab1Line">
+                            <div class="pullLeft formTab1Img">
+                                <img src="__AGO__/image/体验精品/微信.png" alt="">
+                            </div>
+                            <div class="pullLeft">
+                                <input type="text" placeholder="微信" id="weixin"/>
+                            </div>
+                        </div>
+                        <div>
+                            <button type="submit" class="formTabBtn" id="submitBtn" onclick="submitBtn()">提交</button>
+                        </div>
+                    </div>
+                    <div id="formTab2" class="formTab2 ">
+                        <div style="margin: 30px;">
+                            <div class="contactBorder">
+                                <div>
+                                    <img class="pullLeft contactImgBorder" src="__AGO__/image/体验精品/QQ.png" alt="">
+                                </div>
+                                <div class="pullLeft QQ">
+                                    <a class="qq-chat" href="http://wpa.qq.com/msgrd?v=3&uin=875468934&site=qq&menu=yes"
+                                       target="_blank">
+                                        <img class="middle" alt="QQ在线客服" src="__AGO__/image/首页/客服监督页尾/360截图20171122142758289拷贝.png">
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="clear contactBorder">
+                                <div>
+                                    <img class="pullLeft contactImgBorder" src="__AGO__/image/体验精品/电话.png" alt="">
+                                </div>
+                                <div class="pullLeft contactCon">
+                                    电话：0574-87161620
+                                </div>
+                            </div>
+                            <div class="clear contactBorder">
+                                <div>
+                                    <img class="pullLeft contactImgBorder" src="__AGO__/image/体验精品/微信.png" alt="">
+                                </div>
+                                <div class="pullLeft contactCon">
+                                    微信：easyda_soft
+                                </div>
+                            </div>
+                            <div class="clear contactBorder">
+                                <div>
+                                    <img class="pullLeft contactImgBorder" src="__AGO__/image/体验精品/公司.png" alt="">
+                                </div>
+                                <div class="pullLeft contactCon">
+                                    贸易通：易大软件
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="overflowAuto textCenter">
+        <div style="background: #ffffff url(__AGO__/image/矩形553.png) no-repeat center;background-size: 100% 338px;height: 338px;margin-top: 30px;">
+            <div class="layer overflowAuto">
+                <ul class="features" style="margin-top: 180px;">
+                    <img src="__AGO__/image/体验精品/矩形555.png" alt="">
+                    <img src="__AGO__/image/体验精品/矩形555拷贝.png" alt="">
+                    <img src="__AGO__/image/体验精品/矩形555拷贝2.png" alt="">
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="layer textCenter">
+        <div class="overflowAuto">
+            <div class="bigTitleRedWidth" style="margin: 30px auto;">
+                我如何购买软件
+            </div>
+            <p class="gray" style="margin-top: 5px;margin-bottom: 30px;">
+                让你选好适合自己的软件精品
+            </p>
+            <img src="__AGO__/image/体验精品/矩形554.png" alt="">
+        </div>
+    </div>
+    <input type="hidden" id="soft_id" value="{$id}">
+    <img src="__AGO__/image/企业网站-体验精品-2_02.png" alt="" style="width: 100%;margin-top: 40px;display: block;">
+    {include file="public/footer" /}
+<script type="text/javascript" src="__AGO__/js/SuperSlide.2.1.js"></script>
+<script type="text/javascript" src="__AGO__/js/swiper.min.js"></script>
+<script type="text/javascript" src="__AGO__/js/p.js"></script>
+<script type="text/javascript" src="__AGO__/js/vue.min.js"></script>
+<script type="text/javascript" src="__AGO__/js/echo.min.js"></script>
+<script>
+    localStorage.tabHover = 0;
+    var vContent = new Vue({
+        el: '#vContent',
+        data: {
+            purl: purl,
+            list: [],
+            listCon: [],
+            tabHover: localStorage.tabHover,
+        },
+        methods: {
+            softTaba: function (index) {
+                localStorage.tabHover = index;
+                $.ajax({
+                    type: 'POST',
+                    url: '/index/sofeware/soft_info',
+                    dataType: 'JSON',
+                    data: {
+                        'soft_id': index
+                    },
+                    success: function (res) {
+                        if (res.code == 1) {
+                            vContent.listCon = res.data;
+                        }
+                    },
+                    error: function () {
+
+                    }
+                });
+            },
+            onhref:function(row){
+                console.log(row);
+            }
+        }
+    })
+    Echo.init({
+        offset: 100,// 离可视区域多少像素的图片可以被加载
+        throttle: 100//	图片延迟多少毫秒加载
+    });
+    var swiper = new Swiper('.swiper-container2', {
+        autoplay: true,
+        loop: true,
+        navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+        },
+    });
+    var swiper = new Swiper('.swiper-container3', {
+        navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+        },
+    });
+    $.ajax({
+        type: 'POST',
+        url: '/index/sofeware/soft_list',
+        dataType: 'JSON',
+        data: {"id":"1"},
+        success: function (res) {
+            vContent.list = JSON.parse(res);
+        },
+        error: function () {
+
+        }
+    });
+        var soft_id = document.getElementById('soft_id');
+        if(soft_id){
+            vContent.softTaba(soft_id.value);
+        }
+    $.ajax({
+        type: 'POST',
+        url: '/index/sofeware/soft_info',
+        data: {
+            "soft_id": soft_id.value?soft_id.value:2
+        },
+        success: function (res) {
+            if (res.code == 1) {
+                console.log(res);
+                // $('.hover'+soft_id.value).add('softwareTabHover');
+                vContent.listCon = res.data;
+
+            }
+        },
+        error: function () {
+
+        }
+    });
+    var softwareTabHover = document.getElementsByClassName('softwareTabHover');
+    var formTabHover = document.getElementsByClassName('formTabHover');
+    var formTab1 = document.getElementById('formTab1');
+    var formTab2 = document.getElementById('formTab2');
+    var comName = document.getElementById('comName');
+    var userName = document.getElementById('userName');
+    var tel = document.getElementById('tel');
+    var email = document.getElementById('email');
+    var qqNum = document.getElementById('qqNum');
+    var weixin = document.getElementById('weixin');
+
+    function check() {
+        if (comName.value && userName.value && tel.value) {
+            if (!(/^[A-Za-z0-9]{6,18}$/.test(tel.value)) || !(/^[A-Za-z0-9]{6,18}$/.test(tel.value))) {
+                alert('电话格式有误');
+                return false;
+            } else if (email.value) {
+                if (!(/^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/.test(email.value))) {
+                    alert('电子邮箱格式有误');
+                    return false;
+                }else{
+                    return true;
+                }
+            } else if (qqNum.value) {
+                if (!(/^\d{5,10}$/.test(qqNum.value))) {
+                    alert('QQ格式有误');
+                    return false;
+                }else{
+                    return true;
+                }
+            } else {
+                return true;
+            }
+        } else {
+            alert('请填写完整');
+            return false;
+        }
+    }
+
+    $(document).keydown(function (event) {
+        if (event.keyCode == 13) {
+            if (comName.value && userName.value && tel.value) {
+                submitBtn();
+            }
+        }
+    });
+
+    function submitBtn() {
+        if (check()) {
+            $.ajax({
+                type: 'POST',
+                url: '/index/server/make',
+                // dataType: 'JSON',
+                data: {
+                    "com_name": comName.value,
+                    "name": userName.value,
+                    "mobile": tel.value,
+                    "email": email.value,
+                    "qq": qqNum.value,
+                    "wechat": weixin.value
+                },
+                success: function (res) {
+                    alert(res.msg);
+                    comName.value = '';
+                    userName.value = '';
+                    tel.value = '';
+                    email.value = '';
+                    qqNum.value = '';
+                    weixin.value = '';
+                },
+                error: function () {
+
+                }
+            });
+        }
+    }
+
+    function tab(ele, index) {
+        for (var i = 0; i < formTabHover.length; i++) {
+            formTabHover[i].classList.add('formTab');
+            formTabHover[i].classList.remove('formTabHover');
+        }
+        ele.classList.remove('formTab');
+        ele.classList.add('formTabHover');
+        if (index == 1) {
+            formTab1.classList.remove('disnone');
+            formTab2.classList.add('disnone');
+        } else {
+            formTab1.classList.add('disnone');
+            formTab2.classList.remove('disnone');
+        }
+    }
+    function softTab(ele) {
+        for (var i = 0; i < softwareTabHover.length; i++) {
+            softwareTabHover[i].classList.add('softwareTab');
+            softwareTabHover[i].classList.remove('softwareTabHover');
+        }
+        ele.classList.remove('softwareTab');
+        ele.classList.add('softwareTabHover');
+    }
+</script>

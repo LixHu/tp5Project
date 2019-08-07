@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>睦诚后台管理系统</title>
+    <meta name="description" content="睦诚后台管理系统" />
+    <meta name="keywords" content="睦诚后台管理系统" />
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1,user-scalable=no">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <!-- load css -->
+    <link rel="stylesheet" type="text/css" href="/static/jqadmin/css/font/iconfont.css?v=1.0.0" media="all">
+    <link rel="stylesheet" type="text/css" href="/static/jqadmin/js/layui/css/layui.css?v=2.2.2" media="all">
+    <link rel="stylesheet" id="theme" type="text/css" href="/static/jqadmin/css/black/jqadmin.css?v=2.0.0-simple" media="all">
+    <!-- <link rel="stylesheet" href="/static/jqadmin/js/index.css?v=2.0.0-simple"></link> -->
+    <script type="text/javascript" src="__JS__/jquery-2.1.3.min.js"></script>
+    <script type="text/javascript" src="/static/jqadmin/js/layui/layui.js?v=2.2.2"></script>
+    <script type="text/javascript" src="/static/jqadmin/js/version.js?v=2.0.1"></script>
+    <script src="/static/jqadmin/js/common.js?v=2.0.1"></script>
+    <script type="text/javascript" charset="utf-8" src="__JS__/ueditor.config.js"></script>
+    <script type="text/javascript" charset="utf-8" src="__JS__/ueditor.all.min.js"> </script>
+    <script type="text/javascript" charset="utf-8" src="__JS__/lang/zh-cn/zh-cn.js"></script>
+
+
+</head>
+<script type="text/javascript">
+
+function previewImage(file)
+{
+    var MAXWIDTH = 260;
+    var MAXHEIGHT = 180;
+    var div = document.getElementById('preview');
+    if (file.files && file.files[0])
+    {
+        div.innerHTML ='<img id=imghead>';
+        var img = document.getElementById('imghead');
+        img.onload = function(){
+        var rect = clacImgZoomParam(MAXWIDTH, MAXHEIGHT, img.offsetWidth, img.offsetHeight);
+        img.width = rect.width;
+        img.height = rect.height;
+        //         img.style.marginLeft = rect.left+'px';
+        img.style.marginTop = rect.top+'px';
+        }
+        var reader = new FileReader();
+        reader.onload = function(evt){img.src = evt.target.result;}
+        reader.readAsDataURL(file.files[0]);
+    }
+    else //兼容IE
+    {
+        var sFilter='filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod=scale,src="';
+        file.select();
+        var src = document.selection.createRange().text;
+        div.innerHTML = '<img id=imghead>';
+        var img = document.getElementById('imghead');
+        img.filters.item('DXImageTransform.Microsoft.AlphaImageLoader').src = src;
+        var rect = clacImgZoomParam(MAXWIDTH, MAXHEIGHT, img.offsetWidth, img.offsetHeight);
+        status =('rect:'+rect.top+','+rect.left+','+rect.width+','+rect.height);
+        div.innerHTML = "<div id=divhead style='width:"+rect.width+"px;height:"+rect.height+"px;margin-top:"+rect.top+"px;"+sFilter+src+"\"'></div>";
+    }
+}
+function clacImgZoomParam( maxWidth, maxHeight, width, height ){
+    var param = {top:0, left:0, width:width, height:height};
+    if( width>maxWidth || height>maxHeight )
+    {
+        rateWidth = width / maxWidth;
+        rateHeight = height / maxHeight;
+
+        if( rateWidth > rateHeight )
+        {
+            param.width = maxWidth;
+            param.height = Math.round(height / rateWidth);
+        }else
+        {
+            param.width = Math.round(width / rateHeight);
+            param.height = maxHeight;
+        }
+    }
+
+    param.left = Math.round((maxWidth - param.width) / 2);
+    param.top = Math.round((maxHeight - param.height) / 2);
+    return param;
+}
+function previewImage2(file,num)
+{
+    var MAXWIDTH = 260;
+    var MAXHEIGHT = 180;
+    var div = document.getElementById('preview'+num);
+    if (file.files && file.files[0])
+    {
+        div.innerHTML ='<img id=imghead'+num+'>';
+        var img = document.getElementById('imghead'+num);
+        console.log(img);
+        img.onload = function(){
+        var rect = clacImgZoomParam(MAXWIDTH, MAXHEIGHT, img.offsetWidth, img.offsetHeight);
+        img.width = rect.width;
+        img.height = rect.height;
+        //         img.style.marginLeft = rect.left+'px';
+        img.style.marginTop = rect.top+'px';
+        }
+        var reader = new FileReader();
+        reader.onload = function(evt){img.src = evt.target.result;}
+        reader.readAsDataURL(file.files[0]);
+    }
+    else //兼容IE
+    {
+        var sFilter='filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod=scale,src="';
+        file.select();
+        var src = document.selection.createRange().text;
+        div.innerHTML = '<img id=imghead>';
+        var img = document.getElementById('imghead');
+        img.filters.item('DXImageTransform.Microsoft.AlphaImageLoader').src = src;
+        var rect = clacImgZoomParam(MAXWIDTH, MAXHEIGHT, img.offsetWidth, img.offsetHeight);
+        status =('rect:'+rect.top+','+rect.left+','+rect.width+','+rect.height);
+        div.innerHTML = "<div id=divhead style='width:"+rect.width+"px;height:"+rect.height+"px;margin-top:"+rect.top+"px;"+sFilter+src+"\"'></div>";
+    }
+}
+</script>
+
+<style>
+.pagelist li{display: inline-block;}
+.pagelist {padding:10px 0; text-align:center;}
+.pagelist span,.pagelist a{ border-radius:3px; border:1px solid #dfdfdf;display:inline-block; padding:5px 12px;}
+.pagelist a{ margin:0 3px;}
+.pagelist span.current{ background:#09F; color:#FFF; border-color:#09F; margin:0 2px;}
+.pagelist a:hover{background:#09F; color:#FFF; border-color:#09F; }
+.pagelist label{ padding-left:15px; color:#999;}
+.pagelist label b{color:red; font-weight:normal; margin:0 3px;}
+</style>

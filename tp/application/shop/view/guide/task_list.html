@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>任务详情</title>
+    <meta http-equiv="x-ua-compatible" content="IE=edge">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <!--<meta name="apple-mobile-web-app-capable" content="yes">-->
+    <!--<meta name="apple-touch-fullscreen" content="yes">-->
+    <link rel="stylesheet" type="text/css" href="_lib/weui.min.css">
+    <link rel="stylesheet" type="text/css" href="_css/jquery-weui.css">
+    <link rel="stylesheet" type="text/css" href="_css/style_h5.css">
+    <link rel="stylesheet" type="text/css" href="_css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="_css/weui2.css"/>
+    <link rel="stylesheet" type="text/css" href="_css/icon.css"/>
+    <style>
+        .weui-btn_primary {
+            background: #f18b2d;
+        }
+    </style>
+    <!--[if IE]>
+    <script src="http://libs.useso.com/js/html5shiv/3.7/html5shiv.min.js"></script>
+    <![endif]-->
+</head>
+<body ontouchstart style="background: #f2f2f2 !important;">
+<div class="font14">
+    <ul class="task-ul">
+        <li>
+            <div class="task-list">
+                <div class="pull-right task-list-status">{$data['status']}</div>
+                <div class="pull-left task-list-num">{$data['gold']}<span class="font14">金币</span></div>
+                <div class="pull-left ellipsis2 task-list-con">{$data['title']}</div>
+            </div>
+        </li>
+    </ul>
+</div>
+<div class="task-details">
+    <img src="_images/rule.png" alt="" class="pull-left task-details-img">
+    <div class="pull-left">奖励规则</div>
+    <div class="clear task-details-con">
+        金币：{$data['gold']} <br>
+        积分：{$data['integer']} <br>
+        积分：{$data['blance']} <br>
+    </div>
+</div>
+<div class="task-details">
+    <img src="_images/rule.png" alt="" class="pull-left task-details-img">
+    <div class="pull-left">任务说明</div>
+    <div class="clear task-details-con">
+        {$data['content']}
+    </div>
+</div>
+<div class="task-details">
+    <img src="_images/rule.png" alt="" class="pull-left task-details-img">
+    <div class="pull-left">奖励状态</div>
+    <div class="clear task-details-con font14">
+        {$data['status']}
+    </div>
+</div>
+
+<div class="task-details-button">
+    <a href="javascript:;" class="weui-btn weui-btn_primary">领取奖励</a>
+</div>
+
+<script src="_lib/jquery-2.1.4.js"></script>
+<script src="_js/h5.js"></script>
+<script src="_lib/fastclick.js"></script>
+<script src="_js/jquery-weui.js"></script>
+<script type="text/javascript">
+    $(function () {
+        FastClick.attach(document.body);
+    });
+
+</script>
+</body>
+</html>

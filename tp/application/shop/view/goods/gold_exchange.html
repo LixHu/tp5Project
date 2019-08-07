@@ -1,0 +1,72 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>金币兑换</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="_css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="_css/all.css" />
+	</head>
+
+	<body>
+	{if condition="!empty($data)"}	
+	{volist name="data" id="vo"}
+		<div class="left full bcol_f driver_shop_list mt_10" id="goods_all">
+			<div class="driver_shop_listl left">
+				<img class="driver_shop_img goods_id" src="_images/gold.png"/>
+			</div>
+			<div class="driver_shop_listm left">
+				<p class="thirteen col_3 mb_0 wnobr mb_5 mt_26">{$vo.title}</p>
+				<p class="elveteen mb_0 col_c30000 wnobr_2">
+					<!-- <img style="vertical-align: middle;" src="_images/driver_gold.png" /> -->
+					￥{$vo.price}
+				</p>
+
+			</div>
+			<div class="driver_shop_listr left">
+				<div class="driver_shop_but col_f twoteen" data-id="{$vo.id}">
+					兑换
+				</div>
+			</div>
+		</div>
+	{/volist}
+	{else}
+		<div class="left full bcol_f driver_shop_list mt_10">
+			暂无数据
+		</div>
+	{/if}	
+		
+		<script src="_js/mui.min.js"></script>
+		<script src="_js/jquery.js"></script>
+		<script type="text/javascript">
+			mui.init()
+			mui(".full").on('tap','.index',function(){
+				location.href="{:url('Index/index')}";
+		    });
+			// mui("body").on('tap','.goods_id',function(){
+				
+			// 	var goods_id = this.getAttribute('data-id');
+			// 	location.href="{:url('Goods/goods_list')}?id="+goods_id;
+		 //    });
+		    mui("body").on('tap','.twoteen',function(){
+				
+				var id = this.getAttribute('data-id');
+				$.post("{:url('Goods/ad_gold')}",{id:id},function(data){
+						if(data['code'] == 3) {
+							mui.alert(data['msg'], '', function(){});
+						}else if(data['code'] == 0) {
+							mui.alert(data['msg'], '', function(){});
+						}else if(data['code'] == 5) {
+							mui.alert(data['msg'], '', function(){});
+						}else if(data['code'] == 1) {
+							mui.alert(data['msg'], '', function(){});
+							// location.href="{:url('Goods/goods_pay')}";
+						}
+					})
+				// location.href="{:url('Goods/goods_pay')}?id="+goods_id;
+		    });
+		</script>
+	</body>
+
+</html>

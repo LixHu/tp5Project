@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>捷律指南</title>
+    <meta http-equiv="x-ua-compatible" content="IE=edge">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <!--<meta name="apple-mobile-web-app-capable" content="yes">-->
+    <!--<meta name="apple-touch-fullscreen" content="yes">-->
+    <link rel="stylesheet" type="text/css" href="_lib/weui.min.css">
+    <link rel="stylesheet" type="text/css" href="_css/jquery-weui.css">
+    <link rel="stylesheet" type="text/css" href="_css/style_h5.css">
+    <link rel="stylesheet" type="text/css" href="_css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="_css/weui2.css"/>
+    <link rel="stylesheet" type="text/css" href="_css/icon.css"/>
+    <style>
+
+    </style>
+    <!--[if IE]>
+    <script src="http://libs.useso.com/js/html5shiv/3.7/html5shiv.min.js"></script>
+    <![endif]-->
+</head>
+<body ontouchstart style="background: #e8e8e8 !important;">
+<div>
+    <img src="_images/homepage.png" alt="" class="homepage-img">
+</div>
+<div class="font18" style="background: #ffffff;">
+    <div style="padding: 10px 20px;border-bottom: 1px solid #e8e8e8;">
+        当前等级：{$level}
+    </div>
+    <div style="padding: 10px 20px;">
+        当前积分: {$integer}
+    </div>
+</div>
+<div class="font14" style="padding: 10px;">
+    <div style="background: #ffffff;padding: 10px;">积分规则</div>
+    <table style="background: #ffffff;width: 100%;text-align: center;">
+        <tr>
+            <th>积分</th>
+            <th>星级</th>
+            <!-- <th>听单</th> -->
+        </tr>
+        {volist name="param" id="vo"}
+        <tr>
+            <td>{$vo.and_sorce}&nbsp;-&nbsp;{$vo.end_sorce}</td>
+            <td>{$vo.grade_name}</td>
+            <!-- <td>提前5分钟推送</td> -->
+        </tr>
+        {/volist}
+        
+    </table>
+</div>
+
+<script src="_lib/jquery-2.1.4.js"></script>
+<script src="_js/h5.js"></script>
+<script src="_lib/fastclick.js"></script>
+<script src="_js/jquery-weui.js"></script>
+<script type="text/javascript">
+    $(function () {
+        FastClick.attach(document.body);
+    });
+
+</script>
+</body>
+</html>

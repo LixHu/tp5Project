@@ -1,0 +1,102 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>确认兑换</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="_css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="_css/all.css" />
+	</head>
+
+	<body>
+		<div class="full left driver_head bcol_f ju_mid seventeen col_3 father">
+			选择收货地址
+			<div class="son driver_head_son">
+				<span><img style="vertical-align: middle;height: 18px;" src="_images/fan.png"/></span>&nbsp;&nbsp;
+				<span class="jiacu">&nbsp;&nbsp;&nbsp;</span>
+				<span class="col_c10b0b jiacu">&nbsp;&nbsp;&nbsp;</span>
+			</div>
+		</div>
+		{volist name="data" id="vo"}
+		<div class="full left bcol_f driver_confirm_div mt_5 " >
+			<div class="full left bor_bdc address_s" data-did="{$vo.id}">
+			<!-- <input type="hidden" name="address_id" value="{$vo.id}"> -->
+				<p class="dr_chooseAdd_pl left mb_0 thirteen col_3 mt_3 mb_5">
+					{$vo.user_name}
+				</p>
+				<p class="dr_chooseAdd_pr left mb_0 thirteen col_3 mt_3 ju_right mb_5">
+					{$vo.user_tel}
+				</p>
+				<p class="full lef thirteen col_3 mb_5">
+					{if condition="$vo['status'] eq 1"}
+					<span class="col_c10b0b">[默认地址]</span>{$vo.address}
+					{else}
+					{$vo.address}
+					{/if}
+				</p>
+			</div>
+			<div class="full left">
+				<div class="right col_3 thirteen mt_5 mb_5 del" data-id="{$vo.id}">
+					<img style="vertical-align: middle;width: 13px;margin-bottom: 3px;" src="_images/del.png"  />
+					删除
+				</div>
+				<div class="right col_3 thirteen mt_5 mb_5 mr_3" data-id="{$vo.id}">
+					<img style="vertical-align: middle;width: 14px;margin-bottom: 3px;" src="_images/edit.png" />
+					编辑
+				</div>
+			</div>
+		</div>
+		{/volist}
+		<button class="driver_address_but left ju_mid seventeen col_f add_ress" style="height: 55px;" data-id="{$uid}">添加收货地址</button>
+		
+		<script src="_js/mui.min.js"></script>
+		<script src="_js/jquery.js"></script>
+		<script type="text/javascript">
+			mui.init()
+			mui("body").on('tap','.driver_head_son',function(){
+				
+				location.href="{:url('Goods/goods_pay')}";
+				
+		    });
+		    mui("body").on('tap','.mr_3',function(){
+				
+				 var address_id = this.getAttribute('data-id');
+				
+				location.href="{:url('Goods/save_address')}?address_id="+address_id;
+		    });
+		    mui("body").on('tap','.address_s',function(){
+				
+				 var did = this.getAttribute('data-did');
+				
+				location.href="{:url('Goods/goods_pay')}?did="+did;
+		    });
+		    mui("body").on('tap','.add_ress',function(){
+				
+				 var uid = this.getAttribute('data-id');
+				
+				location.href="{:url('Goods/ad_address')}?uid="+uid;
+		    });
+		    mui("body").on('tap','.del',function(){
+				
+				mui.confirm('你确定要删除吗？', '', ['否', '是'], function(e) {
+                    if (e.index == 1) {
+                        $.post("{:url('Goods/del_address')}",{id:address_id},function(data){
+			                if(data == 3){
+			                    alert('不是AJAX请求方式');
+			                }else if(data == 0){
+			                    alert('删除失败');
+			                    location.reload();
+			                }else if(data == 1){
+			                    location.reload();
+			                }
+			            },'json');
+                    }
+                })
+				var address_id = this.getAttribute('data-id');
+				
+		    });
+		</script>
+	</body>
+
+</html>

@@ -1,0 +1,173 @@
+{include file="public/header" /}
+<script src="__JS__/ueditor/ueditor.config.js"></script>
+<script src="__JS__/ueditor/ueditor.all.min.js"></script>
+<script type="text/javascript" charset="utf-8" src="__JS__/ueditor/lang/zh-cn/zh-cn.js"></script>
+<body style="padding:10px;">
+
+    <blockquote class="layui-elem-quote layui-text">
+        网站设置
+    </blockquote>
+
+    <form class="layui-form" action="" method="post" enctype="multipart/form-data">
+        <div class="layui-form-item">
+            <label class="layui-form-label">网站标题：</label>
+            <div class="layui-input-block">
+                <input type="text" class="layui-input" name="title" value="{$info.title}" lay-verify="required" required>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">关键字：</label>
+            <div class="layui-input-block">
+                <input type="text" class="layui-input" name="keywo" value="{$info.keywo}" lay-verify="required" required>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">联系电话：</label>
+                <div class="layui-input-block">
+                    <input type="text" class="layui-input" name="sale_phone" value="{$info.sale_phone}"  required>
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">联系邮箱：</label>
+                <div class="layui-input-block">
+                    <input type="text" class="layui-input" name="com_email" value="{$info.com_email}" lay-verify="email" required>
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">传真：</label>
+                <div class="layui-input-block">
+                    <input type="text" class="layui-input" name="fax" value="{$info.fax}" required>
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">官方网站：</label>
+                <div class="layui-input-block">
+                    <input type="text" class="layui-input" name="website" value="{$info.website}" required>
+                </div>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">首页底部地址：</label>
+            <div class="layui-input-block">
+                <textarea type="text" id="address" name="address" lay-verify="required" required>{$info.address}</textarea>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">联系我们页面地址：</label>
+            <div class="layui-input-block">
+                <textarea type="text" id="address1" name="address1" lay-verify="required" required>{$info.address1}</textarea>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">logo：</label>
+                <div class="layui-input-block">
+                    <button class="layui-btn" type="button" id="logo1"><i class="iconfont">&#xe60b;</i>点击上传</button>
+                    <input type="file" id="picPath" name="logo" onchange="PreviewImage('Preview',this,100,100,'picPath');" style="display:none;" />
+                    <div id="Preview" style=""><img src="{$info.logo}"  width="250" height="100" alt=""></div>
+                </div>
+            </div>
+            <script type="text/javascript">
+                $("#logo1").on('click',function(){
+                    $("#picPath").click();
+                })
+            </script>
+            <!-- <div class="layui-inline">
+                <label class="layui-form-label">二维码：</label>
+                <div class="layui-input-block">
+                    <input type="file" id="picPath2" name="qrcode" onchange="PreviewImage('Preview2',this,100,100,'picPath2');" />
+                    <div id="Preview2" style=""><img src="{$info.qrcode}"  width="100" height="100" alt=""> </div>
+                </div>
+            </div> -->
+        </div>
+        <div class="layui-form-item">
+        </div>
+        <!-- <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">销售电话：</label>
+                <div class="layui-input-block">
+                    <input type="text" class="layui-input" name="sale_phone" value="{$info.sale_phone}">
+                </div>
+            </div>
+        </div> -->
+        <!-- <div class="layui-form-item">
+            <label class="layui-form-label">备案信息：</label>
+            <div class="layui-input-block">
+                <input type="text" class="layui-input" name="free" value="{$info.free}">
+            </div>
+        </div> -->
+
+        <blockquote class="layui-elem-quote layui-text">
+            <font color="#aaf"> 关于我们页面简介 </font>
+        </blockquote>
+        <div class="layui-inline">
+            <label class="layui-form-label">公司图片：</label>
+            <div class="layui-input-block">
+                <button class="layui-btn" type="button" id="com_img1"><i class="iconfont">&#xe60b;</i>点击上传</button>
+                <input type="file" id="picPath3" name="com_img" onchange="PreviewImage('Preview3',this,100,100,'picPath3');" style="display:none;"  />
+                <div id="Preview3" style=""><img src="{$info.com_img}" width="100" height="100"  alt=""> </div>
+            </div>
+        </div>
+        <script type="text/javascript">
+            $("#com_img1").on('click',function(){
+                $("#picPath3").click();
+            })
+        </script>
+        <div class="layui-form-item">
+            <label class="layui-form-label">关于我们：</label>
+            <div class="layui-input-block">
+                <textarea name="summary" id="editor" style="width:100%;height:400px;">{$info.summary}</textarea>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label"></label>
+            <div class="layui-input-block">
+                <button class="layui-btn" lay-submit=""> 提交</button>
+            </div>
+        </div>
+    </form>
+    <script>
+        var ue = UE.getEditor('editor');
+        var ue2 = UE.getEditor('address');
+        var ue3 = UE.getEditor('address1');
+        layui.use('form',function(){
+            var form = layui.form;
+        })
+function getObjectURL(file) {
+    var url = null;
+    if (window.createObjectURL != undefined) { // basic
+        url = window.createObjectURL(file);
+    } else if (window.URL != undefined) { // mozilla(firefox)
+        url = window.URL.createObjectURL(file);
+    } else if (window.webkitURL != undefined) { // webkit or chrome
+        url = window.webkitURL.createObjectURL(file);
+    }
+    return url;
+}
+
+function  checkPic(path)  {         
+    var  picPath  =  document.getElementById(path).value;             
+    var  type  =  picPath.substring(picPath.lastIndexOf(".")  +  1,  picPath.length).toLowerCase();
+    if  (type !== "jpg" && type  !==  "bmp"  &&  type  !==  "gif"  &&  type  !==  "png")  {                 
+        alert("请上传正确的图片格式"); 
+        return  false;             
+    }             
+    return  true;         
+}
+
+function PreviewImage(divImage, upload, width, height ,path) {
+    if (checkPic(path)) {
+        try {
+        //console.log(upload.files[0]);
+            var imgPath = getObjectURL(upload.files[0]);
+            document.getElementById(divImage).innerHTML = "<img id='imgPreview' src='" + imgPath + "' width='" + width + "' height='" + height + "'/>";
+        } catch (e) {
+            alert("无法预览图片");
+        }
+    }
+}
+    </script>
+
+{include file="public/footer" /}

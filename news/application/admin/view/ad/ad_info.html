@@ -1,0 +1,22 @@
+{include file="public/head" /}
+<div class="" style="text-align:center;margin:0px 10px 0px 10px;">
+    <h1>{$info['title']}</h1>
+    <hr/>
+    <div class="img">
+        {volist name="info.ad_img" id="vo"}
+            <img src="{$vo}" alt="" width="200" height="200">
+        {/volist}
+    </div>
+    <div class="" style="padding:10px;">
+        {$info.content}
+    </div>
+</div>
+<style media="screen">
+    h1{
+        font-size: 25px;
+    }
+    .img img{
+        display: inline;
+    }
+</style>
+{include file="public/footer" /}

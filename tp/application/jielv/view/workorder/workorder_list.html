@@ -1,0 +1,347 @@
+{include file="public/header" /}
+<script type="text/javascript" src="_js/vendor/modernizr.custom.js"></script>
+<!-- STYLES -->
+<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700,800' rel='stylesheet' type='text/css'>
+<link rel="stylesheet" type="text/css" href="_css/vendor/normalize.css">
+<link rel="stylesheet" type="text/css" href="_css/vendor/skeleton.css">
+<link rel="stylesheet" type="text/css" href="_css/styles.css">
+<link rel="stylesheet" type="text/css" href="_css/vendor/github.css">
+
+<div class="row">
+    <div class="twelve columns">
+        <div class='tabs tabs_default'>
+            <ul class='horizontal'>
+                <li {if empty($_GET['status'])} class="active" {/if}><a href="javascript:;" onclick="re('')">全部工单</a></li>
+                <li {if !empty($_GET['status']) and $_GET['status'] eq 2} class="active" {/if}><a href="javascript:;" onclick="re(2)">待指派</a></li>
+                <li {if !empty($_GET['status']) and $_GET['status'] eq 3} class="active" {/if}><a href="javascript:;" onclick="re(3)">已指派</a></li>
+                <li {if !empty($_GET['status']) and $_GET['status'] eq 4} class="active" {/if}><a href="javascript:;" onclick="re(4)">已接受</a></li>
+                <li {if !empty($_GET['status']) and $_GET['status'] eq 5} class="active" {/if}><a href="javascript:;" onclick="re(9)">进行中</a></li>
+                <li {if !empty($_GET['status']) and $_GET['status'] eq 6} class="active" {/if}><a href="javascript:;" onclick="re(6)">已完成</a></li>
+            </ul>
+            <script>
+                var re = function (st) {
+                    location.href = '{:url("workorder/workorder_list")}?status='+st;
+                }
+            </script>
+            <div>
+                <div class="" id="main">
+                    <section class="content" style="min-width: 760px !important;">
+                        <div class="">
+                            <form id="mainForm" method="get" class="nice-validator n-default n-bootstrap"
+                                  novalidate="novalidate">
+                                <div class="box box-solid">
+                                    <div class="box-body">
+                                        <div class="row">
+                                            <div class="col-md-6 col-sm-6"></div>
+                                            <div class="col-md-6 col-sm-6" style="text-align: right;">
+                                                <div class="input-group">
+                                                    <div class="col-md-6">
+                                                        <input type="text" class="form-control keyword-search criteria"
+                                                               placeholder="请输入工单编号" v-model="wo_sn" id="keyword"
+                                                               name="keyword" style="width:500px;">
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <button class="btn btn-primary" type="button" id="btnSearch"
+                                                                @click="search">搜 索</button>
+                                                        <button type="button" class="btn btn-default btnReset"
+                                                                style="margin-left: 5px;" value="重置" @click="reset">重 置</button>
+                                                    </div>
+                                                </div>
+                                                <script>
+
+                                                </script>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="box box-solid collapse" id="collapseExample" aria-expanded="true">
+                                    <div class="box-header with-border"><span style="font-weight: bold">高级搜索</span>
+                                    </div>
+                                    <div class="box-body">
+                                        <!--<div class="row">-->
+                                        <!--<div class="col-md-5 col-sm-6 form-group">-->
+                                        <!--<div class="input-group">-->
+                                        <!--<span class="input-group-btn">-->
+                                        <!--<span class="btn span-default no-padding"-->
+                                        <!--style="cursor:default;width: 90px;">客户/报修人：</span>-->
+                                        <!--</span>-->
+                                        <!--<select style="width: 100%" id="customerId" name="customerId" tabindex="-1"-->
+                                        <!--class="select2-hidden-accessible" aria-hidden="true">-->
+                                        <!--<option value="" selected=""></option>-->
+                                        <!--</select>-->
+                                        <!--</div>-->
+                                        <!--</div>-->
+                                        <!--<div class="col-md-5 col-sm-6 form-group">-->
+                                        <!--<div class="input-group">-->
+                                        <!--<span class="input-group-btn">-->
+                                        <!--<span class="btn span-default no-padding"-->
+                                        <!--style="cursor:default;width: 90px;">服务类型：</span>-->
+                                        <!--</span>-->
+                                        <!--<select class="form-control criteria" id="serviceType" name="serviceType" v-model="server_type">-->
+                                        <!--<option value="">全部</option>-->
+                                        <!--<option value="保内免费">保内免费</option>-->
+                                        <!--<option value="保内收费">保内收费</option>-->
+                                        <!--<option value="保外免费">保外免费</option>-->
+                                        <!--<option value="保外收费">保外收费</option>-->
+                                        <!--</select>-->
+                                        <!--</div>-->
+                                        <!--</div>-->
+                                        <!--<div class="col-md-5  col-sm-6 form-group">-->
+                                        <!--<div class="input-group">-->
+                                        <!--<span class="input-group-btn">-->
+                                        <!--<span class="btn span-default no-padding"-->
+                                        <!--style="cursor:default;width: 90px;">服务内容：</span>-->
+                                        <!--</span>-->
+                                        <!--<select class="form-control criteria" id="serviceContent" name="serviceContent">-->
+                                        <!--<option value="">全部</option>-->
+                                        <!--<option value="安装">安装</option>-->
+                                        <!--<option value="维修">维修</option>-->
+                                        <!--<option value="保养">保养</option>-->
+                                        <!--<option value="巡检">巡检</option>-->
+                                        <!--<option value="检查">检查</option>-->
+                                        <!--</select>-->
+                                        <!--</div>-->
+                                        <!--</div>-->
+                                        <div class="col-md-5  col-sm-6 form-group">
+                                            <div class="input-group">
+                                        <span class="input-group-btn">
+                                            <span class="btn span-default no-padding"
+                                                  style="cursor:default;width: 90px;">优先级：</span>
+                                        </span>
+                                                <select class="form-control criteria" v-model="pid" name="level">
+                                                    <option value="">全部</option>
+                                                    <option value="2">中</option>
+                                                    <option value="1">低</option>
+                                                    <option value="3">高</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <!--<div class="col-md-5 col-sm-6 form-group">-->
+                                        <!--<div class="input-group">-->
+                                        <!--<span class="input-group-btn">-->
+                                        <!--<span class="btn span-default no-padding"-->
+                                        <!--style="cursor:default;width: 90px;">创建人：</span>-->
+                                        <!--</span>-->
+                                        <!--<select style="width: 100%" id="createUser" name="createUser" tabindex="-1"-->
+                                        <!--class="select2-hidden-accessible" aria-hidden="true">-->
+                                        <!--<option value=""></option>-->
+                                        <!--<option value="" selected=""></option>-->
+                                        <!--</select>-->
+                                        <!--</div>-->
+                                        <!--</div>-->
+                                        <!--<div class="col-md-5 col-sm-6 form-group">-->
+                                        <!--<div class="input-group">-->
+                                        <!--<span class="input-group-btn">-->
+                                        <!--<span class="btn span-default no-padding"-->
+                                        <!--style="cursor:default;width: 90px;">派单人：</span>-->
+                                        <!--</span>-->
+                                        <!--<select style="width: 100%" id="allotUser" name="allotUser" tabindex="-1"-->
+                                        <!--class="select2-hidden-accessible" aria-hidden="true">-->
+                                        <!--<option value="" selected=""></option>-->
+                                        <!--</select>-->
+                                        <!--</div>-->
+                                        <!--</div>-->
+                                        <!--<div class="col-md-5 col-sm-6 form-group">-->
+                                        <!--<div class="input-group">-->
+                                        <!--<span class="input-group-btn">-->
+                                        <!--<span class="btn span-default no-padding"-->
+                                        <!--style="cursor:default;width: 90px;">工单状态：</span>-->
+                                        <!--</span>-->
+                                        <!--<select style="width: 100%" id="workOrderStatus" class=" form-control criteria">-->
+                                        <!--<option value="">全部</option>-->
+                                        <!--<option value="2">待指派</option>-->
+                                        <!--<option value="2">已指派</option>-->
+                                        <!--<option value="2">已接受</option>-->
+                                        <!--<option value="2">已完成</option>-->
+                                        <!--</select>-->
+                                        <!--</div>-->
+                                        <!--</div>-->
+                                        <div class="col-md-5 col-sm-6 form-group">
+                                            <div class="input-group">
+                              <span class="input-group-btn">
+                                <span class="btn span-default no-padding"
+                                      style="cursor:default;width: 90px;">创建时间：</span>
+                              </span>
+                                                <input type="text" class="form-control criteria"
+                                                       placeholder="请输入创建时间"
+                                                       name="createtime" value="" id="createtime" readonly
+                                                       maxlength="50">
+                                            </div>
+                                        </div>
+                                        <div class="pull-right" style="padding-right: 20px">
+
+                                            <button type="button" class="btn btn-primary" @click="getData()">确定
+                                            </button>
+                                            <a class="btn btn-default" style="margin-left: 2px"
+                                               href="javascript:;" @click="reset">重置</a>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="box box-solid">
+                                    <div class="box-body">
+                                        <div class="btn-group" id="auth_delete">
+                                            <button class="btn btn-default btn-sm"><i
+                                                    class="glyphicon glyphicon-trash"></i>&nbsp;&nbsp;删除</button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="box box-solid">
+                                    <div class="box-body no-padding">
+                                        <div class="table-responsive list">
+                                            <table class="table table-hover table-striped table-bordered"
+                                                   id="taskTable">
+                                                <thead>
+                                                <tr>
+                                                    <th><input type="checkbox" name="checkAll" id="checkSelect"
+                                                               value="全选"></th>
+                                                    <th>工单编号</th>
+                                                    <th id="tour_1">报修人</th>
+                                                    <th>联系方式</th>
+                                                    <th>地点</th>
+                                                    <!--<th name="taskProduct">服务类型</th>-->
+                                                    <th>发动机匹配厂家</th>
+                                                    <!--<th name="taskLevel">-->
+                                                    <!--<a href="javascript:;" class="table-header-sort"-->
+                                                    <!--onclick="orderTask(this)" data-name="sortBy[level]"-->
+                                                    <!--name="level" data-sort="false">优先级&nbsp;-->
+                                                    <!--<i class="fa fa-sort"></i>-->
+                                                    <!--</a>-->
+                                                    <!--</th>-->
+                                                    <th>创建人</th>
+                                                    <th>创建时间</th>
+                                                    <th>工单状态</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {volist name="list" id="vo"}
+                                                    <tr>
+                                                        <td>
+                                                            <input type="checkbox" class="checkSelect" name="checkSelect"
+                                                                   value="{$vo.wo_id}">
+                                                        </td>
+                                                        <td>
+                                                            <a style="font-size: 15px;"
+                                                                    href="{:url('workorder/workorder_details',array('wid' => $vo.wo_id))}">
+                                                                {$vo.wo_sn}</a>
+                                                        </td>
+                                                        <td>{$vo.jour_name}</td>
+                                                        <td>{$vo.contact_info}</td>
+                                                        <td>
+                                                            {$vo.address}
+                                                        </td>
+                                                        <!--<td name="taskServiceType">-->
+                                                        <!--<span v-if="item.server_type == 1">保内免费</span>-->
+                                                        <!--<span v-if="item.server_type == 2">保内收费</span>-->
+                                                        <!--<span v-if="item.server_type == 3">保外免费</span>-->
+                                                        <!--<span v-if="item.server_type == 4">保外收费</span>-->
+                                                        <!--</td>-->
+                                                        <td>{$vo.math_vend}</td>
+                                                        <!--<td name="taskLevel">-->
+                                                        <!--<span v-if="item.pid == 1">低</span>-->
+                                                        <!--<span v-if="item.pid == 2">中</span>-->
+                                                        <!--<span v-if="item.pid == 3">高</span>-->
+                                                        <!--</td>-->
+                                                        <td>{$vo.add_name}</td>
+                                                        <td>{$vo.add_time}</td>
+                                                        <td>
+                                                            <p class="label " style="background-color: #69b5f0">
+                                                                {$vo.status}
+                                                            </p>
+                                                        </td>
+                                                    </tr>
+                                                    {/volist}
+                                                    {if empty($list)}
+                                                        <tr>
+                                                            <td colspan="19" style="text-align: center;">未找到相关数据</td>
+                                                        </tr>
+                                                    {/if}
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <div class="box-footer ">
+                                        <div class="col-lg-4 ">共 {$list|count}条记录&nbsp;
+                                            共 <?php echo ceil(count($list)/$pagesize);?> 页 &nbsp; &nbsp;每页显示
+                                            <select id="sizeSelect" onchange="getData()">
+                                                <option value="10" {if $pagesize eq 10} selected {/if}>10</option>
+                                                <option value="20" {if $pagesize eq 20} selected {/if}>20</option>
+                                                <option value="50" {if $pagesize eq 50} selected {/if}>50</option>
+                                            </select>条
+                                        </div>                                        </div>
+                                </div>
+                            </form>
+                        </div>
+                    </section>
+                </div>
+                <script>
+                    var getData = function () {
+                        location.href = '{:url("workorder/workorder_list")}?pagesize=' +$("#sizeSelect").val()
+                    }
+                    //分页
+                    $(document).ready(function () {
+
+                        //点击高级搜索
+                        $("#advanceIcon").click(function () {
+                            if ($(this).children("span").attr("class") == "glyphicon glyphicon-plus") {
+                                //关闭
+                                $(this).children("span").removeClass("glyphicon-plus");
+                                $(this).children("span").addClass("glyphicon-minus");
+                                $('#isAdvanced').val(1);
+                            } else if ($(this).children("span").attr("class") == "glyphicon glyphicon-minus") {
+                                //展开
+                                $(this).children("span").removeClass("glyphicon-minus");
+                                $(this).children("span").addClass("glyphicon-plus");
+                                $('#isAdvanced').val(0);
+                            }
+                        });
+                        function orderTask(ele) {
+                            $("#sortSeachModel").attr("name", ele.dataset.name);
+                            if (ele.dataset.sort == 'true') {
+                                $("#sortSeachModel").val("false");
+                            } else if (ele.dataset.sort == 'false') {
+                                $("#sortSeachModel").val("true");
+                            }
+                            console.log($("#sortSeachModel"));
+                            $("#mainForm").trigger('submit');
+                        }
+
+                        $(".btnReset").click(function () {
+                            $("#collapseExample input").val("");
+                            $("#name").val("");
+                            $("#state").val("");
+                            showWait();
+                        });
+                        //以上是高级搜索 调用的方法
+                        //以下是复选框的选中
+                        $("#checkSelect").change(function () {
+                            if ($(this).is(':checked')) {
+                                $("input[name='checkSelect']").prop("checked", "checked");
+                            } else {
+                                $("input[name='checkSelect']").removeAttr("checked");
+                            }
+                        });
+                        $("input[name='checkSelect']").change(function () {
+                            var flag = true;
+                            $("input[name='checkSelect']").each(function () {
+                                if (!$(this).is(':checked')) {
+                                    flag = false;
+                                    return false;
+                                }
+                            });
+                            if (flag) {
+                                $("#checkSelect").prop("checked", "checked");
+                            } else {
+                                $("#checkSelect").removeAttr("checked");
+                            }
+                        });
+                        ////以上是复选框的选中
+                    })
+                </script>
+            </div>
+        </div>
+    </div>
+</div>
+{include file="public/footer" /}

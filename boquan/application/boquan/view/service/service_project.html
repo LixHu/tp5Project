@@ -1,0 +1,278 @@
+{include file="public/header" /}
+
+<style>
+
+body {
+	background-color: #eeeeee;
+}
+
+.content {
+	padding: 0 15px !important;
+}
+
+.small-box {
+	margin-bottom: 0px;
+	color: #FFFFFF;
+}
+
+.table-header-sort {
+	cursor: pointer;
+	color: black !important;
+}
+
+.tooltip>.tooltip-inner {
+	background-color: #e5e5e5;
+	color: #0c0c0c
+}
+
+.tooltip.top .tooltip-arrow {
+	border-top-color: #e5e5e5;
+}
+
+#wait {
+	background: rgba(255, 255, 255, 0.5) url("/resource/images/wait.gif")
+		center no-repeat;
+	position: fixed;
+	width: 100%;
+	height: 100%;
+	z-index: 9000;
+}
+
+.dnone {
+	display: none;
+}
+
+[v-cloak] {
+	display: none
+}
+
+.iconfont {
+	width: 50px !important;
+}
+
+.dropdown-menu>li a {
+	transition: background-color ease .3s, color ease .3s, border-color ease
+		.3s;
+}
+
+.dropdown-menu>li a:hover {
+	background-color: #3c8dbc;
+	color: white;
+	border-color: #3c8dbc;
+}
+
+.dropdown-toggle {
+	transition: background-color ease .3s, color ease .3s, border-color ease
+		.3s;
+}
+
+.dropdown-toggle:hover {
+	background-color: #3c8dbc;
+	color: white;
+	border-color: #3c8dbc;
+}
+
+.open .dropdown-toggle {
+	background-color: #3c8dbc !important;
+	color: white !important;
+	border-color: #3c8dbc !important;
+}
+
+.btn-default1 {
+	background-color: #f4f4f4;
+	color: #444;
+	border-color: #ddd;
+}
+
+.small-box .icon {
+	top: -25px !important;
+}
+
+.small-box h3 {
+	font-size: 30px !important;
+	margin: 0 0 10px 0 !important;
+	white-space: nowrap !important;
+	padding: 0 !important;
+	font-weight: normal !important;
+}
+
+.table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th,
+	.table>thead>tr>td, .table>thead>tr>th {
+	line-height: 2.4;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	overflow: hidden;
+}
+</style>
+<div class="" id="main">
+	<section class="content" style="min-width: 760px !important;">
+		<div class="">
+
+			<input type="hidden" id="sortSeachModel" name="sortBy[taskNo]" value="false"> <input type="hidden" id="workTaskId" name="id" value="">
+
+			<div class="box box-solid">
+				<div class="box-body">
+					<div class="row">
+						<div class="col-md-6 col-sm-6">
+							<div class="btn-group" id="auth_delete">
+								<a href="{:url('Service/service_project')}" class="btn btn-primary btn-sm checkbox-toggle">全部</a>
+								<a href="javascript:del()" class="btn btn-default btn-sm" style="margin-left: 10px;">批量删除</a>
+
+							</div>
+							<!-- /.btn-group -->
+						</div>
+
+						<div class="col-md-6 col-sm-6">
+							<form id="mainForm" action="search_service" method="get"
+								class="nice-validator n-default n-bootstrap"
+								novalidate="novalidate">
+								<div class="input-group">
+									<input type="text" class="form-control keyword-search criteria"
+										placeholder="请输入服务项目名称" value="" id="keyword" name="keyword"
+										maxlength="50"> <span class="input-group-btn">
+										<button class="btn btn-primary" type="submit" id="btnSearch">搜
+											索</button>
+									</span>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+
+
+			<div class="box box-solid">
+				<div class="box-body no-padding">
+					<div class="table-responsive list">
+						<table class="table table-hover table-striped table-bordered"
+							id="taskTable">
+							<thead>
+								<tr>
+									<th><input type="checkbox" name="checkAll"
+										id="checkSelect" value="全选"></th>
+									<th>名称</th>
+									<th id="tour_1" name="taskCustomer">单位</th>
+									<th name="taskCustomerLinkmanPhone">单价</th>
+									
+									<th name="taskProduct">状态</th>
+									<th name="taskPlanTime">操作</th>
+								</tr>
+							</thead>
+							<tbody>
+								{if condition="$res eq false"} 
+								{volist name="service_list" id="vo"}
+								<tr>
+									<td><input type="checkbox" class="checkSelect"
+										name="checkSelect"
+										value="{$vo.id}"
+										id="checkSelect_6e83e2f2-f111-11e7-9aa4-00163e12f748"></td>
+
+									<td name="taskCustomer">{$vo.name}</td>
+
+									<td name="taskCustomer">{$vo.unit}</td>
+									<td name="taskCustomer">{$vo.price}</td>
+									<td name="taskLevel">{if $vo['status'] == 1} <span
+										name="taskLevel">已启用</span> {else} <span name="taskLevel">已禁用</span>
+										{/if} 
+									</td>
+									<td><a href="{:url('service_edit',['id'=>$vo.id])}" class="btn btn-primary btn-sm checkbox-toggle">编辑</a>
+									<a href="{:url('ad_status',['id'=>$vo.id])}" onclick="savestatus()" class="btn btn-primary btn-sm checkbox-toggle">更改状态</a>
+									</td>
+								</tr>
+								{/volist} {else}
+
+								<tr>
+									<td colspan="19" style="text-align: center;">未找到相关数据</td>
+								</tr>
+								{/if}
+							
+							</tbody>
+						</table>
+					</div>
+				</div>
+
+				<div class="box-footer ">
+					<div class="col-lg-8 ">
+                        <!-- <ul class="pagination pull-right" id="pagination1"></ul> -->
+
+						{$page}
+                    </div>
+				</div>
+
+			</div>
+
+			
+		</div>
+	</section>
+</div>
+{include file="public/footer" /}
+
+<script>
+
+
+
+    ////以下是复选框的选中
+    $("#checkSelect").change(function () {
+        if ($(this).is(':checked')) {
+            $("input[name='checkSelect']").prop("checked", "checked");
+        } else {
+            $("input[name='checkSelect']").removeAttr("checked");
+        }
+    });
+    $("input[name='checkSelect']").change(function () {
+        var flag = true;
+        $("input[name='checkSelect']").each(function () {
+            if (!$(this).is(':checked')) {
+                flag = false;
+                return false;
+            }
+        });
+        if (flag) {
+            $("#checkSelect").prop("checked", "checked");
+        } else {
+            $("#checkSelect").removeAttr("checked");
+        }
+    });
+    ////以上是复选框的选中
+    
+    
+    	//更改状态给个弹窗提示
+       function savestatus(){
+	   alert('确定要更改状态吗？');
+   }
+		//批量删除
+  	function del(){
+  		//获取选中数据的id值
+  		obj = document.getElementsByName("checkSelect");
+		    var mid = [];
+		    for(k in obj){
+		        if(obj[k].checked)
+		            mid.push(obj[k].value);
+		    }
+		//判断是否有选中数据
+		if (mid == '') {
+			alert('请先选择');
+		}else{
+			if(confirm('你确定要删除吗？')){
+		  		$.post("{:url('Service/del')}",{id:mid},function(data){
+	                if(data == 0){
+	                    alert('删除失败');
+	                    location.reload();
+	                }else if(data == 1){
+	                    location.reload();
+	                }
+	            },'json')
+  			}
+		}
+  		
+  	}
+
+
+  	//搜索框没内容处理
+    $('#btnSearch').click(function(){
+    	var keyword = $('#keyword').val();
+    	if (keyword == '') {
+    		return false;
+    	}
+    })
+</script>

@@ -1,0 +1,333 @@
+{include file="public/header" /}
+
+    <style>
+
+        -webkit-input-placeholder {
+            font-family: REFSAN;
+        }
+
+        .swiper-container {
+            width: 100%;
+            height: 100%;
+        }
+
+        .swiper-container1 .swiper-slide {
+            /* Center slide text vertically */
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: -webkit-flex;
+            display: flex;
+            -webkit-box-pack: center;
+            -ms-flex-pack: center;
+            -webkit-justify-content: center;
+            justify-content: center;
+            -webkit-box-align: center;
+            -ms-flex-align: center;
+            -webkit-align-items: center;
+            align-items: center;
+        }
+
+        .swiper-container2 .swiper-slide {
+            /* Center slide text vertically */
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: -webkit-flex;
+            display: flex;
+            -webkit-box-pack: center;
+            -ms-flex-pack: center;
+            -webkit-justify-content: center;
+            justify-content: center;
+            -webkit-box-align: center;
+            -ms-flex-align: center;
+            -webkit-align-items: center;
+            align-items: center;
+        }
+
+        .swiper-container3 .swiper-slide {
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: -webkit-flex;
+            display: flex;
+            -webkit-box-pack: center;
+            -ms-flex-pack: center;
+            -webkit-justify-content: center;
+            justify-content: center;
+            -webkit-box-align: center;
+            -ms-flex-align: center;
+            -webkit-align-items: center;
+            align-items: center;
+        }
+
+        .iw_poi_title {
+            color: #CC5522;
+            font-size: 14px;
+            font-weight: bold;
+            overflow: hidden;
+            padding-right: 13px;
+            white-space: nowrap
+        }
+
+        .iw_poi_content {
+            font: 12px arial, sans-serif;
+            overflow: visible;
+            padding-top: 4px;
+            white-space: -moz-pre-wrap;
+            word-wrap: break-word
+        }
+
+        .swiper-container2 .swiper-button-prev {
+            width: 12px;
+            height: 18px;
+            background-image: url(__AGO__/image/leftBtn.png);
+            background-size: 12px 18px;
+            left: 0;
+        }
+
+        .swiper-container2 .swiper-button-next {
+            width: 12px;
+            height: 18px;
+            background-image: url(__AGO__/image/rightBtn.png);
+            background-size: 12px 18px;
+            right: 0;
+        }
+
+        .swiper-container3 {
+            height: 440px;
+        }
+
+        .swiper-container3 .swiper-button-prev {
+            width: 25px;
+            height: 14px;
+            background-image: url(__AGO__/image/topBtn.png);
+            background-size: 25px 14px;
+            top: 40px;
+            left: 45%;
+        }
+
+        .swiper-container3 .swiper-button-next {
+            width: 25px;
+            height: 14px;
+            background-image: url(__AGO__/image/downBtn.png);
+            background-size: 25px 14px;
+            top: 425px;
+            left: 45%;
+        }
+
+        .swiper-container1 .swiper-pagination-bullet-active {
+            background: rgba(255, 255, 255, 1);
+            border: 0px solid #ffffff;
+        }
+
+        .swiper-container1 .swiper-pagination-bullet {
+            width: 14px;
+            height: 14px;
+            display: inline-block;
+            border-radius: 100%;
+            border: 2px solid #ffffff;
+        }
+
+        .swiper-container-horizontal > .swiper-pagination-bullets, .swiper-pagination-custom, .swiper-pagination-fraction {
+            bottom: 43px;
+        }
+
+
+    </style>
+    <script type="text/javascript">
+            function loadData(num) {
+                $("#PageCount").val("89");
+            }
+        </script>
+    	<style>
+        .pagelist .active span,.pagelist .active a{ border-radius:3px; border:1px solid #b8a794;display:inline-block; padding:5px 12px;background: #b8a794;color: #fff;}
+        .pagelist {margin-left: 20px;font-family: 'REFSAN';}
+        .pagelist li{display: inline-block;}
+        .pagelist {padding:10px 0; text-align:left;}
+        .pagelist span,.pagelist a{ border-radius:3px; border:1px solid #ddd;display:inline-block; padding:5px 12px;}
+        .pagelist a{ margin:0 3px;color: #b8a794;}
+        .pagelist span.current{ background:#b8a794; color:#FFF; border-color:#b8a794; margin:0 3px;}
+        .pagelist a:hover{background:#b8a794; color:#FFF; border-color:#b8a794; }
+        .pagelist label{ padding-left:15px; color:#999;}
+        .pagelist label b{color:red; font-weight:normal; margin:0 3px;}
+    		/* .pagelist>.active>a, .pagelist>.active>span, .pagelist>.active>a:hover, .pagelist>.active>span:hover, .pagelist>.active>a:focus, .pagelist>.active>span:focus{
+    			    background-color: #9e9180;
+    				border-color: #9e9180;
+    		}
+    		.pagelist>li>a, .pagelist>li>span{
+    			color:#999999;
+    		}
+    		.pagelist>li>a:hover, .pagelist>li>span:hover, .pagelist>li>a:focus, .pagelist>li>span:focus{
+    			color:#999999;
+    		} */
+    	</style>
+</head>
+<body>
+<div class="layer allContent ">
+    <div class="allContentMar overflowAuto productTop" id="all">
+        <div class="ConTop">
+            <div>
+                <button class="fontBold ConTopBtn eventConTopBtnLeft">
+                    Products
+                </button>
+            </div>
+            <div class="ConTopLabelCenter">
+                <a href="index">Home</a> >
+                <a href="products">Products</a>
+            </div>
+        </div>
+        <div class="overflowAuto select">
+            <div class="pullLeft selectMar">
+                <button class="white selectFont fontBold myselect {if !empty($_GET['cid']) and $_GET['cid'] eq $list.btn1.cid} active {/if}" onclick="location.href='/index/index/products?cid={$list.btn1.cid}'" >
+                    {$list.btn1.cname}
+                </button>
+            </div>
+            <div class="pullLeft selectMar">
+                <?php $c1 = ''; if(!empty($btn2)) $c1 = $btn2['cid']; ?>
+                <button class="white selectFont fontBold myselect
+                {if !empty($_GET['cid']) and ( $_GET['cid'] eq $list['btn2']->cname or $_GET['cid'] eq $c1)} active {/if}
+                " id="selectBtn1" onmouseover="select('select1',this)" onmouseout="selectHide('select1')"
+                        onclick="location.href='/index/index/products?cid={$list['btn2']->cid}'" style="overflow: hidden;">
+                    <?php if(!empty($btn2)) echo $btn2['cname']; else echo $list['btn2']->cname; ?><img src="__AGO__/image/selectIcon.png" alt="" class="selectIcon">
+                </button>
+                <ul class="disNone selectUl" id="select1" onmouseover="select('select1',this)" onmouseout="selectHide('select1')">
+                    {volist name="list.btn2.child" id="vo"}
+                        <li class="selectLi myselect" onmouseover="select('select1',this)" onmouseout="selectHide('select1')" onclick="location.href='/index/index/products?cid={$vo.cid}'">
+                            {$vo.cname}
+                        </li>
+                    {/volist}
+                </ul>
+            </div>
+            <div class="pullLeft selectMar ">
+                <button class="white selectFont fontBold myselect {if !empty($_GET['cid']) and $_GET['cid'] eq $list.btn3.cid} active {/if}" onclick="location.href='/index/index/products?cid={$list.btn3.cid}'">
+                    {$list.btn3.cname}
+                </button>
+            </div>
+            <div class="pullLeft selectMar">
+                <?php $c2 = ''; if(!empty($btn4)) $c2 = $btn4['cid']; ?>
+                <button class="white selectFont fontBold myselect
+                {if !empty($_GET['cid']) and ($_GET['cid'] eq $list['btn4']->cname or $_GET['cid'] eq  $c2)} active {/if}"
+                id="selectBtn2" onmouseover="select('select2',this)" onmouseout="selectHide('select2')"
+                        onclick="location.href='/index/index/products?cid={$list['btn4']->cid}'" style="overflow: hidden;">
+                    <?php if(!empty($btn4)) echo $btn4['cname']; else echo $list['btn4']->cname; ?>
+                    <img src="__AGO__/image/selectIcon.png" alt="" class="selectIcon">
+                </button>
+                <ul class="disNone selectUl" id="select2" onmouseover="select('select2',this)" onmouseout="selectHide('select2')">
+                    {volist name="list.btn4.child" id="vo"}
+                        <li class="selectLi myselect" onmouseover="select('select2',this)" onclick="location.href='/index/index/products?cid={$vo.cid}'">
+                            {$vo.cname}
+                        </li>
+                    {/volist}
+                </ul>
+            </div>
+        </div>
+        <div class="clear overflowAuto productCon">
+            <ul class="overflowAuto">
+                {volist name="list.data" id="vo"}
+                    <li class="pullLeft productConLi" >
+                        <a href="contact_us.html">
+                            <div>
+                                <img class="productConLiImg" src="{$vo.p_img}" alt="" width="368" height="368">
+                            </div>
+                            <div class="textCenter mask">
+
+                            </div>
+                            <a href="contact_us.html" class="maskHref">
+                                <button class="white selectFont">
+                                    Inquire Now
+                                </button>
+                            </a>
+                            <div class="textCenter productConTitle">
+                                <!-- Textured VelvetLoft Blanket - Harbor Color Palette -->
+                                {$vo.p_title}
+                            </div>
+                        </a>
+                    </li>
+                {/volist}
+            </ul>
+        </div>
+    </div>
+    <div class="clear"></div>
+    <div class="pagelist">
+        {$page}
+    </div>
+    {include file="public/footer" /}
+    <script type="text/javascript" src="__JS__/vue.min.js"></script>
+<script>
+
+    var select2 = document.getElementById('select2');
+    var selectBtn2 = document.getElementById('selectBtn2');
+    var select1 = document.getElementById('select1');
+    var selectBtn1 = document.getElementById('selectBtn1');
+    var selectLi = document.getElementsByClassName('selectLi');
+
+    var vm = new Vue({
+        el:"#all",
+        data:{
+            btn1:{
+                "cname":"Bed Sheet Set",
+                "cid" :"1"
+            },
+            btn2:[
+                {"cname":"","cid" :"2"}
+            ],
+            btn3:[
+                {"cname":""},
+            ],
+            btn4:[
+                {"cname":""}
+            ],
+            option1:"",
+            pro_list:""
+        },
+        methods:{
+            get_list:function(){
+                var _self = this;
+                $.get('get_option',function(ret){
+                    _self.btn1 = ret.btn1;
+                    _self.btn2 = ret.btn2;
+                    _self.btn3 = ret.btn3;
+                    _self.btn4 = ret.btn4;
+                })
+            },
+            lihandle: function(cname,cid){
+                $("#selectBtn1").html(cname + "<img src='__AGO__/image/selectIcon.png' alt='' class='selectIcon'>");
+                $('#select1').addClass('disNone');
+                this.getproduct(cid);
+            },
+            lihandle2:function(cname,cid){
+                $("#selectBtn2").html(cname + "<img src='__AGO__/image/selectIcon.png' alt='' class='selectIcon'>");
+                $('#select2').addClass('disNone');
+                this.getproduct(cid);
+            },
+            getproduct:function(id){
+                var data = {},
+                _self = this;
+                data.cid = id;
+                $.post('getproduct',data,function(ret){
+                    _self.pro_list = [];
+                    if (ret.code == 1) {
+                        if (!ret.data.length) {
+                            _self.pro_list = [];
+                        }else {
+                            _self.pro_list = ret.data;
+                        }
+                    }
+                });
+            }
+        }
+    });
+    //悬浮按钮，显示下拉标签
+    function select(id,obj) {
+        var id = document.getElementById(id);
+        id.classList.remove('disNone');
+    }
+    //离开按钮，隐藏下拉标签
+    function selectHide(id) {
+        $('.selectLi').removeClass('active');
+        var id = document.getElementById(id);
+        id.classList.add('disNone');
+    }
+    $('.myselect').mouseover(function(){
+        $('.myselect').removeClass('active');
+        $(this).addClass('active');
+    })
+</script>

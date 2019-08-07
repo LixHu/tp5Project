@@ -1,0 +1,539 @@
+{include file="public/header" /}
+
+<style>
+
+body {
+    background-color: #eeeeee;
+}
+
+.content {
+    padding: 0 15px !important;
+}
+
+.small-box {
+    margin-bottom: 0px;
+    color: #FFFFFF;
+}
+
+.table-header-sort {
+    cursor: pointer;
+    color: black !important;
+}
+
+.tooltip>.tooltip-inner {
+    background-color: #e5e5e5;
+    color: #0c0c0c
+}
+
+.tooltip.top .tooltip-arrow {
+    border-top-color: #e5e5e5;
+}
+
+#wait {
+    background: rgba(255, 255, 255, 0.5) url("/resource/images/wait.gif")
+        center no-repeat;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    z-index: 9000;
+}
+
+.dnone {
+    display: none;
+}
+
+[v-cloak] {
+    display: none
+}
+
+.iconfont {
+    width: 50px !important;
+}
+
+.dropdown-menu>li a {
+    transition: background-color ease .3s, color ease .3s, border-color ease
+        .3s;
+}
+
+.dropdown-menu>li a:hover {
+    background-color: #3c8dbc;
+    color: white;
+    border-color: #3c8dbc;
+}
+
+.dropdown-toggle {
+    transition: background-color ease .3s, color ease .3s, border-color ease
+        .3s;
+}
+
+.dropdown-toggle:hover {
+    background-color: #3c8dbc;
+    color: white;
+    border-color: #3c8dbc;
+}
+
+.open .dropdown-toggle {
+    background-color: #3c8dbc !important;
+    color: white !important;
+    border-color: #3c8dbc !important;
+}
+
+.btn-default1 {
+    background-color: #f4f4f4;
+    color: #444;
+    border-color: #ddd;
+}
+
+.small-box .icon {
+    top: -25px !important;
+}
+
+.small-box h3 {
+    font-size: 30px !important;
+    margin: 0 0 10px 0 !important;
+    white-space: nowrap !important;
+    padding: 0 !important;
+    font-weight: normal !important;
+}
+
+.table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th,
+    .table>thead>tr>td, .table>thead>tr>th {
+    line-height: 2.4;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+</style>
+<div class="" id="main">
+    <section class="content" style="min-width: 760px !important;">
+        <div class="">
+
+            <input type="hidden" id="sortSeachModel" name="sortBy[taskNo]" value="false"> <input type="hidden" id="workTaskId" name="id" value="">
+
+            <div class="box box-solid">
+                <div class="box-body">
+                    <div class="row">
+                        <div class="col-md-6 col-sm-6">
+                            <div class="btn-group" id="auth_delete">
+                                <a href="javascript:add()" class="btn btn-primary btn-sm checkbox-toggle">新增</a>
+                                <a href="javascript:del()" class="btn btn-default btn-sm" style="margin-left: 10px;">删除</a>
+
+                            </div>
+                            <!-- /.btn-group -->
+                        </div>
+
+                        
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="box box-solid">
+                <div class="box-body no-padding">
+                    <div class="table-responsive list">
+                        <table class="table table-hover table-striped table-bordered"
+                            id="taskTable">
+                            <thead>
+                                <tr>
+                                    <th><input type="checkbox" name="checkAll"
+                                        id="checkSelect" value="全选"></th>
+                                    <th>账户</th>
+                                    <th id="tour_1" name="taskCustomer">联系方式</th>
+                                    <th name="taskCustomerLinkmanPhone">创建时间</th>
+                                   
+                                    <th name="taskPlanTime">操作</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {if condition="$data"} 
+                                {volist name="data" id="vo"}
+                                <tr>
+                                    {if condition="$uid eq $vo.uid"}
+                                    <td></td>
+                                    {else}
+                                    <td><input type="checkbox" class="checkSelect" name="checkSelect" value="{$vo.uid}" id="checkSelect_6e83e2f2-f111-11e7-9aa4-00163e12f748"></td>
+                                    {/if}
+
+                                    <td name="taskCustomer">{$vo.user_name}</td>
+
+                                    <td name="taskCustomer">{$vo.mobile}</td>
+                                    <td name="taskCustomer">{$vo.add_time|date="Y-m-d H:i",###}</td>
+                                    {if condition="$uid eq $vo.uid"}
+                                    <td></td>
+                                    {else}
+                                    <td><a href="{:url('Admin/edit_group',['uid'=>$vo.uid])}" >编辑</a>
+                                    <!-- <a href="{:url('ad_status',['id'=>$vo.user_name])}" onclick="savestatus()" class="btn btn-primary btn-sm checkbox-toggle">更改状态</a> -->
+                                    </td>
+                                    {/if}
+                                </tr>
+                                {/volist} {else}
+
+                                <tr>
+                                    <td colspan="19" style="text-align: center;">未找到相关数据</td>
+                                </tr>
+                                {/if}
+                            
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="box-footer ">
+                    <div class="col-lg-8 ">
+                        <!-- <ul class="pagination pull-right" id="pagination1"></ul> -->
+
+                        
+                    </div>
+                </div>
+
+
+                <form id="form1" action="add_user" method="post" class="nice-validator n-default n-bootstrap" novalidate="novalidate" onsubmit="return check_from();">
+
+                <input type="hidden" id="sortSeachModel" name="sortBy[taskNo]" value="false">
+                <input type="hidden" id="workTaskId" name="id" value="">
+                <div style="display: none;padding: 10px;" id="content" class="col-md-12">
+                    <div style="margin-top: 10px;">
+                        <label class="col-md-2">账户：</label>
+                        <div class="col-md-10">
+                            <input type="text" name="user_name" class="form-control"/>
+                        </div>
+                    </div>
+                    <div>
+                        <label class="col-md-2" style="margin-top: 20px;">密码：</label>
+                        <div class="col-md-10" style="margin-top: 20px;">
+                            <input type="password" class="form-control" name="password"/>
+                        </div>
+                    </div>
+                    <div>
+                        <label class="col-md-2" style="margin-top: 20px;">手机号：</label>
+                        <div class="col-md-10" style="margin-top: 20px;">
+                            <input type="text" class="form-control" name="mobile" onkeyup="this.value=this.value.replace(/\D/g,'')" placeholder="[只允许数字]"/>
+                        </div>
+                    </div>
+                    <div>
+                        <label class="col-md-2" style="margin-top: 20px;">权限：</label>
+                        <div class="col-md-10" style="margin-top: 20px;">
+                            <div style="display: inline-block;width: 100%;">
+                        <div class="box-body" style="background: #FFFFFF;">
+                            <input type="checkbox" id="checkall"/> 所有权限
+                            
+                        </div>
+                    <div class="box box-solid">
+                        <div class="box-body">
+                            <div class="box box-solid">
+                                <div class="box-body no-padding">
+                                    <div class="table-responsive list">
+                                        <table class="table table-hover table-striped table-bordered text-center"
+                                               id="taskTable" style="margin-bottom: 0px">
+                                            <thead class="bg-blue2" style="color: #FFFFFF;">
+                                                <tr>
+                                                    {volist name="arr" id="vo"}
+                                                    <th style="text-align: left;"> <input type="checkbox" value="{$vo.mid}" data-id="{$key}" class="checkchild" name="mid[]" id="check"/>{$vo.mname}
+                                                    </th>
+                                                    {/volist}
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                            
+                                            <tr class="editpower"> 
+                                            {volist name="arr" id="vo" key="k"}
+                                                
+                                                <td style="text-align: left;">
+                                                {volist name="vo.child" id="v"}
+                                                    <div>
+                                                        <input type="checkbox" value="{$v.mid}" name="mid[]" id="check"/>{$v.mname}
+                                                    </div>
+                                                {/volist}
+                                                </td>
+                                                
+                                            {/volist}
+                                            </tr>
+                                            
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                        </div>
+                    </div>
+                    
+                    <div class="btn btn-group" style="float: right;">
+                        <button type="submit" class="btn btn-primary btn-close" id="wiki-sub">提交</button>
+                    </div>
+                </div>
+                </form>
+    
+
+            </div>
+
+            
+        </div>
+    </section>
+</div>
+{include file="public/footer" /}
+
+<script>
+ var roleid = 0;
+    var getMenu = function (rid) {
+        roleid = rid;
+        $.get('getMenu?rid=' + rid, function (res) {
+            if(res.gid == 0){
+                $('#subpower').hide();
+            }else{
+                $('#subpower').show();
+            }
+            $("#check").removeAttr('checked');
+            $.each(res.menu, function (k, v) {
+                $.each($("#check"), function (key, val) {
+                    if ($(val).val() == v) {
+                        $("#check']").eq(key).prop('checked', 'checked');
+                    }
+                })
+            })
+        })
+    }
+    var sub = function () {
+        var str = '';
+        $.each($("#check"), function (k, v) {
+            if (v.checked == true) {
+                str += $(v).val() + ','
+            }
+        })
+        str = str.substr(0, str.length - 1);
+        var data = {};
+        data.mid = str;
+        data.rid = roleid;
+        $.post('setPower', data, function (res) {
+            alert(res.msg);
+        })
+    }
+    var delrole = function () {
+        $.get('DelRole?rid=' + roleid, function (res) {
+            alert(res.msg);
+            location.reload();
+        })
+    }
+    /**
+    * 新增
+    */
+    var sub2 = function () {
+        var form = $("#form1").serialize();
+        console.log(form);
+        $.post('ad_group', form, function (res) {
+            alert(res.msg);
+            location.reload();
+        })
+    }
+    //以下是复选框的选中
+    $("#checkall").change(function () {
+        if ($(this).is(':checked')) {
+            $("#check#check").prop("checked", "checked");
+        } else {
+            $("#check#check").removeAttr("checked");
+        }
+    });
+    $("#check").change(function () {
+        var flag = true;
+        $("#check").each(function () {
+            if (!$(this).is(':checked')) {
+                flag = false;
+                return false;
+            }
+        });
+        if (flag) {
+            $("#checkall").attr("checked", "checked");
+        } else {
+            $("#checkall").removeAttr("checked");
+        }
+    });
+    $("#checkall2").change(function () {
+        if ($(this).is(':checked')) {
+            $("input[name='rid[]']").prop("checked", "checked");
+        } else {
+            $("input[name='rid[]']").removeAttr("checked");
+        }
+    });
+    $("input[name='rid[]']").change(function () {
+        var flag = true;
+        $("input[name='rid[]']").each(function () {
+            if (!$(this).is(':checked')) {
+                flag = false;
+                return false;
+            }
+        });
+        if (flag) {
+            $("#checkall2").attr("checked", "checked");
+        } else {
+            $("#checkall2").removeAttr("checked");
+        }
+    });
+    //以上是复选框的选中
+    //分别是三个筛选按钮
+    $('#documentDate .filterToBe').click(function () {
+        if (!$(this).hasClass('filterActive')) {
+            $('#documentDate .filterToBe').removeClass('filterActive');
+            $(this).addClass('filterActive');
+            var time = timeFilter($(this).text(), 'createTime1');
+            log(time.startTime + time.endTime);
+        }
+    })
+    $('#receiptDate .filterToBe').click(function () {
+        if (!$(this).hasClass('filterActive')) {
+            $('#receiptDate .filterToBe').removeClass('filterActive');
+            $(this).addClass('filterActive');
+            var time = timeFilter($(this).text(), 'createTime2');
+            log(time.startTime + time.endTime);
+        }
+    })
+    $('#settlementDate .filterToBe').click(function () {
+        if (!$(this).hasClass('filterActive')) {
+            $('#settlementDate .filterToBe').removeClass('filterActive');
+            $(this).addClass('filterActive');
+            var num = shortFilter($(this).text());
+            log(num);
+        }
+    })
+    //显示新建页面,隐藏文件库页面
+    function newFile(id1, id2) {
+        $('#' + id1).hide();
+        $('#' + id2).show();
+    }
+    //隐藏新建页面,显示文件库页面
+    function back(id1, id2) {
+        $('#' + id1).show();
+        $('#' + id2).hide();
+        // $("input,textarea").val("");
+        // UE.getEditor('container').setContent('', false);
+        // $("select").val(option[0]);
+        // $("input:radio,input:checkbox").removeAttr("checked");
+    }
+    //点击类别内小分类
+    $("#wikiTypeUL li").click(function () {
+        if ($(this).attr("class") != "active") {
+            $("#wikiTypeUL li").removeClass("active");
+            $(this).addClass("active");
+        }
+    });
+    $('.checkchild').on('click',function () {
+        $('.editpower td').eq(index).find('input').removeAttr('checked');
+        var index = $(this).data('id');
+        $.each($('.editpower td').eq(index).find('input:checkbox'),function (k,v) {
+            if(v.checked == true){
+                v.checked = false;
+            }else{
+                v.checked = true;
+            }
+        })
+    })
+
+
+    //js验证表单提交方法
+function check_from(){
+    var user_name = $('input[name="user_name"]').val();
+    var password = $('input[name="password"]').val();
+    var mobile = $('input[name="mobile"]').val();
+    var mid = $('input[name="mid[]"]').val();
+
+    
+    if($.trim(user_name) == ''){
+        alert('请填写账号');
+        return false;
+    }
+    if($.trim(password) == ''){
+        alert('请填写密码');
+        return false;
+    }
+    if($.trim(mobile) == ''){
+        alert('请填写联系方式');
+        return false;
+    }
+    if($.trim(mid) == ''){
+        alert('至少选择一个权限');
+        return false;
+    }
+    
+} 
+
+
+    ////以下是复选框的选中
+    $("#checkSelect").change(function () {
+        if ($(this).is(':checked')) {
+            $("input[name='checkSelect']").prop("checked", "checked");
+        } else {
+            $("input[name='checkSelect']").removeAttr("checked");
+        }
+    });
+    $("input[name='checkSelect']").change(function () {
+        var flag = true;
+        $("input[name='checkSelect']").each(function () {
+            if (!$(this).is(':checked')) {
+                flag = false;
+                return false;
+            }
+        });
+        if (flag) {
+            $("#checkSelect").prop("checked", "checked");
+        } else {
+            $("#checkSelect").removeAttr("checked");
+        }
+    });
+    ////以上是复选框的选中
+    
+    
+        //更改状态给个弹窗提示
+       function savestatus(){
+       alert('确定要更改状态吗？');
+   }
+        //批量删除
+    function del(){
+        //获取选中数据的id值
+        obj = document.getElementsByName("checkSelect");
+            var mid = [];
+            for(k in obj){
+                if(obj[k].checked)
+                    mid.push(obj[k].value);
+            }
+        //判断是否有选中数据
+        if (mid == '') {
+            alert('请先选择');
+        }else{
+            if(confirm('你确定要删除吗？')){
+                $.post("{:url('System/del')}",{id:mid},function(data){
+                    if(data == 0){
+                        alert('删除失败');
+                        location.reload();
+                    }else if(data == 1){
+                        location.reload();
+                    }
+                },'json')
+            }
+        }
+        
+    }
+
+
+    //搜索框没内容处理
+    $('#btnSearch').click(function(){
+        var keyword = $('#keyword').val();
+        if (keyword == '') {
+            return false;
+        }
+    })
+
+
+
+    function add() {
+        layer.open({
+            type:1,
+            title:'添加账户',
+            area:['850px','650px'],
+            shadeClose:true,
+            content:$("#content")
+        })
+    }
+
+
+</script>

@@ -1,0 +1,79 @@
+{include file="public/header" /}
+<body>
+<div class="panel admin-panel">
+  <div class="panel-head" id="add"><strong><span class="icon-pencil-square-o"></span>权限管理</strong></div>
+  <div class="body-content">
+    <form method="post" class="form-x" action="" enctype="multipart/form-data">
+      <div class="form-group">
+        <div class="label">
+          <label>角色：</label>
+        </div>
+        <div class="field">
+          <select name="role_id" class="input w50">
+            <option value="">请选择角色</option>
+            <?php ;if(!empty($role_id['role_id'])) $r = $role_id['role_id']; else $r = ''; ?>
+            {volist name="role" id="vo"}
+              <option value="{$vo.role_id}" {if condition="$r eq $vo.role_id and $r neq ''"} selected {/if} >{$vo['role_name']}</option>
+            {/volist}
+          </select>
+          <div class="tips"></div>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="label">
+          <label>权限管理：</label>
+        </div>
+        <div class="field">
+          {volist name="left" id="vo" key="key"}
+              <div style="width: 200px;height:30px;">
+                <input type="checkbox" name="leftid[]" value="{$vo.id}"
+                <?php  
+                    if(!empty($role_name)){
+                      foreach($role_name as $kk=> $vv){
+                          if($vo['id'] == $vv['id']){
+                              echo 'checked';
+                          }else{
+                              echo '';
+                          }
+                      }
+                    }
+                    ?>
+                /> <b>{$vo.left_name}</b> 
+              </div>
+              {if condition="!empty($vo['children'])"}
+                {volist name="vo.children" id="v" key="k"}
+                  <div style="display:inline-block;width: 200px;height:30px;">
+                    <input type="checkbox" name="leftid[]" value="{$v.id}"
+                   <?php  
+                      if(!empty($role_name)){
+                        foreach($role_name as $kk=> $vv){
+                            if($v['id'] == $vv['id']){
+                                echo 'checked';
+                            }else{
+                                echo '';
+                            }
+                        }
+                      }
+                    ?>
+                    /> {$v.left_name} 
+                  </div>
+                 {/volist} 
+               {/if}
+          {/volist}
+          <div class="tips"></div>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="label">
+          <label></label>
+        </div>
+        <div class="field">
+          <button class="button bg-main icon-check-square-o" type="submit"> 提交</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+</body>
+{include file="public/footer" /}

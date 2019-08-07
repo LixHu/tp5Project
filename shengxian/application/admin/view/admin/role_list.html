@@ -1,0 +1,232 @@
+{include file="public/header" /}
+<body>
+<form method="post" action="" id="listform">
+  <!-- <div class="panel admin-panel"> -->
+    <div class="panel-head"><strong class="icon-reorder"> 角色权限管理</strong> <a href="" style="float:right; display:none;">添加字段</a></div>
+    <div class="padding border-bottom">
+      <ul class="search" style="padding-left:10px;">
+        <li> <a class="button border-main icon-plus-square-o" href="{:url('admin/add_role')}"> 添加角色</a> </li>
+        <form action="" method="post" >
+          <li>
+           <!--  <select name="pos" class="input" style="width:200px; line-height:17px;"">
+              <option value="0">请选择职位</option>
+                <option value=""  ></option>
+            </select> -->
+          </li>
+        <li>
+          <!-- <input type="text" placeholder="请输入搜索关键字" name="keywords" class="input" value="<?php if(!empty($keywords)){echo $keywords;} ?>" style="width:250px; line-height:17px;display:inline-block" />
+          <input type="submit" class="button border-main icon-search" value="搜索" />  -->
+          </li>
+      </ul>
+    </div>
+    <table class="layui-table">
+      <tr>
+        <th width="100" style="text-align:left; padding-left:20px;">角色id</th>
+        <th>角色名称</th>
+        <th style="width:15%;">操作</th>
+      </tr>
+      	{volist name="role" id="vo"}
+	        <tr>
+	          <td style="text-align:left; padding-left:20px;"><input type="checkbox" name="id[]" value="{$vo.role_id}" /></td>
+	          <td>{$vo.role_name}</td>
+	          <td>
+                  <div class="layui-btn-group">
+                      <a class="layui-btn layui-btn-normal" href="{:url('admin/role','id='.$vo['role_id'])}"><i class="layui-icon">&#xe642;</i> 修改权限</a>
+                      <a class="layui-btn layui-btn-danger" href="javascript:void(0)" onclick="return del({$vo.role_id})"><i class="layui-icon">&#xe640;</i> 删除</a>
+                  </div>
+              </td>
+	        </tr>
+	    {/volist}
+      <tr>
+        <td style="text-align:left; padding:19px 0;padding-left:20px;"><input type="checkbox" id="checkall"/>
+          全选 </td>
+        <td colspan="18" style="text-align:left;padding-left:20px;"><a href="javascript:void(0)" class="button border-red icon-trash-o" style="padding:5px 15px;" onclick="DelSelect()"> 删除</a>
+          </td>
+      </tr>
+    </table>
+  <!-- </div> -->
+</form>
+<script type="text/javascript">
+
+
+//单个删除
+function del(id){
+ var  data = {"id":id};
+	if(confirm("您确定要删除吗?")){
+		$.post('/admin/admin/del_role',data,function(msg){
+      if(msg.code != -1){
+          alert(msg.msg);
+          window.history.go(0);
+      }
+    });
+	}
+}
+//全选
+$("#checkall").click(function(){
+  $("input[name='id[]']").each(function(){
+	  if (this.checked) {
+		  this.checked = false;
+	  }
+	  else {
+		  this.checked = true;
+	  }
+  });
+})
+
+//批量删除
+function DelSelect(){
+	var Checkbox=false;
+  var check = [];
+	$("input[name='id[]']").each(function(){
+  	  if (this.checked==true) {
+  		Checkbox=true;
+      check.push(this.value);
+	  }
+	});
+	if (Checkbox){
+		var t=confirm("您确认要删除选中的内容吗？");
+		if (t==false) return false;
+    var data = {"id":check};
+    $.post('/admin/admin/del_role',data,function(msg){
+      if(msg.code != -1){
+          alert(msg.msg);
+          window.history.go(0);
+      }
+    })
+	}
+	else{
+		alert("请选择您要删除的内容!");
+		return false;
+	}
+}
+
+//批量排序
+function sorts(){
+	var Checkbox=false;
+	 $("input[name='id[]']").each(function(){
+	  if (this.checked==true) {
+		Checkbox=true;
+	  }
+	});
+	if (Checkbox){
+
+		$("#listform").submit();
+	}
+	else{
+		alert("请选择要操作的内容!");
+		return false;
+	}
+}
+
+
+//批量首页显示
+function changeishome(o){
+	var Checkbox=false;
+	 $("input[name='id[]']").each(function(){
+	  if (this.checked==true) {
+		Checkbox=true;
+	  }
+	});
+	if (Checkbox){
+
+		$("#listform").submit();
+	}
+	else{
+		alert("请选择要操作的内容!");
+
+		return false;
+	}
+}
+
+//批量推荐
+function changeisvouch(o){
+	var Checkbox=false;
+	 $("input[name='id[]']").each(function(){
+	  if (this.checked==true) {
+		Checkbox=true;
+	  }
+	});
+	if (Checkbox){
+
+
+		$("#listform").submit();
+	}
+	else{
+		alert("请选择要操作的内容!");
+
+		return false;
+	}
+}
+
+//批量置顶
+function changeistop(o){
+	var Checkbox=false;
+	 $("input[name='id[]']").each(function(){
+	  if (this.checked==true) {
+		Checkbox=true;
+	  }
+	});
+	if (Checkbox){
+
+		$("#listform").submit();
+	}
+	else{
+		alert("请选择要操作的内容!");
+
+		return false;
+	}
+}
+
+
+//批量移动
+function changecate(o){
+	var Checkbox=false;
+	 $("input[name='id[]']").each(function(){
+	  if (this.checked==true) {
+		Checkbox=true;
+	  }
+	});
+	if (Checkbox){
+
+		$("#listform").submit();
+	}
+	else{
+		alert("请选择要操作的内容!");
+
+		return false;
+	}
+}
+
+//批量复制
+function changecopy(o){
+	var Checkbox=false;
+	 $("input[name='id[]']").each(function(){
+	  if (this.checked==true) {
+		Checkbox=true;
+	  }
+	});
+	if (Checkbox){
+		var i = 0;
+	    $("input[name='id[]']").each(function(){
+	  		if (this.checked==true) {
+				i++;
+			}
+	    });
+		if(i>1){
+	    	alert("只能选择一条信息!");
+			$(o).find("option:first").prop("selected","selected");
+		}else{
+
+			$("#listform").submit();
+		}
+	}
+	else{
+		alert("请选择要复制的内容!");
+		$(o).find("option:first").prop("selected","selected");
+		return false;
+	}
+}
+
+</script>
+</body>
+{include file="public/footer" /}

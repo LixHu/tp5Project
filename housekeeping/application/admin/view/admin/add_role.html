@@ -1,0 +1,49 @@
+{include file="public/header" /}
+<body>
+<div class="panel admin-panel">
+  <div class="panel-head" id="add"><strong><span class="icon-pencil-square-o"></span>权限管理</strong></div>
+  <div class="body-content">
+    <form method="post" class="form-x" action="" enctype="multipart/form-data">
+      <div class="form-group">
+        <div class="label">
+          <label>添加角色：</label>
+        </div>
+        <div class="field">
+          <input type="text" name="role_name" value="" class="input" />
+          <div class="tips"></div>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="label">
+          <label>权限管理：</label>
+        </div>
+        <div class="field">
+          {volist name="left" id="vo" key="key"}
+              <div style="width: 200px;height:30px;">
+                <input type="checkbox" name="leftid[]" value="{$vo.id}" /> <b>{$vo.left_name}</b> 
+              </div>
+              {if condition="!empty($vo['children'])"}
+                {volist name="vo.children" id="v" key="k"}
+                  <div style="display:inline-block;width: 200px;height:30px;">
+                    <input type="checkbox" name="leftid[]" value="{$v.id}" /> {$v.left_name} 
+                  </div>
+                 {/volist} 
+               {/if}
+          {/volist}
+          <div class="tips"></div>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="label">
+          <label></label>
+        </div>
+        <div class="field">
+          <button class="button bg-main icon-check-square-o" type="submit"> 提交</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+</body>
+{include file="public/footer" /}

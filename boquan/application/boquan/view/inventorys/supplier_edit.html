@@ -1,0 +1,283 @@
+{include file="public/header" /}
+<style>
+body {
+	background-color: #eeeeee;
+}
+
+.content {
+	padding: 0 15px !important;
+}
+
+.small-box {
+	margin-bottom: 0px;
+	color: #FFFFFF;
+}
+
+.table-header-sort {
+	cursor: pointer;
+	color: black !important;
+}
+
+.tooltip>.tooltip-inner {
+	background-color: #e5e5e5;
+	color: #0c0c0c
+}
+
+.tooltip.top .tooltip-arrow {
+	border-top-color: #e5e5e5;
+}
+
+#wait {
+	background: rgba(255, 255, 255, 0.5) url("/resource/images/wait.gif")
+		center no-repeat;
+	position: fixed;
+	width: 100%;
+	height: 100%;
+	z-index: 9000;
+}
+
+.dnone {
+	display: none;
+}
+
+[v-cloak] {
+	display: none
+}
+
+.iconfont {
+	width: 50px !important;
+}
+
+.dropdown-menu>li a {
+	transition: background-color ease .3s, color ease .3s, border-color ease
+		.3s;
+}
+
+.dropdown-menu>li a:hover {
+	background-color: #3c8dbc;
+	color: white;
+	border-color: #3c8dbc;
+}
+
+.dropdown-toggle {
+	transition: background-color ease .3s, color ease .3s, border-color ease
+		.3s;
+}
+
+.dropdown-toggle:hover {
+	background-color: #3c8dbc;
+	color: white;
+	border-color: #3c8dbc;
+}
+
+.open .dropdown-toggle {
+	background-color: #3c8dbc !important;
+	color: white !important;
+	border-color: #3c8dbc !important;
+}
+
+.btn-default1 {
+	background-color: #f4f4f4;
+	color: #444;
+	border-color: #ddd;
+}
+
+.small-box .icon {
+	top: -25px !important;
+}
+
+.small-box h3 {
+	font-size: 30px !important;
+	margin: 0 0 10px 0 !important;
+	white-space: nowrap !important;
+	padding: 0 !important;
+	font-weight: normal !important;
+}
+
+.table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th,
+	.table>thead>tr>td, .table>thead>tr>th {
+	line-height: 2.4;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	overflow: hidden;
+}
+</style>
+<div class="" id="main">
+	<section class="content" style="min-width: 760px !important;">
+		<div class="">
+		<div class="box box-solid">
+				<div class="box-body">
+					<ul id="myTab" class="nav nav-tabs">
+						<li class="active"><a href="{:url('Inventorys/supplier_all')}" >
+								供应商 </a></li>
+						<li><a href="{:url('Inventorys/check_all')}" > 盘点 </a></li>
+						<li><a href="{:url('Inventorys/safety_all')}" > 安全库存 </a></li>
+						<li><a href="{:url('Inventorys/order_all')}" > 出入库记录 </a></li>
+					</ul>
+				</div>
+			</div>
+			<form id="mainForm" action="supplier_edit" method="post"
+				class="nice-validator n-default n-bootstrap" novalidate="novalidate">
+				<input type="hidden" id="id" name="id" value="{$se['id']}">
+
+				<div class="box box-solid">
+					<div class="box-body">
+						<div class="row">
+							<div class="col-md-6 col-sm-6">
+								<button type="submit" class="btn btn-primary"
+									id="customerFrameSave">保存</button>
+								<div class="btn-group">
+									<a href="javascript:history.go(-1)" class="btn btn-default">取消</a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="box box-solid">
+					<div class="box-header with-border">
+						<span style="font-weight: bold">供应商基本信息</span>
+					</div>
+
+					<div class="box-body">
+						<div class="modal-body" style="height: 500px;">
+									<div class="container-fluid">
+
+										<div class="form-group col-md-12">
+											<label for="name" class="col-md-2 col-sm-3 control-label">编号<span
+												class="text-red" title="必填">*</span>：
+											</label>
+											<div class="col-md-8 col-sm-7">
+												<input type="text" class="form-control"
+													placeholder="[编号是唯一的,注意避免重复]" id="number" name="number" value="{$se['number']}"
+													maxlength="50" aria-required="true">
+											</div>
+											<div class="col-sm-2 validation-tip"></div>
+										</div>
+
+										<div class="form-group col-md-12">
+											<label for="name" class="col-md-2 col-sm-3 control-label">名称<span
+												class="text-red" title="必填">*</span>：
+											</label>
+											<div class="col-md-8 col-sm-7">
+												<input type="text" class="form-control"
+													placeholder="[最多50字]" id="name" name="name" maxlength="50" value="{$se['name']}"
+													aria-required="true">
+											</div>
+											<div class="col-sm-2 validation-tip"></div>
+										</div>
+
+
+
+										<div class="form-group col-md-12">
+											<label for="lmPhone" class="col-md-2 col-sm-3 control-label">类型<span
+												class="text-red" title="必填">*</span>：
+											</label>
+											<div class="col-md-8 col-sm-7">
+
+												<select style="width: 100%" id="cate" 
+													name="cate" tabindex="-1" class=""
+													aria-hidden="true"> 
+													{volist name="supplier_cate" id="vo"}
+													<option value="{$vo.name}" {if condition="$se['cate'] eq $vo['name']"}selected{/if}>{$vo.name}</option>
+													{/volist}
+												</select>
+
+											</div>
+											<div class="col-sm-2 validation-tip"></div>
+										</div>
+
+										<div class="form-group col-md-12">
+											<label for="name" class="col-md-2 col-sm-3 control-label">地址<span
+												class="text-red" title="必填">*</span>：
+											</label>
+											<div class="col-md-8 col-sm-7">
+												<input type="text" class="form-control"
+													placeholder="[最多50字]" id="address" name="address"
+													maxlength="50" aria-required="true" value="{$se['address']}">
+											</div>
+											<div class="col-sm-2 validation-tip"></div>
+										</div>
+
+										<div class="form-group col-md-12">
+											<label for="lmPhone" class="col-md-2 col-sm-3 control-label">预付款余额<span
+												class="text-red" title="必填">*</span>：
+											</label>
+											<div class="col-md-8 col-sm-7">
+												<input type="text" class="form-control" id="amount_advanced"
+													name="amount_advanced" placeholder="最多两位小数" 
+													maxlength="50" aria-required="true" value="{$se['amount_advanced']}">
+											</div>
+											<div class="col-sm-2 validation-tip"></div>
+										</div>
+
+
+										<div class="form-group col-md-12">
+											<label for="lmPhone" class="col-md-2 col-sm-3 control-label">应付款余额<span
+												class="text-red" title="必填">*</span>：
+											</label>
+											<div class="col-md-8 col-sm-7">
+												<input type="text" class="form-control" id="amount_payable" value="{$se['amount_payable']}"
+													name="amount_payable" placeholder="最多两位小数" maxlength="50" aria-required="true">
+											</div>
+											<div class="col-sm-2 validation-tip"></div>
+										</div>
+
+										<div class="form-group col-md-12">
+											<label for="name" class="col-md-2 col-sm-3 control-label">联系人<span
+												class="text-red" title="必填">*</span>：
+											</label>
+											<div class="col-md-8 col-sm-7">
+												<input type="text" class="form-control"
+													placeholder="[最多50字]" id="linkman" name="linkman" value="{$se['linkman']}"
+													maxlength="50" aria-required="true">
+											</div>
+											<div class="col-sm-2 validation-tip"></div>
+										</div>
+
+
+										<div class="form-group col-md-12">
+											<label for="name" class="col-md-2 col-sm-3 control-label">负责人<span
+												class="text-red" title="必填">*</span>：
+											</label>
+											<div class="col-md-8 col-sm-7">
+												<input type="text" class="form-control"
+													placeholder="[最多50字]" id="principal" name="principal" value="{$se['principal']}"
+													maxlength="50" aria-required="true">
+											</div>
+											<div class="col-sm-2 validation-tip"></div>
+										</div>
+
+										<div class="form-group col-md-12">
+											<label for="lmPhone" class="col-md-2 col-sm-3 control-label">产品分类<span
+												class="text-red" title="必填">*</span>：
+											</label>
+											<div class="col-md-8 col-sm-7">
+
+												<select style="width: 100%" id="product_type" value="{$se['product_type']}"
+													name="product_type" tabindex="-1" class=""
+													aria-hidden="true"> {volist name="partscate"
+													id="vo"}
+													<option value="{$vo.name}" {if condition="$se['product_type'] eq $vo['name']"}selected{/if}>{$vo.name}</option>
+													{/volist}
+												</select>
+
+											</div>
+											<div class="col-sm-2 validation-tip"></div>
+										</div>
+									</div>
+							</div>
+						
+					</div>
+				</div>
+		</div>
+
+		</form>
+</div>
+</section>
+</div>
+{include file="public/footer" /}
+<script>
+
+
+</script>

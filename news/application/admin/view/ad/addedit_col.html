@@ -1,0 +1,23 @@
+{include file="public/head" /}
+<fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+<legend>{$title}</legend>
+</fieldset>
+<form class="layui-form" action="" method="post" style="width:600px;">
+    <div class="layui-form-item">
+        <label class="layui-form-label">名称：</label>
+        <div class="layui-input-block">
+            <input type="text" class="layui-input" name="col_name" value="<?php if(!empty($info['col_name'])) echo $info['col_name']; else echo '' ;?>" lay-verify="required" required>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button lay-submit="" class="layui-btn">提交</button>
+        </div>
+    </div>
+</form>
+<script type="text/javascript">
+    layui.use('form',function(){
+        var form = layui.form;
+    })
+</script>
+{include file="public/footer" /}

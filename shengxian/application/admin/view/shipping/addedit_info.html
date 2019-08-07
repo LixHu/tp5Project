@@ -1,0 +1,47 @@
+{include file="public/header" /}
+<body>
+<div class="panel admin-panel">
+  <div class="panel-head" id="add"><strong><span class="icon-pencil-square-o"></span>添加分类</strong></div>
+  <div class="body-content">
+    <form method="post" class="form-x" action="" enctype="multipart/form-data">
+      <div class="form-group">
+        <div class="label">
+          <label>配送方式：</label>
+        </div>
+        <div class="field">
+            <input type="text" class="input w50" value="<?php if(!empty($info['name'])) echo $info['name'];  ?>" name="name" data-validate="required:请输入配送方式" />
+            <div class="tips"></div>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="label">
+          <label>描述：</label>
+        </div>
+        <div class="field">
+          <input type="text" class="input w50" value="<?php if(!empty($info['desc'])) echo $info['desc'];  ?>" name="desc" data-validate="required:请输入描述" />
+          <div class="tips"></div>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="label">
+          <label>编码：</label>
+        </div>
+        <div class="field">
+          <input type="text" class="input w50" value="<?php if(!empty($info['code'])) echo $info['code'];  ?>" name="code" data-validate="required:请输入描述" />
+          <div class="tips"></div>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="label">
+          <label></label>
+        </div>
+        <div class="field">
+          <button class="button bg-main icon-check-square-o" type="submit"> 提交</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+</body>
+{include file="public/footer" /}

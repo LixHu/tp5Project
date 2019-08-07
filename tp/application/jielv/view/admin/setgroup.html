@@ -1,0 +1,580 @@
+{include file="public/header" /}
+
+<style>
+
+body {
+    background-color: #eeeeee;
+}
+
+.content {
+    padding: 0 15px !important;
+}
+
+.small-box {
+    margin-bottom: 0px;
+    color: #FFFFFF;
+}
+
+.table-header-sort {
+    cursor: pointer;
+    color: black !important;
+}
+
+.tooltip>.tooltip-inner {
+    background-color: #e5e5e5;
+    color: #0c0c0c
+}
+
+.tooltip.top .tooltip-arrow {
+    border-top-color: #e5e5e5;
+}
+
+#wait {
+    background: rgba(255, 255, 255, 0.5) url("/resource/images/wait.gif")
+        center no-repeat;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    z-index: 9000;
+}
+
+.dnone {
+    display: none;
+}
+
+[v-cloak] {
+    display: none
+}
+
+.iconfont {
+    width: 50px !important;
+}
+
+.dropdown-menu>li a {
+    transition: background-color ease .3s, color ease .3s, border-color ease
+        .3s;
+}
+
+.dropdown-menu>li a:hover {
+    background-color: #3c8dbc;
+    color: white;
+    border-color: #3c8dbc;
+}
+
+.dropdown-toggle {
+    transition: background-color ease .3s, color ease .3s, border-color ease
+        .3s;
+}
+
+.dropdown-toggle:hover {
+    background-color: #3c8dbc;
+    color: white;
+    border-color: #3c8dbc;
+}
+
+.open .dropdown-toggle {
+    background-color: #3c8dbc !important;
+    color: white !important;
+    border-color: #3c8dbc !important;
+}
+
+.btn-default1 {
+    background-color: #f4f4f4;
+    color: #444;
+    border-color: #ddd;
+}
+
+.small-box .icon {
+    top: -25px !important;
+}
+
+.small-box h3 {
+    font-size: 30px !important;
+    margin: 0 0 10px 0 !important;
+    white-space: nowrap !important;
+    padding: 0 !important;
+    font-weight: normal !important;
+}
+
+.table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th,
+    .table>thead>tr>td, .table>thead>tr>th {
+    line-height: 2.4;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+    .padding-10{
+        margin-top:10px;
+    }
+</style>
+<div class="" id="main">
+    <section class="content" style="min-width: 760px !important;">
+        <div class="">
+
+            <input type="hidden" id="sortSeachModel" name="sortBy[taskNo]" value="false"> <input type="hidden" id="workTaskId" name="id" value="">
+
+            <div class="box box-solid">
+                <div class="box-body">
+                    <div class="row">
+                        <div class="col-md-6 col-sm-6">
+                            <div class="btn-group" id="auth_delete">
+                                <a href="javascript:add()" class="btn btn-primary btn-sm checkbox-toggle">&nbsp;&nbsp;新增&nbsp;&nbsp;</a>
+
+                            </div>
+                            <!-- /.btn-group -->
+                        </div>
+
+                        
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="box box-solid">
+                <div class="box-body no-padding">
+                    <div class="table-responsive list">
+                        <table class="table table-hover table-striped table-bordered"
+                            id="taskTable">
+                            <thead>
+                                <tr>
+                                    <!-- <th><input type="checkbox" name="checkAll"
+                                        id="checkSelect" value="全选"></th> -->
+                                    <th>区域名称</th>
+                                    <th>账号</th>
+                                    <th id="tour_1" name="taskCustomer">联系人</th>
+                                    <th name="taskCustomerLinkmanPhone">联系人号码</th>
+                                    <th name="taskCustomerLinkmanPhone">联系人地址</th>
+                                   
+                                    <th name="taskPlanTime">操作</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {if condition="$data"} 
+                                {volist name="data" id="vo"}
+                                <tr>
+                                    <!-- <td><input type="checkbox" class="checkSelect"
+                                        name="checkSelect"
+                                        
+                                        id="checkSelect_6e83e2f2-f111-11e7-9aa4-00163e12f748"></td> -->
+
+                                    <td name="taskCustomer">{$vo.gname}</td>
+                                    <td name="taskCustomer">{$vo.chager}</td>
+                                    <td name="taskCustomer">{$vo.contacts}</td>
+                                    <td name="taskCustomer">{$vo.mobile}</td>
+                                    <td name="taskCustomer">{$vo.address}</td>
+                                    {if condition="$gid neq $vo['gid']"}
+                                    <td><a href="{:url('edit_group',['id'=>$vo.gid])}" >编辑</a>
+                                    <a href="javascript:del({$vo.gid});" >删除</a>
+                                    </td>
+                                    {else}
+                                    <td></td>
+                                    {/if}
+                                </tr>
+                                {/volist} {else}
+
+                                <tr>
+                                    <td colspan="19" style="text-align: center;">未找到相关数据</td>
+                                </tr>
+                                {/if}
+                            
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="box-footer ">
+                    <div class="col-lg-8 ">
+                        <!-- <ul class="pagination pull-right" id="pagination1"></ul> -->
+
+                        
+                    </div>
+                </div>
+
+            </div>
+
+
+            <div style="display: none;padding: 10px;" id="content">
+            <form id="form1" action="ad_group" method="post" class="nice-validator n-default n-bootstrap" novalidate="novalidate" onsubmit="return check_from();">
+                  
+                    
+                
+                <input type="hidden" id="sortSeachModel" name="sortBy[taskNo]" value="false">
+                <input type="hidden" id="workTaskId" name="id" value="">
+                
+                
+                <div class="padding-10">
+                    <div style="display: inline-block;width: 14%;">
+                        <label for="gname" >区域名称 :<font color="red">*</font>：</label>
+                    </div>
+                    <div style="display: inline-block;width: 80%;">
+                        <input type="hidden" name="gid" v-model="gid">
+                        <input type="text" id="gname" name="gname" v-model="gname1" class="form-control" placeholder="请输入区域名称" />
+                    </div>
+                </div>
+                <div class="padding-10">
+                    <div style="display: inline-block;width: 14%;">
+                        <label for="chager" >管理员账户:<font color="red">*</font>：</label>
+                    </div>
+                    <div style="display: inline-block;width: 80%;">
+                        <input type="text" id="chager" name="chager" v-model="chager" class="form-control" placeholder="请输入管理员账户" />
+                    </div>
+                </div>
+                <div class="padding-10">
+                    <div style="display: inline-block;width: 14%;">
+                        <label for="password" >密码:<font color="red">*</font>：</label>
+                    </div>
+                    <div style="display: inline-block;width: 80%;">
+                        <input type="password" id="password" name="password" v-model="password" class="form-control" placeholder="请输入密码" />
+                    </div>
+                </div>
+                <div class="padding-10">
+                    <div style="display: inline-block;width: 14%;">
+                        <label for="contacts" >联系人:<font color="red">*</font>：</label>
+                    </div>
+                    <div style="display: inline-block;width: 80%;">
+                        <input type="text" id="contacts" name="contacts" v-model="contacts" class="form-control" placeholder="请输入联系人" />
+                    </div>
+                </div>
+                <div class="padding-10">
+                    <div style="display: inline-block;width: 14%;">
+                        <label for="mobile" >手机:<font color="red">*</font>：</label>
+                    </div>
+                    <div style="display: inline-block;width: 80%;">
+                        <input type="text" id="mobile" name="mobile" v-model="mobile" class="form-control" onkeyup="this.value=this.value.replace(/\D/g,'')" placeholder="手机号必须是数字"/>
+                    </div>
+                </div>
+                <div class="padding-10">
+                    <div style="display: inline-block;width: 14%;">
+                        <label for="tel" >电话：<font color="red">*</font></label>
+                    </div>
+                    <div style="display: inline-block;width: 80%;">
+                        <input type="text" id="tel" name="tel" class="form-control" v-model="tel" placeholder="请输入电话" />
+                    </div>
+                </div>
+                <div class="padding-10">
+                    <div style="display: inline-block;width: 14%;">
+                        <label for="address" >账户地址：<font color="red">*</font>：</label>
+                    </div>
+                    <div style="display: inline-block;width: 80%;">
+                        <input type="text" id="address" name="address" class="form-control" v-model="address" placeholder="请输入地址" />
+                    </div>
+                </div>
+                <div class="padding-10">
+                    <div style="display: inline-block;width: 14%;">
+                        <label for="address" >权限设置：<font color="red">*</font>：</label>
+                    </div>
+                    <div style="display: inline-block;width: 80%;margin-top: 20px;">
+                        <div class="box-body" style="background: #FFFFFF;">
+                            <input type="checkbox" id="checkall"/> 所有权限
+                            
+                        </div>
+                    <div class="box box-solid">
+                        <div class="box-body">
+                            <div class="box box-solid">
+                                <div class="box-body no-padding">
+                                    <div class="table-responsive list">
+                                        <table class="table table-hover table-striped table-bordered text-center"
+                                               id="taskTable" style="margin-bottom: 0px">
+                                            <thead class="bg-blue2" style="color: #FFFFFF;">
+                                                <tr>
+                                                    {volist name="arr" id="vo"}
+                                                    <th style="text-align: left;"> <input type="checkbox" value="{$vo.mid}" data-id="{$key}" class="checkchild" name="mid[]" id="check"/>{$vo.mname}
+                                                    </th>
+                                                    {/volist}
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                            
+                                            <tr class="editpower"> 
+                                            {volist name="arr" id="vo" key="k"}
+                                                
+                                                <td style="text-align: left;">
+                                                {volist name="vo.child" id="v"}
+                                                    <div>
+                                                        <input type="checkbox" value="{$v.mid}" name="mid[]" id="check"/>{$v.mname}
+                                                    </div>
+                                                {/volist}
+                                                </td>
+                                                
+                                            {/volist}
+                                            </tr>
+                                            
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                </div>
+                    <div class="btn btn-group" style="float: right;">
+                        <button type="submit" class="btn btn-primary btn-close" id="wiki-sub">提交</button>
+                    </div>
+                </div>
+            </form>
+            </div>
+
+
+
+                
+
+
+
+            
+        </div>
+    </section>
+</div>
+{include file="public/footer" /}
+
+<script>
+
+
+
+var roleid = 0;
+    var getMenu = function (rid) {
+        roleid = rid;
+        $.get('getMenu?rid=' + rid, function (res) {
+            if(res.gid == 0){
+                $('#subpower').hide();
+            }else{
+                $('#subpower').show();
+            }
+            $("#check").removeAttr('checked');
+            $.each(res.menu, function (k, v) {
+                $.each($("#check"), function (key, val) {
+                    if ($(val).val() == v) {
+                        $("#check']").eq(key).prop('checked', 'checked');
+                    }
+                })
+            })
+        })
+    }
+    var sub = function () {
+        var str = '';
+        $.each($("#check"), function (k, v) {
+            if (v.checked == true) {
+                str += $(v).val() + ','
+            }
+        })
+        str = str.substr(0, str.length - 1);
+        var data = {};
+        data.mid = str;
+        data.rid = roleid;
+        $.post('setPower', data, function (res) {
+            alert(res.msg);
+        })
+    }
+    var delrole = function () {
+        $.get('DelRole?rid=' + roleid, function (res) {
+            alert(res.msg);
+            location.reload();
+        })
+    }
+    /**
+    * 新增
+    */
+    var sub2 = function () {
+        var form = $("#form1").serialize();
+        console.log(form);
+        $.post('ad_group', form, function (res) {
+            alert(res.msg);
+            location.reload();
+        })
+    }
+    //以下是复选框的选中
+    $("#checkall").change(function () {
+        if ($(this).is(':checked')) {
+            $("#check#check").prop("checked", "checked");
+        } else {
+            $("#check#check").removeAttr("checked");
+        }
+    });
+    $("#check").change(function () {
+        var flag = true;
+        $("#check").each(function () {
+            if (!$(this).is(':checked')) {
+                flag = false;
+                return false;
+            }
+        });
+        if (flag) {
+            $("#checkall").attr("checked", "checked");
+        } else {
+            $("#checkall").removeAttr("checked");
+        }
+    });
+    $("#checkall2").change(function () {
+        if ($(this).is(':checked')) {
+            $("input[name='rid[]']").prop("checked", "checked");
+        } else {
+            $("input[name='rid[]']").removeAttr("checked");
+        }
+    });
+    $("input[name='rid[]']").change(function () {
+        var flag = true;
+        $("input[name='rid[]']").each(function () {
+            if (!$(this).is(':checked')) {
+                flag = false;
+                return false;
+            }
+        });
+        if (flag) {
+            $("#checkall2").attr("checked", "checked");
+        } else {
+            $("#checkall2").removeAttr("checked");
+        }
+    });
+    //以上是复选框的选中
+    //分别是三个筛选按钮
+    $('#documentDate .filterToBe').click(function () {
+        if (!$(this).hasClass('filterActive')) {
+            $('#documentDate .filterToBe').removeClass('filterActive');
+            $(this).addClass('filterActive');
+            var time = timeFilter($(this).text(), 'createTime1');
+            log(time.startTime + time.endTime);
+        }
+    })
+    $('#receiptDate .filterToBe').click(function () {
+        if (!$(this).hasClass('filterActive')) {
+            $('#receiptDate .filterToBe').removeClass('filterActive');
+            $(this).addClass('filterActive');
+            var time = timeFilter($(this).text(), 'createTime2');
+            log(time.startTime + time.endTime);
+        }
+    })
+    $('#settlementDate .filterToBe').click(function () {
+        if (!$(this).hasClass('filterActive')) {
+            $('#settlementDate .filterToBe').removeClass('filterActive');
+            $(this).addClass('filterActive');
+            var num = shortFilter($(this).text());
+            log(num);
+        }
+    })
+    //显示新建页面,隐藏文件库页面
+    function newFile(id1, id2) {
+        $('#' + id1).hide();
+        $('#' + id2).show();
+    }
+    //隐藏新建页面,显示文件库页面
+    function back(id1, id2) {
+        $('#' + id1).show();
+        $('#' + id2).hide();
+        // $("input,textarea").val("");
+        // UE.getEditor('container').setContent('', false);
+        // $("select").val(option[0]);
+        // $("input:radio,input:checkbox").removeAttr("checked");
+    }
+    //点击类别内小分类
+    $("#wikiTypeUL li").click(function () {
+        if ($(this).attr("class") != "active") {
+            $("#wikiTypeUL li").removeClass("active");
+            $(this).addClass("active");
+        }
+    });
+    $('.checkchild').on('click',function () {
+        $('.editpower td').eq(index).find('input').removeAttr('checked');
+        var index = $(this).data('id');
+        $.each($('.editpower td').eq(index).find('input:checkbox'),function (k,v) {
+            if(v.checked == true){
+                v.checked = false;
+            }else{
+                v.checked = true;
+            }
+        })
+    })
+    
+    
+    
+        //批量删除
+    function del(id){
+        if(confirm('你确定要删除吗？')){
+            $.post("{:url('Admin/del')}",{id:id},function(data){
+                if(data == 0){
+                    alert('删除失败');
+                    location.reload();
+                }else if(data == 1){
+                    location.reload();
+                }else if(data == 3){
+                    alert('管理员不可以删除自己');
+                }
+            },'json')
+        }
+        
+        
+    }
+
+
+    // //搜索框没内容处理
+    // $('#btnSearch').click(function(){
+    //     var keyword = $('#keyword').val();
+    //     if (keyword == '') {
+    //         return false;
+    //     }
+    // })
+
+
+    function add() {
+        layer.open({
+            type:1,
+            title:'添加账户',
+            area:['80%','90%'],
+            shadeClose:true,
+            content:$("#content")
+        })
+    }
+    // function add2() {
+    //     layer.open({
+    //         type:1,
+    //         title:'添加账户',
+    //         area:['80%','90%'],
+    //         shadeClose:true,
+    //         content:$("#content2")
+    //     })
+
+    // }
+
+
+//js验证表单提交方法
+function check_from(){
+    var gname = $('input[name="gname"]').val();
+    var password = $('input[name="password"]').val();
+    var chager = $('input[name="chager"]').val();
+    var contacts = $('input[name="contacts"]').val();
+    var mobile = $('input[name="mobile"]').val();
+    var tel = $('input[name="tel"]').val();
+    var address = $('input[name="address"]').val();
+    var mid = $('input[name="mid[]"]').val();
+
+    
+    if($.trim(gname) == ''){
+        alert('请填写区域名称');
+        return false;
+    }
+    if($.trim(chager) == ''){
+        alert('请填写管理员账号');
+        return false;
+    }
+    if($.trim(password) == ''){
+        alert('请填写密码');
+        return false;
+    }
+    if($.trim(contacts) == ''){
+        alert('请填写联系人');
+        return false;
+    }
+    if($.trim(mobile) == ''){
+        alert('请填写联系人手机');
+        return false;
+    }
+    if($.trim(address) == ''){
+        alert('请填写联系人地址');
+        return false;
+    }
+    if($.trim(mid) == ''){
+        alert('至少选择一个权限');
+        return false;
+    }
+    
+}
+</script>

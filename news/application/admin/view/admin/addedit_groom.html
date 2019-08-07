@@ -1,0 +1,41 @@
+{include file="public/head" /}
+<fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+  <legend>{$title}</legend>
+</fieldset>
+<form class="" action="" method="post">
+    <div class="layui-form-item">
+        <label class="layui-form-label">名称：</label>
+        <div class="layui-input-inline">
+            <input type="text" class="layui-input" name="t_name" value="<?php if(!empty($info['t_name'])) echo $info['t_name']; ?>">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-inline">
+         <label class="layui-form-label">时间</label>
+         <div class="layui-input-inline" >
+           <input type="text" name="t_time"  autocomplete="off" class="layui-input"  value="<?php if(!empty($info['t_time'])) echo $info['t_time']; ?>">
+         </div>
+         <div class="layui-input-inline" >
+           <select class="layui-input" name="t_type">
+               <?php $tt = ''; if(!empty($info['t_type'])) $tt = $info['t_type']; ?>
+                <option value="">请选择</option>
+                {volist name="type_list" id="vo"}
+
+                    <option value="{$vo.code}" {if condition="$tt neq '' and $tt eq $vo['code']"} selected {/if}>{$vo.desc}</option>
+                {/volist}
+           </select>
+         </div>
+       </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button lay-submit="" class="layui-btn">提交</button>
+        </div>
+    </div>
+</form>
+<script type="text/javascript">
+    layui.use('form',function(){
+        var form = layui.form;
+    })
+</script>
+{include file="public/footer" /}

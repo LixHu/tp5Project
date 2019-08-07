@@ -1,0 +1,915 @@
+{include file="public/header" /}
+    <style>
+        .swiper-container {
+            width: 100%;
+            height: 100%;
+        }
+
+        .swiper-slide {
+            text-align: center;
+            font-size: 18px;
+            background: #ffffff;
+            /* Center slide text vertically */
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: -webkit-flex;
+            display: flex;
+            -webkit-box-pack: center;
+            -ms-flex-pack: center;
+            -webkit-justify-content: center;
+            justify-content: center;
+            -webkit-box-align: center;
+            -ms-flex-align: center;
+            -webkit-align-items: center;
+            align-items: center;
+        }
+
+        .swiper-pagination-bullet-active {
+            background: #fd443f !important;
+        }
+
+        .swiper-pagination-bullet {
+            background: #ffffff;
+            opacity: 1;
+            width: 16px;
+            border-radius: 15px;
+        }
+
+        .banner .swiper-slide img {
+            width: 1920px;
+            height: 600px;
+        }
+
+        .swiper-container3 .swiper-button-prev {
+            background-__AGO__/image: url("__AGO__/image/图层17.png");
+            -webkit-background-size: 12px 16px;
+            background-size: 12px 16px;
+            width: 12px;
+        }
+
+        .swiper-container3 .swiper-button-next {
+            background-__AGO__/image: url("__AGO__/image/图层17拷贝.png");
+            -webkit-background-size: 12px 16px;
+            background-size: 12px 16px;
+            width: 12px;
+        }
+
+        .swiper-container2 .swiper-button-prev {
+            background-__AGO__/image: url("__AGO__/image/首页/合作客户/椭圆3.png");
+            -webkit-background-size: 44px 44px;
+            background-size: 44px 44px;
+            width: 44px;
+        }
+
+        .swiper-container2 .swiper-button-next {
+            background-__AGO__/image: url("__AGO__/image/首页/合作客户/椭圆3拷贝.png");
+            -webkit-background-size: 44px 44px;
+            background-size: 44px 44px;
+            width: 44px;
+        }
+
+        .swiper-slide img {
+            width: 285px;
+            height: 320px;
+            border-radius: 10px;
+        }
+
+        .iw_poi_title {
+            color: #CC5522;
+            font-size: 14px;
+            font-weight: bold;
+            overflow: hidden;
+            padding-right: 13px;
+            white-space: nowrap
+        }
+
+        .iw_poi_content {
+            font: 12px arial, sans-serif;
+            overflow: visible;
+            padding-top: 4px;
+            white-space: -moz-pre-wrap;
+            word-wrap: break-word
+        }
+        .QQ{
+            height:50px;
+            line-height: 0;
+            margin:0 30px;
+        }
+    </style>
+    <script type="text/javascript" src="http://api.map.baidu.com/api?key=&v=1.1&services=true"></script>
+
+<body>
+<div id="vContent">
+    <div class="navBar">
+        <div class="pullLeft" style="line-height:50px; vertical-align:middle;padding-top: 5px;">
+            <a href="index.html">
+                <img src="{$info.company.logo}" alt="" style="width: 310px;height: 49px;line-height: 0px;">
+            </a>
+            <p class="font14" style="line-height: 0px;">新时代管理软件专家--智赢天下，助你智造赢未来</p>
+        </div>
+        <ul class="nav clearfix pullLeft">
+            <li class="m"><h3><a href="index.html" title="首页">首页</a></h3></li>
+            <li class="m"><h3><a href="software.html" title="体验精品">体验精品</a></h3></li>
+            <li class="m"><h3><a href="industry.html" title="深耕行业">深耕行业</a></h3></li>
+            <li class="m"><h3><a href="thanks.html" title="感谢客户">感谢客户</a></h3></li>
+            <li class="m"><h3><a href="service.html" title="真诚服务">真诚服务</a></h3></li>
+            <li class="m"><h3><a href="enterprise.html" title="良心企业">良心企业</a></h3></li>
+            <li class="m"><h3><a href="signsingle.html" title="签单动态">签单动态</a></h3></li>
+            <li class="block" style="left: 500px;"></li>
+        </ul>
+        <div style="line-height:25px; vertical-align:middle;padding-top: 35px;">
+            <div class="font20">全国免费服务热线</div>
+            <div class="font20 mainColor fontBold">{$info.company.free_server_phone}</div>
+        </div>
+    </div>
+    <div class="banner">
+        <div class="swiper-container swiper-container1">
+            {volist name="banner" id="vo"}
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide">
+                        <img src="{$vo.bn_url}" alt="">
+                    </div>
+                </div>
+            {/volist}
+        </div>
+    </div>
+    <div class="textIndent" style="width: 1000px;margin: 0 auto;padding: 50px 0;line-height: 30px;">
+        做企业如做人，做人的根本是不能没有良心，我们是一家良心企业，心怀振兴民族软件产业，在企业由工业化转向信息化的新时代中，做出自己应有的贡献，无悔自己的青春，无悔于这个新时代，不忘初心，勇往直前
+    </div>
+    <div class="layer textCenter overflowAuto">
+        <div class="bigTitleRed">
+            易大简介
+        </div>
+        <div style="margin:30px 0;">
+            <div class="pullLeft">
+                <img src="{$com_info.com_img}" alt="" style="width: 550px;height: 550px;">
+            </div>
+            <div class="textLeft pullLeft textIndent"
+                 style="width: 600px;height: 511px;line-height: 25px;padding: 20px;background: #ececec;">
+                {$com_info.summary}
+            </div>
+        </div>
+    </div>
+    <div class="layer textCenter overflowAuto">
+        <div class="bigTitleRed" style="margin-top: 30px;">
+            公司机构
+        </div>
+        <div style="margin:30px 0;">
+            <img src="__AGO__/image/良心企业/矩形10.png" alt="">
+        </div>
+    </div>
+    <div class="layer textCenter overflowAuto">
+        <div class="bigTitleRed">
+            易大文化
+        </div>
+        <div class="overflowAuto" style="margin:30px auto;">
+            <div class="pullLeft cultureCon">
+                <img src="__AGO__/image/良心企业/矩形11_76.png" alt="" class="cultureImg">
+                <div class="cultureTitle">企业使命</div>
+                <div class=" cultureConHover">
+                    <div class="font18 cultureConHoverTitle">企业使命</div>
+                    <div class="font15" style="margin: 0 15px;">智赢天下--助企业智造赢未来</div>
+                </div>
+            </div>
+            <div class="pullLeft cultureCon">
+                <img src="__AGO__/image/良心企业/矩形12.png" alt="" class="cultureImg">
+                <div class="cultureTitle">企业理念</div>
+                <div class=" cultureConHover">
+                    <div class="font18 cultureConHoverTitle">企业理念</div>
+                    <div class="font15" style="margin: 0 15px;">通用化的产品,个性化的实施,专业化的服务,快速成功应用</div>
+                </div>
+            </div>
+            <div class="pullLeft cultureCon">
+                <img src="__AGO__/image/良心企业/矩形13_88.png" alt="" class="cultureImg">
+                <div class="cultureTitle">企业宗旨</div>
+                <div class=" cultureConHover">
+                    <div class="font18 cultureConHoverTitle">企业宗旨</div>
+                    <div class="font15" style="margin: 0 15px;">以先进的管理思想和软件技术,创新打磨软件产品，真诚服务,推出实用,先进,可靠的软件产品,满足企业不断增长的管理需要，不断提升企业运营管理能力</div>
+                </div>
+            </div>
+            <div class="pullLeft cultureCon">
+                <img src="__AGO__/image/良心企业/矩形14_33.png" alt="" class="cultureImg">
+                <div class="cultureTitle">企业愿景</div>
+                <div class=" cultureConHover">
+                    <div class="font18 cultureConHoverTitle">企业愿景</div>
+                    <div class="font15" style="margin: 0 15px;">打造专家级企业信息一体化平台,创企业管理软件第一品牌</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="layer textCenter overflowAuto clear">
+        <div class="bigTitleRed">
+            易大实景
+        </div>
+        <div style="margin:30px 0;">
+            <div class="swiper-container swiper-container2">
+                <div class="swiper-wrapper">
+                    {volist name="com_info.img_list" id="vo"}
+                        <div class="swiper-slide">
+                            <img src="{$vo.img_url}" alt="">
+                        </div>
+                    {/volist}
+                </div>
+                <div class="swiper-button-prev">
+                    &nbsp;
+                </div>
+                <div class="swiper-button-next">
+                    &nbsp;
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div class="textCenter overflowAuto">
+        <div class="bigTitleRed">
+            发展历程
+        </div>
+        <div style="margin:30px 0 50px;width: 100%;height: 500px;background-size: 100% 500px;background: url(__AGO__/image/首页/行业方案/矩形4.png) center center no-repeat rgb(255, 255, 255);">
+
+            <div class="event_box" >
+                <div class="space_div" >
+                    <p class="left_space"></p>
+                    <p class="right_space"></p>
+                </div>
+                <div class="parHd clearfix" style="margin-top: 100px;">
+                    <ul >
+                        <li class="act" style="color: #ffffff;"><span></span>2004</li>
+                        <li style="color: #ffffff;"><span></span>2005</li>
+                        <li style="color: #ffffff;"><span></span>2006</li>
+                        <li style="color: #ffffff;"><span></span>2007</li>
+                        <li style="color: #ffffff;"><span></span>2008</li>
+                        <li style="color: #ffffff;"><span></span>2009</li>
+                        <li style="color: #ffffff;"><span></span>2010</li>
+                        <li style="color: #ffffff;"><span></span>2012</li>
+                        <li style="color: #ffffff;"><span></span>2013</li>
+                        <li style="color: #ffffff;"><span></span>2016</li>
+                        <li style="color: #ffffff;"><span></span>2017</li>
+                    </ul>
+                    <a class="sPrev" style="margin-top: 100px;"><img src="__AGO__/image/left_ico.png" alt="" title=""></a>
+                    <a class="sNext" style="margin-top: 100px;"><img src="__AGO__/image/right_ico.png" alt="" title=""></a>
+                </div>
+                <div class="parBd clearfix" style="margin-top: 50px;font-size:24px;color: #ffffff;">
+                    <div class="slideBox" >
+                        公司成立-立志创软件精品，振兴民族软件
+                    </div>
+                    <div class="slideBox" style="display: none;">
+                        磨剑外贸软件，企业管理软件
+                    </div>
+                    <div class="slideBox" style="display: none;">
+                        工商改为宁波神易大软件有限公司
+                    </div>
+                    <div class="slideBox" style="display: none;">
+                        深感诚信为本，服务唯真 加入阿里巴巴诚信通
+                    </div>
+                    <div class="slideBox" style="display: none;">
+                        易大系列软件通过国家软件测评中心测评
+                    </div>
+                    <div class="slideBox" style="display: none;">
+                        推出易大服装软件系列
+                    </div>
+                    <div class="slideBox" style="display: none;">
+                        扎实打磨软件精品，认真实施服务好客户
+                    </div>
+                    <div class="slideBox" style="display: none;">
+                        宁波客户数突飞猛逬，立足宁波 面向全国
+                    </div>
+                    <div class="slideBox" style="display: none;">
+                        诚信通10周年阿里巴巴 AA 企业
+                    </div>
+                    <div class="slideBox" style="display: none;">
+                        至今全国客户数突飞猛进，易大软件全体同仁以最大热情进
+                        军全国管理软件市场，不断完善产品，以良心，诚心服务好全国
+                        客户
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="layer textCenter overflowAuto">
+        <div class="bigTitleRed">
+            联系方式
+        </div>
+        <div style="margin:30px 0;">
+            <div class="pullLeft mapBg" id="dituContent"></div>
+            <div class="pullLeft contactBg">
+                <div>
+                    <div class="font20 textLeft">宁波神易大软件有限公司</div>
+                    <div style="margin: 15px 0;">
+                        <div class="swiper-container swiper-container3" style="margin-bottom: 30px;">
+                            <div class="swiper-wrapper">
+                                <div class="swiper-slide">
+                                    <div style="margin: 0 20px;">
+                                        <div class="contactTabHover pullLeft" onclick="tab(this,1)">全国销售中心</div>
+                                        <div class="contactTab pullLeft" onclick="tab(this,2)">全国客服中心</div>
+                                        <div class="contactTab pullLeft" onclick="tab(this,3)">全国监督岗</div>
+                                        <div class="contactTab pullLeft" onclick="tab(this,4)">华东客服中心</div>
+                                    </div>
+                                </div>
+                                <div class="swiper-slide"
+                                     style="align-items: flex-start;-webkit-justify-content: inherit;justify-content: inherit;">
+                                    <div style="margin: 0 20px;">
+                                        <div class="contactTab pullLeft" onclick="tab(this,5)">华南客服中心</div>
+                                        <div class="contactTab pullLeft" onclick="tab(this,6)">华北客服中心</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="swiper-button-prev">
+                                &nbsp;
+                            </div>
+                            <div class="swiper-button-next">
+                                &nbsp;
+                            </div>
+                        </div>
+                    </div>
+                    <div id="contactAll1" class="contactAll">
+                        <div class="contactBorder">
+                            <div>
+                                <img class="pullLeft contactImgBorder" src="__AGO__/image/体验精品/QQ.png" alt="">
+                            </div>
+                            <div class="pullLeft contactCon">
+                                <div class="pullLeft QQ">
+                                    <a class="qq-chat" href="http://wpa.qq.com/msgrd?v=3&uin=875468934&site=qq&menu=yes"
+                                       target="_blank">
+                                        <img class="middle" alt="QQ在线客服" src="__AGO__/image/首页/客服监督页尾/360截图20171122142758289拷贝.png">
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="clear contactBorder">
+                            <div>
+                                <img class="pullLeft contactImgBorder" src="__AGO__/image/体验精品/电话.png" alt="">
+                            </div>
+                            <div class="pullLeft contactCon">
+                                电话：0574-87161630
+                            </div>
+                        </div>
+                        <div class="clear contactBorder">
+                            <div>
+                                <img class="pullLeft contactImgBorder" src="__AGO__/image/体验精品/微信.png" alt="">
+                            </div>
+                            <div class="pullLeft contactCon">
+                                微信：easyda-soft
+                            </div>
+                        </div>
+                        <div class="clear contactBorder">
+                            <div>
+                                <img class="pullLeft contactImgBorder" src="__AGO__/image/体验精品/公司.png" alt="">
+                            </div>
+                            <div class="pullLeft contactCon">
+                                贸易通：易大软件
+                            </div>
+                        </div>
+                    </div>
+                    <div id="contactAll2" class="contactAll disnone">
+                        <div class="contactBorder">
+                            <div>
+                                <img class="pullLeft contactImgBorder" src="__AGO__/image/体验精品/QQ.png" alt="">
+                            </div>
+                            <div class="pullLeft contactCon">
+                                <div class="pullLeft QQ" style="height:50px;">
+                                    <a class="qq-chat" href="http://wpa.qq.com/msgrd?v=3&uin=779535252&site=qq&menu=yes"
+                                       target="_blank">
+                                        <img class="middle" alt="QQ在线客服" src="__AGO__/image/首页/客服监督页尾/360截图20171122142758289拷贝.png">
+                                    </a>
+                                </div>
+                                <div class="pullLeft QQ">
+                                    <a class="qq-chat" href="http://wpa.qq.com/msgrd?v=3&uin=312297584&site=qq&menu=yes"
+                                       target="_blank">
+                                        <img class="middle" alt="QQ在线客服" src="__AGO__/image/首页/客服监督页尾/360截图20171122142758289拷贝.png">
+                                    </a>
+                                </div>
+                                <div class="pullLeft QQ">
+                                    <a class="qq-chat" href="http://wpa.qq.com/msgrd?v=3&uin=873677001&site=qq&menu=yes"
+                                       target="_blank">
+                                        <img class="middle" alt="QQ在线客服" src="__AGO__/image/首页/客服监督页尾/360截图20171122142758289拷贝.png">
+                                    </a>
+                                </div>
+                                <div class="pullLeft QQ">
+                                    <a class="qq-chat" href="http://wpa.qq.com/msgrd?v=3&uin=2509769623&site=qq&menu=yes"
+                                       target="_blank">
+                                        <img class="middle" alt="QQ在线客服" src="__AGO__/image/首页/客服监督页尾/360截图20171122142758289拷贝.png">
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="clear contactBorder">
+                            <div>
+                                <img class="pullLeft contactImgBorder" src="__AGO__/image/体验精品/电话.png" alt="">
+                            </div>
+                            <div class="pullLeft contactCon">
+                                电话：0574-87161620
+                            </div>
+                        </div>
+                        <div class="clear contactBorder">
+                            <div>
+                                <img class="pullLeft contactImgBorder" src="__AGO__/image/体验精品/微信.png" alt="">
+                            </div>
+                            <div class="pullLeft contactCon">
+                                微信：easyda-service
+                            </div>
+                        </div>
+                        <div class="clear contactBorder">
+                            <div>
+                                <img class="pullLeft contactImgBorder" src="__AGO__/image/体验精品/公司.png" alt="">
+                            </div>
+                            <div class="pullLeft contactCon">
+                                贸易通：易大软件
+                            </div>
+                        </div>
+                    </div>
+                    <div id="contactAll3" class="contactAll disnone">
+                        <div class="clear contactBorder">
+                            <div>
+                                <img class="pullLeft contactImgBorder" src="__AGO__/image/体验精品/电话.png" alt="">
+                            </div>
+                            <div class="pullLeft contactCon">
+                                电话：0574-66080679
+                            </div>
+                        </div>
+                        <div class="clear contactBorder">
+                            <div>
+                                <img class="pullLeft contactImgBorder" src="__AGO__/image/体验精品/微信.png" alt="">
+                            </div>
+                            <div class="pullLeft contactCon">
+                                微信：easyda-supervise
+                            </div>
+                        </div>
+                        <div class="clear contactBorder">
+                            <div>
+                                <img class="pullLeft contactImgBorder" src="__AGO__/image/体验精品/公司.png" alt="">
+                            </div>
+                            <div class="pullLeft contactCon">
+                                贸易通：易大软件
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="contactAll4" class="contactAll disnone">
+                        <div class="clear contactBorder">
+                            <div>
+                                <img class="pullLeft contactImgBorder" src="__AGO__/image/体验精品/公司.png" alt="">
+                            </div>
+                            <div class="pullLeft contactCon">
+                                贸易通：易大软件
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="contactAll5" class="contactAll disnone">
+
+                        <div class="clear contactBorder">
+                            <div>
+                                <img class="pullLeft contactImgBorder" src="__AGO__/image/体验精品/公司.png" alt="">
+                            </div>
+                            <div class="pullLeft contactCon">
+                                贸易通：易大软件
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="contactAll6" class="contactAll disnone">
+
+                        <div class="clear contactBorder">
+                            <div>
+                                <img class="pullLeft contactImgBorder" src="__AGO__/image/体验精品/公司.png" alt="">
+                            </div>
+                            <div class="pullLeft contactCon">
+                                贸易通：易大软件
+                            </div>
+                        </div>
+                    </div>
+
+
+
+
+
+                </div>
+                <div>
+
+                </div>
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
+        </div>
+    </div>
+{include file="public/footer" /}
+<script type="text/javascript" src="__AGO__/js/SuperSlide.2.1.js"></script>
+<script type="text/javascript" src="__AGO__/js/swiper.min.js"></script>
+<script type="text/javascript" src="__AGO__/js/p.js"></script>
+<script type="text/javascript" src="__AGO__/js/vue.min.js"></script>
+<script type="text/javascript" src="__AGO__/js/echo.min.js"></script>
+<script type="text/javascript" src='__AGO__/js/jquery.eventFlow.js'></script>
+<script>
+
+
+    var contactTabHover = document.getElementsByClassName('contactTabHover');
+    var contactAll = document.getElementsByClassName('contactAll');
+    var contactAll1 = document.getElementById('contactAll1');
+    var contactAll2 = document.getElementById('contactAll2');
+    var contactAll3 = document.getElementById('contactAll3');
+    var contactAll4 = document.getElementById('contactAll4');
+    var contactAll5 = document.getElementById('contactAll5');
+    var contactAll6 = document.getElementById('contactAll6');
+
+    function tab(ele, index) {
+        for (var i = 0; i < contactTabHover.length; i++) {
+            contactTabHover[i].classList.add('contactTab');
+            contactTabHover[i].classList.remove('contactTabHover');
+        }
+        ele.classList.remove('contactTab');
+        ele.classList.add('contactTabHover');
+        for(var i=0;i<contactAll.length;i++){
+            contactAll[i].classList.add('disnone');
+        }
+        if (index == 1) {
+            contactAll1.classList.remove('disnone');
+        }else if (index == 2) {
+            contactAll2.classList.remove('disnone');
+        }else if (index == 3) {
+            contactAll3.classList.remove('disnone');
+        }else if (index == 4) {
+            contactAll4.classList.remove('disnone');
+        }else if (index == 5) {
+            contactAll5.classList.remove('disnone');
+        }else if (index == 6) {
+            contactAll6.classList.remove('disnone');
+        }
+    }
+
+    var swiper = new Swiper('.swiper-container2', {
+        slidesPerView: 4,
+        spaceBetween: 10,
+        autoplay: true,
+        loop: true,
+        navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev'
+        },
+    });
+    var swiper = new Swiper('.swiper-container3', {
+        navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev'
+        }
+    });
+    $(function () {
+        jQuery(".event_box").slide({
+            titCell: ".parHd li",
+            mainCell: ".parBd",
+            defaultPlay: false,
+            titOnClassName: "act",
+            prevCell: ".sPrev",
+            nextCell: ".sNext"
+        });
+        jQuery(".parHd").slide({
+            mainCell: " ul",
+            vis: 8,
+            effect: "leftLoop",
+            defaultPlay: false,
+            prevCell: ".sPrev",
+            nextCell: ".sNext"
+        });
+    });
+
+    //创建和初始化地图函数：
+    function initMap(){
+        createMap();//创建地图
+        setMapEvent();//设置地图事件
+        addMapControl();//向地图添加控件
+        addMarker();//向地图中添加marker
+    }
+
+    //创建地图函数：
+    function createMap(){
+        var map = new BMap.Map("dituContent");//在百度地图容器中创建一个地图
+        var point = new BMap.Point(121.539256,29.872891);//定义一个中心点坐标
+        map.centerAndZoom(point,18);//设定地图的中心点和坐标并将地图显示在地图容器中
+        window.map = map;//将map变量存储在全局
+    }
+
+    //地图事件设置函数：
+    function setMapEvent(){
+        map.enableDragging();//启用地图拖拽事件，默认启用(可不写)
+        map.enableScrollWheelZoom();//启用地图滚轮放大缩小
+        map.enableDoubleClickZoom();//启用鼠标双击放大，默认启用(可不写)
+        map.enableKeyboard();//启用键盘上下左右键移动地图
+    }
+
+    //地图控件添加函数：
+    function addMapControl(){
+        //向地图中添加缩放控件
+        var ctrl_nav = new BMap.NavigationControl({anchor:BMAP_ANCHOR_TOP_LEFT,type:BMAP_NAVIGATION_CONTROL_LARGE});
+        map.addControl(ctrl_nav);
+        //向地图中添加缩略图控件
+        var ctrl_ove = new BMap.OverviewMapControl({anchor:BMAP_ANCHOR_BOTTOM_RIGHT,isOpen:1});
+        map.addControl(ctrl_ove);
+        //向地图中添加比例尺控件
+        var ctrl_sca = new BMap.ScaleControl({anchor:BMAP_ANCHOR_BOTTOM_LEFT});
+        map.addControl(ctrl_sca);
+    }
+
+    //标注点数组
+    var markerArr = [{title:"宁波神易大软件有限公司",content:"宁波市海曙区苍松路299弄22号3-53",point:"121.538897|29.873079",isOpen:0,icon:{w:21,h:21,l:0,t:0,x:6,lb:5}}
+    ];
+    //创建marker
+    function addMarker(){
+        for(var i=0;i<markerArr.length;i++){
+            var json = markerArr[i];
+            var p0 = json.point.split("|")[0];
+            var p1 = json.point.split("|")[1];
+            var point = new BMap.Point(p0,p1);
+            var iconImg = createIcon(json.icon);
+            var marker = new BMap.Marker(point,{icon:iconImg});
+            var iw = createInfoWindow(i);
+            var label = new BMap.Label(json.title,{"offset":new BMap.Size(json.icon.lb-json.icon.x+10,-20)});
+            marker.setLabel(label);
+            map.addOverlay(marker);
+            label.setStyle({
+                borderColor:"#808080",
+                color:"#333",
+                cursor:"pointer"
+            });
+
+            (function(){
+                var index = i;
+                var _iw = createInfoWindow(i);
+                var _marker = marker;
+                _marker.addEventListener("click",function(){
+                    this.openInfoWindow(_iw);
+                });
+                _iw.addEventListener("open",function(){
+                    _marker.getLabel().hide();
+                })
+                _iw.addEventListener("close",function(){
+                    _marker.getLabel().show();
+                })
+                label.addEventListener("click",function(){
+                    _marker.openInfoWindow(_iw);
+                })
+                if(!!json.isOpen){
+                    label.hide();
+                    _marker.openInfoWindow(_iw);
+                }
+            })()
+        }
+    }
+    //创建InfoWindow
+    function createInfoWindow(i){
+        var json = markerArr[i];
+        var iw = new BMap.InfoWindow("<b class='iw_poi_title' title='" + json.title + "'>" + json.title + "</b><div class='iw_poi_content'>"+json.content+"</div>");
+        return iw;
+    }
+    //创建一个Icon
+    function createIcon(json){
+        var icon = new BMap.Icon("http://app.baidu.com/map/__AGO__/images/us_mk_icon.png", new BMap.Size(json.w,json.h),{imageOffset: new BMap.Size(-json.l,-json.t),infoWindowOffset:new BMap.Size(json.lb+5,1),offset:new BMap.Size(json.x,json.h)})
+        return icon;
+    }
+
+    initMap();//创建和初始化地图
+
+
+    $(function () {
+        var bigEvent = [{
+            'year': 2015,
+            'events': [
+                {
+                    'mouths': 1,
+                    'times': '2015年2月29',
+                    'even': '某某某创业团队正式成立，确定以“个性化定制”为核心的校园综合服务团队，覆盖20多所大学，成为小'
+                }, {
+                    'mouths': 5,
+                    'times': '2015年4月3日',
+                    'even': '某某某创业团队正式成立，确定以“个性化定制”为核心的校园综合服务团队，覆盖20多所大学，成为小'
+                }, {
+                    'mouths': 10,
+                    'times': '2015年10月11日',
+                    'even': '某某某创业团队正式成立，确定以“个性化定制”为核心的校园综合服务团队，覆盖20多所大学，成为小'
+                }]
+        }];
+        $('.event_wrap1').eventFlow({'events': bigEvent});
+    })
+    $(function () {
+        var bigEvent = [{
+            'year': 2015,
+            'events': [
+                {
+                    'mouths': 1,
+                    'times': '2015年2月29',
+                    'even': '某某某创业团队正式成立，确定以“个性化定制”为核心的校园综合服务团队，覆盖20多所大学，成为小'
+                }, {
+                    'mouths': 5,
+                    'times': '2015年4月3日',
+                    'even': '某某某创业团队正式成立，确定以“个性化定制”为核心的校园综合服务团队，覆盖20多所大学，成为小'
+                }, {
+                    'mouths': 10,
+                    'times': '2015年10月11日',
+                    'even': '某某某创业团队正式成立，确定以“个性化定制”为核心的校园综合服务团队，覆盖20多所大学，成为小'
+                }]
+        }];
+        $('.event_wrap2').eventFlow({'events': bigEvent});
+    })
+    $(function () {
+        var bigEvent = [{
+            'year': 2015,
+            'events': [
+                {
+                    'mouths': 1,
+                    'times': '2015年2月29',
+                    'even': '某某某创业团队正式成立，确定以“个性化定制”为核心的校园综合服务团队，覆盖20多所大学，成为小'
+                }, {
+                    'mouths': 5,
+                    'times': '2015年4月3日',
+                    'even': '某某某创业团队正式成立，确定以“个性化定制”为核心的校园综合服务团队，覆盖20多所大学，成为小'
+                }, {
+                    'mouths': 10,
+                    'times': '2015年10月11日',
+                    'even': '某某某创业团队正式成立，确定以“个性化定制”为核心的校园综合服务团队，覆盖20多所大学，成为小'
+                }]
+        }];
+        $('.event_wrap3').eventFlow({'events': bigEvent});
+    })
+    $(function () {
+        var bigEvent = [{
+            'year': 2015,
+            'events': [
+                {
+                    'mouths': 1,
+                    'times': '2015年2月29',
+                    'even': '某某某创业团队正式成立，确定以“个性化定制”为核心的校园综合服务团队，覆盖20多所大学，成为小'
+                }, {
+                    'mouths': 5,
+                    'times': '2015年4月3日',
+                    'even': '某某某创业团队正式成立，确定以“个性化定制”为核心的校园综合服务团队，覆盖20多所大学，成为小'
+                }, {
+                    'mouths': 10,
+                    'times': '2015年10月11日',
+                    'even': '某某某创业团队正式成立，确定以“个性化定制”为核心的校园综合服务团队，覆盖20多所大学，成为小'
+                }]
+        }];
+        $('.event_wrap4').eventFlow({'events': bigEvent});
+    })
+    $(function () {
+        var bigEvent = [{
+            'year': 2015,
+            'events': [
+                {
+                    'mouths': 1,
+                    'times': '2015年2月29',
+                    'even': '某某某创业团队正式成立，确定以“个性化定制”为核心的校园综合服务团队，覆盖20多所大学，成为小'
+                }, {
+                    'mouths': 5,
+                    'times': '2015年4月3日',
+                    'even': '某某某创业团队正式成立，确定以“个性化定制”为核心的校园综合服务团队，覆盖20多所大学，成为小'
+                }, {
+                    'mouths': 10,
+                    'times': '2015年10月11日',
+                    'even': '某某某创业团队正式成立，确定以“个性化定制”为核心的校园综合服务团队，覆盖20多所大学，成为小'
+                }]
+        }];
+        $('.event_wrap5').eventFlow({'events': bigEvent});
+    })
+    $(function () {
+        var bigEvent = [{
+            'year': 2015,
+            'events': [
+                {
+                    'mouths': 1,
+                    'times': '2015年2月29',
+                    'even': '某某某创业团队正式成立，确定以“个性化定制”为核心的校园综合服务团队，覆盖20多所大学，成为小'
+                }, {
+                    'mouths': 5,
+                    'times': '2015年4月3日',
+                    'even': '某某某创业团队正式成立，确定以“个性化定制”为核心的校园综合服务团队，覆盖20多所大学，成为小'
+                }, {
+                    'mouths': 10,
+                    'times': '2015年10月11日',
+                    'even': '某某某创业团队正式成立，确定以“个性化定制”为核心的校园综合服务团队，覆盖20多所大学，成为小'
+                }]
+        }];
+        $('.event_wrap6').eventFlow({'events': bigEvent});
+    })
+    $(function () {
+        var bigEvent = [{
+            'year': 2015,
+            'events': [
+                {
+                    'mouths': 1,
+                    'times': '2015年2月29',
+                    'even': '某某某创业团队正式成立，确定以“个性化定制”为核心的校园综合服务团队，覆盖20多所大学，成为小'
+                }, {
+                    'mouths': 5,
+                    'times': '2015年4月3日',
+                    'even': '某某某创业团队正式成立，确定以“个性化定制”为核心的校园综合服务团队，覆盖20多所大学，成为小'
+                }, {
+                    'mouths': 10,
+                    'times': '2015年10月11日',
+                    'even': '某某某创业团队正式成立，确定以“个性化定制”为核心的校园综合服务团队，覆盖20多所大学，成为小'
+                }]
+        }];
+        $('.event_wrap7').eventFlow({'events': bigEvent});
+    })
+    $(function () {
+        var bigEvent = [{
+            'year': 2015,
+            'events': [
+                {
+                    'mouths': 1,
+                    'times': '2015年2月29',
+                    'even': '某某某创业团队正式成立，确定以“个性化定制”为核心的校园综合服务团队，覆盖20多所大学，成为小'
+                }, {
+                    'mouths': 5,
+                    'times': '2015年4月3日',
+                    'even': '某某某创业团队正式成立，确定以“个性化定制”为核心的校园综合服务团队，覆盖20多所大学，成为小'
+                }, {
+                    'mouths': 10,
+                    'times': '2015年10月11日',
+                    'even': '某某某创业团队正式成立，确定以“个性化定制”为核心的校园综合服务团队，覆盖20多所大学，成为小'
+                }]
+        }];
+        $('.event_wrap8').eventFlow({'events': bigEvent});
+    })
+    $(function () {
+        var bigEvent = [{
+            'year': 2015,
+            'events': [
+                {
+                    'mouths': 1,
+                    'times': '2015年2月29',
+                    'even': '某某某创业团队正式成立，确定以“个性化定制”为核心的校园综合服务团队，覆盖20多所大学，成为小'
+                }, {
+                    'mouths': 5,
+                    'times': '2015年4月3日',
+                    'even': '某某某创业团队正式成立，确定以“个性化定制”为核心的校园综合服务团队，覆盖20多所大学，成为小'
+                }, {
+                    'mouths': 10,
+                    'times': '2015年10月11日',
+                    'even': '某某某创业团队正式成立，确定以“个性化定制”为核心的校园综合服务团队，覆盖20多所大学，成为小'
+                }]
+        }];
+        $('.event_wrap9').eventFlow({'events': bigEvent});
+    })
+    $(function () {
+        var bigEvent = [{
+            'year': 2015,
+            'events': [
+                {
+                    'mouths': 1,
+                    'times': '2015年2月29',
+                    'even': '某某某创业团队正式成立，确定以“个性化定制”为核心的校园综合服务团队，覆盖20多所大学，成为小'
+                }, {
+                    'mouths': 5,
+                    'times': '2015年4月3日',
+                    'even': '某某某创业团队正式成立，确定以“个性化定制”为核心的校园综合服务团队，覆盖20多所大学，成为小'
+                }, {
+                    'mouths': 10,
+                    'times': '2015年10月11日',
+                    'even': '某某某创业团队正式成立，确定以“个性化定制”为核心的校园综合服务团队，覆盖20多所大学，成为小'
+                }]
+        }];
+        $('.event_wrap10').eventFlow({'events': bigEvent});
+    })
+    $(function () {
+        var bigEvent = [{
+            'year': 2015,
+            'events': [
+                {
+                    'mouths': 1,
+                    'times': '2015年2月29',
+                    'even': '某某某创业团队正式成立，确定以“个性化定制”为核心的校园综合服务团队，覆盖20多所大学，成为小'
+                }, {
+                    'mouths': 5,
+                    'times': '2015年4月3日',
+                    'even': '某某某创业团队正式成立，确定以“个性化定制”为核心的校园综合服务团队，覆盖20多所大学，成为小'
+                }, {
+                    'mouths': 10,
+                    'times': '2015年10月11日',
+                    'even': '某某某创业团队正式成立，确定以“个性化定制”为核心的校园综合服务团队，覆盖20多所大学，成为小'
+                }]
+        }];
+        $('.event_wrap11').eventFlow({'events': bigEvent});
+    })
+    $(function () {
+        var bigEvent = [{
+            'year': 2015,
+            'events': [
+                {
+                    'mouths': 1,
+                    'times': '2015年2月29',
+                    'even': '某某某创业团队正式成立，确定以“个性化定制”为核心的校园综合服务团队，覆盖20多所大学，成为小'
+                }, {
+                    'mouths': 5,
+                    'times': '2015年4月3日',
+                    'even': '某某某创业团队正式成立，确定以“个性化定制”为核心的校园综合服务团队，覆盖20多所大学，成为小'
+                }, {
+                    'mouths': 10,
+                    'times': '2015年10月11日',
+                    'even': '某某某创业团队正式成立，确定以“个性化定制”为核心的校园综合服务团队，覆盖20多所大学，成为小'
+                }]
+        }];
+        $('.event_wrap12').eventFlow({'events': bigEvent});
+    })
+</script>
+</body>
+</html>

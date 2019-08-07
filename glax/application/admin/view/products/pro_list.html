@@ -1,0 +1,142 @@
+{include file="public/header" /}
+<body style="padding:10px;">
+    <div class="group-button">
+        <button class="layui-btn layui-btn-sm layui-btn-primary"  data-method="delAll">
+            <i class="iconfont">&#xe626;</i> 删除
+        </button>
+        <!-- <button class="layui-btn layui-btn-sm layui-btn-primary">
+            <i class="iconfont">&#xe62c;</i> 推荐
+        </button> -->
+        <!-- <button class="layui-btn layui-btn-sm layui-btn-primary">
+            <i class="iconfont">&#xe603;</i> 置顶
+        </button> -->
+        <!-- <button class="layui-btn layui-btn-sm layui-btn-primary">
+            <i class="layui-icon">&#x1005;</i> 审核
+        </button> -->
+        <button class="layui-btn layui-btn-sm  layui-btn-primary modal" data-method="add" data-url="addedit_pro">
+            <i class="iconfont">&#xe649;</i> 添加产品
+        </button>
+    </div>
+    <blockquote class="layui-elem-quote">
+        <p>是否在首页展示是首页下方展示图片</p>
+    </blockquote>
+    <div style="float:right;padding:10px;">
+        <!-- <button type="button" class="layui-btn layui-btn-normal" data-method="add" data-url="addedit_pro">添加产品</button> -->
+    </div>
+    <table class="layui-table">
+        <tr>
+            <td><input type="checkbox" id="checkall" /></td>
+            <td>产品分类</td>
+            <td>产品名称</td>
+            <td>产品图片</td>
+            <td style="width:400px;">产品描述</td>
+            <td>是否首页展示</td>
+            <!-- <td>是否关于我们页面展示</td> -->
+            <td>操作</td>
+        </tr>
+        {volist name="list" id="vo"}
+            <tr>
+                <td><input type="checkbox" name="id[]" value="{$vo.p_id}"> </td>
+                <td>{$vo.cname}</td>
+                <td>{$vo.p_title}</td>
+                <td><img src="{$vo.p_img}" width="50" height="50"></td>
+                <td>{$vo.p_desc}</td>
+                <td onclick="changest('is_groom',{$vo.is_groom},{$vo.p_id})">{if $vo['is_groom'] eq 1} <img src="/static/img/yes.png"  />{else if}<img src="/static/img/no.png" /> {/if}</td>
+                <!-- <td onclick="changest('is_ab_us',{$vo.is_ab_us},{$vo.p_id})">{if $vo['is_ab_us'] eq 1} <img src="/static/img/yes.png"  />{else if}<img src="/static/img/no.png" /> {/if}</td> -->
+                <td>
+                    <div class="layui-btn-group">
+                        <a href="addedit_pro?id={$vo.p_id}" class="layui-btn layui-btn-normal">编辑</a>
+                        <button type="button" class="layui-btn layui-btn-danger" data-method="del" data-id="{$vo.p_id}">删除</button>
+                    </div>
+                </td>
+            </tr>
+        {/volist}
+    </table>
+    <div class="pagelist">{$page}</div>
+
+    <script type="text/javascript">
+    layui.use('layer',function(){
+        layer = layui.layer;
+    })
+    var changest = function (type,status,p_id){
+        // console.log('product',type,status,p_id);
+        var data = {};
+        data.db = 'product';
+        data.pk = 'p_id';
+        data.type = type;
+        data.status = status;
+        data.id = p_id;
+        $.post('/admin/index/up_status',data,function(ret){
+            if (ret.code == 1) {
+                layer.msg(ret.msg,{icon:1});
+                setTimeout("location.reload()",2000);
+            }else {
+                layer.msg(ret.msg,{icon:2});
+            }
+        })
+    }
+    var active = {
+    'add':function(){
+        location.href=$(this).data('url');
+    },del:function(){
+        var data = {};
+        data.id = $(this).data('id');
+        data.db = 'product';
+        layer.confirm('确定要删除吗？',{
+            btn:['确定','取消']
+        },function(){
+            $.post('/admin/index/del',data,function(msg){
+                msg = JSON.parse(msg);
+                if(msg.code == 1){
+                    layer.msg(msg.msg,{icon:1});
+                    setTimeout("location.reload()",2000);
+                }else{
+                    layer.msg(msg.msg,{icon:2});
+                }
+            })
+        },function(){
+            console.log('error');
+        })
+    },
+    delAll:function(){
+        var id = [];
+        $.each($("input[name='id[]']"),function(k,v){
+            if(v.checked){
+                id.push(v.value);
+            }
+        })
+        if(id.length < 1){
+            layer.msg('请选择要删除的公司',{icon:2});
+            return false;
+        }
+        var data = {};
+        data.id = id;
+        data.db = 'product';
+        layer.confirm('确定要删除吗？',{
+            btn:['确定','取消']
+        },function(){
+            $.post('/admin/index/del',data,function(msg){
+                msg = JSON.parse(msg);
+                if(msg.code == 1){
+                    layer.msg(msg.msg,{icon:1});
+                    setTimeout("location.reload()",2000);
+                }else{
+                    layer.msg(msg.msg,{icon:2});
+                }
+            })
+        },function(){
+
+        })
+    }
+    }
+    $("#checkall").click(function(){
+    $.each($("input[name='id[]']"),function(k,v){
+        v.checked = !v.checked;
+    })
+    })
+    $(".layui-btn").on('click',function(){
+    var othis = $(this), method = othis.data('method');
+    active[method] ? active[method].call(this, othis) : '';
+    })
+    </script>
+{include file="public/footer" /}

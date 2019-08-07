@@ -1,0 +1,57 @@
+{include file="public/header" /}
+<body style="padding:10px;">
+    <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+      <legend>{$title}</legend>
+    </fieldset>
+    <form class="layui-form" action="" method="post">
+        <div class="layui-form-item">
+            <label class="layui-form-label">位置：</label>
+            <div class="layui-input-inline">
+                <select class="layui-input" name="server_pos">
+                    <?php $sp = ''; if(!empty($info['server_pos'])) $sp = $info['server_pos']; ?>
+                    <option value="">请选择</option>
+                    {volist name="pos_list" id="vo"}
+                        <option value="{$vo.server_pos}" {if $sp neq '' and $sp eq $vo['server_pos']} selected {/if}>{$vo.pos_name}</option>
+                    {/volist}
+                </select>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">QQ：</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="qq" value="<?php if(!empty($info['qq'])) echo $info['qq']; ?>" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">微信号：</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="wechat" value="<?php if(!empty($info['wechat'])) echo $info['wechat']; ?>" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">联系电话：</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="mobile" value="<?php if(!empty($info['mobile'])) echo $info['mobile']; ?>" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">贸易通:</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="trade_num" value="<?php if(!empty($info['trade_num'])) echo $info['trade_num']; ?>" class="layui-input">
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label"></label>
+            <div class="layui-input-block">
+                 <button class="layui-btn">提交</button>
+            </div>
+        </div>
+    </form>
+    <script type="text/javascript">
+            layui.use('form',function(){
+                var form = layui.form;
+            })
+    </script>
+{include file="public/footer" /}

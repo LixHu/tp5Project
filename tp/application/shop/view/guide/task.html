@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>任务中心</title>
+    <meta http-equiv="x-ua-compatible" content="IE=edge">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <!--<meta name="apple-mobile-web-app-capable" content="yes">-->
+    <!--<meta name="apple-touch-fullscreen" content="yes">-->
+    <link rel="stylesheet" type="text/css" href="_lib/weui.min.css">
+    <link rel="stylesheet" type="text/css" href="_css/jquery-weui.css">
+    <link rel="stylesheet" type="text/css" href="_css/style_h5.css">
+    <link rel="stylesheet" type="text/css" href="_css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="_css/weui2.css"/>
+    <link rel="stylesheet" type="text/css" href="_css/icon.css"/>
+    <style>
+        .weui-navbar:after {
+            height: 0;
+            border-bottom: 0;
+            -webkit-transform: scaleY(0);
+            transform: scaleY(0);
+        }
+
+        .weui-navbar__item {
+            color: #000000;
+        }
+
+        .weui-navbar__item.weui-bar__item--on {
+            color: #f18b2d;
+            background-color: #ffffff;
+            border-bottom: 4px solid #f18b2d;
+        }
+
+        .weui-navbar__item:after {
+            width: 0;
+            border-right: 0;
+            -webkit-transform: scaleX(0);
+            transform: scaleX(0);
+        }
+
+        .weui-navbar + .weui-tab__bd {
+            padding-top: 54px;
+        }
+    </style>
+    <!--[if IE]>
+    <script src="http://libs.useso.com/js/html5shiv/3.7/html5shiv.min.js"></script>
+    <![endif]-->
+</head>
+<body ontouchstart>
+<div class="weui-tab">
+    <div class="weui-navbar" style="background: #ffffff;">
+        <a class="weui-navbar__item weui-bar__item--on" href="#tab1">
+            我的任务
+        </a>
+        <a class="weui-navbar__item" href="#tab2">
+            即将开始
+        </a>
+    </div>
+    <div class="weui-tab__bd font14" style="background: #f2f2f2;">
+        <div id="tab1" class="weui-tab__bd-item weui-tab__bd-item--active">
+            <ul class="task-ul">
+                {if condition="!empty($data)"} 
+                {volist name="data" id="vo"}
+                <li>
+                    <a href="{:url('Guide/task_list',['id'=>$vo['id']])}">
+                        <div class="task-list">
+                            {if condition="$vo['end_time'] lt $time"}
+                            <div class="pull-right task-list-status">已结束</div>
+                            {else}
+                            <div class="pull-right task-list-status">进行中</div>
+                            {/if}
+                            <div class="pull-left task-list-num">{$vo.gold}<span class="font14">金币</span></div>
+                            <div class="pull-left ellipsis2 task-list-con">{$vo.title}</div>
+                        </div>
+                    </a>
+                </li>
+                {/volist}
+                {else}
+                <li style="text-align: center;">
+                    暂无数据
+                </li>
+                {/if}
+                
+            </ul>
+        </div>
+        <div id="tab2" class="weui-tab__bd-item">
+            <ul class="task-ul">
+                {if condition="!empty($param)"} 
+                {volist name="param" id="vo"}
+                <li>
+                    <a href="{:url('Guide/task_list',['id'=>$vo['id']])}">
+                        <div class="task-list">
+                            
+                            <div class="pull-right task-list-status">未开始</div>
+                            
+                            <div class="pull-left task-list-num">{$vo.gold}<span class="font14">金币</span></div>
+                            <div class="pull-left ellipsis2 task-list-con">{$vo.title}</div>
+                        </div>
+                    </a>
+                </li>
+                {/volist}
+                {else}
+                <li style="text-align: center;">
+                    暂无数据
+                </li>
+                {/if}
+                
+            </ul>
+        </div>
+    </div>
+</div>
+
+<script src="_lib/jquery-2.1.4.js"></script>
+<script src="_js/h5.js"></script>
+<script src="_lib/fastclick.js"></script>
+<script src="_js/jquery-weui.js"></script>
+<script type="text/javascript">
+    $(function () {
+        FastClick.attach(document.body);
+    });
+
+</script>
+</body>
+</html>

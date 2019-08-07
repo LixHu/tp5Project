@@ -1,0 +1,986 @@
+{include file="public/header" /}
+<link href="http://cdn.bootcss.com/bootstrap-daterangepicker/2.1.25/daterangepicker.css" rel="stylesheet"/>
+<script src="http://cdn.bootcss.com/bootstrap-daterangepicker/2.1.25/moment.min.js"></script>
+<script src="http://cdn.bootcss.com/bootstrap-daterangepicker/2.1.25/daterangepicker.js"></script>
+<script src="_js/select2.full.js"></script>
+
+<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+<!--[if lt IE 9]>
+<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+<![endif]-->
+<style>
+    body {
+        background-color: #eeeeee;
+    }
+
+    .content {
+        padding: 0 15px !important;
+    }
+
+    .small-box {
+        margin-bottom: 0px;
+        color: #FFFFFF;
+    }
+
+    .table-header-sort {
+        cursor: pointer;
+        color: black !important;
+    }
+
+    .tooltip > .tooltip-inner {
+        background-color: #e5e5e5;
+        color: #0c0c0c
+    }
+
+    .tooltip.top .tooltip-arrow {
+        border-top-color: #e5e5e5;
+    }
+
+    #wait {
+        background: rgba(255, 255, 255, 0.5) url("/resource/images/wait.gif") center no-repeat;
+
+        position: fixed;
+        width: 100%;
+        height: 100%;
+        z-index: 9000;
+    }
+
+    .dnone {
+        display: none;
+    }
+
+    [v-cloak] {
+        display: none
+    }
+
+    .iconfont {
+        width: 50px !important;
+    }
+
+    .dropdown-menu > li a {
+        transition: background-color ease .3s,
+        color ease .3s,
+        border-color ease .3s;
+    }
+
+    .dropdown-menu > li a:hover {
+        background-color: #3c8dbc;
+        color: white;
+        border-color: #3c8dbc;
+    }
+
+    .dropdown-toggle {
+        transition: background-color ease .3s,
+        color ease .3s,
+        border-color ease .3s;
+    }
+
+    .dropdown-toggle:hover {
+        background-color: #3c8dbc;
+        color: white;
+        border-color: #3c8dbc;
+    }
+
+    .open .dropdown-toggle {
+        background-color: #3c8dbc !important;
+        color: white !important;
+        border-color: #3c8dbc !important;
+    }
+
+    .btn-default1 {
+        background-color: #f4f4f4;
+        color: #444;
+        border-color: #ddd;
+    }
+
+    .small-box .icon {
+        top: -25px !important;
+    }
+
+    .small-box h3 {
+        font-size: 30px !important;
+        margin: 0 0 10px 0 !important;
+        white-space: nowrap !important;
+        padding: 0 !important;
+        font-weight: normal !important;
+    }
+
+    .table > tbody > tr > td, .table > tbody > tr > th, .table > tfoot > tr > td, .table > tfoot > tr > th, .table > thead > tr > td, .table > thead > tr > th {
+        line-height: 2.4;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+    }
+</style>
+<div class="" id="main">
+    <section class="content" style="min-width: 760px !important;">
+        <div class="">
+            <form id="mainForm" method="get" class="nice-validator n-default n-bootstrap"
+                  novalidate="novalidate">
+                <input type="hidden" id="sortSeachModel" name="sortBy[taskNo]" value="false">
+                <input type="hidden" id="workTaskId" name="id" value="">
+                <!--搜索条件-->
+                <div class="box box-solid">
+                    <div class="box-body">
+                        <div class="row">
+                            <div class="col-md-6 col-sm-6"></div>
+                            <div class="col-md-6 col-sm-6">
+                                <div class="input-group">
+                                    <input type="text" class="form-control keyword-search criteria"
+                                           placeholder="请输入工单编号" v-model="wo_sn" id="keyword" name="keyword"
+                                           maxlength="50">
+                                    <span class="input-group-btn">
+                                            <button class="btn btn-primary" type="button" id="btnSearch"
+                                                    @click="search">搜 索</button>
+                                            <button type="button" class="btn btn-default btnReset"
+                                                    style="margin-left: 5px;" value="重置" @click="reset">重 置</button>
+                                        </span>
+                                    <span class="input-group-btn">
+                                            <input id="isAdvanced" name="isAdvanced" value="1" type="hidden"
+                                                   class="criteria">
+                                            <!--<a class="btn" role="button" data-toggle="collapse" href="#collapseExample"-->
+                                               <!--id="advanceIcon" aria-expanded="true">-->
+                                                    <!--<span class="glyphicon glyphicon-plus"></span>-->
+                                                <!--高级搜索-->
+                                            <!--</a>-->
+                                        </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="box box-solid collapse" id="collapseExample" aria-expanded="true">
+                    <div class="box-header with-border"><span style="font-weight: bold">高级搜索</span></div>
+                    <div class="box-body">
+                        <div class="row">
+                            <div class="col-md-5 col-sm-6 form-group">
+                                <div class="input-group">
+                                        <span class="input-group-btn">
+                                            <span class="btn span-default no-padding"
+                                                  style="cursor:default;width: 90px;">客户：</span>
+                                        </span>
+                                    <select style="width: 100%" id="customerId" name="customerId" tabindex="-1"
+                                            class="select2-hidden-accessible" aria-hidden="true">
+                                        <option value="" selected=""></option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-5 col-sm-6 form-group">
+                                <div class="input-group">
+                                            <span class="input-group-btn">
+                                                <span class="btn span-default no-padding"
+                                                      style="cursor:default;width: 90px;">联系人：</span>
+                                            </span>
+                                    <select style="width: 100%" id="customerLinkman" name="customerLinkman"
+                                            tabindex="-1" class="select2-hidden-accessible" aria-hidden="true">
+                                        <option value="" selected=""></option>
+                                    </select>
+                                </div>
+                            </div>
+
+
+                            <div class="col-md-5 col-sm-6 form-group">
+                                <div class="input-group">
+                                            <span class="input-group-btn">
+                                                <span class="btn span-default no-padding"
+                                                      style="cursor:default;width: 90px;">服务类型：</span>
+                                            </span>
+                                    <select class="form-control criteria" id="serviceType" name="serviceType" v-model="server_type">
+                                        <option value="">全部</option>
+
+
+                                        <option value="保内免费">保内免费</option>
+
+                                        <option value="保内收费">保内收费</option>
+
+                                        <option value="保外免费">保外免费</option>
+
+                                        <option value="保外收费">保外收费</option>
+
+
+                                    </select>
+                                </div>
+                            </div>
+
+
+                            <div class="col-md-5  col-sm-6 form-group">
+                                <div class="input-group">
+                                            <span class="input-group-btn">
+                                                <span class="btn span-default no-padding"
+                                                      style="cursor:default;width: 90px;">服务内容：</span>
+                                            </span>
+                                    <select class="form-control criteria" id="serviceContent" name="serviceContent">
+                                        <option value="">全部</option>
+
+
+                                        <option value="安装">安装</option>
+
+                                        <option value="维修">维修</option>
+
+                                        <option value="保养">保养</option>
+
+                                        <option value="巡检">巡检</option>
+
+                                        <option value="检查">检查</option>
+
+
+                                    </select>
+                                </div>
+                            </div>
+
+
+                            <div class="col-md-5  col-sm-6 form-group">
+                                <div class="input-group">
+                                            <span class="input-group-btn">
+                                                <span class="btn span-default no-padding"
+                                                      style="cursor:default;width: 90px;">优先级：</span>
+                                            </span>
+                                    <select class="form-control criteria" id="level" name="level">
+                                        <option value="">全部</option>
+
+
+                                        <option value="中">中</option>
+
+                                        <option value="低">低</option>
+
+                                        <option value="高">高</option>
+
+
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-5 col-sm-6 form-group">
+                                <div class="input-group">
+                                        <span class="input-group-btn">
+                                            <span class="btn span-default no-padding"
+                                                  style="cursor:default;width: 90px;">创建人：</span>
+                                        </span>
+                                    <select style="width: 100%" id="createUser" name="createUser" tabindex="-1"
+                                            class="select2-hidden-accessible" aria-hidden="true">
+                                        <option value=""></option>
+                                        <option value="" selected=""></option>
+                                    </select>
+                                    <script>
+                                        function formatData(state) {
+                                            if (!state.id) {
+                                                return state.text;
+                                            }
+                                            var headerImg = state.header;
+                                            if (headerImg == null || headerImg == "") {
+                                                headerImg = "/resource/images/account_userhead.png";
+                                            }
+                                            var mobile = state.mobile || "";
+                                            var $state = $('<table><tr>' +
+                                                '<td style="padding-right:10px"><img style="width:40px;height:40px;" src="' + headerImg + '" class="img-flag" /></td>' +
+                                                '<td><span style="font-weight: 700">' + state.text + "</span>" +
+                                                '</td></tr></table>'
+                                            );
+                                            return $state;
+                                        }
+
+                                        $(function () {
+                                            $("#customerLinkman").select2({
+                                                ajax: {
+                                                    url: '/linkman/getListAsyn',
+                                                    data: function (params) {
+                                                        console.log(params);
+                                                        return {
+                                                            keyword: params.term || "", // search term
+                                                            pageNum: params.page || 1, //第几页返回查询
+                                                            customerId: $("#customerId").val()
+                                                        };
+                                                    },
+                                                    processResults: function (data, params) {
+                                                        params.page = params.page || 1;
+                                                        var itemList = [];
+                                                        var dataList = data.list;
+                                                        for (var i = 0; i < dataList.length; i++) {
+
+                                                            itemList[i] = {
+                                                                id: dataList[i].id,
+                                                                text: dataList[i].name,
+                                                                phone: dataList[i].phone
+                                                            };
+                                                        }
+                                                        return {
+                                                            results: itemList,
+                                                            pagination: {
+                                                                more: (params.page * 10) < data.total //每页10条数据
+                                                            }
+                                                        };
+                                                    }
+
+                                                },
+                                                placeholder: '请选择',//默认文字提示
+                                                allowClear: true,//允许在单选时清除
+                                                escapeMarkup: function (markup) {
+                                                    return markup;
+                                                }, // 自定义格式化防止xss注入
+                                                minimumInputLength: 0,//最少输入多少个字符后开始查询。0：表示没有字符也搜索，即显示列表
+                                                formatResult: function formatRepo(repo) {
+                                                    return repo.text;
+                                                }, // 函数用来渲染结果
+                                                formatSelection: function formatRepoSelection(repo) {
+                                                    return repo.text;
+                                                }, // 函数用于呈现当前的选择
+                                                templateResult: function (state) { //数据格式化
+                                                    if (!state.id) {
+                                                        return state.text;
+                                                    }
+                                                    var $state = $(
+                                                        '<table><tr>' +
+                                                        '<td><span style="font-weight: 700">' + state.text + "</span><br/>电话：" + state.phone +
+                                                        '</td></tr></table>'
+                                                    );
+                                                    return $state;
+                                                },
+                                                language: 'zh-CN'
+
+                                            });
+                                            $("#customerId").select2({
+                                                ajax: {
+                                                    url: '/task/customer/list',
+                                                    data: function (params) {
+                                                        return {
+                                                            keyword: params.term || "", // search term
+                                                            pageNum: params.page || 1 //第几页返回查询
+                                                        };
+                                                    },
+                                                    processResults: function (data, params) {
+                                                        params.page = params.page || 1;
+                                                        var itemList = [];
+                                                        var dataList = data.list;
+                                                        for (var i = 0; i < dataList.length; i++) {
+                                                            itemList.push({
+                                                                id: dataList[i].id,
+                                                                text: dataList[i].name,
+                                                                lmPhone: dataList[i].lmPhone
+                                                            });
+                                                        }
+                                                        return {
+                                                            results: itemList,
+                                                            pagination: {
+                                                                more: (params.page * 10) < data.total //每页10条数据
+                                                            }
+                                                        };
+                                                    }
+                                                },
+                                                placeholder: '请选择',
+                                                allowClear: true,//允许在单选时清除
+                                                language: 'zh-CN',
+                                                escapeMarkup: function (markup) {
+                                                    return markup;
+                                                }, // 自定义格式化防止xss注入
+                                                minimumInputLength: 0,//最少输入多少个字符后开始查询。0：表示没有字符也搜索，即显示列表
+                                                formatResult: function formatRepo(repo) {
+                                                    return repo.name;
+                                                }, // 函数用来渲染结果
+                                                formatSelection: function formatRepoSelection(repo) {
+                                                    return repo.text;
+                                                }, // 函数用于呈现当前的选择
+                                                templateResult: function (state) { //数据格式化
+                                                    if (!state.id) {
+                                                        return state.text;
+                                                    }
+                                                    var $state = $(
+                                                        '<table><tr>' +
+                                                        '<td><span style="font-weight: 700">' + state.text + "</span><br/>电话：" + state.lmPhone +
+                                                        '</td></tr></table>'
+                                                    );
+                                                    return $state;
+                                                }
+                                            });
+                                            $("#createUser").select2({
+                                                ajax: {
+                                                    url: '/task/user/list',
+                                                    data: function (params) {
+                                                        console.log(params);
+                                                        return {
+                                                            keyword: params.term || "", // search term
+                                                            pageNum: params.page || 1 //第几页返回查询
+                                                        };
+                                                    },
+                                                    processResults: function (data, params) {
+                                                        console.log(data);
+                                                        params.page = params.page || 1;
+                                                        var itemList = [];
+                                                        var dataList = data.list;
+                                                        for (var i = 0; i < dataList.length; i++) {
+
+                                                            itemList[i] = {
+                                                                id: dataList[i].userId,
+                                                                text: dataList[i].displayName,
+                                                                mobile: dataList[i].cellPhone,
+                                                                header: dataList[i].head
+                                                            };
+                                                        }
+                                                        return {
+                                                            results: itemList,
+                                                            pagination: {
+                                                                more: (params.page * 10) < data.total //每页10条数据
+                                                            }
+                                                        };
+                                                    }
+
+                                                },
+                                                placeholder: "请选择",
+                                                allowClear: true,//允许在单选时清除
+                                                escapeMarkup: function (markup) {
+                                                    return markup;
+                                                }, // 自定义格式化防止xss注入
+                                                minimumInputLength: 0,//最少输入多少个字符后开始查询。0：表示没有字符也搜索，即显示列表
+                                                formatResult: function formatRepo(repo) {
+                                                    return repo.text;
+                                                }, // 函数用来渲染结果
+                                                formatSelection: function formatRepoSelection(repo) {
+                                                    return repo.text;
+                                                }, // 函数用于呈现当前的选择
+                                                templateResult: formatData,    //数据格式化
+                                                language: 'zh-CN'
+                                            });
+                                            $("#synergy").select2({
+                                                ajax: {
+                                                    url: '/task/user/list',
+                                                    data: function (params) {
+                                                        console.log(params);
+                                                        return {
+                                                            keyword: params.term || "", // search term
+                                                            pageNum: params.page || 1 //第几页返回查询
+                                                        };
+                                                    },
+                                                    processResults: function (data, params) {
+                                                        console.log(data);
+                                                        params.page = params.page || 1;
+                                                        var itemList = [];
+                                                        var dataList = data.list;
+                                                        for (var i = 0; i < dataList.length; i++) {
+                                                            itemList[i] = {
+                                                                id: dataList[i].userId,
+                                                                text: dataList[i].displayName,
+                                                                mobile: dataList[i].cellPhone,
+                                                                header: dataList[i].head
+                                                            };
+                                                        }
+                                                        return {
+                                                            results: itemList,
+                                                            pagination: {
+                                                                more: (params.page * 10) < data.total //每页10条数据
+                                                            }
+                                                        };
+                                                    }
+
+                                                },
+//                                                multiple: true,//协同人启用多选
+                                                placeholder: '请选择',//默认文字提示
+                                                allowClear: true,//允许在单选时清除
+                                                escapeMarkup: function (markup) {
+                                                    return markup;
+                                                }, // 自定义格式化防止xss注入
+                                                minimumInputLength: 0,//最少输入多少个字符后开始查询。0：表示没有字符也搜索，即显示列表
+                                                formatResult: function formatRepo(repo) {
+                                                    return repo.text;
+                                                }, // 函数用来渲染结果
+                                                formatSelection: function formatRepoSelection(repo) {
+                                                    return repo.text;
+                                                }, // 函数用于呈现当前的选择
+                                                templateResult: formatData,    //数据格式化
+                                                language: 'zh-CN'
+                                            });
+                                            $("#allotUser").select2({
+                                                ajax: {
+                                                    url: '/task/user/list',
+                                                    data: function (params) {
+                                                        console.log(params);
+                                                        return {
+                                                            keyword: params.term || "", // search term
+                                                            pageNum: params.page || 1 //第几页返回查询
+                                                        };
+                                                    },
+                                                    processResults: function (data, params) {
+                                                        console.log(data);
+                                                        params.page = params.page || 1;
+                                                        var itemList = [];
+                                                        var dataList = data.list;
+                                                        for (var i = 0; i < dataList.length; i++) {
+
+                                                            itemList[i] = {
+                                                                id: dataList[i].userId,
+                                                                text: dataList[i].displayName,
+                                                                mobile: dataList[i].cellPhone,
+                                                                header: dataList[i].head
+                                                            };
+                                                        }
+                                                        return {
+                                                            results: itemList,
+                                                            pagination: {
+                                                                more: (params.page * 10) < data.total //每页10条数据
+                                                            }
+                                                        };
+                                                    }
+
+                                                },
+                                                placeholder: '请选择',//默认文字提示
+                                                allowClear: true,//允许在单选时清除
+                                                escapeMarkup: function (markup) {
+                                                    return markup;
+                                                }, // 自定义格式化防止xss注入
+                                                minimumInputLength: 0,//最少输入多少个字符后开始查询。0：表示没有字符也搜索，即显示列表
+                                                formatResult: function formatRepo(repo) {
+                                                    return repo.text;
+                                                }, // 函数用来渲染结果
+                                                formatSelection: function formatRepoSelection(repo) {
+                                                    return repo.text;
+                                                }, // 函数用于呈现当前的选择
+                                                templateResult: formatData,    //数据格式化
+                                                language: 'zh-CN'
+                                            });
+                                        });
+
+                                    </script>
+                                </div>
+                            </div>
+                            <div class="col-md-5 col-sm-6 form-group">
+                                <div class="input-group">
+                                        <span class="input-group-btn">
+                                            <span class="btn span-default no-padding"
+                                                  style="cursor:default;width: 90px;">派单人：</span>
+                                        </span>
+                                    <select style="width: 100%" id="allotUser" name="allotUser" tabindex="-1"
+                                            class="select2-hidden-accessible" aria-hidden="true">
+                                        <option value="" selected=""></option>
+                                    </select>
+                                </div>
+                            </div>
+                            <!--<div class="col-md-5 col-sm-6 form-group">-->
+                            <!--<div class="input-group">-->
+                            <!--<span class="input-group-btn">-->
+                            <!--<span class="btn span-default no-padding"-->
+                            <!--style="cursor:default;width: 90px;">工单状态：</span>-->
+                            <!--</span>-->
+                            <!--<select style="width: 100%" id="workOrderStatus" class=" form-control criteria">-->
+                            <!--<option value="">全部</option>-->
+                            <!--<option value="2">待指派</option>-->
+                            <!--<option value="2">已指派</option>-->
+                            <!--<option value="2">已接受</option>-->
+                            <!--<option value="2">已完成</option>-->
+                            <!--</select>-->
+                            <!--</div>-->
+                            <!--</div>-->
+                            <div class="col-md-5 col-sm-6 form-group">
+                                <div class="input-group">
+                                  <span class="input-group-btn">
+                                    <span class="btn span-default no-padding"
+                                          style="cursor:default;width: 90px;">创建时间：</span>
+                                  </span>
+                                    <input type="text" class="form-control criteria" placeholder="请输入创建时间"
+                                           name="createTime" readonly="readonly" value="" id="createTime"
+                                           maxlength="50">
+                                </div>
+                            </div>
+
+
+                            <div class="pull-right" style="padding-right: 20px">
+
+                                <button class="btn btn-primary"  id="adVancedSearchBtn" >确定
+                                </button>
+                                <a class="btn btn-default btnReset" style="margin-left: 2px"
+                                   href="javascript:;" @click="reset">重置</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="box box-solid">
+                    <div class="box-body">
+
+                        <div class="btn-group" id="auth_delete">
+                            <a class="btn btn-default btn-sm" onclick="deleteWorkTask()"><i
+                                    class="glyphicon glyphicon-trash"></i>&nbsp;&nbsp;删除</a>
+                        </div><!-- /.btn-group -->
+
+                    </div>
+                </div>
+
+                <div class="box box-solid">
+                    <div class="box-body no-padding">
+                        <div class="table-responsive list">
+                            <div class="loading" v-show="loading"></div>
+                            <table class="table table-hover table-striped table-bordered" id="taskTable">
+                                <thead>
+                                <tr>
+                                    <th><input type="checkbox" name="checkAll" id="checkSelect" value="全选"></th>
+                                    <th>工单编号</th>
+                                    <th id="tour_1" name="taskCustomer">报修人</th>
+                                    <th name="taskCustomerLinkmanPhone">联系方式</th>
+                                    <th name="taskCustomerAddress">地点</th>
+                                    <th name="taskProduct">服务类型</th>
+
+                                    <th name="taskPlanTime">发动机匹配厂家</th>
+
+                                    <!--<th name="taskLevel"> 优先级 </th>-->
+                                    <th name="taskServiceType">创建人</th>
+
+                                    <th name="taskServiceContent">创建时间&nbsp;</th>
+
+                                    <!--<th>派单人</th>-->
+
+                                    <!--<th>派单时间</th>-->
+                                    <!--<th>派单人电话</th>-->
+                                    <th name="taskAllotTime">工单状态</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr v-for="item in workorder">
+                                    <td><input type="checkbox" class="checkSelect" name="checkSelect"
+                                               :value="item.wo_id"></td>
+                                    <td>
+                                        <a :href="item.url">{{item.wo_sn}}</a>
+                                    </td>
+                                    <td>
+                                        <span v-if="item.jour_name != ''">{{item.jour_name}}</span>
+                                        <span v-if="item.cus_name != ''">{{item.cus_name}}</span>
+                                    </td>
+                                    <td>
+                                        <span v-if="item.jour_mobile != ''">{{item.jour_mobile}}</span>
+                                        <span v-if="item.cus_mobile != ''">{{item.cus_mobile}}</span>
+                                    </td>
+                                    <td name="taskCustomerAddress">
+                                        <span v-if="item.address != ''">{{item.address}}</span>
+                                        <span v-if="item.cus_address != ''">{{item.cus_address}}</span>
+                                    </td>
+                                    <td name="taskServiceType">
+                                        <span v-if="item.server_type == 1">保内免费</span>
+                                        <span v-if="item.server_type == 2">保内收费</span>
+                                        <span v-if="item.server_type == 3">保外免费</span>
+                                        <span v-if="item.server_type == 4">保外收费</span>
+                                    </td>
+                                    <td>
+                                        <span v-if="item.math_ven != ''">{{item.math_ven}}</span>
+                                        <span v-if="item.math_ven == ''">暂无信息</span>
+                                    </td>
+                                    <!--<td name="taskLevel">-->
+                                        <!--{{item.pid}}-->
+                                    <!--</td>-->
+                                    <td name="taskCreateUser">
+                                        <span v-if="item.add_name != ''">{{item.add_name}}</span>
+                                        <span v-if="item.add_name2 != ''">{{item.add_name2}}</span>
+                                    </td>
+                                    <td name="taskCreateTime">{{item.add_time}}</td>
+
+                                    <!--<td>-->
+                                        <!--{{item.ass_name}}-->
+                                    <!--</td>-->
+                                    <!--<td>{{item.ass_time}}</td>-->
+
+                                    <!--<td>{{item.ass_mobile}}</td>-->
+                                    <td>
+                                        <span style="background-color: #69b5f0">
+                                            {{item.status}}
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr v-show="workorder.length == 0">
+                                    <td colspan="19" style="text-align: center;">未找到相关数据</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="box-footer ">
+                        <div class="col-lg-4 ">共 {{count}} 条记录&nbsp; 共 {{countpage}} 页 &nbsp; &nbsp;每页显示
+                            <select id="sizeSelect" v-model="pagesize" @change="getData">
+                                <option value="10" selected="">10</option>
+                                <option value="20">20</option>
+                                <option value="50">50</option>
+                            </select>条
+                        </div>
+                        <div class="col-lg-8">
+                            <div id="vue-dingyi-paging">
+                                <ul>
+                                    <li>
+                                        <a class="pageLink" href="#" @click="setPage(page-1)">
+                                            <</a>
+                                    </li>
+                                    <li v-for="n in countpage">
+                                        <a class="pageLink" href="#" v-text="n" @click="setPage(n)" :class="{ curPage: n+1 == page }"></a>
+                                    </li>
+                                    <li><a class="pageLink" href="#" @click="setPage(page+1)">></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div id="apply" style="display: none;">
+
+        </div>
+    </section>
+</div>
+{include file="public/footer" /}
+<script>
+    //分页
+    //     $('#pagination1').jqPaginator({
+    //         totalPages: 12,//设置分页的总页数
+    //         visiblePages: 5,//设置最多显示的页码数（例如有100也，当前第1页，则显示1 - 7页）
+    //         currentPage: 1,//	设置当前的页码
+    //         first: "<li class=\"first\"><a href=\"javascript:;\">首页</a></li>",
+    //         last: "<li class=\"last\"><a href=\"javascript:;\">末页</a></li>",
+    //         prev: "<li class=\"prev\"><a href=\"javascript:;\">上一页</a></li>",
+    //         next: "<li class=\"next\"><a href=\"javascript:;\">下一页</a></li>",
+    //         page: "<li class=\"page\" ><a href=\"javascript:;\">{{page}}</a></li>",
+    //         onPageChange: function (num, type) {
+    // //            alert(num);
+    //         }
+    //     });
+    //工单池版块选择时间
+    $('#createTime').daterangepicker({
+        applyClass: "btn-primary",
+        locale: {
+            format: 'YYYY-MM-DD',
+            applyLabel: '确定',
+            applyClass: "btn-primary",
+            cancelLabel: '取消',
+            fromLabel: '开始',
+            toLabel: '结束',
+            daysOfWeek: '日_一_二_三_四_五_六'.split('_'),
+            monthNames: '1月_2月_3月_4月_5月_6月_7月_8月_9月_10月_11月_12月'.split('_'),
+        },
+        startDate: moment().subtract(6, 'days'),
+        endDate: moment()
+    });
+
+
+    //点击高级搜索
+    $("#advanceIcon").click(function () {
+        if ($(this).children("span").attr("class") == "glyphicon glyphicon-plus") {
+            //关闭
+            $(this).children("span").removeClass("glyphicon-plus");
+            $(this).children("span").addClass("glyphicon-minus");
+            $('#isAdvanced').val(1);
+        } else if ($(this).children("span").attr("class") == "glyphicon glyphicon-minus") {
+            //展开
+            $(this).children("span").removeClass("glyphicon-minus");
+            $(this).children("span").addClass("glyphicon-plus");
+            $('#isAdvanced').val(0);
+        }
+    });
+
+
+    function orderTask(ele) {
+        $("#sortSeachModel").attr("name", ele.dataset.name);
+        if (ele.dataset.sort == 'true') {
+            $("#sortSeachModel").val("false");
+        } else if (ele.dataset.sort == 'false') {
+            $("#sortSeachModel").val("true");
+        }
+        console.log($("#sortSeachModel"));
+        $("#mainForm").trigger('submit');
+    }
+
+    $(".btnReset").click(function () {
+        $("#collapseExample input").val("");
+        $("#name").val("");
+        $("#state").val("");
+        showWait();
+    });
+    ////以上是高级搜索 调用的方法
+
+
+    ////以下是复选框的选中
+    $("#checkSelect").change(function () {
+        if ($(this).is(':checked')) {
+            $("input[name='checkSelect']").prop("checked", "checked");
+        } else {
+            $("input[name='checkSelect']").removeAttr("checked");
+        }
+    });
+    $("input[name='checkSelect']").change(function () {
+        var flag = true;
+        $("input[name='checkSelect']").each(function () {
+            if (!$(this).is(':checked')) {
+                flag = false;
+                return false;
+            }
+        });
+        if (flag) {
+            $("#checkSelect").prop("checked", "checked");
+        } else {
+            $("#checkSelect").removeAttr("checked");
+        }
+    });
+    ////以上是复选框的选中
+
+    var vue = new Vue({
+        el: "#main",
+        data: {
+            wo_sn: '',
+            page: 1,
+            count:0,
+            countpage:0,       // 总页数
+            server_type:'',
+            pagesize: 10,
+            workorder: [],
+            loading:true
+        },
+        methods: {
+            search: function () {
+                this.getData();
+            },
+            reset:function(){
+                this.wo_sn = '';
+                this.getData();
+            },
+            getData: function () {
+                let $this = this;
+                let data = {};
+                $this.loading = true;
+                data.status = 7;
+                data.wo_sn = this.wo_sn;
+                data.server_type = this.server_type;
+                data.page = this.page;
+                data.pagesize = this.pagesize;
+                $.post('getWorkList', data, function (res) {
+                    if (res.code == 1) {
+                        $this.count = res.count;
+                        $this.countpage = res.countpage;
+                        console.log(res.data);
+                        $this.workorder = res.data;   // 数据
+                    } else {
+                        //暂无数据
+                        $this.count = 0;
+                        $this.countpage = 0;
+                        $this.workorder = [];
+                    }
+                    $this.loading = false;
+                })
+            },ShowSendCar:function (wid) {
+                var data =  {};
+                console.log(wid);
+                data.wid = wid;
+                $.post("getApply",data,function (res) {
+                    if(res.code == 1){
+                        $("#apply").html(res.data);
+                        layer.open({
+                            type:1,
+                            title:'派车申请',
+                            area:['800px','600px'],
+                            shadeClose:true,
+                            btn:['审核通过','拒绝','取消'],
+                            yes:function () {
+                                var data = {};
+                                data.aud_status = 1;
+                                data.wo_id = wid;
+                                $.post('setAud',data,function (res) {
+                                    if(res.code == 1){
+                                        layer.msg(res.msg,{icon:1});
+                                        setTimeout(function () {
+                                            layer.closeAll();
+                                        },2000)
+                                    }else{
+                                        if(res.code == 2){
+                                            layer.alert(res.msg);
+                                        }else{
+                                            layer.alert(res);
+                                        }
+                                    }
+                                })
+                            },
+                            btn2:function () {
+                                console.log(1);
+                                var data = {};
+                                data.aud_status = 2;
+                                data.wo_id = wid;
+                                $.post('setAud',data,function (res) {
+                                    if(res.code == 1){
+                                        layer.msg(res.msg,{icon:1});
+                                        setTimeout(function () {
+                                            layer.closeAll();
+                                        },2000)
+                                    }else{
+                                        if(res.code == 2){
+                                            layer.alert(res.msg);
+                                        }else{
+                                            layer.alert(res);
+                                        }
+                                    }
+                                })
+                                return false;
+                            },
+                            content:$("#apply")
+                        })
+                    }else{
+                        layer.alert('此工单暂无派车申请');
+                    }
+                })
+            },
+            ShowStayApp:function (wid) {
+                var data =  {};
+                data.wid = wid;
+                $.post("getStayApply",data,function (res) {
+                    if (res.code == 1) {
+                        $("#apply").html(res.data);
+                        layer.open({
+                            type: 1,
+                            title: '派车申请',
+                            area: ['800px', '600px'],
+                            shadeClose: true,
+                            btn: ['审核通过', '拒绝','取消'],
+                            yes: function () {
+                                var data = {};
+                                data.aud_status = 1;
+                                data.wo_id = wid;
+                                $.post('setAud2',data,function (res) {
+                                    if(res.code == 1){
+                                        layer.msg(res.msg,{icon:1});
+                                        setTimeout(function () {
+                                            layer.closeAll();
+                                        },2000)
+                                    }
+                                })
+                            },
+                            btn2:function () {
+                                var data = {};
+                                data.aud_status = 2;
+                                data.wo_id = wid;
+                                $.post('setAud2',data,function (res) {
+                                    if(res.code == 1){
+                                        layer.msg(res.msg,{icon:1});
+                                        setTimeout(function () {
+                                            layer.closeAll();
+                                        },2000)
+                                    }
+                                })
+                            },
+                            content: $("#apply")
+                        })
+                    } else {
+                        layer.alert('此工单暂无派车申请');
+                    }
+                })
+            },
+            setPage: function(num) {
+                //页码小于等于1
+                if (num <= 1) {
+                    this.page = 1;
+                    this.getData();
+                    return false;
+                }
+                //页码大于总页数
+                if (num >= this.countpage) {
+                    this.page = this.countpage;
+                    this.getData();
+                    return false;
+                }
+                //页码赋给当前页
+                this.page = num;
+                this.getData();
+            }
+        }
+    })
+    vue.getData();
+</script>

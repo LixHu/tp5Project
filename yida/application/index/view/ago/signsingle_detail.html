@@ -1,0 +1,117 @@
+{include file="public/header" /}
+    <style>
+        .banner {
+            width: 100%;
+            height: 300px;
+        }
+
+        .swiper-container {
+            width: 100%;
+            height: 300px;
+        }
+
+        .swiper-container1 {
+            width: 100%;
+            height: 300px;
+        }
+
+        .swiper-wrapper {
+            height: 300px !important;
+            background-color: #fff !important;
+        }
+
+        .swiper-slide {
+            height: 300px;
+            text-align: center;
+            font-size: 18px;
+            background: #ffffff;
+            /* Center slide text vertically */
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: -webkit-flex;
+            display: flex;
+            -webkit-box-pack: center;
+            -ms-flex-pack: center;
+            -webkit-justify-content: center;
+            justify-content: center;
+            -webkit-box-align: center;
+            -ms-flex-align: center;
+            -webkit-align-items: center;
+            align-items: center;
+        }
+
+        .swiper-pagination-bullet-active {
+            background: #fd443f !important;
+        }
+
+        .swiper-pagination-bullet {
+            background: #ffffff;
+            opacity: 1;
+            width: 16px;
+            border-radius: 15px;
+        }
+
+        .banner .swiper-slide img {
+            width: 1920px;
+            height: 300px;
+        }
+
+        .swiper-button-prev {
+            background-image: url("__AGO__/image/首页/合作客户/椭圆3.png");
+            -webkit-background-size: 44px 44px;
+            background-size: 44px 44px;
+            width: 44px;
+        }
+
+        .swiper-button-next {
+            background-image: url("__AGO__/image/首页/合作客户/椭圆3拷贝.png");
+            -webkit-background-size: 44px 44px;
+            background-size: 44px 44px;
+            width: 44px;
+        }
+    </style>
+</head>
+
+<body>
+<div id="vContent">
+    <div class="navBar">
+        <div class="pullLeft" style="line-height:50px; vertical-align:middle;padding-top: 5px;">
+            <a href="index.html">
+                <img src="{$info.company.logo}" alt="" style="width: 310px;height: 49px;line-height: 0px;">
+            </a>
+            <p class="font14" style="line-height: 0px;">新时代管理软件专家--智赢天下，助你智造赢未来</p>
+        </div>
+        <ul class="nav clearfix pullLeft">
+            <li class="m"><h3><a href="index.html" title="首页">首页</a></h3></li>
+            <li class="m"><h3><a href="software.html" title="体验精品">体验精品</a></h3></li>
+            <li class="m"><h3><a href="industry.html" title="深耕行业">深耕行业</a></h3></li>
+            <li class="m"><h3><a href="thanks.html" title="感谢客户">感谢客户</a></h3></li>
+            <li class="m"><h3><a href="service.html" title="真诚服务">真诚服务</a></h3></li>
+            <li class="m"><h3><a href="enterprise.html" title="良心企业">良心企业</a></h3></li>
+            <li class="m"><h3><a href="signsingle.html" title="签单动态">签单动态</a></h3></li>
+            <li class="block" style="left: 600px;"></li>
+        </ul>
+        <div style="line-height:25px; vertical-align:middle;padding-top: 35px;">
+            <div class="font20">全国免费服务热线</div>
+            <div class="font20 mainColor fontBold">{$info.company.free_server_phone}</div>
+        </div>
+    </div>
+    <div class="banner">
+        <div class="swiper-container swiper-container1">
+            {volist name="banner" id="vo"}
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide">
+                        <img src="{$vo.bn_url}" alt="">
+                    </div>
+                </div>
+            {/volist}
+        </div>
+    </div>
+    <div class="layer textCenter">
+        <div style="margin: 50px 0;">
+            <h2>{$under_info.com_name}</h2>
+            <p style="margin-top: 20px;">{$under_info.add_time}</p>
+            <p class="textLeft" style="margin-top: 20px;" >{$under_info.com_content}</p>
+        </div>
+    </div>
+    {include file="public/footer" /}

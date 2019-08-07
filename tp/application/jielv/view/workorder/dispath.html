@@ -1,0 +1,236 @@
+{include file="public/header" /}
+
+<script type="text/javascript">
+    $(function () {
+        $(".coll_body").eq(0).show();
+        $(".Collapsing").click(function () {
+            $(this).toggleClass("current").siblings('.Collapsing').removeClass("current");//切换图标
+            $(this).next(".coll_body").slideToggle(500).siblings(".coll_body").slideUp(500);
+        });
+    });
+</script>
+<link rel="stylesheet" href="_css/component.all.css">
+<script src="_js/component.all.js"></script>
+<style>
+    .float-right{
+        float: right;
+    }
+    .float-left{
+        float: left;
+    }
+    .clear{
+        clear: both;
+    }
+    .content {
+        margin: 0 auto;
+        width: 100%;
+        height: auto;
+        clear: both;
+    }
+    .type{
+        margin:20px;
+    }
+    .type label {
+        color: #000;
+        display: inline-block;
+        font-size: 16px;
+    }
+
+    .type .input-check {
+        display: inline-block;
+    }
+
+    .box2 {
+        margin: 50px auto;
+        height: auto;
+    }
+
+    .box2 h3 {
+        margin-left: 10px;
+    }
+
+    .Collapsing {
+        line-height: 30px;
+        cursor: pointer;
+        border-bottom: 1px solid white;
+        text-align: left;
+        background-repeat: no-repeat;
+        background-image: url(_images/pro_left.png);
+        background-position: right;
+    }
+
+    .coll_body {
+        display: none;
+    }
+    .coll_body a {
+        display: block;
+        margin: 5px;
+        text-align: center;
+    }
+    .coll_body span{
+         display: block;
+         margin: 5px 20px;
+         font-size: 16px;
+     }
+    .coll_body span:hover{
+        background-color: #0c7edf;
+        color: #fff;
+        cursor: pointer;
+    }
+    .current {
+        background-image: url(_images/pro_down.png);
+        background-position: right;
+    }
+</style>
+<div id="app" class="content clear">
+    <button class="btn btn-primary" @click="sub_take"><i class="fa fa-edit"></i> 确定</button>
+    <button class="btn btn-normal" @click="back"><i class="fa fa-reply"></i> 取消</button>
+    <div class="type">
+        <label class="label">派单类型：</label>
+        <div class="input-check">
+            {if !empty($_GET['type']) and $_GET['type'] eq 2}
+
+            {else /}
+                <input type="radio" name="take" id="take1" v-model="ra" value="1">
+                <label for="take1">派单到工单池</label>
+            {/if}
+            <input type="radio" id="take2" name="take" v-model="ra" value="2">
+            <label for="take2">派单到工单负责人</label>
+        </div>
+    </div>
+    <div v-show="ra == 2">
+        <div class="type">
+            <label class="label float-left">负责人：</label>
+            <div class="input-check col-md-9">
+                <input type="text" name="charger" class="form-control float-right" v-model="charg" readonly style="float: left;display: inline-block;"/>
+                <input type="hidden" v-model="charger" value="">
+                <input type="hidden" value="{$wid}" name="wid" />
+            </div>
+            <div class="col-md-1">
+                <button type="button" class="btn btn-primary" @click="dispathperson">选择负责人</button>
+            </div>
+        </div>
+        <div id="dispathperson" style="display: none;">
+            <div class="sp-contact-body">
+                <div class="sp-contact-dept">
+                    <div class="sp-tree">
+                        <div class="box2">
+                            <h3 class="Collapsing  current" style="font-size: 18px;font-weight: bold"><?php echo Session('user')->gname; ?></h3>
+                            <div class="coll_body">
+                                    <span class="typespan" @click="handle_r(9)">维修工</span>
+                                    <!--<div class="coll_body">-->
+                                        <!--<a href="javascript:;">1</a>-->
+                                        <!--<a href="javascript:;">2</a>-->
+                                        <!--<a href="javascript:;">3</a>-->
+                                        <!--<a href="javascript:;">4</a>-->
+                                    <!--</div>-->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="sp-contact-user">
+                    <div class="sp-contact-search">
+                        <label class="sp-contact-search-inner">
+                            <i class="iconfont icon-search"></i>
+                            <input type="search" placeholder="搜索全部员工" v-model="keyword" />
+                        </label>
+                    </div>
+                    <div class="sp-infinite-scroll sp-contact-user-panel">
+                        <div class="sp-contact-user-item" v-for="item in userlist" @click="user(item.uid,item.user_name)">
+                            <div class="sp-contact-user-info">
+                                <p>{{item.user_name}}</p>
+                                <p class="sp-contact-phone"></p>
+                            </div>
+                            <div class="sp-contact-user-check">
+                                <div class="sp-contact-count">
+                                    <!--<p>未完成：0</p>-->
+                                    <!--<p>今日完成：0</p>-->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    var vm = new Vue({
+        el: "#app",
+        data: {
+            ra:2,
+            charg:'',
+            charger:'',
+            userlist:[],
+            keyword:''
+        },
+        methods: {
+            handle_r:function(rid){
+                var $this = this,
+                    data = {};
+                data.rid = rid;
+                $.post('getRoleUser',data,function(res){
+                    if (res.code == 1){
+                        $this.userlist = res.data
+                    }else{
+                        $this.userlist = [];
+                    }
+                })
+            },
+            user:function (uid,uname) {
+                this.charg = '';
+                this.charg = uname;
+                this.charger = uid;
+                layer.closeAll();
+            },
+            sub_take:function(){
+                var $this = this,
+                    data = {};
+                data.type = this.ra;
+                data.uid = this.charger;
+                data.wid = $("input[name='wid']").val();
+                $.post('dispath_handle',data,function(res){
+                    if (res.code == 1){
+                        alert(res.msg);
+                        history.go(-1);
+                    }else{
+                        alert(res.msg);
+                    }
+                })
+            },
+            back:function(){
+                history.go(-1);
+            },
+            dispathperson:function () {
+                layer.open({
+                    type:1,
+                    shadeClose:true,
+                    title:'指派负责人',
+                    area:['800px','600px'],
+                    content:$("#dispathperson")
+                })
+            }
+        },
+        watch:{
+            ra:function(oldvalue,newvalue){
+                if(newvalue == 2){
+                    this.charger = '';
+                }
+            },
+            keyword:function (oldval,newval) {
+                var $this = this;
+                var data = {};
+                data.keyword = this.keyword;
+                $.post('SearchKey',data,function (res) {
+                    console.log(res);
+                    if (res.code == 1){
+                        $this.userlist = res.data
+                    }else{
+                        $this.userlist = [];
+                    }
+                })
+            }
+        }
+    })
+</script>
+{include file="public/footer" /}

@@ -1,0 +1,47 @@
+{include file="public/header" /}
+<blockquote class="layui-elem-quote layui-quote-nm">管理配送区域</blockquote>
+<body>
+    <table class="layui-table">
+        <tr>
+            <th style="width:20%;"></th>
+            <th style="width:60%;">省</th>
+            <th style="width:20%;">管理</th>
+        </tr>
+        {volist name="province" id="vo"}
+            <tr>
+                <td>{$vo.id}</td>
+                <td>{$vo.name}</td>
+                <td><button type="button" class="layui-btn layui-btn-normal" data-id="{$vo.id}" data-method="edit_conf">管理</button></td>
+            </tr>
+        {/volist}
+    </table>
+</body>
+<script type="text/javascript">
+var active = {
+    edit_conf:function(){
+        console.log(id);
+        layer.open({
+          type: 2,
+          area: ['900px', '680px'],
+          fixed: false, //不固定
+          maxmin: true,
+          content: 'area_list?id='+id
+        });
+    },
+};
+
+$('.layui-btn').on('click', function(){
+    var othis = $(this), method = othis.data('method');id=othis.data('id');
+    active[method] ? active[method].call(this, othis) : '';
+});
+    // layui.use('form', function(){
+    //   var form = layui.form;
+    //
+    //   //监听提交
+    //   form.on('submit(formDemo)', function(data){
+    //     layer.msg(JSON.stringify(data.field));
+    //     return false;
+    //   });
+    // });
+</script>
+{include file="public/footer" /}

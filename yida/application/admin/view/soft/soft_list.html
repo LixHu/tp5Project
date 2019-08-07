@@ -1,0 +1,144 @@
+{include file="public/header" /}
+<div id="soft" style="padding:10px;">
+    <blockquote class="layui-elem-quote layui-text">
+        软件管理
+    </blockquote>
+    <div style="float:right;padding:10px;">
+        <button class="layui-btn layui-btn-normal" id="add">添加软件</button>
+    </div>
+    <table class="layui-table">
+        <tr>
+            <td><input type="checkbox" id="checkall"></td>
+            <td>软件名称</td>
+            <td>功能流程图</td>
+            <td>是否显示</td>
+            <td>是否精品软件</td>
+            <td>操作</td>
+        </tr>
+        {volist name="soft_list" id="vo"}
+            <tr>
+                <td><input type="checkbox" name="id[]" value="{$vo.soft_id}" /></td>
+                <td>{$vo.soft_name}</td>
+                <td><img src="{$vo.fun_img}" width="50" height="50"></td>
+                <td onclick="up_status('is_show',{$vo.is_show},{$vo.soft_id})">{if $vo.is_show eq 1} <img src="/static/img/yes.png" /> {else /}<img src="/static/img/no.png" /> {/if}</td>
+                <td onclick="up_status('is_groom',{$vo.is_groom},{$vo.soft_id})">{if $vo.is_groom eq 1} <img src="/static/img/yes.png" /> {else /}<img src="/static/img/no.png" /> {/if}</td>
+                <td>
+                    <div class="layui-btn-group">
+                        <button class="layui-btn layui-btn-normal edit" data-id="{$vo.soft_id}" data-method="edit">编辑</button>
+                        <button class="layui-btn layui-btn-danger" data-id="{$vo.soft_id}" data-method="del">删除</button>
+                    </div>
+                </td>
+            </tr>
+        {/volist}
+        <tr>
+            <td colspan="15">
+                <div class="pagelist">{$page}</div>
+            </td>
+        </tr>
+        <tr>
+            <td><button type="button" class="layui-btn layui-btn-danger" data-method="delAll">删除</button></td>
+            <td colspan="15"></td>
+        </tr>
+    </table>
+</div>
+<script type="text/javascript">
+var up_status = function(type,status,id)
+{
+    var data = {};
+    data.type = type;
+    data.status = status;
+    data.soft_id = id;
+    $.post('up_status',data,function(ret){
+        if (ret.code == 1) {
+            layer.msg(ret.msg,{icon:1});
+            setTimeout('location.reload()',2000);
+        }else {
+            layer.msg(ret.msg,{icon:2});
+        }
+    })
+}
+$('.layui-btn').on('click', function(){
+    var othis = $(this), method = othis.data('method');
+    active[method] ? active[method].call(this, othis) : '';
+});
+var active = {
+    del:function(){
+        var data = {};
+        data.id = $(this).data('id');
+        layer.confirm('确定要删除吗？',{
+            btn:['确定','取消']
+        },function(){
+            $.post('del_soft',data,function(msg){
+                msg = JSON.parse(msg);
+                if(msg.code == 1){
+                    layer.msg(msg.msg,{icon:1});
+                    setTimeout("location.reload()",2000);
+                }else{
+                    layer.msg(msg.msg,{icon:2});
+                }
+            })
+        },function(){
+            console.log('error');
+        })
+    },
+    delAll:function(){
+        var id = [];
+        $.each($("input[name='id[]']"),function(k,v){
+            if(v.checked){
+                id.push(v.value);
+            }
+        })
+        if(id.length < 1){
+            layer.msg('请选择要删除的软件',{icon:2});
+            return false;
+        }
+        var data = {};
+        data.id = id;
+        layer.confirm('确定要删除吗？',{
+            btn:['确定','取消']
+        },function(){
+            $.post('del_soft',data,function(msg){
+                msg = JSON.parse(msg);
+                if(msg.code == 1){
+                    layer.msg(msg.msg,{icon:1});
+                    setTimeout("location.reload()",2000);
+                }else{
+                    layer.msg(msg.msg,{icon:2});
+                }
+            })
+        },function(){
+
+        })
+    },
+    edit:function(){
+        var id = $(this).data('id');
+        layer.open({
+            type:2,
+            title:"编辑软件",
+            area:['800px','600px;'],
+            shadeClose:false,
+            closeBtn:1,
+            content:'addedit_soft?id='+id
+        })
+    }
+}
+    $("#add").on('click',function(){
+        layer.open({
+            type:2,
+            title:'添加软件',
+            area:['800px','600px'],
+            shadeClose:false,
+            closeBtn:1,
+            content:'addedit_soft'
+        });
+    });
+    $(".edit").on('click',function(){
+        console.log(1);
+    })
+    $("#checkall").click(function(){
+        $.each($("input[name='id[]']"),function(k,v){
+            v.checked = !v.checked;
+        })
+    })
+</script>
+{include file="public/footer" /}

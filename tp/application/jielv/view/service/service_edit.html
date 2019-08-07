@@ -1,0 +1,263 @@
+{include file="public/header" /}
+<style>
+body {
+	background-color: #eeeeee;
+}
+
+.content {
+	padding: 0 15px !important;
+}
+
+.small-box {
+	margin-bottom: 0px;
+	color: #FFFFFF;
+}
+
+.table-header-sort {
+	cursor: pointer;
+	color: black !important;
+}
+
+.tooltip>.tooltip-inner {
+	background-color: #e5e5e5;
+	color: #0c0c0c
+}
+
+.tooltip.top .tooltip-arrow {
+	border-top-color: #e5e5e5;
+}
+
+#wait {
+	background: rgba(255, 255, 255, 0.5) url("/resource/images/wait.gif")
+		center no-repeat;
+	position: fixed;
+	width: 100%;
+	height: 100%;
+	z-index: 9000;
+}
+
+.dnone {
+	display: none;
+}
+
+[v-cloak] {
+	display: none
+}
+
+.iconfont {
+	width: 50px !important;
+}
+
+.dropdown-menu>li a {
+	transition: background-color ease .3s, color ease .3s, border-color ease
+		.3s;
+}
+
+.dropdown-menu>li a:hover {
+	background-color: #3c8dbc;
+	color: white;
+	border-color: #3c8dbc;
+}
+
+.dropdown-toggle {
+	transition: background-color ease .3s, color ease .3s, border-color ease
+		.3s;
+}
+
+.dropdown-toggle:hover {
+	background-color: #3c8dbc;
+	color: white;
+	border-color: #3c8dbc;
+}
+
+.open .dropdown-toggle {
+	background-color: #3c8dbc !important;
+	color: white !important;
+	border-color: #3c8dbc !important;
+}
+
+.btn-default1 {
+	background-color: #f4f4f4;
+	color: #444;
+	border-color: #ddd;
+}
+
+.small-box .icon {
+	top: -25px !important;
+}
+
+.small-box h3 {
+	font-size: 30px !important;
+	margin: 0 0 10px 0 !important;
+	white-space: nowrap !important;
+	padding: 0 !important;
+	font-weight: normal !important;
+}
+
+.table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th,
+	.table>thead>tr>td, .table>thead>tr>th {
+	line-height: 2.4;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	overflow: hidden;
+}
+</style>
+<div class="" id="main">
+	<section class="content" style="min-width: 760px !important;">
+		<div class="">
+			<form id="mainForm" action="service_edit" method="post"
+				class="nice-validator n-default n-bootstrap" novalidate="novalidate">
+				<input type="hidden" id="id" name="id" value="{$se['id']}">
+
+				<div class="box box-solid">
+					<div class="box-body">
+						<div class="row">
+							<div class="col-md-6 col-sm-6">
+								<button type="submit" class="btn btn-primary"
+									id="customerFrameSave">保存</button>
+								<div class="btn-group">
+									<a href="javascript:history.go(-1)" class="btn btn-default">取消</a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="box box-solid">
+					<div class="box-header with-border">
+						<span style="font-weight: bold">车费基本信息</span>
+					</div>
+
+					<div class="box-body">
+						
+						<div class="modal-body" style="height: 400px;">
+							<form name="add" id="form1" method="post" action="service_edit" onsubmit="return check_from();">
+								<div class="container-fluid">
+									
+									<div class="form-group col-md-12">
+										<label for="lmPhone" class="col-md-2 col-sm-3 control-label">车类<span
+											class="text-red" title="必填">*</span>：
+										</label>
+										<div class="col-md-8 col-sm-7">
+
+											<select style="width: 100%;height: 30px;" id="cart_type" name="cart_type"
+												tabindex="-1"  
+												aria-hidden="true"> 
+												{volist name="cart_type" id="vo"}
+												<option value="{$vo.id}" {if condition="$se['cart_type'] eq $vo['id']"}selected{/if} >{$vo.type_name}</option>
+												{/volist}
+											</select>
+
+										</div>
+										<div class="col-sm-2 validation-tip"></div>
+									</div>
+									<div class="form-group col-md-12">
+										<label for="lmPhone" class="col-md-2 col-sm-3 control-label">车型<span
+											class="text-red" title="必填">*</span>：
+										</label>
+										<div class="col-md-8 col-sm-7">
+
+											<select style="width: 100%;height: 30px;" id="cart_cate" name="cart_cate"
+												tabindex="-1"  
+												aria-hidden="true"> 
+												{volist name="cart_cate" id="vo"}
+												<option value="{$vo.id}" {if condition="$se['cart_cate'] eq $vo['id']"}selected{/if}>{$vo.name}</option>
+												{/volist}
+											</select>
+
+										</div>
+										<div class="col-sm-2 validation-tip"></div>
+									</div>
+									<div class="form-group col-md-12">
+										<label for="lmPhone" class="col-md-2 col-sm-3 control-label">时间段<span
+											class="text-red" title="必填">*</span>：
+										</label>
+										<div class="col-md-8 col-sm-7">
+
+											<select style="width: 100%;height: 30px;" id="time_slot" name="time_slot"
+												tabindex="-1"  
+												aria-hidden="true"> 
+												{volist name="time_slot" id="vo"}
+												<option value="{$vo.id}" {if condition="$se['time_slot'] eq $vo['id']"}selected{/if}>{$vo.name}</option>
+												{/volist}
+											</select>
+
+										</div>
+										<div class="col-sm-2 validation-tip"></div>
+									</div>
+									<div class="form-group col-md-12">
+										<label for="name" class="col-md-2 col-sm-3 control-label">起步费<span
+												class="text-red" title="必填">*</span>：
+										</label>
+										<div class="col-md-8 col-sm-7">
+											<input type="text" class="form-control" placeholder="[最多50字]"  name="base_fare" maxlength="50" aria-required="true" onkeyup="value=value.replace(/[^\d{1,}\.\d{1,}|\d{1,}]/g,'')" value="{$se['base_fare']}">
+										</div>
+										<div class="col-sm-2 validation-tip"></div>
+									</div>
+
+
+
+
+									<div class="form-group col-md-12">
+										<label for="lmPhone" class="col-md-2 col-sm-3 control-label">十公里内<span
+												class="text-red" title="必填">*</span>：
+										</label>
+										<div class="col-md-8 col-sm-7">
+											<input type="text" class="form-control" 
+												   placeholder="最多两位小数" name="km_fee" maxlength="50"
+												   aria-required="true" onkeyup="value=value.replace(/[^\d{1,}\.\d{1,}|\d{1,}]/g,'')" value="{$se['km_fee']}">
+										</div>
+										<div class="col-sm-2 validation-tip"></div>
+									</div>
+
+
+
+
+									<div class="form-group col-md-12">
+										<label for="lmPhone" class="col-md-2 col-sm-3 control-label">十公里内<span
+												class="text-red" title="选填"></span>：
+										</label>
+										<div class="col-md-8 col-sm-7">
+											<input type="text" class="form-control"
+												   placeholder="[只允许数字]" name="km_fee_s" maxlength="50"
+												   aria-required="true" onkeyup="value=value.replace(/[^\d{1,}\.\d{1,}|\d{1,}]/g,'')" value="{$se['km_fee_s']}">
+										</div>
+										<div class="col-sm-2 validation-tip"></div>
+									</div>
+
+								</div>
+						</div>
+					</div>
+				</div>
+		</div>
+
+
+		</form>
+</div>
+</section>
+</div>
+{include file="public/footer" /}
+<script>
+//js验证验单内容
+function check_from(){
+	var base_fare = $('input[name="base_fare"]').val();
+	var km_fee = $('input[name="km_fee"]').val();
+	var km_fee_s = $('input[name="km_fee_s"]').val();
+	
+
+	
+	if($.trim(base_fare) == ''){
+		alert('请填写起步费');
+		return false;
+	}
+	if($.trim(km_fee) == ''){
+		alert('请填写十公里内公里费');
+		return false;
+	}
+	if($.trim(km_fee_s) == ''){
+		alert('请填写十公里外公里费');
+		return false;
+	}
+}
+
+</script>

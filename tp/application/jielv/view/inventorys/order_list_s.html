@@ -1,0 +1,411 @@
+{include file="public/header" /}
+
+
+<link
+    href="http://cdn.bootcss.com/bootstrap-daterangepicker/2.1.25/daterangepicker.css"
+    rel="stylesheet" />
+<script
+    src="http://cdn.bootcss.com/bootstrap-daterangepicker/2.1.25/moment.min.js"></script>
+<script
+    src="http://cdn.bootcss.com/bootstrap-daterangepicker/2.1.25/daterangepicker.js"></script>
+<script src="_js/bootstrap-datetimepicker.min.js"></script>
+<script src="_js/bootstrap-datetimepicker.zh-CN.js"></script>
+<link rel="stylesheet" href="_css/bootstrap-datetimepicker.min.css">
+<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+<!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+<style>
+body {
+    background-color: #eeeeee;
+}
+
+.content {
+    padding: 0 15px !important;
+}
+
+.small-box {
+    margin-bottom: 0px;
+    color: #FFFFFF;
+}
+
+.table-header-sort {
+    cursor: pointer;
+    color: black !important;
+}
+
+.tooltip>.tooltip-inner {
+    background-color: #e5e5e5;
+    color: #0c0c0c
+}
+
+.tooltip.top .tooltip-arrow {
+    border-top-color: #e5e5e5;
+}
+
+#wait {
+    background: rgba(255, 255, 255, 0.5) url("/resource/images/wait.gif")
+        center no-repeat;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    z-index: 9000;
+}
+
+.dnone {
+    display: none;
+}
+
+[v-cloak] {
+    display: none
+}
+
+.iconfont {
+    width: 50px !important;
+}
+
+.dropdown-menu>li a {
+    transition: background-color ease .3s, color ease .3s, border-color ease
+        .3s;
+}
+
+.dropdown-menu>li a:hover {
+    background-color: #3c8dbc;
+    color: white;
+    border-color: #3c8dbc;
+}
+
+.dropdown-toggle {
+    transition: background-color ease .3s, color ease .3s, border-color ease
+        .3s;
+}
+
+.dropdown-toggle:hover {
+    background-color: #3c8dbc;
+    color: white;
+    border-color: #3c8dbc;
+}
+
+.open .dropdown-toggle {
+    background-color: #3c8dbc !important;
+    color: white !important;
+    border-color: #3c8dbc !important;
+}
+
+.btn-default1 {
+    background-color: #f4f4f4;
+    color: #444;
+    border-color: #ddd;
+}
+
+.small-box .icon {
+    top: -25px !important;
+}
+
+.small-box h3 {
+    font-size: 30px !important;
+    margin: 0 0 10px 0 !important;
+    white-space: nowrap !important;
+    padding: 0 !important;
+    font-weight: normal !important;
+}
+
+.table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th,
+    .table>thead>tr>td, .table>thead>tr>th {
+    line-height: 2.4;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+.nav-tabs>li>a {
+    border: 1px solid transparent;
+    border-radius: 5px;
+}
+
+.nav-tabs>li.active>a, .nav-tabs>li.active>a:focus, .nav-tabs>li.active>a:hover
+    {
+    color: #FFFFFF;
+    cursor: default;
+    background-color: #27a9e6;
+}
+
+.nav-tabs {
+    border-bottom: 0;
+}
+
+.box-header>.fa, .box-header>.glyphicon, .box-header>.ion, .box-header .box-title
+    {
+    font-size: 15px;
+    font-weight: bold;
+}
+
+.modal-content label {
+    line-height: 34px;
+}
+</style>
+</head>
+<body>
+    <div class="col-md-9" style="width: 100%;">
+        <div class="box box-solid">
+                <div class="box-body">
+                        <div class="row">
+                            <div class="col-md-6 col-sm-6">
+                                <div class="btn-group">
+                                    <a href="javascript:history.go(-1)" class="btn btn-default">返回</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                        <div class="box-body no-padding">
+                            <div class="table-responsive list">
+                                <table class="table table-hover table-striped table-bordered"
+                                    id="taskTable">
+                                    <thead>
+                                        <tr>
+                                            <th colspan="8">订单详情</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>订单编号：</td>
+                                            <td>{$order_list['number']}</td>
+                                            <td>申请人：</td>
+                                            <td>{$order_list['username']}</td>
+                                            <td>联系方式：</td>
+                                            <td>{$order_list['usertel']}</td>
+                                            <td></td>
+                                            <td></td>
+                                        </tr>
+                                        <tr>
+                                            <td>服务商/客户：</td>
+                                            <td>{$order_list['supplier']}{$order_list['client']}</td>
+                                            <td>订单类型：</td>
+                                            {if condition="$order_list['sid'] eq 1"}
+                                            <td>采购订单</td>
+                                            {else}
+                                            <td>销售订单</td>
+                                            {/if}
+                                            <td>申请日期：</td>
+                                            <td>{$order_list['ad_date']}</td>
+                                            <td></td>
+                                            <td></td>
+                                        </tr>
+                                        {volist name="product" id="vo"}
+                                        <tr>
+                                            
+                                            <td>配件名称：</td>
+                                            <td>{$vo.name}</td>
+                                            <td>配件类型：</td>
+                                            <td>{$vo.catename}</td>
+                                            <td>数量：</td>
+                                            <td>{$vo.count}</td>
+                                            {if condition="$rid neq 7"}
+                                            <td>单价：</td>
+                                            <td>{$vo.price}</td>
+                                            {/if}
+                                        </tr>
+                                        {/volist}
+                                        {if condition="$rid neq 7"}
+                                        <tr>
+                                            <td>含税总费用：</td>
+                                            <td>{$order_list['reduced_price']}</td>
+                                            <td>优惠后费用：</td>
+                                            <td>{$order_list['p_price']}</td>
+                                            <td>优惠金额：</td>
+                                            <td>{$order_list['purchase_discount']}</td>
+                                            <td></td>
+                                            <td></td>
+                                            
+                                        </tr>
+                                        {/if}
+                                        <tr>
+                                            <td>联系人：</td>
+                                            <td>{$order_list['linkman']}</td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            
+                                        </tr>
+                                        
+                                        <tr>
+                                            <td>收货地址：</td>
+                                            <td colspan="7">{$order_list['linkman_address']}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>备注：</td>
+                                            <td colspan="7">{$order_list['content']}</td>
+                                        </tr>
+                                        
+                                        <tr>
+                                            <td>财务流水单号：</td>
+                                            <td colspan="7">{$order_list['bill_number']}</td>
+                                        </tr>
+                                        
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="box-footer ">
+                            
+                            <div class="col-lg-8 ">
+                                <!-- <ul class="pagination pull-right" id="pagination1"></ul> -->
+
+                            
+                            </div>
+                        </div>
+        </div>
+    </div>
+  
+<form id="mainForm" action="audit_s" method="post"
+                class="nice-validator n-default n-bootstrap" novalidate="novalidate" onsubmit="return check_from();">
+<div class="col-md-9" style="width: 100%;">
+        <div class="box box-solid">
+                        <div class="box-body no-padding">
+                            <div class="table-responsive list">
+                                <table class="table table-hover table-striped table-bordered"
+                                    id="taskTable">
+                                    <thead>
+                                        <tr>
+                                            <th colspan="8">发货信息</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>发货快递公司</td>
+                                            <td><input type="text" name="deliver" value="{$order_list['deliver']}" class="form-control"  style="width: 160px;" readonly></td>
+                                            <td>发货单号</td>
+                                            <td><input type="text" name="deliver_number" value="{$order_list['deliver_number']}" onkeyup="value=value.replace(/[^\w\.\/]/ig,'')" class="form-control"  style="width: 160px;" readonly></td>
+                                            <td>发货单位</td>
+                                            <td><input type="text" name="deliver_unit" value="{$order_list['deliver_unit']}" class="form-control"  style="width: 160px;" readonly></td>
+                                            <td>发货人</td>
+                                            <td><input type="text" name="deliver_name" value="{$order_list['deliver_name']}" class="form-control"  style="width: 160px;" readonly></td>
+                                        </tr>
+                                        <tr>
+                                            <td>发货人电话</td>
+                                            <td><input type="text" name="deliver_name_tel" value="{$order_list['deliver_name_tel']}" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')" class="form-control"  style="width: 160px;" readonly></td>
+                                            <td>发货配件名</td>
+                                            <td><input type="text" name="deliver_parts" value="{$order_list['deliver_parts']}" class="form-control"  style="width: 160px;" readonly></td>
+                                            <td>发货数量</td>
+                                            <td><input type="text" readonly name="deliver_count" value="{$order_list['deliver_count']}" class="form-control"  style="width: 160px;"></td>
+                                            <td>发货日期</td>
+                                            <td><input type="text" readonly value="{$order_list['deliver_time']}" id="createTime1"
+                                        name="deliver_time" class="form-control" style="width: 160px;"></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="box-footer ">
+                            
+                            <div class="col-lg-8 ">
+                                <!-- <ul class="pagination pull-right" id="pagination1"></ul> -->
+
+                            <input type="hidden" name="z_audi" value="{$order_list['z_audi']}">
+                            <input type="hidden" name="orderid" value="{$order_id}">
+                            </div>
+                        </div>
+        </div>
+    </div>
+    
+</form>
+
+
+{include file="public/footer" /}
+<script type="text/javascript">
+//js验证表单提交方法
+function check_from(){
+    var deliver = $('input[name="deliver"]').val();
+    var deliver_number = $('input[name="deliver_number"]').val();
+    var deliver_unit = $('input[name="deliver_unit"]').val();
+    var deliver_name = $('input[name="deliver_name"]').val();
+    var deliver_name_tel = $('input[name="deliver_name_tel"]').val();
+    var deliver_parts = $('input[name="deliver_parts"]').val();
+    var deliver_count = $('input[name="deliver_count"]').val();
+    var deliver_time = $('input[name="deliver_time"]').val();
+
+
+    if($.trim(deliver) == ''){
+        alert('请先填写发货快递公司');
+        return false;
+    }
+    if($.trim(deliver_number) == ''){
+        alert('请先填写发货单号');
+        return false;
+    }
+    if($.trim(deliver_unit) == ''){
+        alert('请先填写发货单位');
+        return false;
+    }
+    if($.trim(deliver_name) == ''){
+        alert('请填写发货人');
+        return false;
+    }
+    if($.trim(deliver_name_tel) == ''){
+        alert('请填写发货人电话');
+        return false;
+    }
+    if($.trim(deliver_parts) == ''){
+        alert('请填写发货配件名');
+        return false;
+    }
+    if($.trim(deliver_count) == ''){
+        alert('请填写发货数量');
+        return false;
+    }
+    if($.trim(deliver_time) == ''){
+        alert('请填写发货时间');
+        return false;
+    }
+    
+    
+}
+    //审核
+    function audit(id){
+            if(confirm('你确定要进行审核吗？')){
+                 var bill_number = $('input[name="bill_number"]').val();
+                $.post("{:url('Auditing/audit')}",{id:id,bill_number:bill_number},function(data){
+                        if(data == 0){
+                            alert('审核失败');
+                        }else if(data == 1){
+                            location.reload();
+                        }
+                    },'json')
+            }
+            
+            
+        }
+
+        //驳回
+    function reject(id){
+            if(confirm('你确定要驳回吗？')){
+                
+                $.post("{:url('Auditing/reject')}",{id:id},function(data){
+                        if(data == 0){
+                            alert('驳回失败');
+                        }else if(data == 1){
+                            location.reload();
+                        }
+                    },'json')
+            }
+            
+            
+        }
+
+
+
+        $('#createTime1').datetimepicker({
+            format: 'yyyy-mm-dd',
+            autoclose: true,
+            minView: 0,
+            minuteStep: 5,
+            todayBtn: true,
+            language: 'zh-CN'
+        });
+</script>

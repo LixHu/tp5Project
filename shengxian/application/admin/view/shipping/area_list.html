@@ -1,0 +1,43 @@
+{include file="public/header" /}
+<form  action="" method="post">
+    <table class="layui-table">
+        <tr>
+            <th></th>
+            <th>市</th>
+            <th>区</th>
+        </tr>
+        {volist name="area" id="vo"}
+            <tr>
+                <td>{$vo.id}</td>
+                <td><input type="checkbox"  name="area[]" value="{$vo.id}" class="city" {if condition="in_array($vo.id,$list)"} checked {/if}> {$vo.name}</td>
+                <td>
+                    {volist name="vo.town" id="v"}
+                        <input type="checkbox"  name="area[]" value="{$v.id}" class="town" {if condition="in_array($vo.id,$list)"} checked {/if}> {$v.name}
+                    {/volist}
+                </td>
+            </tr>
+        {/volist}
+    </table>
+    <div class="text-center">
+        <input type="hidden" value="<?php echo $_GET['id']; ?>" name="area_id">
+        <button type="submit" class="layui-btn layui-btn-normal" id="add"> 添加到配送区域</button>
+    </div>
+</form>
+<script type="text/javascript">
+    $(".city").change(function(){
+        var town = $(this).parent().next('td').find('.town');
+        town.each(function(k,v){
+            if(v.checked == false){
+                v.checked = true;
+            }else{
+                v.checked = false;
+            }
+        })
+    })
+    var index = parent.layer.getFrameIndex(window.name);
+    $("#add").on('click',function(){
+        parent.layer.close(index);
+        parent.layer.msg('添加成功',{icon:1});
+    });
+</script>
+{include file="public/footer" /}

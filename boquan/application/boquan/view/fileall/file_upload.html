@@ -1,0 +1,213 @@
+{include file="public/header" /}
+<style>
+body {
+	background: #eeeeee;
+}
+
+.content {
+	padding: 0 15px !important;
+}
+
+.edui1_iframeholder {
+	width: 100% !important;
+}
+
+#edui1 {
+	width: 100% !important;
+}
+
+#container {
+	height: 300px;
+}
+</style>
+<div class="row" id="case">
+	<section class="content" style="min-width: 760px !important;">
+        <div class="">
+
+            <input type="hidden" id="sortSeachModel" name="sortBy[taskNo]" value="false"> <input type="hidden" id="workTaskId" name="id" value="">
+
+            <div class="box box-solid">
+                <div class="box-body">
+                    <div class="row">
+                        <div class="col-md-6 col-sm-6">
+                            <div class="btn-group" id="auth_delete">
+                                <a href="{:url('Fileall/file_upload')}" class="btn btn-primary btn-sm checkbox-toggle">全部</a>
+                                <a onclick="newFile('case','new')" href="javascript:void(0)"
+                                class="btn btn-primary btn-sm checkbox-toggle" style="margin-left: 10px;"><i
+                                class="fa fa-plus"></i> &nbsp;&nbsp;新增分类</a>
+
+                            </div>
+                            <!-- /.btn-group -->
+                        </div>
+
+                        
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="box box-solid">
+                <div class="box-body no-padding">
+                    <div class="table-responsive list">
+                        <table class="table table-hover table-striped table-bordered"
+                            id="taskTable">
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th>名称</th>
+                                    <th name="taskPlanTime">操作</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                
+                                {volist name="filecate" id="vo"}
+                                <tr>
+                                    <td></td>
+                                    <td name="taskCustomer">{$vo.name}</td>
+                                    <td><a href="javascript:del_cate({$vo.id})" class="btn btn-primary btn-sm checkbox-toggle">删除</a>
+                                    <a href="{:url('edit_cate',['id'=>$vo.id])}" class="btn btn-primary btn-sm checkbox-toggle">编辑</a>
+                                    </td>
+                                </tr>
+                                {/volist}
+
+                                
+                            
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="box-footer ">
+                    <div class="col-lg-8 ">
+                        <!-- <ul class="pagination pull-right" id="pagination1"></ul> -->
+
+                        
+                    </div>
+                </div>
+
+            </div>
+
+            
+        </div>
+    </section>
+</div>
+<section class="content" id="new" style="display: none;">
+	<form id="form1" method="post"
+		class="form-horizontal nice-validator n-default n-bootstrap"
+		novalidate="novalidate" action="add_filecate">
+		<div class="box box-solid">
+			<div class="box-body">
+
+
+				<a class="btn btn-default btn-close" onclick="back('case','new')">
+					<li class="fa fa-reply"></li> &nbsp;&nbsp;返回
+				</a>
+
+
+				<button type="submit" class="btn btn-primary btn-close"
+					id="wiki-sub">
+					<li class="fa fa-save"></li> &nbsp;&nbsp;提交
+				</button>
+
+			</div>
+		</div>
+		<div class="box box-solid">
+			<div class="box-header with-border">
+				<span style="font-weight: bold">基本信息</span>
+			</div>
+			<div class="box-body">
+				<div class="row">
+
+					<div class="col-md-12 form-group">
+						<label for="title" class="col-md-2  col-sm-3 control-label">类别名称<span
+							class="text-red" title="必填">*</span>：
+						</label>
+						<div class="col-md-8 col-sm-7 col-padding-custom">
+							<input type="text" class="form-control" id="name" name="name"
+								placeholder="请输入...[最多50字]"
+								data-rule-name="[/^[a-zA-Z0-9\u4e00-\u9fa5]+$/, '中文、字母、数字']"
+								value="" maxlength="50" aria-required="true">
+						</div>
+						<div class="col-sm-2 validation-tip"></div>
+					</div>
+
+
+
+					
+				</div>
+
+
+			</div>
+		</div>
+    		
+	</form>
+</section>
+
+<script type="text/javascript">
+//     $('#pagination1').jqPaginator({
+//         totalPages: 12,//设置分页的总页数
+//         visiblePages: 5,//设置最多显示的页码数（例如有100也，当前第1页，则显示1 - 7页）
+//         currentPage: 1,//	设置当前的页码
+//         first: "<li class=\"first\"><a href=\"javascript:;\">首页</a></li>",
+//         last: "<li class=\"last\"><a href=\"javascript:;\">末页</a></li>",
+//         prev: "<li class=\"prev\"><a href=\"javascript:;\">上一页</a></li>",
+//         next: "<li class=\"next\"><a href=\"javascript:;\">下一页</a></li>",
+//         page: "<li class=\"page\" ><a href=\"javascript:;\">{{page}}</a></li>",
+//         onPageChange: function (num, type) {
+// //            alert(num);
+//         }
+//     });
+
+    //显示新建页面,隐藏文件库页面
+    function newFile(id1, id2) {
+        $('#' + id1).hide();
+        $('#' + id2).show();
+    }
+
+    //隐藏新建页面,显示文件库页面
+    function back(id1, id2) {
+        $('#' + id1).show();
+        $('#' + id2).hide();
+        $("input,textarea").val("");
+        UE.getEditor('container').setContent('', false);
+        $("select").val(option[0]);
+        $("input:radio,input:checkbox").attr("checked",false);
+    }
+    //点击类别
+    $("#collapseBtn").click(function () {
+        if ($(this).children("i").attr("class") == "fa fa-plus") {
+            //关闭
+            $(this).children("i").removeClass("fa-plus");
+            $(this).children("i").addClass("fa-minus");
+        } else if ($(this).children("i").attr("class") == "fa fa-minus") {
+            //展开
+            $(this).children("i").removeClass("fa-minus");
+            $(this).children("i").addClass("fa-plus");
+        }
+    });
+    //点击类别内小分类
+    $("#wikiTypeUL li").click(function () {
+        if ($(this).attr("class") != "active") {
+            $("#wikiTypeUL li").removeClass("active");
+            $(this).addClass("active");
+        }
+    });
+
+    //删除文件分类
+    function del_cate(id){
+        if(confirm("你确认要删除吗?")){
+            $.post("{:url('Fileall/del_cate')}",{id:id},function(data){
+                if(data == 3){
+                    alert('不是AJAX请求方式');
+                }else if(data == 0){
+                    alert('删除失败');
+                    location.reload();
+                }else if(data == 1){
+                    location.reload();
+                }
+            },'json')
+        }
+    }
+
+</script>
+{include file="public/footer" /}

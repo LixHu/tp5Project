@@ -1,0 +1,80 @@
+{include file="public/header" /}
+<script src="__JS__/ueditor/ueditor.config.js"></script>
+<script src="__JS__/ueditor/ueditor.all.min.js"></script>
+<script type="text/javascript" charset="utf-8" src="__JS__/ueditor/lang/zh-cn/zh-cn.js"></script>
+<body style="padding:10px;width:100%;">
+
+    <blockquote class="layui-elem-quote layui-text">
+        深耕行业设置
+    </blockquote>
+
+    <form class="layui-form" action="" method="post" enctype="multipart/form-data">
+        <div class="layui-form-item">
+            <label class="layui-form-label">属于：</label>
+            <div class="layui-input-block">
+                <?php $p = ''; if(!empty($info['pid'])) $p = $info['pid']; ?>
+                <select class="layui-input" name="pid">
+                    <option value="0">请选择</option>
+                    <option value="1" {if $p neq '' and $p eq 1} selected {/if}>外贸出口</option>
+                    <option value="2" {if $p neq '' and $p eq 2} selected {/if}>国内贸易</option>
+                    <option value="3" {if $p neq '' and $p eq 3} selected {/if}>进口贸易</option>
+                    <option value="4" {if $p neq '' and $p eq 4} selected {/if}>生产制造</option>
+                    <option value="5" {if $p neq '' and $p eq 5} selected {/if}>服装 服饰 家纺 纺织</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">说明：</label>
+            <div class="layui-input-block">
+                <textarea name="s_content" id="editor" style="width:100%;height:400px;"><?php if(!empty($info['s_content'])) echo $info['s_content']; ?></textarea>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label"></label>
+            <div class="layui-input-block">
+                <button class="layui-btn" lay-submit=""> 提交</button>
+            </div>
+        </div>
+    </form>
+    <script>
+        var ue = UE.getEditor('editor');
+        layui.use('form',function(){
+            var form = layui.form;
+        })
+function getObjectURL(file) {
+    var url = null;
+    if (window.createObjectURL != undefined) { // basic
+        url = window.createObjectURL(file);
+    } else if (window.URL != undefined) { // mozilla(firefox)
+        url = window.URL.createObjectURL(file);
+    } else if (window.webkitURL != undefined) { // webkit or chrome
+        url = window.webkitURL.createObjectURL(file);
+    }
+    return url;
+}
+
+function  checkPic(path)  {         
+    var  picPath  =  document.getElementById(path).value;             
+    var  type  =  picPath.substring(picPath.lastIndexOf(".")  +  1,  picPath.length).toLowerCase();
+    if  (type !== "jpg" && type  !==  "bmp"  &&  type  !==  "gif"  &&  type  !==  "png")  {                 
+        alert("请上传正确的图片格式"); 
+        return  false;             
+    }             
+    return  true;         
+}
+
+function PreviewImage(divImage, upload, width, height ,path) {
+    if (checkPic(path)) {
+        try {
+        //console.log(upload.files[0]);
+            var imgPath = getObjectURL(upload.files[0]);
+            document.getElementById(divImage).innerHTML = "<img id='imgPreview' src='" + imgPath + "' width='" + width + "' height='" + height + "'/>";
+        } catch (e) {
+            alert("无法预览图片");
+        }
+    }
+}
+    </script>
+
+{include file="public/footer" /}

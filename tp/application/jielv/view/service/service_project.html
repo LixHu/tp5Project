@@ -1,0 +1,499 @@
+{include file="public/header" /}
+
+<style>
+
+body {
+	background-color: #eeeeee;
+}
+
+.content {
+	padding: 0 15px !important;
+}
+
+.small-box {
+	margin-bottom: 0px;
+	color: #FFFFFF;
+}
+
+.table-header-sort {
+	cursor: pointer;
+	color: black !important;
+}
+
+.tooltip>.tooltip-inner {
+	background-color: #e5e5e5;
+	color: #0c0c0c
+}
+
+.tooltip.top .tooltip-arrow {
+	border-top-color: #e5e5e5;
+}
+
+#wait {
+	background: rgba(255, 255, 255, 0.5) url("/resource/images/wait.gif")
+		center no-repeat;
+	position: fixed;
+	width: 100%;
+	height: 100%;
+	z-index: 9000;
+}
+
+.dnone {
+	display: none;
+}
+
+[v-cloak] {
+	display: none
+}
+
+.iconfont {
+	width: 50px !important;
+}
+
+.dropdown-menu>li a {
+	transition: background-color ease .3s, color ease .3s, border-color ease
+		.3s;
+}
+
+.dropdown-menu>li a:hover {
+	background-color: #3c8dbc;
+	color: white;
+	border-color: #3c8dbc;
+}
+
+.dropdown-toggle {
+	transition: background-color ease .3s, color ease .3s, border-color ease
+		.3s;
+}
+
+.dropdown-toggle:hover {
+	background-color: #3c8dbc;
+	color: white;
+	border-color: #3c8dbc;
+}
+
+.open .dropdown-toggle {
+	background-color: #3c8dbc !important;
+	color: white !important;
+	border-color: #3c8dbc !important;
+}
+
+.btn-default1 {
+	background-color: #f4f4f4;
+	color: #444;
+	border-color: #ddd;
+}
+
+.small-box .icon {
+	top: -25px !important;
+}
+
+.small-box h3 {
+	font-size: 30px !important;
+	margin: 0 0 10px 0 !important;
+	white-space: nowrap !important;
+	padding: 0 !important;
+	font-weight: normal !important;
+}
+
+.table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th,
+	.table>thead>tr>td, .table>thead>tr>th {
+	line-height: 2.4;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	overflow: hidden;
+}
+</style>
+<div class="" id="main">
+	<section class="content" style="min-width: 760px !important;">
+		<div class="">
+
+			<input type="hidden" id="sortSeachModel" name="sortBy[taskNo]" value="false"> <input type="hidden" id="workTaskId" name="id" value="">
+
+			<div class="box box-solid">
+				<div class="box-body">
+					<div class="row">
+						<div class="col-md-6 col-sm-6">
+							<div class="btn-group" id="auth_delete">
+								<a href="{:url('Service/service_project')}" class="btn btn-primary btn-sm checkbox-toggle">全部</a>
+								<a href="javascript:del()" class="btn btn-default btn-sm" style="margin-left: 10px;margin-right: 10px;">批量删除</a>
+								<a href="javascript:$('#customerFrameModal').modal('show');"
+										class="btn btn-primary btn-sm checkbox-toggle"><i
+										class="fa fa-plus"></i> 新增</a>
+
+							</div>
+							<!-- /.btn-group -->
+						</div>
+
+						<div class="col-md-6 col-sm-6">
+							<form id="mainForm" action="search_service" method="get"
+								class="nice-validator n-default n-bootstrap"
+								novalidate="novalidate">
+								<div class="input-group">
+									<input type="text" class="form-control keyword-search criteria"
+										placeholder="请输入地区" value="" id="keyword" name="keyword"
+										maxlength="50"> <span class="input-group-btn">
+										<button class="btn btn-primary" type="submit" id="btnSearch">搜
+											索</button>
+									</span>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+
+
+			<div class="box box-solid">
+				<div class="box-body no-padding">
+					<div class="table-responsive list">
+						<table class="table table-hover table-striped table-bordered"
+							id="taskTable">
+							<thead>
+								<tr>
+									<th><input type="checkbox" name="checkAll"
+										id="checkSelect" value="全选"></th>
+									<th>地区</th>
+									<th id="tour_1" name="taskCustomer">车类</th>
+									<th name="taskCustomerLinkmanPhone">车型</th>
+									
+									<th name="taskProduct">时间段</th>
+									<th name="taskProduct">起步费</th>
+									<th name="taskProduct">十公里内</th>
+									<th name="taskProduct">十公里外</th>
+									<th name="taskPlanTime">操作</th>
+								</tr>
+							</thead>
+							<tbody>
+								{if condition="$res eq false"} 
+								{volist name="service_list" id="vo"}
+								<tr>
+									<td><input type="checkbox" class="checkSelect"
+										name="checkSelect"
+										value="{$vo.id}"
+										id="checkSelect_6e83e2f2-f111-11e7-9aa4-00163e12f748"></td>
+
+									<td name="taskCustomer">{$vo.region_id}</td>
+									<td name="taskCustomer">{$vo.cart_type}</td>
+									<td name="taskCustomer">{$vo.cart_cate}</td>
+									
+									
+									<td name="taskCustomer">{$vo.time_slot}</td>
+									<td name="taskCustomer">{$vo.base_fare}</td>
+									<td name="taskCustomer">{$vo.km_fee}</td>
+									<td name="taskCustomer">{$vo.km_fee_s}</td>
+									
+									<td><a href="{:url('service_edit',['id'=>$vo.id])}"  >编辑</a>
+									<!--<a href="{:url('ad_status',['id'=>$vo.id])}" onclick="savestatus()"  >更改状态</a>-->
+									</td>
+								</tr>
+								{/volist} {else}
+
+								<tr>
+									<td colspan="19" style="text-align: center;">未找到相关数据</td>
+								</tr>
+								{/if}
+							
+							</tbody>
+						</table>
+					</div>
+				</div>
+
+				<div class="box-footer ">
+					<div class="col-lg-8 ">
+                        <!-- <ul class="pagination pull-right" id="pagination1"></ul> -->
+
+						{$page}
+                    </div>
+				</div>
+
+			</div>
+			<div class="modal fade in" id="customerFrameModal"
+				 aria-hidden="false">
+				<div class="modal-dialog" style="width: 770px;">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal"
+									aria-label="Close">
+								<span aria-hidden="true">×</span>
+							</button>
+							<h4 class="modal-title">新建车费</h4>
+						</div>
+						<div class="modal-body" style="height: 400px;">
+							<form name="add" id="form1" method="post" action="ad_cee" onsubmit="return check_from();">
+								<div class="container-fluid">
+									<div class="form-group col-md-12">
+										<label for="lmPhone" class="col-md-2 col-sm-3 control-label">地区<span
+											class="text-red" title="必填">*</span>：
+										</label>
+										<div class="col-md-8 col-sm-7">
+
+											<select name="" id="province" data-toggle="popover" data-placement="bottom" data-content="请选择省份" style="width: 45%;height: 30px;">
+												<option>请选择省份</option>
+												{volist name="region_data" id="vo"}
+												<option value="{$vo.id}">{$vo.name}</option>
+												{/volist}
+											</select>
+											<select name="region_id" id="city"
+											data-toggle="popover" data-placement="bottom" data-content="请选择市" style="width: 45%;height: 30px;">
+												<option value="0">请选择市</option>
+											</select>
+											<!-- <select name="district_id" id="area" data-toggle="popover" data-placement="bottom" data-content="请选择区" style="width: 100%;height: 30px;">
+												<option value="0">请选择区</option>
+												
+											</select> -->
+
+										</div>
+										<div class="col-sm-2 validation-tip"></div>
+									</div>
+									<div class="form-group col-md-12">
+										<label for="lmPhone" class="col-md-2 col-sm-3 control-label">车类<span
+											class="text-red" title="必填">*</span>：
+										</label>
+										<div class="col-md-8 col-sm-7">
+
+											<select style="width: 100%;height: 30px;" id="cart_type" name="cart_type"
+												tabindex="-1"  
+												aria-hidden="true"> 
+												{volist name="cart_type" id="vo"}
+												<option value="{$vo.id}" selected="selected">{$vo.type_name}</option>
+												{/volist}
+											</select>
+
+										</div>
+										<div class="col-sm-2 validation-tip"></div>
+									</div>
+									<div class="form-group col-md-12">
+										<label for="lmPhone" class="col-md-2 col-sm-3 control-label">车型<span
+											class="text-red" title="必填">*</span>：
+										</label>
+										<div class="col-md-8 col-sm-7">
+
+											<select style="width: 100%;height: 30px;" id="cart_cate" name="cart_cate"
+												tabindex="-1"  
+												aria-hidden="true"> 
+												{volist name="cart_cate" id="vo"}
+												<option value="{$vo.id}" selected="selected">{$vo.name}</option>
+												{/volist}
+											</select>
+
+										</div>
+										<div class="col-sm-2 validation-tip"></div>
+									</div>
+									<div class="form-group col-md-12">
+										<label for="lmPhone" class="col-md-2 col-sm-3 control-label">时间段<span
+											class="text-red" title="必填">*</span>：
+										</label>
+										<div class="col-md-8 col-sm-7">
+
+											<select style="width: 100%;height: 30px;" id="time_slot" name="time_slot"
+												tabindex="-1"  
+												aria-hidden="true"> 
+												{volist name="time_slot" id="vo"}
+												<option value="{$vo.id}" selected="selected">{$vo.name}</option>
+												{/volist}
+											</select>
+
+										</div>
+										<div class="col-sm-2 validation-tip"></div>
+									</div>
+									<div class="form-group col-md-12">
+										<label for="name" class="col-md-2 col-sm-3 control-label">起步费<span
+												class="text-red" title="必填">*</span>：
+										</label>
+										<div class="col-md-8 col-sm-7">
+											<input type="text" class="form-control" placeholder="[最多两位小数]"  name="base_fare" maxlength="50" aria-required="true" onkeyup="value=value.replace(/[^\d{1,}\.\d{1,}|\d{1,}]/g,'')">
+										</div>
+										<div class="col-sm-2 validation-tip"></div>
+									</div>
+
+
+
+
+									<div class="form-group col-md-12">
+										<label for="lmPhone" class="col-md-2 col-sm-3 control-label">十公里内<span
+												class="text-red" title="必填">*</span>：
+										</label>
+										<div class="col-md-8 col-sm-7">
+											<input type="text" class="form-control" 
+												   placeholder="最多两位小数" name="km_fee" maxlength="50"
+												   aria-required="true" onkeyup="value=value.replace(/[^\d{1,}\.\d{1,}|\d{1,}]/g,'')">
+										</div>
+										<div class="col-sm-2 validation-tip"></div>
+									</div>
+
+
+
+
+									<div class="form-group col-md-12">
+										<label for="lmPhone" class="col-md-2 col-sm-3 control-label">十公里内<span
+												class="text-red" title="选填"></span>：
+										</label>
+										<div class="col-md-8 col-sm-7">
+											<input type="text" class="form-control"
+												   placeholder="[只允许数字]" name="km_fee_s" maxlength="50"
+												   aria-required="true" onkeyup="value=value.replace(/[^\d{1,}\.\d{1,}|\d{1,}]/g,'')">
+										</div>
+										<div class="col-sm-2 validation-tip"></div>
+									</div>
+
+								</div>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-default"
+									data-dismiss="modal">关闭</button>
+							<button type="submit" class="btn btn-primary"
+									id="customerFrameSave">保存</button>
+						</div>
+						</form>
+
+					</div>
+				</div>
+			</div>
+			
+		</div>
+	</section>
+</div>
+{include file="public/footer" /}
+
+<script>
+//js验证验单内容
+function check_from(){
+	var base_fare = $('input[name="base_fare"]').val();
+	var km_fee = $('input[name="km_fee"]').val();
+	var km_fee_s = $('input[name="km_fee_s"]').val();
+	
+
+	if($('#city').val()==0){
+		alert('请选择地区');
+		return false;
+	}
+	if($.trim(base_fare) == ''){
+		alert('请填写起步费');
+		return false;
+	}
+	if($.trim(km_fee) == ''){
+		alert('请填写十公里内公里费');
+		return false;
+	}
+	if($.trim(km_fee_s) == ''){
+		alert('请填写十公里外公里费');
+		return false;
+	}
+
+	$.ajax({ 
+        type: "POST",//方法类型
+        dataType: "json",//预期服务器返回的数据类型
+        url: "{:url('Service/ad_cee')}" ,//url
+        data: $('#form1').serialize(),
+        success: function (data) {
+        	
+        	if (data['code'] == 1) {
+        		// alert(data['mages']);
+        		location.reload();
+        	}else if(data['code'] == 0) {
+        		alert(data['mages']);
+        	}else if(data['code'] == 3) {
+        		alert(data['mages']);
+        	}
+           
+        }
+    })
+}
+	
+
+
+    ////以下是复选框的选中
+    $("#checkSelect").change(function () {
+        if ($(this).is(':checked')) {
+            $("input[name='checkSelect']").prop("checked", "checked");
+        } else {
+            $("input[name='checkSelect']").removeAttr("checked");
+        }
+    });
+    $("input[name='checkSelect']").change(function () {
+        var flag = true;
+        $("input[name='checkSelect']").each(function () {
+            if (!$(this).is(':checked')) {
+                flag = false;
+                return false;
+            }
+        });
+        if (flag) {
+            $("#checkSelect").prop("checked", "checked");
+        } else {
+            $("#checkSelect").removeAttr("checked");
+        }
+    });
+    ////以上是复选框的选中
+    
+    
+    	//更改状态给个弹窗提示
+       function savestatus(){
+	   alert('确定要更改状态吗？');
+   }
+		//批量删除
+  	function del(){
+  		//获取选中数据的id值
+  		obj = document.getElementsByName("checkSelect");
+		    var mid = [];
+		    for(k in obj){
+		        if(obj[k].checked)
+		            mid.push(obj[k].value);
+		    }
+		//判断是否有选中数据
+		if (mid == '') {
+			alert('请先选择');
+		}else{
+			if(confirm('你确定要删除吗？')){
+		  		$.post("{:url('Service/del')}",{id:mid},function(data){
+	                if(data == 0){
+	                    alert('删除失败');
+	                    location.reload();
+	                }else if(data == 1){
+	                    location.reload();
+	                }
+	            },'json')
+  			}
+		}
+  		
+  	}
+
+
+  	//搜索框没内容处理
+    $('#btnSearch').click(function(){
+    	var keyword = $('#keyword').val();
+    	if (keyword == '') {
+    		return false;
+    	}
+    })
+
+
+$('#province').change(function(){
+    var id = $('#province').val();
+    $.post("{:url('Service/change_address')}",{id:id},function(data){
+        var str = '<option selected="selected" value="0">请选择市（地区）</option>';
+        if(data.length>0){
+           for(var i=0; i<data.length; i++){
+                str += '<option value="'+data[i].id+'">'+data[i].name+'</option>';
+           }
+       }
+      $('#city').html(str);
+    },'json');
+});
+$('#city').change(function(){
+    var id = $('#city').val();
+    $.post("{:url('Service/change_address')}",{id:id},function(data){
+        var str = '<option selected="selected" value="0">请选择县（地区）</option>';
+        if(data.length>0){
+            for(var i=0; i<data.length; i++){
+                str += '<option value="'+data[i].id+'">'+data[i].name+'</option>';
+            }
+        }else{
+            $('#area').removeAttr('name');
+            $('#city').attr('name','district_id');
+        }
+        $('#area').html(str);
+    },'json');
+});
+</script>

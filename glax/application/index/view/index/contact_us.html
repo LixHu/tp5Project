@@ -1,0 +1,281 @@
+{include file="public/header" /}
+    <style>
+        ::-webkit-input-placeholder {
+            font-family: REFSAN;
+            font-size: 14px;
+            color: #666666;
+        }
+
+        .swiper-container {
+            width: 100%;
+            height: 100%;
+        }
+
+        .swiper-container1 .swiper-slide {
+            /* Center slide text vertically */
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: -webkit-flex;
+            display: flex;
+            -webkit-box-pack: center;
+            -ms-flex-pack: center;
+            -webkit-justify-content: center;
+            justify-content: center;
+            -webkit-box-align: center;
+            -ms-flex-align: center;
+            -webkit-align-items: center;
+            align-items: center;
+        }
+
+        .swiper-container2 .swiper-slide {
+            /* Center slide text vertically */
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: -webkit-flex;
+            display: flex;
+            -webkit-box-pack: center;
+            -ms-flex-pack: center;
+            -webkit-justify-content: center;
+            justify-content: center;
+            -webkit-box-align: center;
+            -ms-flex-align: center;
+            -webkit-align-items: center;
+            align-items: center;
+        }
+
+        .swiper-container3 .swiper-slide {
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: -webkit-flex;
+            display: flex;
+            -webkit-box-pack: center;
+            -ms-flex-pack: center;
+            -webkit-justify-content: center;
+            justify-content: center;
+            -webkit-box-align: center;
+            -ms-flex-align: center;
+            -webkit-align-items: center;
+            align-items: center;
+        }
+
+        .iw_poi_title {
+            color: #CC5522;
+            font-size: 14px;
+            font-weight: bold;
+            overflow: hidden;
+            padding-right: 13px;
+            white-space: nowrap
+        }
+
+        .iw_poi_content {
+            font: 12px arial, sans-serif;
+            overflow: visible;
+            padding-top: 4px;
+            white-space: -moz-pre-wrap;
+            word-wrap: break-word
+        }
+
+        .swiper-container2 .swiper-button-prev {
+            width: 12px;
+            height: 18px;
+            background-image: url(__AGO__/image/leftBtn.png);
+            background-size: 12px 18px;
+            left: 0;
+        }
+
+        .swiper-container2 .swiper-button-next {
+            width: 12px;
+            height: 18px;
+            background-image: url(__AGO__/image/rightBtn.png);
+            background-size: 12px 18px;
+            right: 0;
+        }
+
+        .swiper-container3 {
+            height: 440px;
+        }
+
+        .swiper-container3 .swiper-button-prev {
+            width: 25px;
+            height: 14px;
+            background-image: url(__AGO__/image/topBtn.png);
+            background-size: 25px 14px;
+            top: 40px;
+            left: 45%;
+        }
+
+        .swiper-container3 .swiper-button-next {
+            width: 25px;
+            height: 14px;
+            background-image: url(__AGO__/image/downBtn.png);
+            background-size: 25px 14px;
+            top: 425px;
+            left: 45%;
+        }
+
+        .swiper-container1 .swiper-pagination-bullet-active {
+            background: rgba(255, 255, 255, 1);
+            border: 0px solid #ffffff;
+        }
+
+        .swiper-container1 .swiper-pagination-bullet {
+            width: 14px;
+            height: 14px;
+            display: inline-block;
+            border-radius: 100%;
+            border: 2px solid #ffffff;
+        }
+
+        .swiper-container-horizontal > .swiper-pagination-bullets, .swiper-pagination-custom, .swiper-pagination-fraction {
+            bottom: 43px;
+        }
+    </style>
+</head>
+<body>
+<div class="layer allContent ">
+    <div class="allContentMar allContentEvent overflowAuto" style="position: relative;">
+        <div class="ConTop">
+            <div>
+                <button class="fontBold ConTopBtn ConTopBtnLeft">
+                    Contact us
+                </button>
+            </div>
+            <div class="ConTopLabel">
+                <a href="index">Home</a> >
+                <a href="contact_us">Contact Us</a>
+            </div>
+        </div>
+        <div class="contactUsLeft">
+            <div class="font14">
+                Please submit questions or comments about our products and services to us. We will reply you as soon
+                as possible. Your comments and suggestions will help us improve our products and services.
+            </div>
+            <form id="myform" action="" method="post">
+                <div class="pullLeft contactUsTop40">
+                    <label class="textRight font16 pullLeft contactUsLabelLeft">Name:</label>
+                    <span class="pullLeft">
+                        <input type="text" name="uname" value="" placeholder="Please enter your name" class="contactUsInputLeft font14"/>
+                    </span>
+                    <span class="pullLeft contactUsStar">*</span>
+                </div>
+                <div class="pullLeft contactUsTop40">
+                    <label class="textRight font16 pullLeft contactUsLabelRight">Email:</label>
+                    <span class="pullLeft">
+                        <input type="email" name="email" placeholder="Please enter your Email" class="contactUsInputRight font14" />
+                    </span>
+                    <span class="pullLeft contactUsStar">*</span>
+                </div>
+                <div class="pullLeft contactUsTop40">
+                    <label class="textRight font16 pullLeft contactUsLabelLeft">Company:</label>
+                    <span class="pullLeft">
+                        <input type="text" name="company" placeholder="Please enter your company name" class="contactUsInputLeft font14"/>
+                    </span>
+                    <span class="pullLeft contactUsStar">*</span>
+                </div>
+                <div class="pullLeft contactUsTop40">
+                    <label class="textRight font16 pullLeft contactUsLabelRight">Tel:</label>
+                    <span class="pullLeft">
+                        <input type="tel" name="tel" placeholder="" class="contactUsInputRight font14"/>
+                    </span>
+                    <span class="pullLeft contactUsStar">*</span>
+                </div>
+                <div class="pullLeft contactUsTop40">
+                    <label class="textRight font16 pullLeft contactUsLabelLeft">Messages:</label>
+                    <span class="pullLeft">
+                        <textarea name="message" class="contactUsText font14"></textarea>
+                    </span>
+                    <span class="pullLeft contactUsStar">*</span>
+                </div>
+                <div class="pullLeft contactUsTop40">
+                    <label class="textRight font16 pullLeft contactUsLabelLeft">Captcha:</label>
+                    <span class="pullLeft">
+                        <input type="text" name="captcha" class="codeInput font14" />
+                    </span>
+                    <span class="pullLeft codeImgLeft">
+                    <img src="{:url('index/doimg')}" onclick="this.src=this.src+'?m='+Math.floor(Math.random()*50)" alt="" width="84" height="24" style="display: block;">
+                </span>
+                </div>
+                <div class="pullLeft contactUsTop40 contactUsBottom33">
+                    <label class="textRight font16 pullLeft contactUsLabelLeft"></label>
+                    <span class="pullLeft">
+                    <button id="send" onclick="sendBtn()" type="button" class="submit">Send</button>
+                    <button id="reset" type="reset" class="submit submitLeft">Reset</button>
+                </span>
+                </div>
+            </form>
+
+        </div>
+        <div class="contactUsRight">
+            <img src="__AGO__/image/concatUsIcon.png" alt="">
+            <div class="contactUsRightTitle">Contact
+                information
+            </div>
+            <div class="contactUsRightCon">
+                <p>Tel: {$info->sale_phone}</p>
+                <p>Fax: {$info->fax}</p>
+                <p>Website: <span>{$info->website}</span></p>
+                <p>E-Mail: <span>{$info->com_email}</span></p>
+                <p>Address of Company:</p>
+                <p>{$info->address1|htmlspecialchars_decode}</p>
+            </div>
+
+        </div>
+    </div>
+    <div class="clear"></div>
+{include file="public/footer" /}
+<script>
+    var uname = $("input[name='uname']"),
+    email = $("input[name='email']"),
+    company = $("input[name='company']"),
+    tel = $("input[name='tel']"),
+    message = $("input[name='message']"),
+    captcha = $("input[name='captcha']"),
+    send = document.getElementById('send'),
+    reset = document.getElementById('reset'),
+    email_pa = /^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/,
+    validate_pa = /^[a-zA-Z0-9]{4}$/;
+    function check() {
+        if (uname.val() == '' || email.val() == '' || company.val() == '' || tel.val() == '' || message.val() == '' || captcha.val() == '') {
+         alert('Please fill in the complete'); //请填写完整
+         return false;
+        }
+        if (!email_pa.test(email.val())) {
+           alert('E-mail format is incorrect'); //邮箱格式不正确
+           return false;
+        }
+        if (!validate_pa.test(captcha.val())) {
+           alert('Verification code format is incorrect');//验证码格式不正确
+           return false;
+        }
+       return true;
+    }
+    function sendBtn() {
+        if (check()) {
+            //点击send按钮，如果成功，执行以下操作
+            mysub();
+        }
+    }
+
+    //如果点击了enter键,同sendBtn
+    $(document).keydown(function (event) {
+        if (event.keyCode == 13) {
+            if (check()) {
+                //点击send按钮，如果成功，执行以下操作
+                mysub();
+            }
+        }
+    });
+    function mysub()
+    {
+        var form = $("#myform").serialize();
+        $.post('contact_sub',form,function(ret){
+            if (ret.code == 1) {
+                alert(ret.msg);
+                // location.reload();
+            }else {
+                alert(ret.msg);
+            }
+        })
+        return false;
+    }
+</script>

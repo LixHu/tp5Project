@@ -1,0 +1,1188 @@
+{include file="public/header" /}
+    <link rel="stylesheet" href="_ago/css/weui2.css"/>
+    <style>
+
+        .weui-navbar__item {
+            background: #3dc1ff;
+            color: #868282;
+            padding: 2rem 0;
+            font-size: 0.75rem;
+        }
+
+        .weui-navbar__item.weui-bar__item--on {
+            background-color: #3dc1ff;
+            color: #FFFFFF;
+        }
+
+        .weui-navbar + .weui-tab__bd {
+            padding-top: 8.48rem;
+        }
+
+        #tab1 .weui-navbar__item {
+            background: #FFFFFF !important;
+            color: #000000;
+            padding: 0.6rem 0;
+        }
+
+        #tab1 .weui-navbar + .weui-tab__bd {
+            padding-top: 2.38rem;
+            background: #FFFFFF;
+        }
+
+        #tab1 .weui-navbar__item.weui-bar__item--on {
+            background: #FFFFFF !important;
+            color: #3dc1ff;
+        }
+
+        .weui-tab__bd-item--active {
+            background: #FFFFFF;
+        }
+
+        .weui-navbar__item:after {
+            border-right: 0;
+        }
+
+        .des.weui-cell:before {
+            border-top: 0;
+        }
+
+        .weui-cells {
+            margin-top: 0 !important;
+        }
+
+        .weui-navbar {
+            z-index: 0;
+        }
+
+        .toolbar .picker-button {
+            color: #3dc1ff;
+        }
+
+        .flex-width {
+            min-width: 0
+        }
+
+        .weui-label {
+            width: 2.4rem;
+        }
+
+        .weui-label-font {
+            margin-right: 0.5rem;
+        }
+
+        .page-bd li {
+            margin: 0;
+            border-bottom: 1px solid #eee;
+        }
+        .weui-cells:after, .weui-cells:before {
+            height: 0 !important;
+        }
+
+        .weui-cells:before {
+            border-top: 0;
+        }
+
+        .weui-cells:after {
+            border-bottom: 0;
+        }
+    </style>
+</head>
+
+<body ontouchstart>
+
+<header class="header">
+    <a href="javascript:location.reload();">
+        <img src="_ago/images/logo@2x.png" alt="" class="vertical-align-middle icon"/>
+        <span class="header-title">博权云服务平台</span>
+    </a>
+    <a href="javascript:void(0)" class="logout" id="logout">
+        <img src="_ago/images/logout.png" alt="" class="vertical-align-middle icon"/>
+    </a>
+</header>
+
+
+<div class="weui-tab" id="tabParent">
+    <div class="weui-navbar text-center font75">
+        <a class="tabOneLevelNav weui-navbar__item weui-bar__item--on" data-href="#tab1">
+            <img src="_ago/images/start__work_order@2x.png" alt="" style="width: 3rem;height: 3rem;margin: 0 auto;"/>
+            <p>服务工单</p>
+        </a>
+        <a class="tabOneLevelNav weui-navbar__item" data-href="#tab2">
+            <img src="_ago/images/Parking@2x.png" alt="" style="width: 3rem;height: 3rem;margin: 0 auto;"/>
+            <p>派车申请</p>
+        </a>
+        <a class="tabOneLevelNav weui-navbar__item" data-href="#tab3">
+            <img src="_ago/images/room@2x.png" alt="" style="width: 3rem;height: 3rem;margin: 0 auto;"/>
+            <p>住宿申请</p>
+        </a>
+        <a class="tabOneLevelNav weui-navbar__item" data-href="#tab4">
+            <img src="_ago/images/message@2x.png" alt="" style="width: 3rem;height: 3rem;margin: 0 auto;"/>
+            <p>消息通知</p>
+        </a>
+
+    </div>
+    <div class="weui-tab__bd">
+        <div id="tab1" class="tabOneLevelItem weui-tab__bd-item weui-tab__bd-item--active font75">
+            <div class="weui-tab">
+                <div class="weui-navbar">
+                    <a class="tabTwoLevelNav font75 weui-navbar__item weui-bar__item--on" data-href="#tab1tab1">
+                        全部工单
+                    </a>
+                    <a class="tabTwoLevelNav font75 weui-navbar__item" data-href="#tab1tab2">
+                        待接收工单
+                    </a>
+                    <a class="tabTwoLevelNav font75 weui-navbar__item" data-href="#tab1tab3">
+                        已接受工单
+                    </a>
+                    <a class="tabTwoLevelNav font75 weui-navbar__item" data-href="#tab1tab4">
+                        已完成工单
+                    </a>
+                </div>
+                <div class="weui-tab__bd font75">
+                    <div id="tab1tab1" class="tabTwoLevelItem weui-tab__bd-item weui-tab__bd-item--active font75">
+                        <div class="page-bd">
+                            <ul>
+                                {volist name="wo_list.all" id="vo"}
+                                <li>
+                                    <div class="weui-flex js-category">
+                                        <div class="weui-flex-item text-center">
+                                            <span class="pull-left">{$vo.add_time|date="n-d H:i",###}</span>
+                                            <span>编号：{$vo.wo_sn}</span>
+                                            {if $vo.status eq 3}
+                                                <span class="pull-right color-blue">待接受&nbsp</span>
+                                                {elseif $vo.status eq 4}
+                                                <span class="pull-right f-orange">未处理&nbsp</span>
+                                                {elseif $vo.status eq 11}
+                                                <span class="pull-right color-grey">故障上报中&nbsp</span>
+                                                {elseif $vo.status eq 9}
+                                                <span class="pull-right f-orange">进行中&nbsp</span>
+                                                {elseif $vo.status egt 5}
+                                                <span class="pull-right color-grey">已完成&nbsp</span>
+                                            {/if}
+                                        </div>
+                                        <i class="icon icon-74"></i>
+                                    </div>
+                                    <div class="page-category js-categoryInner">
+
+                                        <div class="weui-cells weui-cells_form font75"
+                                             style="background-color: #eff8ff;">
+                                            <div class="weui-cell">
+                                                <div class="weui-cell__hd"><label class="">报修人名称：</label></div>
+                                                <div class="weui-cell__bd">
+                                                    {if !empty($vo.jour_name)}{$vo.jour_name}{else /}{$vo.jour_name2}{/if}
+                                                </div>
+                                            </div>
+                                            <div class="weui-cell">
+                                                <div class="weui-cell__hd"><label class=" ">联系方式：</label></div>
+                                                <div class="weui-cell__bd">
+                                                    {if !empty($vo.jour_mobile)}{$vo.jour_mobile}{else /}{$vo.jour_mobile2}{/if}
+                                                </div>
+                                            </div>
+                                            <div class="weui-cell">
+                                                <div class="weui-cell__hd"><label class="">服务地点：</label></div>
+                                                <div class="weui-cell__bd">
+                                                    {if !empty($vo.address)}{$vo.address}
+                                                    {elseif !empty($vo.jour_add)}{$vo.jour_add}
+                                                    {else /}{$vo.jour_add2}{/if}
+                                                </div>
+                                            </div>
+                                            <div class="weui-cell">
+                                                <div class="weui-cell__hd"><label class="">服务类型：</label></div>
+                                                <div class="weui-cell__bd">
+                                                    {if $vo.server_type eq 1}
+                                                    保内免费
+                                                    {elseif $vo.server_type eq 2}
+                                                    保内收费
+                                                    {elseif $vo.server_type eq 3}
+                                                    保外免费
+                                                    {else /}
+                                                    保外收费
+                                                    {/if}
+                                                </div>
+                                            </div>
+                                            <div class="weui-cell">
+                                                <div class="weui-cell__hd"><label class=" ">发动机匹配厂家：</label></div>
+                                                <div class="weui-cell__bd">
+                                                    {if !empty($vo.math_ven)}{$vo.math_ven}{else /}暂无信息{/if}
+                                                </div>
+                                            </div>
+                                            <div class="weui-cell">
+                                                <div class="weui-cell__hd"><label class=" ">故障现象描述说明：</label></div>
+                                            </div>
+                                            <div class="weui-cell des">
+                                                <div class="weui-cell__bd">
+                                                    {$vo.desc}
+                                                </div>
+                                            </div>
+                                            {if $vo.status eq 3}
+                                                <a href="javascript:;" class="weui-btn btn-primary" style="margin: 0.75rem;"
+                                                onclick="acceptwork({$vo.wo_id})">接受</a>
+                                                <a href="javascript:;" class="weui-btn btn-default serviceReject"
+                                                   style="margin: 0.75rem;" onclick="rework({$vo.wo_id})">拒绝</a>
+                                            {/if}
+                                            {if $vo.status eq 4}
+                                            <a href="javascript:;" class="weui-btn btn-orange serviceProcess" style="margin: 0.75rem;"
+                                               onclick="startwork({$vo.wo_id})">开始工作</a>
+                                            {/if}
+                                            {if $vo.status eq 9}
+                                            <a href="javascript:;" class="weui-btn btn-orange " style="margin: 0.75rem;"
+                                               onclick="comwork({$vo.wo_id})">完成工作</a>
+                                            {/if}
+                                            {if $vo.status eq 4 or $vo.status eq 9}
+                                            <a href="javascript:;" class="weui-btn btn-primary serviceReject"
+                                               style="margin: 0.75rem;" onclick="upwork({$vo.wo_id})">故障上报</a>
+                                            <a href="javascript:;" class=" weui-btn btn-primary2"
+                                               style="margin: 0.75rem;" onclick="viewStatus({$vo.wo_id})">查看进度</a>
+                                            <a href="javascript:;" class="weui-btn btn-default"
+                                               style="margin: 0.75rem;" onclick="addRemark({$vo.wo_id})">添加备注</a>
+                                            {/if}
+                                            {if $vo.status eq 5}
+                                            <a href="{:url('user/work_order_receipt',array('id' => $vo['wo_id']))}" class=" weui-btn btn-primary2" style="margin: 0.75rem;">添加回执单</a>
+                                            <a href="javascript:;" class="weui-btn btn-primary2"
+                                               onclick="viewReceipt({$vo.wo_id})" style="margin: 0.75rem;">查看回执单</a>
+                                            {/if}
+                                        </div>
+                                    </div>
+                                </li>
+                                {/volist}
+                            </ul>
+                            <script>
+                                // $('.serviceAccept').on('click', function () {
+                                //
+                                // });
+                                // $('.serviceReject').on('click', function () {
+
+                                // });
+                                var rework = function (wid) {
+                                    $.confirm('<textarea class="serviceRejectVal" style="max-width: calc(100% - 1.6em);width: calc(100% - 1.6em);height: 100px;padding:10px;" placeholder="【必填】请说明拒绝原因，50字以内"></textarea>', '拒绝说明', function () {
+                                        var data = {};
+                                        data.wo_id = wid;
+                                        data.refuse_reason = $('.serviceRejectVal').val();
+                                        $.post('RefuseWork',data,function (res) {
+                                            alert(res.msg);
+                                            if(res.code == 1){
+                                                setTimeout(function () {
+                                                    location.reload();
+                                                },2000)
+                                            }
+                                        })
+                                    });
+                                }
+                                var acceptwork = function (wid) {
+                                    $.confirm('<input type="date" class="serviceAcceptVal" style="margin: 10px 0;padding:5px 10px;"/><br/><p>如果你需要修改时间，请点击更换合理时间。</p>', '项目计划完成时间', function () {
+                                        var data = {};
+                                        data.wid = wid;
+                                        data.plan_time = $('.serviceAcceptVal').val();
+                                        $.post('AcceptWork',data,function (res) {
+                                            alert(res.msg);
+                                            if(res.code == 1){
+                                                setTimeout(function () {
+                                                    location.reload();
+                                                },2000)
+                                            }
+                                        })
+                                    });
+                                }
+                            </script>
+                        </div>
+                    </div>
+                    <div id="tab1tab2" class="tabTwoLevelItem weui-tab__bd-item font75">
+                        <div class="page-bd">
+                            <ul>
+                                {volist name="wo_list.wait_take" id="vo"}
+                                <li>
+                                    <div class="weui-flex js-category">
+                                        <div class="weui-flex-item text-center">
+                                            <span class="pull-left">{$vo.add_time|date="n-d H:i",###}</span>
+                                            <span>编号：{$vo.wo_sn}</span>
+                                            <span class="pull-right color-blue">待接受&nbsp</span>
+                                        </div>
+                                        <i class="icon icon-74"></i>
+                                    </div>
+                                    <div class="page-category js-categoryInner">
+
+                                        <div class="weui-cells weui-cells_form font75"
+                                             style="background-color: #eff8ff;">
+                                            <div class="weui-cell">
+                                                <div class="weui-cell__hd"><label class="">报修人名称：</label></div>
+                                                <div class="weui-cell__bd">
+                                                    {if !empty($vo.jour_name)}{$vo.jour_name}{else /}{$vo.jour_name2}{/if}
+                                                </div>
+                                            </div>
+                                            <div class="weui-cell">
+                                                <div class="weui-cell__hd"><label class=" ">联系方式：</label></div>
+                                                <div class="weui-cell__bd">
+                                                    {if !empty($vo.jour_mobile)}{$vo.jour_mobile}{else /}{$vo.jour_mobile2}{/if}
+                                                </div>
+                                            </div>
+                                            <div class="weui-cell">
+                                                <div class="weui-cell__hd"><label class="">服务地点：</label></div>
+                                                <div class="weui-cell__bd">
+                                                    {if !empty($vo.address)}{$vo.address}
+                                                    {elseif !empty($vo.jour_add)}{$vo.jour_add}
+                                                    {else /}{$vo.jour_add2}{/if}
+                                                </div>
+                                            </div>
+                                            <div class="weui-cell">
+                                                <div class="weui-cell__hd"><label class="">服务类型：</label></div>
+                                                <div class="weui-cell__bd">
+                                                    {if $vo.server_type eq 1}
+                                                    保内免费
+                                                    {elseif $vo.server_type eq 2}
+                                                    保内收费
+                                                    {elseif $vo.server_type eq 3}
+                                                    保外免费
+                                                    {else /}
+                                                    保外收费
+                                                    {/if}
+                                                </div>
+                                            </div>
+                                            <div class="weui-cell">
+                                                <div class="weui-cell__hd"><label class=" ">发动机匹配厂家：</label></div>
+                                                <div class="weui-cell__bd">
+                                                    {if !empty($vo.math_ven)}{$vo.math_ven}{else /}暂无信息{/if}
+                                                </div>
+                                            </div>
+                                            <div class="weui-cell">
+                                                <div class="weui-cell__hd"><label class=" ">故障现象描述说明：</label></div>
+                                            </div>
+                                            <div class="weui-cell des">
+                                                <div class="weui-cell__bd">
+                                                    {$vo.desc}
+                                                </div>
+                                            </div>
+                                            {if $vo.status eq 3}
+                                                <a href="javascript:;" class="weui-btn btn-primary" style="margin: 0.75rem;"
+                                                   onclick="acceptwork({$vo.wo_id})">接受</a>
+                                                <a href="javascript:;" class="weui-btn btn-default serviceReject"
+                                                   style="margin: 0.75rem;" onclick="rework({$vo.wo_id})">拒绝</a>
+                                            {/if}
+                                        </div>
+
+                                    </div>
+                                </li>
+                                {/volist}
+                            </ul>
+                        </div>
+                    </div>
+                    <div id="tab1tab3" class="tabTwoLevelItem weui-tab__bd-item font75">
+                        <div class="page-bd">
+                            <ul>
+                                {volist name="wo_list.take" id="vo"}
+                                    <li>
+                                        <div class="weui-flex js-category">
+                                            <div class="weui-flex-item text-center">
+                                                <span class="pull-left">{$vo.add_time|date="n-d H:i",###}</span>
+                                                <span>编号：{$vo.wo_sn}</span>
+                                                <span class="pull-right f-orange">未处理&nbsp</span>
+                                            </div>
+                                            <i class="icon icon-74"></i>
+                                        </div>
+                                        <div class="page-category js-categoryInner">
+                                            <div class="weui-cells weui-cells_form font75"
+                                                 style="background-color: #eff8ff;">
+                                                <div class="weui-cell">
+                                                    <div class="weui-cell__hd"><label class="">报修人名称：</label></div>
+                                                    <div class="weui-cell__bd">
+                                                        {if !empty($vo.jour_name)}{$vo.jour_name}{else /}{$vo.jour_name2}{/if}
+                                                    </div>
+                                                </div>
+                                                <div class="weui-cell">
+                                                    <div class="weui-cell__hd"><label class=" ">联系方式：</label></div>
+                                                    <div class="weui-cell__bd">
+                                                        {if !empty($vo.jour_mobile)}{$vo.jour_mobile}{else /}{$vo.jour_mobile2}{/if}
+                                                    </div>
+                                                </div>
+                                                <div class="weui-cell">
+                                                    <div class="weui-cell__hd"><label class="">服务地点：</label></div>
+                                                    <div class="weui-cell__bd">
+                                                        {if !empty($vo.address)}{$vo.address}
+                                                        {elseif !empty($vo.jour_add)}{$vo.jour_add}
+                                                        {else /}{$vo.jour_add2}{/if}
+                                                    </div>
+                                                </div>
+                                                <div class="weui-cell">
+                                                    <div class="weui-cell__hd"><label class="">服务类型：</label></div>
+                                                    <div class="weui-cell__bd">
+                                                        {if $vo.server_type eq 1}
+                                                        保内免费
+                                                        {elseif $vo.server_type eq 2}
+                                                        保内收费
+                                                        {elseif $vo.server_type eq 3}
+                                                        保外免费
+                                                        {else /}
+                                                        保外收费
+                                                        {/if}
+                                                    </div>
+                                                </div>
+                                                <div class="weui-cell">
+                                                    <div class="weui-cell__hd"><label class=" ">发动机匹配厂家：</label></div>
+                                                    <div class="weui-cell__bd">
+                                                        {if !empty($vo.math_ven)}{$vo.math_ven}{else /}暂无信息{/if}
+                                                    </div>
+                                                </div>
+                                                <div class="weui-cell">
+                                                    <div class="weui-cell__hd"><label class=" ">故障现象描述说明：</label></div>
+                                                </div>
+                                                <div class="weui-cell des">
+                                                    <div class="weui-cell__bd">
+                                                        {$vo.desc}
+                                                    </div>
+                                                </div>
+                                                {if $vo.status eq 4}
+                                                <a href="javascript:;" class="weui-btn btn-orange serviceProcess" style="margin: 0.75rem;"
+                                                   onclick="startwork({$vo.wo_id})">开始工作</a>
+                                                {/if}
+                                                {if $vo.status eq 9}
+                                                    <a href="javascript:;" class="weui-btn btn-orange " style="margin: 0.75rem;"
+                                                    onclick="comwork({$vo.wo_id})">完成工作</a>
+                                                {/if}
+                                                <a href="javascript:;" class="weui-btn btn-primary serviceReject"
+                                                   style="margin: 0.75rem;" onclick="upwork({$vo.wo_id})">故障上报</a>
+                                                <a href="javascript:;" class=" weui-btn btn-primary2"
+                                                   style="margin: 0.75rem;" onclick="viewStatus({$vo.wo_id})">查看进度</a>
+                                                <a href="javascript:;" class="weui-btn btn-default"
+                                                   style="margin: 0.75rem;" onclick="addRemark({$vo.wo_id})">添加备注</a>
+                                            </div>
+                                        </div>
+                                    </li>
+                                {/volist}
+                                <script>
+                                    var addRemark = function (wid) {
+                                        var data = {};
+                                        data.wid = wid;
+                                        $.confirm('<textarea class="serviceAddNotesVal" style="max-width: calc(100% - 1.6em);width: calc(100% - 1.6em);height: 100px;padding:10px;" placeholder="【必填】请输入工单备注"></textarea><div class="weui-cells weui-cells_checkbox">\n' +
+                                            '    <label class="weui-cell weui-check__label"  style="font-size: 0.75rem;">\n' +
+                                            //'        <div class="weui-cell__hd">\n' +
+                                            //'            <input type="checkbox" class="weui-check serviceAddNotesCheckbox" name="checkbox1" >\n' +
+                                            //'            <i class="weui-icon-checked"></i>\n' +
+                                            //'        </div>\n' +
+                                            //'        <div class="weui-cell__bd" style="text-align: left;">\n' +
+                                            //'            <p>仅对自己可见</p>\n' +
+                                            //'        </div>\n' +
+                                            '    </label>\n' +
+                                            '</div>', '添加备注', function () {
+
+                                            data.remark = $('.serviceAddNotesVal').val();
+                                            $.post('AddRemark',data,function (res) {
+                                                alert(res.msg);
+                                                if (res.code == 1){
+                                                    location.reload();
+                                                }
+                                            })
+                                        });
+                                    }
+                                    var viewStatus = function (wid) {
+                                        var str = '',
+                                            data = {};
+                                        data.wid = wid;
+                                        $.post("getStatusLog",data,function (res) {
+                                            if(res.code == 1){
+                                                str += '<li style="color: #3dc1ff;margin-left: 10px;">'+res.data[0]['desc']+'</li>\n';
+                                                for (var i = 1;i<res.data.length;i++){
+                                                    str += '<li style="margin-left: 10px;">'+res.data[i]['desc']+'</li>\n';
+                                                }
+                                            }else{
+                                                str += '<li style="margin-left: 10px;">'+res.msg+'</li>\n';
+                                            }
+                                            var text = '<div style="position: relative;margin: 10px;">\n' +
+                                                '    <div style="position: absolute;left: 19px;top: 0;height: calc(100% - 28px);width: 1px;background: #b2b2b2;"></div>\n' +
+                                                '    <ul style="padding:5px 14px;margin: 10px;text-align: left;max-height: 300px;overflow: auto;">\n' +
+                                                str
+                                                + '    </ul>\n' +
+                                                '    <a href="/index/user/feedback" style="color: #3dc1ff;float:left;overflow: auto;">故障上报</a>\n' +
+                                                '    <a href="javascript:;" onclick="comwork('+wid+')" class="completeOrder" ' +
+                                                'style="color: #3dc1ff;float: right;overflow: auto;">完成订单</a><br/>\n' +
+                                                '</div>';
+                                            $.modal({
+                                                title: "订单进度",
+                                                text: text,
+                                                buttons: [
+                                                    {text: "取消", className: "default"},
+                                                ]
+                                            });
+                                        });
+                                    }
+                                </script>
+                                <script>
+                                    var startwork = function (wid) {
+                                        if(confirm('确定要开始工作吗？')){
+                                            var data = {};
+                                            data.wo_id = wid;
+                                            $.post('StartWork',data,function (res) {
+                                                alert(res.msg);
+                                                location.reload();
+                                            })
+                                        }
+
+                                    }
+                                    var upwork = function (wid) {
+                                        var data = {};
+                                        data.wid = wid;
+                                        location.href="{:url('user/feedback')}?wid="+wid;
+                                        // if(confirm('确定要提交上报主机厂吗？')){
+                                        //     $.post('declares',data,function (res) {
+                                        //         alert(res.msg);
+                                        //         location.reload();
+                                        //     })
+                                        // }
+                                    }
+                                    var comwork = function (wid) {
+                                        var data = {};
+                                        data.wo_id = wid;
+                                        if(confirm('确定完成工作吗？')){
+                                            $.post('ComOrder',data,function (res) {
+                                                alert(res.msg);
+                                                location.reload();
+                                            })
+                                        }
+                                    }
+                                </script>
+                            </ul>
+                        </div>
+
+                    </div>
+                    <div id="tab1tab4" class="tabTwoLevelItem weui-tab__bd-item">
+                        <div class="page-bd">
+                            <ul>
+                                {volist name="wo_list.comple" id="vo"}
+                                <li>
+                                    <div class="weui-flex js-category">
+                                        <div class="weui-flex-item text-center">
+                                            <span class="pull-left">{if !empty($vo.add_time)}{$vo.add_time|date="n-d H:i",###}{/if}</span>
+                                            <span>编号：{$vo.wo_sn}</span>
+                                            <span class="pull-right color-grey">已完成&nbsp</span>
+                                        </div>
+                                        <i class="icon icon-74"></i>
+                                    </div>
+                                    <div class="page-category js-categoryInner">
+
+                                        <div class="weui-cells weui-cells_form font75"
+                                             style="background-color: #eff8ff;">
+                                            <div class="weui-cell">
+                                                <div class="weui-cell__hd"><label class="">报修人名称：</label></div>
+                                                <div class="weui-cell__bd">
+                                                    {if !empty($vo.jour_name)}{$vo.jour_name}{else /}{$vo.jour_name2}{/if}
+                                                </div>
+                                            </div>
+                                            <div class="weui-cell">
+                                                <div class="weui-cell__hd"><label class=" ">联系方式：</label></div>
+                                                <div class="weui-cell__bd">
+                                                    {if !empty($vo.jour_mobile)}{$vo.jour_mobile}{else /}{$vo.jour_mobile2}{/if}
+                                                </div>
+                                            </div>
+                                            <div class="weui-cell">
+                                                <div class="weui-cell__hd"><label class=" ">服务地点：</label></div>
+                                                <div class="weui-cell__bd">
+                                                    {if !empty($vo.address)}{$vo.address}
+                                                    {elseif !empty($vo.jour_add)}{$vo.jour_add}
+                                                    {else /}{$vo.jour_add2}{/if}
+                                                </div>
+                                            </div>
+                                            <div class="weui-cell">
+                                                <div class="weui-cell__hd"><label class=" ">服务车型：</label></div>
+                                                <div class="weui-cell__bd">
+                                                    {$vo.car_type}
+                                                </div>
+                                            </div>
+                                            <div class="weui-cell">
+                                                <div class="weui-cell__hd"><label class=" ">发动机匹配厂家：</label></div>
+                                                <div class="weui-cell__bd">
+                                                    {if !empty($vo.math_ven)}{$vo.math_ven}{else /}暂无信息{/if}
+                                                </div>
+                                            </div>
+                                            <div class="weui-cell">
+                                                <div class="weui-cell__hd"><label class=" ">故障现象描述说明：</label></div>
+                                            </div>
+                                            <div class="weui-cell des">
+                                                <div class="weui-cell__bd">
+                                                    {$vo.desc}
+                                                </div>
+                                            </div>
+                                            <a href="{:url('user/work_order_receipt',array('id' => $vo['wo_id']))}" class=" weui-btn btn-primary2" style="margin: 0.75rem;">添加回执单</a>
+                                            <a href="javascript:;" class="weui-btn btn-primary2"
+                                               onclick="viewReceipt({$vo.wo_id})" style="margin: 0.75rem;">查看回执单</a>
+                                        </div>
+                                    </div>
+                                </li>
+                                {/volist}
+                            </ul>
+                            <script>
+                                var viewReceipt = function (wid) {
+                                    var data = {};
+                                    data.wid = wid;
+                                    var text = '';
+                                    $.post('ShowReceipt',data,function (res) {
+                                        console.log(res);
+                                        var server = res.data.server_desc.serinfo;
+                                        var parts = res.data.parts_desc.parinfo;
+                                        for (var i = 0;i<server.length;i++){
+                                            text += '<div class="text-left"><div class="weui-cells__title">'+server[i].name+'</div>\n'+
+                                                '<div class="weui-flex text-center font75">\n' +
+                                                '    <div class="pull-left" style="margin-right: 5px;">单价：'+server[i].price+'</div>\n' +
+                                                '    <div class="pull-left" style="margin-right: 5px;">数量：'+server[i].num+'</div>\n' +
+                                                '    <div class="pull-left">小计：'+(server[i].num * server[i].price)+'</div>\n' +
+                                                '</div>\n' ;
+                                            ;
+                                        }
+                                        for(var i = 0;i<parts.length; i++){
+                                            text += '<div class="weui-cells__title">'+parts[i].name+'+</div>\n' +
+                                                '<div class="weui-flex text-center font75">\n' +
+                                                '    <div class="weui-flex__item">单价：'+parts[i].price+'</div>\n' +
+                                                '    <div class="weui-flex__item">数量：'+parts[i].num+'</div>\n' +
+                                                '    <div class="weui-flex__item">小计：'+(parts[i].price * parts[i].num)+'</div>\n' +
+                                                '</div>\n' ;
+                                            ;
+                                        }
+                                        text += '<div class=" text-center font75">' +
+                                            '<br/>\n' +
+                                                '    <div style="clear: both;"></div><div class="pull-right feedbackFormServiceMoney" style="margin: 0;">总价：'+res.data.totalprice+'元</div>\n' +
+                                                '' +
+                                            '<br/></div>\n' ;
+                                        text += '<div class="weui-cells__title">维修前图片</div>\n' ;
+                                        for(var i = 0;i<res.data.ago_img.length;i++){
+                                            text += '<a href="'+res.data.ago_img[i]+'>\n' +
+                                                '    <img src="'+res.data.ago_img[i]+'" alt="" class="feedbackFormServiceImg">\n' +
+                                                '</a>\n' ;
+
+                                        }
+                                        text += '<div class="weui-cells__title">维修后图片</div>\n';
+                                        for(var i = 0;i<res.data.back_img.length;i++){
+                                            text +=  '<a href='+res.data.back_img[i]+'>\n' +
+                                                '    <img src="'+res.data.back_img[i]+'" alt="" class="feedbackFormServiceImg">\n' +
+                                                '</a>\n' ;
+
+                                        }
+                                        $.modal({
+                                            title: "查看回执单",
+                                            text: text,
+                                            buttons: [
+                                                {text: "取消", className: "default"},
+                                            ]
+                                        });
+                                    })
+                                };
+                            </script>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="tab2" class="tabOneLevelItem weui-tab__bd-item font75">
+            <div class="body-content-margin">
+                <form action="" id="send_car">
+                    <div class="weui-cells weui-cells_form font75">
+                        <div class="weui-cell" id="fullBtn">
+                            <div class="weui-cell__hd"><label>服务单号：</label></div>
+                            <div class="weui-cell__bd">
+
+                            </div>
+                            <div class="weui-cell__ft">
+                                <i class="icon icon-74"></i>
+                            </div>
+                        </div>
+                        <div class="weui-cell">
+                            <div class="weui-cell__hd">
+                                <label class="">申请人：</label>
+                            </div>
+                            <div class="weui-cell__bd">
+                                <input class="weui-input" value="{$Think.session.driver->user_name}" type="text" readonly>
+                                <input type="hidden" name="apper" value="{$Think.session.driver->uid}" />
+                            </div>
+                        </div>
+                        <div class="weui-cell" id="show-actions2">
+                            <div class="weui-cell__hd">
+                                <label>出行服务方式：</label>
+                            </div>
+                            <div class="weui-cell__bd">
+
+                            </div>
+                            <div class="weui-cell__ft">
+                                <i class="icon icon-74"></i>
+                            </div>
+                        </div>
+                        <div class="weui-cell">
+                            <div class="weui-cell__hd"><label class=" ">起始地点：</label></div>
+                            <div class="weui-cell__bd">
+                                <input class="weui-input" name="star_add" type="text">
+                            </div>
+                        </div>
+                        <div class="weui-cell">
+                            <div class="weui-cell__hd"><label class=" ">服务地点：</label></div>
+                            <div class="weui-cell__bd">
+                                <input class="weui-input" name="server_add" type="text">
+                            </div>
+                        </div>
+                        <div class="weui-cell">
+                            <div class="weui-cell__hd"><label class=" ">单程距离（KM）：</label></div>
+                            <div class="weui-cell__bd">
+                                <input class="weui-input" name="km_num" type="text">
+                            </div>
+                        </div>
+                        <div class="weui-cell">
+                            <div class="weui-cell__hd"><label class="">外出时间（天）：</label></div>
+                            <div class="weui-cell__bd">
+                                <input class="weui-input" name="out_time" type="text">
+                            </div>
+                        </div>
+                        <div class="weui-cell">
+                            <div class="weui-cell__hd"><label class=" ">外出人数（人）：</label></div>
+                            <div class="weui-cell__bd">
+                                <input class="weui-input" name="out_num" type="text">
+                            </div>
+                        </div>
+                        <!--<div class="weui-cell" id="show-actions3">-->
+                            <!--<div class="weui-cell__hd">-->
+                                <!--<label>交通费标准：</label>-->
+                            <!--</div>-->
+                            <!--<div class="weui-cell__bd"></div>-->
+                            <!--<div class="weui-cell__ft">-->
+                                <!--<i class="icon icon-74"></i>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                        <div class="weui-cell">
+                            <div class="weui-cell__hd">
+                                <label class=" ">交通费（元）：</label>
+                            </div>
+                            <div class="weui-cell__bd">
+                                <input class="weui-input" name="price" type="text">
+                            </div>
+                        </div>
+                    </div>
+                    <input type="hidden" name="wo_id" value="" />
+                    <input type="hidden" name="travel_type" value="" />
+                    {:token()}
+                    <a href="javascript:;" class="weui-btn btn-primary" id="reservationBtn" onclick="Apply()" style="margin-top:1rem;margin-bottom: 4rem;">申请</a>
+                </form>
+            </div>
+        </div>
+        <div id="tab3" class="tabOneLevelItem weui-tab__bd-item font75">
+            <div class="body-content-margin">
+                <form action="" method="post" id="stay">
+                    <div class="weui-cells weui-cells_form font75">
+                        <div class="weui-cell" id="fullBtn1">
+                            <div class="weui-cell__hd">
+                                <label>服务单号：</label>
+                            </div>
+                            <div class="weui-cell__bd">
+
+                            </div>
+                            <div class="weui-cell__ft">
+                                <i class="icon icon-74"></i>
+                            </div>
+                        </div>
+                        <div class="weui-cell">
+                            <div class="weui-cell__hd">
+                                <label class="">申请人：</label>
+                            </div>
+                            <div class="weui-cell__bd">
+                                <input class="weui-input"  type="text" value="{$Think.session.driver.user_name}">
+                                <input type="hidden" name="apply" value="{$Think.session.driver.uid}" />
+                            </div>
+                        </div>
+                        <div class="weui-cell">
+                            <div class="weui-cell__hd">
+                                <label>申请理由：</label>
+                            </div>
+                            <div class="weui-cell__bd">
+                                <input class="weui-input" name="apply_reason" type="text">
+                            </div>
+                        </div>
+                        <div class="weui-cell">
+                            <div class="weui-cell__hd">
+                                <label class=" ">申请天数（天）：</label>
+                            </div>
+                            <div class="weui-cell__bd">
+                                <input class="weui-input" name="apply_num" type="text">
+                            </div>
+                        </div>
+                        <!--<div class="weui-cell">-->
+                            <!--<div class="weui-cell__hd">-->
+                                <!--<label class="">补贴标准：</label>-->
+                            <!--</div>-->
+                            <!--<div class="weui-cell__bd">-->
+                                <!--<input class="weui-input" name="subsity" type="text">-->
+                            <!--</div>-->
+                        <!--</div>-->
+                        <div class="weui-cell">
+                            <div class="weui-cell__hd">
+                                <label class="">合计费用（元）：</label>
+                            </div>
+                            <div class="weui-cell__bd">
+                                <input class="weui-input" name="count_price" type="text">
+                            </div>
+                        </div>
+                    </div>
+                    {:token()}
+                    <input type="hidden" name="wo_id2"  value="" />
+                    <a href="javascript:;" class="weui-btn btn-primary" onclick="SubStay()" id="reservationBtn1"
+                       style="margin-top:1rem;margin-bottom: 4rem;">申请</a>
+                </form>
+                </div>
+        </div>
+        <div id="tab4" class="tabOneLevelItem weui-tab__bd-item font75">
+            <div class="page-bd">
+                <ul>
+                    {volist name="wo_list.send_apply" id="vo"}
+                    <li>
+                        <div class="weui-flex js-category">
+                            <div class="weui-flex-item text-center">
+                                <span class="pull-left">{//$vo.add_time|date="n-d H:i",###}</span>
+                                <span>派车申请</span>
+                                <span class="pull-right color-blue">{if $vo.status eq 1} 已同意{elseif $vo.status eq 2}已拒绝{else /}待审核{/if}&nbsp</span>
+                            </div>
+                            <i class="icon icon-74"></i>
+                        </div>
+                        <div class="page-category js-categoryInner">
+                            <div class="weui-cells weui-cells_form font75"
+                                 style="background-color: #eff8ff;">
+                                <div class="weui-cell">
+                                    <div class="weui-cell__hd"><label class="">服务单号：</label></div>
+                                    <div class="weui-cell__bd">
+                                        {$vo.wo_sn}
+                                    </div>
+                                </div>
+                                 <!-- 派车申请 -->
+                                <div class="weui-cell">
+                                    <div class="weui-cell__hd"><label class=" ">出行服务方式：</label></div>
+                                    <div class="weui-cell__bd">
+                                        {if $vo.travel_type eq 1}派车{elseif $vo.travel_type eq 2}乘车{/if}
+                                    </div>
+                                </div>
+                                <div class="weui-cell">
+                                    <div class="weui-cell__hd"><label class=" ">起始地点：</label></div>
+                                    <div class="weui-cell__bd">
+                                        {{if !empty($vo.start_add)}{$vo.start_add}{/if}
+                                    </div>
+                                </div>
+                                <div class="weui-cell">
+                                    <div class="weui-cell__hd"><label class=" ">服务地点：</label></div>
+                                    <div class="weui-cell__bd">
+                                        {if !empty($vo.server_add)}{$vo.server_add}{/if}
+                                    </div>
+                                </div>
+                                <div class="weui-cell">
+                                    <div class="weui-cell__hd"><label class=" ">单程距离：</label></div>
+                                    <div class="weui-cell__bd">
+                                        {$vo.km_num}km
+                                    </div>
+                                </div>
+                                <div class="weui-cell">
+                                    <div class="weui-cell__hd"><label class=" ">外出时间：</label></div>
+                                    <div class="weui-cell__bd">
+                                        {$vo.out_time}
+                                    </div>
+                                </div>
+                                <div class="weui-cell">
+                                    <div class="weui-cell__hd"><label class=" ">外出人数：</label></div>
+                                    <div class="weui-cell__bd">
+                                        {$vo.out_num}人
+                                    </div>
+                                </div>
+                                <div class="weui-cell">
+                                    <div class="weui-cell__hd"><label class=" ">交通费标准：</label></div>
+                                    <div class="weui-cell__bd">
+                                        {$vo.car_fare}
+                                    </div>
+                                </div>
+                                <div class="weui-cell">
+                                    <div class="weui-cell__hd"><label class=" ">交通费：</label></div>
+                                    <div class="weui-cell__bd">
+                                        {$vo.price}元
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    {/volist}
+                    {volist name="wo_list.stay_apply" id="vo"}
+                    <li>
+                        <div class="weui-flex js-category">
+                            <div class="weui-flex-item text-center">
+                                <span class="pull-left">{if !empty($vo.add_time)}{$vo.add_time|date="n-d H:i",###}{/if}</span>
+                                <span>住宿申请</span>
+                                <span class="pull-right color-blue">{if $vo.status eq 1} 已同意{elseif $vo.status eq 2}已拒绝{else /}待审核{/if}&nbsp</span>
+                            </div>
+                            <i class="icon icon-74"></i>
+                        </div>
+                        <div class="page-category js-categoryInner">
+                            <div class="weui-cells weui-cells_form font75"
+                                 style="background-color: #eff8ff;">
+                                <div class="weui-cell">
+                                    <div class="weui-cell__hd"><label class="">服务单号：</label></div>
+                                    <div class="weui-cell__bd">
+                                        {$vo.wo_sn}
+                                    </div>
+                                </div>
+                                <!-- 派车申请 -->
+
+                                <div class="weui-cell">
+                                    <div class="weui-cell__hd"><label class=" ">申请理由：</label></div>
+                                    <div class="weui-cell__bd">
+                                        {$vo.apply_reason}
+                                    </div>
+                                </div>
+                                <div class="weui-cell">
+                                    <div class="weui-cell__hd"><label class=" ">申请天数：</label></div>
+                                    <div class="weui-cell__bd">
+                                        {$vo.apply_num}
+                                    </div>
+                                </div>
+                                <div class="weui-cell">
+                                    <div class="weui-cell__hd"><label class=" ">补贴标准：</label></div>
+                                    <div class="weui-cell__bd">
+                                        {$vo.subsity}
+                                    </div>
+                                </div>
+                                <div class="weui-cell">
+                                    <div class="weui-cell__hd"><label class=" ">合计费用：</label></div>
+                                    <div class="weui-cell__bd">
+                                        {$vo.count_price}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    {/volist}
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div id="full" class='weui-popup__container'>
+        <div class="weui-popup__overlay"></div>
+        <div class="weui-popup__modal">
+            <div class="toolbar">
+                <div class="toolbar-inner">
+                    <a href="javascript:;" class="picker-button close-popup">关闭</a>
+                    <h1 class="title">选择服务单号</h1>
+                </div>
+            </div>
+            <div class="modal-content" style="background-color: #fff;font-size: 0.75rem;" id="fullConent">
+                <div class="weui-cell">
+                    <div class="weui-cell__bd text-center">
+                        <h1>Loading...</h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="full1" class='weui-popup__container'>
+        <div class="weui-popup__overlay"></div>
+        <div class="weui-popup__modal">
+            <div class="toolbar">
+                <div class="toolbar-inner">
+                    <a href="javascript:;" class="picker-button close-popup">关闭</a>
+                    <h1 class="title">选择服务单号</h1>
+                </div>
+
+            </div>
+            <div class="modal-content" style="background-color: #fff;font-size: 0.75rem;" id="fullConent1">
+                <div class="weui-cell">
+                    <div class="weui-cell__bd text-center">
+                        <h1>Loading...</h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{include file="public/footer" /}
+<script>
+    $(function () {
+        FastClick.attach(document.body);
+    });
+    $("#fullBtn").on('click',function () {
+        $("#full").popup();
+    })
+    $("#fullBtn1").on('click',function () {
+        $("#full1").popup();
+    })
+    //一级tab切换,  //二级tab切换,  //三级tab切换
+    tabChange('#tabParent .tabOneLevelNav', '#tabParent .tabOneLevelItem');
+    tabChange('#tab1 .tabTwoLevelNav', '#tab1 .tabTwoLevelItem');
+    /**
+     * tab切换类
+     * @param id 级别切换按钮
+     * @param box 级别切换内容
+     */
+    function tabChange(id, box) {
+        $(id).click(function () {
+            if (!$(this).hasClass('weui-bar__item--on')) {
+                $(id).removeClass('weui-bar__item--on');
+                $(this).addClass('weui-bar__item--on');
+                $(box).removeClass('weui-tab__bd-item--active');
+                $($(this).attr('data-href')).addClass('weui-tab__bd-item--active');
+            }
+        })
+    }
+    //退出当前账户
+    $('#logout').click(function () {
+        $.confirm("您确定要退出当前账户吗?", function () {
+            location.href = '{:url('user/signout')}';
+        }, function () {
+            //取消
+        });
+    })
+    //折叠板
+    $('.js-category').click(function () {
+        $parent = $(this).parent('li');
+        if ($parent.hasClass('js-show')) {
+            $parent.removeClass('js-show');
+            $(this).children('i').removeClass('icon-35').addClass('icon-74');
+        } else {
+            $parent.siblings().removeClass('js-show');
+            $parent.addClass('js-show');
+            $(this).children('i').removeClass('icon-74').addClass('icon-35');
+            $parent.siblings().find('i').removeClass('icon-35').addClass('icon-74');
+        }
+    });
+
+    $.ajax({
+        type: "get",
+        url: "getUserTake",
+        dataType: "json",
+        success: function (res) {
+            $('#fullConent').html('');
+            $('#fullConent1').html('');
+            if(res.code == 1){
+                for (var i = 0; i < res.data.length; i++) {
+                    $('#fullConent').html($('#fullConent').html() + '' +
+                        '<div class="weui-cell" data-id="'+res.data[i].wo_id+'"><div class="weui-cell__bd text-center">' + res.data[i].wo_sn + '</div></div>')
+                }
+                for (var i = 0; i < res.data.length; i++) {
+                    $('#fullConent1').html($('#fullConent1').html() + '<div class="weui-cell" data-id="'+res.data[i].wo_id+'"><div class="weui-cell__bd text-center">' + res.data[i].wo_sn + '</div></div>')
+                }
+            }else{
+
+                $('#fullConent').html('<div style="text-align: center;font-size: 20px;">暂无数据</div>');
+                $('#fullConent1').html('<div style="text-align: center;font-size: 20px;">暂无数据</div>');
+            }
+        },
+        error:function(){
+
+        }
+    });
+
+    //点击单号
+    $('#fullConent').on('click', '.weui-cell', function () {
+        $('#fullBtn .weui-cell__bd').text($(this).text());
+        $('.close-popup').click();
+        $("input[name='wo_id']").val($(this).data('id'));
+    });
+    $('#fullConent1').on('click', '.weui-cell', function () {
+        $('#fullBtn1 .weui-cell__bd').text($(this).text());
+
+        $('.close-popup').click();
+        $("input[name='wo_id2']").val($(this).data('id'));
+    });
+    $(document).on("click", "#show-actions2", function () {
+        $.actions({
+            title: "选择出行服务方式",
+            onClose: function () {
+                console.log("close");
+            },
+            actions: [{
+                text: '派车',
+                className: "color-primary",
+                onClick: function () {
+                    $('#show-actions2').find('.weui-cell__bd').text('派车');
+                    $("input[name='travel_type']").val(1);
+                }
+            }, {
+                text: '乘车',
+                className: "color-primary",
+                onClick: function () {
+                    $('#show-actions2').find('.weui-cell__bd').text('乘车');
+                    $("input[name='travel_type']").val(2);
+                }
+            }]
+        });
+    });
+    var action = [{
+        text: 'loading...',
+        className: "color-primary",
+        onClick: function () {
+
+        }
+    }];
+    // $.ajax({
+    //     type: "get",
+    //     url: "data.json",
+    //     dataType: "json",
+    //     success: function (res) {
+    //         action = [];
+    //         for (var i = 0; i < res.money.length; i++) {
+    //             action.push({
+    //                 text: res.money[i],
+    //                 className: "color-primary",
+    //                 onClick: function () {
+    //                     $('#show-actions3').find('.weui-cell__bd').text(this.text);
+    //                 }
+    //             })
+    //         }
+    //
+    //
+    //     }
+    // });
+    $(document).on("click", "#show-actions3", function () {
+        $.actions({
+            title: "选择交通费标准",
+            onClose: function () {
+                console.log("close");
+            },
+            actions: action
+        });
+    });
+    var action1 = [{
+        text: 'loading...',
+        className: "color-primary",
+        onClick: function () {
+
+        }
+    }];
+    // $.ajax({
+    //     type: "get",
+    //     url: "data.json",
+    //     dataType: "json",
+    //     success: function (res) {
+    //         action1 = [];
+    //         for (var i = 0; i < res.subsidy.length; i++) {
+    //             action1.push({
+    //                 text: res.subsidy[i],
+    //                 className: "color-primary",
+    //                 onClick: function () {
+    //                     $('#show-actions4').find('.weui-cell__bd').text(this.text);
+    //                 }
+    //             })
+    //         }
+    //     }
+    // });
+    $(document).on("click", "#show-actions4", function () {
+        $.actions({
+            title: "选择补贴标准",
+            onClose: function () {
+                console.log("close");
+            },
+            actions: action1
+        });
+    });
+    var Apply = function () {
+        var send_car = $("#send_car").serializeArray();
+        $.post('AddSendCar',send_car,function (res) {
+            alert(res.msg);
+            if (res.code  == 1){
+                location.reload();
+            }
+        })
+    }
+    var SubStay = function () {
+        var send_car = $("#stay").serializeArray();
+        $.post('AddStay',send_car,function (res) {
+            alert(res.msg);
+            if (res.code  == 1){
+                location.reload();
+            }
+        })
+    }
+</script>

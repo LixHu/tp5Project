@@ -1,0 +1,46 @@
+{include file="public/header" /}
+<fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+  <legend>添加角色</legend>
+</fieldset>
+<form class="layui-form" action="" method="post">
+    <div class="layui-form-item" style="width:360px;">
+        <label class='layui-form-label'>角色名称：</label>
+        <div class="layui-input-block">
+            <input type="text" name="role_name" value="" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item" style="width:360px;">
+        <label class='layui-form-label'>角色描述：</label>
+        <div class="layui-input-block">
+            <input type="text" name="desc" value="" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item" style="width:360px;">
+        <label class='layui-form-label'>权限管理：</label>
+        <div class="layui-input-block">
+            {volist name="menu" id="vo"}
+                <input type="checkbox" name="id[]" value="{$vo.menu_id}" class="parent" lay-filter="test" id="parent" >
+                 {$vo.menu_name}
+                <br/>
+                {volist name="vo.children" id="v"}
+                    <input type="checkbox" name="id[]" value="{$v.menu_id}" class="children" > {$v.menu_name}
+                {/volist}
+                <br/>
+            {/volist}
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button type="submit" class="layui-btn layui-btn-normal" lay-submit='' lay-filter="test">提交</button>
+        </div>
+    </div>
+</form>
+<script type="text/javascript">
+    layui.use('form',function(){
+        var form = layui.form;
+        form.on('submit(test)',function(){
+
+        })
+    })
+</script>
+{include file="public/footer" /}

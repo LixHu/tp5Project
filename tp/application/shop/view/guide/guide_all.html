@@ -1,0 +1,277 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>捷律指南</title>
+    <meta http-equiv="x-ua-compatible" content="IE=edge">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <!--<meta name="apple-mobile-web-app-capable" content="yes">-->
+    <!--<meta name="apple-touch-fullscreen" content="yes">-->
+    <link rel="stylesheet" type="text/css" href="_lib/weui.min.css">
+    <link rel="stylesheet" type="text/css" href="_css/jquery-weui.css">
+    <link rel="stylesheet" type="text/css" href="_css/style_h5.css">
+    <link rel="stylesheet" type="text/css" href="_css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="_css/weui2.css"/>
+    <link rel="stylesheet" type="text/css" href="_css/icon.css"/>
+    <style>
+        .weui-btn_primary {
+            background-color: #f18b2d;
+        }
+
+        .weui-vcode-btn {
+            color: #f18b2d;
+        }
+
+        .weui-cells {
+            margin-top: 0;
+        }
+    </style>
+    <!--[if IE]>
+    <script src="http://libs.useso.com/js/html5shiv/3.7/html5shiv.min.js"></script>
+    <![endif]-->
+</head>
+<body ontouchstart style="background: #e8e8e8 !important;">
+<div style="padding-top: 0.5rem;">
+    <div class="page-bd font18" style="margin:0 0.5rem 0.5rem;">
+        <ul>
+            <li>
+                <div class="weui-flex js-category" style="padding: 20px;">
+                    <div class="weui-flex-item text-center">
+                        <img src="_images/guide1.png" alt="" width="128" height="128" class="pull-left guide-img">
+                        <div class="pull-left">新手指导</div>
+                    </div>
+                    <i class="icon icon-74"></i>
+                </div>
+                <div class="page-category js-categoryInner">
+                    <div class="weui-cells weui-cells_form font14"
+                         style="background-color: #ffffff;">
+                        {if condition="$res eq false"} 
+                        {volist name="data" id="vo"}
+                        <a href="{:url('Guide/guide_list',['id'=>$vo['id']])}" style=" color: #000000;">
+                            <div class="weui-flex" style="padding: 0 20px 0 35px;opacity: 1;">
+                                <div class="weui-flex-item text-center ">
+                                    <div class="weui-cell">
+                                        <div>{$vo.title}</div>
+                                    </div>
+                                </div>
+                                <i class="icon icon-74 " style="transform: rotate(-90deg);"></i>
+                            </div>
+                        </a>
+                        {/volist}
+                        {else}
+                        <div class="weui-flex" style="padding: 0 20px 0 35px;opacity: 1;">
+                            <div class="weui-flex-item text-center">
+                                <div class="weui-cell">
+                                    <div>暂无数据</div>
+                                </div>
+                            </div>
+                        </div>
+                        {/if}
+
+                    </div>
+
+                </div>
+            </li>
+            <!-- <li>
+                <div class="weui-flex js-category" style="padding: 20px;">
+                    <div class="weui-flex-item text-center">
+                        <img src="_images/guide2.png" alt="" width="128" height="128" class="pull-left guide-img">
+                        <div class="pull-left">赚钱技巧</div>
+                    </div>
+                    <i class="icon icon-74"></i>
+                </div>
+                <div class="page-category js-categoryInner">
+                    <div class="weui-cells weui-cells_form font14"
+                         style="background-color: #ffffff;">
+                        <a href="h5_guide_details.html" style=" color: #000000;">
+                            <div class="weui-flex" style="padding: 0 20px 0 35px;opacity: 1;">
+                                <div class="weui-flex-item text-center">
+                                    <div class="weui-cell">
+                                        <div>反投诉秘籍</div>
+                                    </div>
+                                </div>
+                                <i class="icon icon-74 " style="transform: rotate(-90deg);"></i>
+                            </div>
+                        </a>
+                        <a href="h5_guide_details.html" style=" color: #000000;">
+                            <div class="weui-flex" style="padding: 0 20px 0 35px;opacity: 1;">
+                                <div class="weui-flex-item text-center">
+                                    <div class="weui-cell">
+                                        <div>反投诉秘籍</div>
+                                    </div>
+                                </div>
+                                <i class="icon icon-74 " style="transform: rotate(-90deg);"></i>
+                            </div>
+                        </a>
+                        <a href="h5_guide_details.html" style=" color: #000000;">
+                            <div class="weui-flex" style="padding: 0 20px 0 35px;opacity: 1;">
+                                <div class="weui-flex-item text-center">
+                                    <div class="weui-cell">
+                                        <div>反投诉秘籍</div>
+                                    </div>
+                                </div>
+                                <i class="icon icon-74 " style="transform: rotate(-90deg);"></i>
+                            </div>
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </li> -->
+            <!-- <li>
+                <div class="weui-flex js-category" style="padding: 20px;">
+                    <div class="weui-flex-item text-center">
+                        <img src="_images/guide3.png" alt="" width="128" height="128" class="pull-left guide-img">
+                        <div class="pull-left">金币必看</div>
+                    </div>
+                    <i class="icon icon-74"></i>
+                </div>
+                <div class="page-category js-categoryInner">
+                    <div class="weui-cells weui-cells_form font14"
+                         style="background-color: #ffffff;">
+                        <a href="h5_guide_details.html" style=" color: #000000;">
+                            <div class="weui-flex" style="padding: 0 20px 0 35px;opacity: 1;">
+                                <div class="weui-flex-item text-center">
+                                    <div class="weui-cell">
+                                        <div>反投诉秘籍</div>
+                                    </div>
+                                </div>
+                                <i class="icon icon-74 " style="transform: rotate(-90deg);"></i>
+                            </div>
+                        </a>
+                        <a href="h5_guide_details.html" style=" color: #000000;">
+                            <div class="weui-flex" style="padding: 0 20px 0 35px;opacity: 1;">
+                                <div class="weui-flex-item text-center">
+                                    <div class="weui-cell">
+                                        <div>反投诉秘籍</div>
+                                    </div>
+                                </div>
+                                <i class="icon icon-74 " style="transform: rotate(-90deg);"></i>
+                            </div>
+                        </a>
+                        <a href="h5_guide_details.html" style=" color: #000000;">
+                            <div class="weui-flex" style="padding: 0 20px 0 35px;opacity: 1;">
+                                <div class="weui-flex-item text-center">
+                                    <div class="weui-cell">
+                                        <div>反投诉秘籍</div>
+                                    </div>
+                                </div>
+                                <i class="icon icon-74 " style="transform: rotate(-90deg);"></i>
+                            </div>
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </li> -->
+            <li>
+                <div class="weui-flex js-category" style="padding: 20px;">
+                    <div class="weui-flex-item text-center">
+                        <img src="_images/guide4.png" alt="" width="128" height="128" class="pull-left guide-img">
+                        <div class="pull-left">规则与处罚</div>
+                    </div>
+                    <i class="icon icon-74"></i>
+                </div>
+                <div class="page-category js-categoryInner">
+                    <div class="weui-cells weui-cells_form font14"
+                         style="background-color: #ffffff;">
+                        {if condition="!empty($rules)"}
+                        <a href="{:url('Guide/guide_list',['rid'=>$rules['id']])}" style=" color: #000000;">
+                            <div class="weui-flex" style="padding: 0 20px 0 35px;opacity: 1;">
+                                <div class="weui-flex-item text-center">
+                                    <div class="weui-cell">
+                                        <div>规则与处罚详情</div>
+                                    </div>
+                                </div>
+                                <i class="icon icon-74 " style="transform: rotate(-90deg);"></i>
+                            </div>
+                        </a>
+                        {else}
+                        <div class="weui-flex" style="padding: 0 20px 0 35px;opacity: 1;">
+                            <div class="weui-flex-item text-center">
+                                <div class="weui-cell">
+                                    <div>暂无数据</div>
+                                </div>
+                            </div>
+                        </div>
+                        {/if}
+                    </div>
+
+                </div>
+
+            </li>
+            <!-- <li>
+                <div class="weui-flex js-category" style="padding: 20px;">
+                    <div class="weui-flex-item text-center">
+                        <img src="_images/guide1.png" alt="" width="128" height="128" class="pull-left guide-img">
+                        <div class="pull-left">常见问题</div>
+                    </div>
+                    <i class="icon icon-74"></i>
+                </div>
+                <div class="page-category js-categoryInner">
+                    <div class="weui-cells weui-cells_form font14"
+                         style="background-color: #ffffff;">
+                        {if condition="!empty($problem_all)"} 
+                        
+                        <a href="{:url('Guide/guide_list',['id'=>$problem_all['id']])}" style=" color: #000000;">
+                            <div class="weui-flex" style="padding: 0 20px 0 35px;opacity: 1;">
+                                <div class="weui-flex-item text-center ">
+                                    <div class="weui-cell">
+                                        <div>{$problem_all.title}</div>
+                                    </div>
+                                </div>
+                                <i class="icon icon-74 " style="transform: rotate(-90deg);"></i>
+                            </div>
+                        </a>
+                        
+                        {else}
+                        <div class="weui-flex" style="padding: 0 20px 0 35px;opacity: 1;">
+                            <div class="weui-flex-item text-center">
+                                <div class="weui-cell">
+                                    <div>暂无数据</div>
+                                </div>
+                            </div>
+                        </div>
+                        {/if}
+
+                    </div>
+
+                </div>
+            </li> -->
+        </ul>
+    </div>
+</div>
+
+
+<script src="_lib/jquery-2.1.4.js"></script>
+<script src="_js/h5.js"></script>
+<script src="_lib/fastclick.js"></script>
+<script src="_js/jquery-weui.js"></script>
+<script type="text/javascript">
+    $(function () {
+        FastClick.attach(document.body);
+    });
+    //返回顶部
+    $('#backTop').click(function () {
+        $('#content').animate({scrollTop: 0}, 300);
+    });
+    //折叠板
+    $('.js-category').click(function () {
+        $parent = $(this).parent();
+        if ($parent.hasClass('js-show')) {
+            $parent.removeClass('js-show');
+            $(this).children('i').removeClass('icon-35').addClass('icon-74');
+        } else {
+             $('.js-category').parent().removeClass('js-show');
+            $parent.addClass('js-show');
+            $(this).children('i').removeClass('icon-74').addClass('icon-35');
+            $parent.siblings().find('i').removeClass('icon-35').addClass('icon-74');
+        }
+    });
+
+</script>
+</body>
+</html>

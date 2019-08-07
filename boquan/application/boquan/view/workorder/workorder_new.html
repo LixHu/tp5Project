@@ -1,0 +1,339 @@
+{include file="public/header" /}
+<link rel="stylesheet" href="_css/select2.min.css">
+<link rel="stylesheet" href="_css/bootstrap-datetimepicker.min.css">
+<script src="_js/select2.full.js"></script>
+<script src="_js/bootstrap-datetimepicker.min.js"></script>
+<script src="_js/bootstrap-datetimepicker.zh-CN.js"></script>
+<style>
+    body {
+        background-color: #eeeeee;
+    }
+
+    .content {
+        padding: 0 15px !important;
+    }
+
+</style>
+<!--<a data-leftHref="test.html" href="javascript:void(0)" onclick="window.parent.closableTab.addTab({'id': '99', 'name': this.innerText, 'url': this.getAttribute('data-leftHref'), 'closable': true});">测试页面</a>-->
+<script>
+    var sub = function(type){
+        var form = $("#form").serializeArray();
+        $.post('add_work',form,function (res) {
+            alert(res.msg);
+            if(res.code == 1){
+                if (type == 2 ){
+                    location.href="/boquan/workorder/dispath?wid="+res.wid
+                }else{
+                    history.go(-1);
+                }
+            }
+        })
+
+    }
+</script>
+<section class="content">
+    <form id="form" class="form-horizontal" method="post" enctype="multipart/form-data">
+        <div class="box box-solid" id="tour_2">
+            <div class="box-body">
+                <button type="button" onclick="sub(1)" class="btn btn-default" data-container="body" data-toggle="tooltip"
+                        data-placement="bottom" title="保存为待指派工单">
+                    <i class="fa fa-save"></i>&nbsp;&nbsp;只保存
+                </button>
+                <button type="button" onclick="sub(2)" class="btn btn-primary" title="为工单指派负责人">
+                    <i class="fa fa-hand-o-up"></i>&nbsp;&nbsp;保存并派单
+                </button>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="box box-solid">
+                    <div class="box-header with-border">
+                        <span style="font-weight: bold">工单基本信息</span>
+                    </div>
+                    <div class="box-body">
+                        <div id="vb_main" class="row" style="margin: 0">
+                            <div class=" form-group">
+                                <label class="col-md-2 col-sm-3 control-label">工单编号：</label>
+                                <div class="col-md-8 col-sm-7">
+                                    <label class="form-control"
+                                           style="border: hidden;padding-top: 8px;font-style: italic">
+                                        <span id="taskNo" style="color: #8a8a8a">工单编号将在创建后由系统生成</span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="customer" class="col-md-2 col-sm-3 control-label">客户
+                                    <span class="text-red"> *</span>：
+                                </label>
+                                <div id="customer_content" class="col-md-7 col-sm-6" style="position: relative">
+                                    <select name="jour_id" id="customer" style="width: 100%;height: 30px;">
+                                    </select>
+                                </div>
+                                <div class="col-md-2 col-sm-2">
+                                    <button class="btn btn-primary" onclick="addCustom()" type="button">添加客户</button>
+                                </div>
+                                <div class="validation-tip"></div>
+                            </div>
+                            <script>
+                                var addCustom = function(){
+                                    layer.open({
+                                        type:2,
+                                        area:['800px','400px'],
+                                        title:['添加客户'],
+                                        shadeClose:true,
+                                        content:"{:url('clientall/add_custom')}"
+                                    })
+                                }
+                            </script>
+                            <div class="form-group" id="linkman_group" style="">
+                                <label for="linkman" class="col-md-2 col-sm-3 control-label">联系方式：</label>
+                                <div class="col-md-8">
+                                    <!--<select name="linkman" id="linkman" style="width: 100%;height: 30px;">-->
+                                        <!--<option value="">请选择联系人</option>-->
+                                        <!--<option value="1">1</option>-->
+                                    <!--</select>-->
+                                    <input type="text" id="linkman" class="form-control" readonly>
+                                </div>
+                            </div>
+                            <div class="form-group" id="address_group" style="">
+                                <label for="address" class="col-md-2 col-sm-3 control-label">地址：</label>
+                                <div id="address_content" class="col-md-8 col-sm-7">
+                                    <input type="text" id="address" class="form-control" readonly>
+                                </div>
+                            </div>
+                            <!--<div class="form-group" id="product_group" style="">-->
+                                <!--<label for="product" class="col-md-2 col-sm-3 control-label">产品：</label>-->
+                                <!--<div id="product_content" class="col-md-8 col-sm-7" style="position: relative">-->
+                                    <!--<select name="pro_id" id="product" style="width: 100%;height: 30px;">-->
+
+                                    <!--</select>-->
+                                <!--</div>-->
+                            <!--</div>-->
+                            <!--<div class="form-group">-->
+                                <!--<label for="level" class="col-md-2 col-sm-3 control-label">优先级：</label>-->
+                                <!--<div class="col-md-8 col-sm-7">-->
+                                    <!--<select class="form-control" id="level" name="pid">-->
+                                        <!--<option value="2" selected="selected">中</option>-->
+                                        <!--<option value="1">低</option>-->
+                                        <!--<option value="3">高</option>-->
+                                    <!--</select>-->
+                                <!--</div>-->
+                            <!--</div>-->
+                            <div class="form-group">
+                                <label for="serviceType" class="col-md-2 col-sm-3 control-label">服务类型：</label>
+                                <div class="col-md-8 col-sm-7">
+                                    <select class="form-control" id="serviceType" name="server_type">
+                                        <option value="1" selected="selected">保内免费</option>
+                                        <option value="2">保内收费</option>
+                                        <option value="3">保外免费</option>
+                                        <option value="4">保外收费</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="serviceContent" class="col-md-2 col-sm-3 control-label">服务内容：</label>
+                                <div class="col-md-8 col-sm-7">
+                                    <select class="form-control" id="serviceContent" name="server_content">
+                                        <option value="1">安装</option>
+                                        <option value="2">维修</option>
+                                        <option value="3">保养</option>
+                                        <option value="4">巡检</option>
+                                        <option value="5">检查</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="planTime" class="col-md-2 col-sm-3 control-label">计划时间
+                                    <span class="text-red">*</span>：
+                                </label>
+                                <div class="col-md-8 col-sm-7">
+                                    <input type="text" class="form-control publink_datetime" id="planTime"
+                                           name="plan_time"
+                                           pattern="yyyy-MM-dd HH:mm:ss" readonly="" data-rule="required">
+                                </div>
+                                <div class="validation-tip"></div>
+                            </div>
+                            <div class=" form-group">
+                                <label for="description" class="col-md-2 col-sm-3 control-label">描述：</label>
+                                <div class="col-md-8 col-sm-7">
+                                    <textarea rows="4" placeholder="[最多500字]" class="form-control"
+                                              style="overflow-y: auto;white-space:normal;" id="description"
+                                              name="desc"></textarea>
+                                </div>
+                                <div class="validation-tip"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <input type="hidden" id="enclo" name="enclo" value="">
+        </div>
+        </div>
+    </form>
+</section>
+<link href="_css/iconfont.css" rel="stylesheet" type="text/css"/>
+<link href="_css/fileUpload.css" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="_js/fileUpload.js"></script>
+{include file="public/footer" /}
+<script>
+    $("#customer").select2({
+        ajax: {
+            url: 'getCustom',
+            data: function (params) {
+                return {
+                    keyword: params.term || "", // search term
+                    page: params.page || 1, //第几页返回查询
+                };
+            },
+            processResults: function (data, params) {
+                params.page = params.page || 1;
+                var itemList = [];
+                var dataList = data.list;
+                if(dataList.length > 0){
+                    for (var i = 0; i < dataList.length; i++) {
+                        itemList[i] = {
+                            id: dataList[i].gid,
+                            text: dataList[i].gname,
+                            phone: dataList[i].tel
+                        };
+                    }
+                    return {
+                        results: itemList,
+                        pagination: {
+                            more: (params.page * 10) < data.total  //每页10条数据
+                        }
+                    };
+                }
+            }
+        },
+        placeholder: '请选择客户', //默认文字提示
+        allowClear: true, //允许在单选时清除
+        escapeMarkup: function (markup) {
+            return markup;
+        }, // 自定义格式化防止xss注入
+        minimumInputLength: 1, //最少输入多少个字符后开始查询。0：表示没有字符也搜索，即显示列表
+        maximumSelectionSize:10,
+        maximumInputLength:10,
+        formatResult: function formatRepo(repo) {
+            return repo.text;
+        }, // 函数用来渲染结果
+        formatSelection: function formatRepoSelection(repo) {
+            return repo.text;
+        }, // 函数用于呈现当前的选择
+        templateResult: function (state) { //数据格式化
+            if (!state.id) {
+                return state.text;
+            }
+            var $state = $(
+                '<table><tr onmouseover="getAdd('+state.id+')">' +
+                '<td><span style="font-weight: 700">' + state.text + "</span><br/>电话：" + state.phone +
+                '</td></tr></table>'
+            );
+            return $state;
+        },
+        language: 'zh-CN'
+    });
+    var getAdd = function (uid) {
+        var data = {};
+        data.uid = uid;
+        $.post('getAdd',data,function (res) {
+            $("#linkman").val(res.client_tel)
+            $('#address').val(res.client_address);
+        })
+    };
+    $("#product").select2({
+        ajax: {
+            url: 'getProduct',
+            data: function (params) {
+                return {
+                    keyword: params.term || "", // search term
+                    page: params.page || 1, //第几页返回查询
+                };
+            },
+            processResults: function (data, params) {
+                params.page = params.page || 1;
+                var itemList = [];
+                var dataList = data.list;
+                console.log(data);
+                for (var i = 0; i < dataList.length; i++) {
+                    itemList[i] = {
+                        id: dataList[i].id,
+                        text: dataList[i].name,
+                        phone: dataList[i].product_number
+                    };
+                }
+                return {
+                    results: itemList,
+                    pagination: {
+                        more: (params.page * 10) < data.total  //每页10条数据
+                    }
+                };
+            }
+        },
+        placeholder: '请选择产品', //默认文字提示
+        allowClear: true, //允许在单选时清除
+        escapeMarkup: function (markup) {
+            return markup;
+        }, // 自定义格式化防止xss注入
+        minimumInputLength: 1, //最少输入多少个字符后开始查询。0：表示没有字符也搜索，即显示列表
+        maximumSelectionSize:10,
+        maximumInputLength:10,
+        formatResult: function formatRepo(repo) {
+            return repo.text;
+        }, // 函数用来渲染结果
+        formatSelection: function formatRepoSelection(repo) {
+            return repo.text;
+        }, // 函数用于呈现当前的选择
+        templateResult: function (state) { //数据格式化
+            if (!state.id) {
+                return state.name;
+            }
+            console.log(state);
+            var $state = $(
+                '<table><tr>' +
+                '<td><span style="font-weight: 700">' + state.text + "</span><br/>编号：" + state.phone +
+                '</td></tr></table>'
+            );
+            return $state;
+        },
+        language: 'zh-CN'
+    });
+    function onUploadFun(opt, data) {
+        $("#enclo").val(data);
+        uploadTools.uploadError(opt);//显示上传错误
+    }
+    var time = getNowFormatDate();
+
+    function getNowFormatDate() {
+        var date = new Date();
+        var seperator1 = "-";
+        var seperator2 = ":";
+        var month = date.getMonth() + 1;
+        var strDate = date.getDate();
+        if (month >= 1 && month <= 9) {
+            month = "0" + month;
+        }
+        if (strDate >= 0 && strDate <= 9) {
+            strDate = "0" + strDate;
+        }
+        var currentdate = date.getFullYear() + seperator1 + month + seperator1 + strDate
+            + " " + date.getHours() + seperator2 + date.getMinutes()
+            + seperator2 + date.getSeconds();
+        return currentdate;
+    }
+
+    $('#planTime').datetimepicker({
+        format: 'yyyy-mm-dd hh:ii:ss',
+        autoclose: true,
+        minView: 0,
+        minuteStep: 5,
+        startDate: time,
+        todayBtn: true,
+        language: 'zh-CN'
+    });
+
+    $('#create_customer').click(function () {
+        $('#customerFrameModal').show();
+        $('#customerFrameModal').css("opacity", "1");
+    })
+</script>

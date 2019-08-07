@@ -1,0 +1,124 @@
+{include file="public/header" /}
+<body style="padding:10px;">
+    <blockquote class="layui-elem-quote layui-text">
+        案例管理 <font color="red" >注：每个行业分类下面添加四个分类，精品分类最多六个</font>
+    </blockquote>
+    <div style="float:right;padding:10px;">
+        <button type="button" class="layui-btn layui-btn-normal" data-method="add" data-url="addedit_case">添加案例</button>
+    </div>
+    <table class="layui-table">
+        <tr>
+            <td><input type="checkbox" id="checkall" /></td>
+            <td>行业</td>
+            <td>公司名称</td>
+            <td style="width:400px;">公司描述</td>
+            <td>是否经典案例</td>
+            <td>是否显示</td>
+            <td>操作</td>
+        </tr>
+        {volist name="case_list" id="vo"}
+            <tr>
+                <td><input type="checkbox" name="id[]" value="{$vo.case_id}"> </td>
+                <td>{$vo.trade_name}</td>
+                <td>{$vo.com_name}</td>
+                <td>{$vo.com_desc}</td>
+                <td onclick="changest('is_groom',{$vo.is_groom},{$vo.case_id})">{if $vo['is_groom'] eq 1} <img src="/static/img/yes.png" /> {else /} <img src="/static/img/no.png" />{/if}</td>
+                <td onclick="changest('is_show',{$vo.is_show},{$vo.case_id})">{if $vo['is_show'] eq 1} <img src="/static/img/yes.png" /> {else /} <img src="/static/img/no.png"/> {/if}</td>
+                <td>
+                    <div class="layui-btn-group">
+                        <a href="addedit_case?id={$vo.case_id}" class="layui-btn layui-btn-normal">编辑</a>
+                        <button type="button" class="layui-btn layui-btn-danger" data-method="del" data-id="{$vo.case_id}">删除</button>
+                    </div>
+                </td>
+            </tr>
+        {/volist}
+        <tr>
+            <td colspan="15">
+                <div class="pagelist">{$page}</div>
+            </td>
+        </tr>
+        <tr>
+            <td><button type="button" class="layui-btn layui-btn-danger" data-method="delAll">删除</button></td>
+            <td colspan="15"></td>
+        </tr>
+    </table>
+
+    <script type="text/javascript">
+    var changest = function (type,status,case_id){
+        var data = {};
+        data.type = type;
+        data.status = status;
+        data.case_id = case_id;
+        console.log(data);
+        $.post('up_status',data,function(ret){
+            if (ret.code == 1) {
+                layer.msg(ret.msg,{icon:1});
+                setTimeout("location.reload()",2000);
+            }else {
+                layer.msg(ret.msg,{icon:2});
+            }
+        })
+    }
+    var active = {
+    'add':function(){
+        location.href=$(this).data('url');
+    },del:function(){
+        var data = {};
+        data.id = $(this).data('id');
+        layer.confirm('确定要删除吗？',{
+            btn:['确定','取消']
+        },function(){
+            $.post('del_case',data,function(msg){
+                msg = JSON.parse(msg);
+                if(msg.code == 1){
+                    layer.msg(msg.msg,{icon:1});
+                    setTimeout("location.reload()",2000);
+                }else{
+                    layer.msg(msg.msg,{icon:2});
+                }
+            })
+        },function(){
+            console.log('error');
+        })
+    },
+    delAll:function(){
+        var id = [];
+        $.each($("input[name='id[]']"),function(k,v){
+            if(v.checked){
+                id.push(v.value);
+            }
+        })
+        if(id.length < 1){
+            layer.msg('请选择要删除的banner',{icon:2});
+            return false;
+        }
+        var data = {};
+        data.id = id;
+        layer.confirm('确定要删除吗？',{
+            btn:['确定','取消']
+        },function(){
+            $.post('del_case',data,function(msg){
+                msg = JSON.parse(msg);
+                if(msg.code == 1){
+                    layer.msg(msg.msg,{icon:1});
+                    setTimeout("location.reload()",2000);
+                }else{
+                    layer.msg(msg.msg,{icon:2});
+                }
+            })
+        },function(){
+
+        })
+    }
+    }
+    $("#checkall").click(function(){
+    $.each($("input[name='id[]']"),function(k,v){
+        v.checked = !v.checked;
+    })
+    })
+    $(".layui-btn").on('click',function(){
+    var othis = $(this), method = othis.data('method');
+    active[method] ? active[method].call(this, othis) : '';
+    })
+    </script>
+{include file="public/footer" /}

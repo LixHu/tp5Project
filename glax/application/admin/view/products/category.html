@@ -1,0 +1,163 @@
+{include file="public/header" /}
+<body style="padding:10px;">
+    <div class="group-button">
+        <button class="layui-btn layui-btn-sm layui-btn-primary"  data-method="delAll">
+            <i class="iconfont">&#xe626;</i> 删除
+        </button>
+        <!-- <button class="layui-btn layui-btn-sm layui-btn-primary">
+            <i class="iconfont">&#xe62c;</i> 推荐
+        </button> -->
+        <!-- <button class="layui-btn layui-btn-sm layui-btn-primary">
+            <i class="iconfont">&#xe603;</i> 置顶
+        </button> -->
+        <!-- <button class="layui-btn layui-btn-sm layui-btn-primary">
+            <i class="layui-icon">&#x1005;</i> 审核
+        </button> -->
+        <button class="layui-btn layui-btn-sm  layui-btn-primary modal" data-method="add" data-url="addedit_cat">
+            <i class="iconfont">&#xe649;</i> 添加分类
+        </button>
+    </div>
+    <div style="float:right;padding:10px;">
+        <!-- <button type="button" class="layui-btn layui-btn-normal" data-method="add" data-url="addedit_cat">添加产品</button> -->
+    </div>
+    <blockquote class="layui-elem-quote">
+        <p>这是产品页展示所有的分类，如果想在主页展示，请打开下面对应的首页展示。</p>
+    </blockquote>
+    <table class="layui-table">
+        <tr>
+            <td width="50"><input type="checkbox" id="checkall" /></td>
+            <td width="200">分类名称</td>
+            <td>分类图片</td>
+            <td>分类描述</td>
+            <td>是否首页显示</td>
+            <!--<td>是否为产品页第1个按钮</td>-->
+            <!--<td>是否为产品页第2个按钮</td>-->
+            <!--<td>是否为产品页第3个按钮</td>-->
+            <!--<td>是否为产品页第4个按钮</td>-->
+            <td width="260">操作</td>
+        </tr>
+        {volist name="list" id="vo"}
+            <tr>
+                <td><input type="checkbox" name="id[]" value="{$vo.cid}"> </td>
+                <td style="text-align:left;">{$vo.cname}</td>
+                <td><img src="{$vo.cimg}" width="50" height="50" /> </td>
+                <td>{$vo.cdesc}</td>
+                <td onclick="changest('is_groom',{$vo.is_groom},{$vo.cid})">{if $vo['is_groom'] eq 1} <img src="/static/img/yes.png"  />{else if}<img src="/static/img/no.png" /> {/if}</td>
+                <!--<td onclick="changest('is_btn1',{$vo.is_btn1},{$vo.cid})">{if $vo['is_btn1'] eq 1} <img src="/static/img/yes.png"  />{else if}<img src="/static/img/no.png" /> {/if}</td>-->
+                <!--<td onclick="changest('is_btn2',{$vo.is_btn2},{$vo.cid})">{if $vo['is_btn2'] eq 1} <img src="/static/img/yes.png"  />{else if}<img src="/static/img/no.png" /> {/if}</td>-->
+                <!--<td onclick="changest('is_btn3',{$vo.is_btn3},{$vo.cid})">{if $vo['is_btn3'] eq 1} <img src="/static/img/yes.png"  />{else if}<img src="/static/img/no.png" /> {/if}</td>-->
+                <!--<td onclick="changest('is_btn4',{$vo.is_btn4},{$vo.cid})">{if $vo['is_btn4'] eq 1} <img src="/static/img/yes.png"  />{else if}<img src="/static/img/no.png" /> {/if}</td>-->
+                <td>
+                    <div class="layui-btn-group">
+                        <a href="addedit_cat?id={$vo.cid}" class="layui-btn layui-btn-normal">编辑</a>
+                        <button type="button" class="layui-btn layui-btn-danger" data-method="del" data-id="{$vo.cid}">删除</button>
+                    </div>
+                </td>
+            </tr>
+            {volist name="$vo.child" id="v"}
+                <tr>
+                    <td><input type="checkbox" name="id[]" value="{$v.cid}"> </td>
+                    <td style="text-align:left;">├ {$v.cname}</td>
+                    <td><img src="{$v.cimg}" width="50" height="50" /> </td>
+                    <td>{$v.cdesc}</td>
+                    <td onclick="changest('is_groom',{$v.is_groom},{$v.cid})">{if $v['is_groom'] eq 1} <img src="/static/img/yes.png"  />{else if}<img src="/static/img/no.png" /> {/if}</td>
+                    <!--<td onclick="changest('is_btn1',{$v.is_btn1},{$v.cid})">{if $vo['is_btn1'] eq 1} <img src="/static/img/yes.png"  />{else if}<img src="/static/img/no.png" /> {/if}</td>-->
+                    <!--<td onclick="changest('is_btn2',{$v.is_btn2},{$v.cid})">{if $vo['is_btn2'] eq 1} <img src="/static/img/yes.png"  />{else if}<img src="/static/img/no.png" /> {/if}</td>-->
+                    <!--<td onclick="changest('is_btn3',{$v.is_btn3},{$v.cid})">{if $vo['is_btn3'] eq 1} <img src="/static/img/yes.png"  />{else if}<img src="/static/img/no.png" /> {/if}</td>-->
+                    <!--<td onclick="changest('is_btn4',{$v.is_btn4},{$v.cid})">{if $vo['is_btn4'] eq 1} <img src="/static/img/yes.png"  />{else if}<img src="/static/img/no.png" /> {/if}</td>-->
+                    <td>
+                        <div class="layui-btn-group">
+                            <a href="addedit_cat?id={$v.cid}" class="layui-btn layui-btn-normal">编辑</a>
+                            <button type="button" class="layui-btn layui-btn-danger" data-method="del" data-id="{$v.cid}">删除</button>
+                        </div>
+                    </td>
+                </tr>
+            {/volist}
+        {/volist}
+    </table>
+    <script type="text/javascript">
+    layui.use('layer',function(){
+        var layer = layui.layer;
+    })
+    var changest = function (type,status,p_id){
+        // console.log('product',type,status,p_id);
+        var data = {};
+        data.db = 'category';
+        data.pk = 'cid';
+        data.type = type;
+        data.status = status;
+        data.id = p_id;
+        $.post('/admin/index/up_status',data,function(ret){
+            if (ret.code == 1) {
+                layer.msg(ret.msg,{icon:1});
+                setTimeout("location.reload()",2000);
+            }else {
+                layer.msg(ret.msg,{icon:2});
+            }
+        })
+    }
+    var active = {
+    'add':function(){
+        location.href=$(this).data('url');
+    },del:function(){
+        var data = {};
+        data.id = $(this).data('id');
+        data.db = 'product';
+        layer.confirm('确定要删除吗？',{
+            btn:['确定','取消']
+        },function(){
+            $.post('/admin/index/del',data,function(msg){
+                msg = JSON.parse(msg);
+                if(msg.code == 1){
+                    layer.msg(msg.msg,{icon:1});
+                    setTimeout("location.reload()",2000);
+                }else{
+                    layer.msg(msg.msg,{icon:2});
+                }
+            })
+        },function(){
+            console.log('error');
+        })
+    },
+    delAll:function(){
+        var id = [];
+        $.each($("input[name='id[]']"),function(k,v){
+            if(v.checked){
+                id.push(v.value);
+            }
+        })
+        if(id.length < 1){
+            layer.msg('请选择要删除的公司',{icon:2});
+            return false;
+        }
+        var data = {};
+        data.id = id;
+        data.db = 'product';
+        layer.confirm('确定要删除吗？',{
+            btn:['确定','取消']
+        },function(){
+            $.post('/admin/index/del',data,function(msg){
+                msg = JSON.parse(msg);
+                if(msg.code == 1){
+                    layer.msg(msg.msg,{icon:1});
+                    setTimeout("location.reload()",2000);
+                }else{
+                    layer.msg(msg.msg,{icon:2});
+                }
+            })
+        },function(){
+
+        })
+    }
+    }
+    $("#checkall").click(function(){
+    $.each($("input[name='id[]']"),function(k,v){
+        v.checked = !v.checked;
+    })
+    })
+    $(".layui-btn").on('click',function(){
+    var othis = $(this), method = othis.data('method');
+    active[method] ? active[method].call(this, othis) : '';
+    })
+    </script>
+{include file="public/footer" /}

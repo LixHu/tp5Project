@@ -1,0 +1,726 @@
+{include file="public/header" /}
+<meta charset="utf-8">
+<link
+	href="http://cdn.bootcss.com/bootstrap-daterangepicker/2.1.25/daterangepicker.css"
+	rel="stylesheet" />
+<script
+	src="http://cdn.bootcss.com/bootstrap-daterangepicker/2.1.25/moment.min.js"></script>
+<script
+	src="http://cdn.bootcss.com/bootstrap-daterangepicker/2.1.25/daterangepicker.js"></script>
+<script src="_js/bootstrap-datetimepicker.min.js"></script>
+<script src="_js/bootstrap-datetimepicker.zh-CN.js"></script>
+
+<link rel="stylesheet" href="_css/bootstrap-datetimepicker.min.css">
+<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+<!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+<style>
+body {
+	background-color: #eeeeee;
+}
+
+.content {
+	padding: 0 15px !important;
+}
+
+.small-box {
+	margin-bottom: 0px;
+	color: #FFFFFF;
+}
+
+.table-header-sort {
+	cursor: pointer;
+	color: black !important;
+}
+
+.tooltip>.tooltip-inner {
+	background-color: #e5e5e5;
+	color: #0c0c0c
+}
+
+.tooltip.top .tooltip-arrow {
+	border-top-color: #e5e5e5;
+}
+
+#wait {
+	background: rgba(255, 255, 255, 0.5) url("/resource/images/wait.gif")
+		center no-repeat;
+	position: fixed;
+	width: 100%;
+	height: 100%;
+	z-index: 9000;
+}
+
+.dnone {
+	display: none;
+}
+
+[v-cloak] {
+	display: none
+}
+
+.iconfont {
+	width: 50px !important;
+}
+
+.dropdown-menu>li a {
+	transition: background-color ease .3s, color ease .3s, border-color ease
+		.3s;
+}
+
+.dropdown-menu>li a:hover {
+	background-color: #3c8dbc;
+	color: white;
+	border-color: #3c8dbc;
+}
+
+.dropdown-toggle {
+	transition: background-color ease .3s, color ease .3s, border-color ease
+		.3s;
+}
+
+.dropdown-toggle:hover {
+	background-color: #3c8dbc;
+	color: white;
+	border-color: #3c8dbc;
+}
+
+.open .dropdown-toggle {
+	background-color: #3c8dbc !important;
+	color: white !important;
+	border-color: #3c8dbc !important;
+}
+
+.btn-default1 {
+	background-color: #f4f4f4;
+	color: #444;
+	border-color: #ddd;
+}
+
+.small-box .icon {
+	top: -25px !important;
+}
+
+.small-box h3 {
+	font-size: 30px !important;
+	margin: 0 0 10px 0 !important;
+	white-space: nowrap !important;
+	padding: 0 !important;
+	font-weight: normal !important;
+}
+
+.table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th,
+	.table>thead>tr>td, .table>thead>tr>th {
+	line-height: 2.4;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	overflow: hidden;
+}
+
+.nav-tabs>li>a {
+	border: 1px solid transparent;
+	border-radius: 5px;
+}
+
+.nav-tabs>li.active>a, .nav-tabs>li.active>a:focus, .nav-tabs>li.active>a:hover
+	{
+	color: #FFFFFF;
+	cursor: default;
+	background-color: #27a9e6;
+}
+
+.nav-tabs {
+	border-bottom: 0;
+}
+</style>
+<div class="" id="main">
+	<section class="content" style="min-width: 760px !important;">
+		<div class="">
+			<form id="mainForm" action="parts_purchase" method="post"
+				class="nice-validator n-default n-bootstrap" novalidate="novalidate" onsubmit="return check_from1();">
+				<div class="box box-solid">
+					<div class="box-body">
+						<div class="row">
+							<div class="col-md-12 col-sm-12">
+								<span class="lh34" style="font-weight: bold; font-size: 16px;">采购订单</span>
+								<button type="submit" class="btn btn-primary pull-right"
+									value="提交申请" id="btn">提交申请</button>
+									
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="box box-solid">
+					<div class="box-body">
+						<div class="row">
+							<div class="col-md-12 form-group">
+								<div class="col-md-1 lh34 text-right">
+									<span class="input-group-btn"> <span
+										class="btn span-default no-padding"
+										style="cursor: default; width: 90px;">编号：</span>
+									</span>
+								</div>
+								<div class="col-md-2">
+									<input type="text" class="form-control" value="{$order_sn}"
+										id="number" name="number" style="background-color: #eee;">
+								</div>
+								<div class="col-md-1 lh34 text-right">
+									<span class="input-group-btn"> <span
+										class="btn span-default no-padding"
+										style="cursor: default; width: 90px;">单据日期：</span>
+									</span>
+								</div>
+								<div class="col-md-2">
+									<input type="text" readonly value="" id="createTime1"
+										name="ad_date" class="form-control" />
+								</div>
+								<div class="col-md-1 lh34 text-right">
+									<span class="input-group-btn"> <span
+										class="btn span-default no-padding"
+										style="cursor: default; width: 90px;">交货日期：</span>
+									</span>
+								</div>
+								<div class="col-md-2">
+									<input type="text" readonly value="" id="createTime2"
+										name="delivery_date" class="form-control" />
+								</div>
+							</div>
+							<div class="col-md-12">
+
+								
+								<div class="col-md-1 lh34 text-right">
+									<span class="input-group-btn"> <span
+										class="btn span-default no-padding"
+										style="cursor: default; width: 90px;"> <span
+											style="color: red;">*</span>采购人员：
+									</span>
+									</span>
+								</div>
+								<div class="col-md-2">
+									<select style="width: 100%; height: 30px;" id="procurementSelect2"
+										name="buyer" tabindex="-1" 
+										aria-hidden="true"> {volist name="buyer" id="vo"}
+										<option value="{$vo.user_name}" selected="select">{$vo.user_name}</option>
+										{/volist}
+									</select>
+								</div>
+								<div class="col-md-1 lh34 text-right">
+									<span class="input-group-btn"> <span
+										class="btn span-default no-padding"
+										style="cursor: default; width: 90px;"> <span
+											style="color: red;">*</span>仓库：
+									</span>
+									</span>
+								</div>
+								<div class="col-md-2">
+									<select style="width: 100%;height: 30px;" id="procurementSelect3"
+										name="warehouse" tabindex="-1" aria-hidden="true">
+										{volist name="warehouse" id="vo"}
+										<option value="{$vo.gname}" selected="select">{$vo.gname}</option>
+										{/volist}
+									</select>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="box box-solid">
+					<div class="box-body no-padding">
+						<div class="table-responsive list">
+							<table class="table table-hover table-striped table-bordered"
+								id="taskTable">
+								<thead>
+									<tr>
+										<th style="text-align: center;"><a
+											href="javascript:$('#customerFrameModal').modal('show');"
+											class="btn btn-primary btn-sm checkbox-toggle">添加产品 </a></th>
+										<th>操作</th>
+										<th>产品名称</th>
+										<th id="tour_1" name="taskCustomer">产品编号</th>
+										<th name="taskCustomerLinkmanPhone">分类</th>
+										<th name="taskCustomerAddress">属性</th>
+										<th name="taskProduct">规格</th>
+
+										<th name="taskPlanTime">单位</th>
+										<th name="taskPlanTime">数量</th>
+
+										<th name="taskLevel">含税价</th>
+
+										<th name="taskServiceType">折扣率(%)</th>
+
+										<th name="taskServiceContent">折扣金额</th>
+
+										<th name="taskCreateUser">金额</th>
+
+										<th name="taskCreateTime">税率</th>
+									</tr>
+								</thead>
+								<tbody>
+									{if condition="!empty($purchaselist)"}
+									{volist name="purchaselist" id="purchaselist"} 
+									<tr>
+										<input type="hidden" name="clearid" value="{$purchaselist.id}">
+										<td></td>
+										<td><a href="javascript:del({$purchaselist.id})">删除</a></td>
+										<td>{$purchaselist.name}</td>
+										<td>{$purchaselist.product_number}</td>
+										<td>{$purchaselist.catename}</td>
+										<td>{$purchaselist.content}</td>
+										<td>{$purchaselist.specification}</td>
+										<td>{$purchaselist.unit}</td>
+										<td id="count">{$purchaselist.count}</td>
+										<td >{$purchaselist.price_total}</td>
+
+										<td></td>
+										<td></td>
+										<td id="totalprice"></td>
+										<td></td>
+									</tr>
+									{/volist}
+									{else}
+										<tr>
+										<td colspan="19" style="text-align: center;">请添加产品</td>
+									</tr>
+									{/if}
+									<tr>
+										<td style="text-align: center;">总计</td>
+										<td></td>
+										<td></td>
+										<td></td>
+										<td></td>
+										<td></td>
+										<td></td>
+										<td></td>
+										<td id="product_count">{$count_total}</td>
+										<td id="product_price">{$price_total}</td>
+										<td id="discount_rate" name="discount_rate">0</td>
+										<td id="discount_price" name="discount_price">0</td>
+										<td id="total_price" name="total_price"></td>
+										<td></td>
+									</tr>
+
+									
+									<input type="hidden" name="purchase_discount" id="purchase_discount"  value="">
+									<input type="hidden" name="purchase_rate" id="purchase_rate"  value="">
+									<input type="hidden" name="p_price" id="p_price"  value="">
+									<input type="hidden" name="reduced_price" value="{$price_total}">
+								</tbody>
+							</table>
+						</div>
+					</div>
+
+				</div>
+				<div class="box box-solid">
+					<div class="box-body">
+						<div class="row">
+							<!-- <div class="col-md-12">
+								<a href="" style="line-height: 34px;">添加附件</a>
+							</div> -->
+							<div class="col-md-12">
+								<textarea class="form-control" placeholder="备注" name="content"></textarea>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="box box-solid">
+					<div class="box-body">
+						<div class="row">
+							<div class="col-md-12 form-group">
+								<div class="col-md-1 lh34 text-right">
+									<span class="input-group-btn"> <span
+										class="btn span-default no-padding"
+										style="cursor: default; width: 90px;">优惠率（%）：</span>
+									</span>
+								</div>
+								<div class="col-md-2">
+									<input type="text" class="form-control" id="discounts" onkeyup="this.value=this.value.replace(/\D/g,'')">
+								</div>
+								<div class="col-md-1 lh34 text-right">
+									<span class="input-group-btn"> <span
+										class="btn span-default no-padding"
+										style="cursor: default; width: 90px;">优惠金额（元）：</span>
+									</span>
+								</div>
+								<div class="col-md-2">
+									<input type="text" class="form-control" id="discount_amount" name="discount_amount">
+								</div>
+								<div class="col-md-1 lh34 text-right">
+									<span class="input-group-btn"> <span
+										class="btn span-default no-padding" 
+										style="cursor: default; width: 90px;">优惠后应付款： </span>
+									</span>
+								</div>
+								<div class="col-md-2">
+									<input type="text" class="form-control"  id="reduced_price">
+								</div>
+							</div>
+							<div class="col-md-12 form-group">
+								<div class="col-md-1 lh34 text-right">
+									<span class="input-group-btn"> <span
+										class="btn span-default no-padding"
+										style="cursor: default; width: 90px;">供应商地址 </span>
+									</span>
+								</div>
+								<div class="col-md-2">
+									<input type="text" class="form-control" name="supplier_address">
+								</div>
+							</div>
+							<div class="col-md-12 form-group">
+								<div class="col-md-1 lh34 text-right">
+									<span class="input-group-btn"> <span
+										class="btn span-default no-padding"
+										style="cursor: default; width: 90px;">供应商联系人： </span>
+									</span>
+								</div>
+								<!-- <div class="col-md-2">
+									<select style="width: 100%" id="procurementSelect4"
+										name="linkman" tabindex="-1" class="select2-hidden-accessible"
+										aria-hidden="true">
+										<option value="小明" selected="selected">小明</option>
+									</select>
+								</div> -->
+								<div class="col-md-2">
+									<input type="text" class="form-control" name="linkman">
+								</div>
+								<div class="col-md-1 lh34 text-right">
+									<span class="input-group-btn"> <span
+										class="btn span-default no-padding"
+										style="cursor: default; width: 90px;">联系人手机： </span>
+									</span>
+								</div>
+								<div class="col-md-2">
+									<input type="text" class="form-control" name="linkman_cell" onkeyup="this.value=this.value.replace(/\D/g,'')">
+								</div>
+								<div class="col-md-1 lh34 text-right">
+									<span class="input-group-btn"> <span
+										class="btn span-default no-padding"
+										style="cursor: default; width: 90px;">联系人电话： </span>
+									</span>
+								</div>
+								<div class="col-md-2">
+									<input type="text" class="form-control" name="linkman_tel">
+								</div>
+							</div>
+							<div class="col-md-12">
+								<div class="col-md-1 lh34 text-right">
+									<span class="input-group-btn"> <span
+										class="btn span-default no-padding"
+										style="cursor: default; width: 90px;">联系人地址：</span>
+									</span>
+								</div>
+								<div class="col-md-2">
+									<input type="text" class="form-control" name="linkman_address">
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+	</section>
+	</form>
+</div>
+<div class="modal fade in" id="customerFrameModal" aria-hidden="false">
+	<div class="modal-dialog" style="width: 770px;">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"
+					aria-label="Close">
+					<span aria-hidden="true">×</span>
+				</button>
+				<h4 class="modal-title">添加产品</h4>
+			</div>
+			<div class="modal-body" style="height: 500px;">
+				<form name="add" id="add" method="post" action="add_purchase" onsubmit="return check_from();">
+					<div class="container-fluid">
+
+						<div class="form-group col-md-12">
+							<label for="name" class="col-md-2 col-sm-3 control-label">产品名称<span
+								class="text-red" title="必填">*</span>：
+							</label>
+							<div class="col-md-8 col-sm-7">
+								<input type="text" class="form-control" placeholder="[最多50字]"
+									id="name" name="name" maxlength="50" aria-required="true">
+							</div>
+							<div class="col-sm-2 validation-tip"></div>
+						</div>
+
+						<div class="form-group col-md-12">
+							<label for="name" class="col-md-2 col-sm-3 control-label">产品编号<span
+								class="text-red" title="必填">*</span>：
+							</label>
+							<div class="col-md-8 col-sm-7">
+								<input type="text" class="form-control" placeholder="[编号唯一,注意区分]"
+									id="product_number" name="product_number" maxlength="50"
+									aria-required="true">
+							</div>
+							<div class="col-sm-2 validation-tip"></div>
+						</div>
+
+						<div class="form-group col-md-12">
+							<label for="lmPhone" class="col-md-2 col-sm-3 control-label">标准单价<span
+								class="text-red" title="必填">*</span>：
+							</label>
+							<div class="col-md-8 col-sm-7">
+								<input type="text" class="form-control" id="price"
+									placeholder="最多两位小数" name="price" maxlength="50"
+									aria-required="true" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')">
+							</div>
+							<div class="col-sm-2 validation-tip"></div>
+						</div>
+
+						<div class="form-group col-md-12">
+							<label for="lmPhone" class="col-md-2 col-sm-3 control-label">数量<span
+								class="text-red" title="必填">*</span>：
+							</label>
+							<div class="col-md-8 col-sm-7">
+								<input type="text" class="form-control" id="count"
+									placeholder="请输入..." name="count" maxlength="50"
+									aria-required="true" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')">
+							</div>
+							<div class="col-sm-2 validation-tip"></div>
+						</div>
+
+						<div class="form-group col-md-12">
+							<label for="name" class="col-md-2 col-sm-3 control-label">单位<span
+								class="text-red" title="必填">*</span>：
+							</label>
+							<div class="col-md-8 col-sm-7">
+								<input type="text" class="form-control" placeholder="[最多50字]"
+									id="unit" name="unit" maxlength="50" aria-required="true">
+							</div>
+							<div class="col-sm-2 validation-tip"></div>
+						</div>
+
+
+						<div class="form-group col-md-12">
+							<label for="lmPhone" class="col-md-2 col-sm-3 control-label">规格<span
+								class="text-red" title="必填">*</span>：
+							</label>
+							<div class="col-md-8 col-sm-7">
+								<input type="text" class="form-control" name="specification"
+									id="specification" value="" placeholder="[最多50字]"
+									maxlength="50" aria-required="true">
+							</div>
+							<div class="col-sm-2 validation-tip"></div>
+						</div>
+
+						<div class="form-group col-md-12">
+							<label for="lmPhone" class="col-md-2 col-sm-3 control-label">产品分类<span
+								class="text-red" title="必填">*</span>：
+							</label>
+							<div class="col-md-8 col-sm-7">
+
+								<select style="width: 100%;height: 30px;" id="catename" name="catename"
+									tabindex="-1"  
+									aria-hidden="true"> {volist name="partscate" id="vo"}
+									<option value="{$vo.name}" selected="selected">{$vo.name}</option>
+									{/volist}
+								</select>
+
+							</div>
+							<div class="col-sm-2 validation-tip"></div>
+						</div>
+
+
+						<!--  <div class="form-group col-md-12">
+                               <label for="lmPhone" class="col-md-2 col-sm-3 control-label">产品图片<span class="text-red"  title="必填">*</span>：</label>
+                               <div class="col-md-8 col-sm-7">
+                                   <input type="text" class="form-control" name="images"
+                                          id="images" value="" placeholder="" maxlength="50"
+                                          aria-required="true">
+                               </div>
+                               <div class="col-sm-2 validation-tip"></div>
+                           </div> -->
+
+						<div class="form-group col-md-12">
+							<label for="lmPhone" class="col-md-2 col-sm-3 control-label">产品介绍
+								<span class="text-red" title="必填">*</span>：
+							</label>
+							<div class="col-md-8 col-sm-7">
+								<textarea class="form-control" id="content" name="content"></textarea>
+							</div>
+							<div class="col-sm-2 validation-tip"></div>
+						</div>
+					</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">关闭
+				</button>
+				<button type="submit" class="btn btn-primary" id="customerFrameSave">保存
+				</button>
+			</div>
+			</form>
+			
+		</div>
+	</div>
+</div>
+{include file="public/footer" /}
+<script>
+//js验证表单提交方法
+function check_from(){
+	var product_number = $('input[name="product_number"]').val();
+	var name = $('input[name="name"]').val();
+	var price = $('input[name="price"]').val();
+	var count = $('input[name="count"]').val();
+	var unit = $('input[name="unit"]').val();
+	var specification = $('input[name="specification"]').val();
+
+	if($.trim(product_number) == ''){
+		alert('请填写产品编号');
+		return false;
+	}
+	if($.trim(name) == ''){
+		alert('请填写名称');
+		return false;
+	}
+	if($.trim(price) == ''){
+		alert('请填写单价');
+		return false;
+	}
+	if($.trim(count) == ''){
+		alert('请填写数量');
+		return false;
+	}
+	if($.trim(unit) == ''){
+		alert('请填写单位');
+		return false;
+	}
+	if($.trim(specification) == ''){
+		alert('请填写规格');
+		return false;
+	}
+	
+} 
+
+
+	//js验证表单提交方法
+function check_from1(){
+	var ad_date = $('input[name="ad_date"]').val();
+	var supplier_address = $('input[name="supplier_address"]').val();
+	var linkman = $('input[name="linkman"]').val();
+	var linkman_cell = $('input[name="linkman_cell"]').val();
+	var clearid = $('input[name="clearid"]').val();
+
+
+	if($.trim(clearid) == ''){
+		alert('请先添加产品');
+		return false;
+	}
+	if($.trim(ad_date) == ''){
+		alert('单据日期不可为空');
+		return false;
+	}
+	if($.trim(supplier_address) == ''){
+		alert('请填写供应商地址');
+		return false;
+	}
+	if($.trim(linkman) == ''){
+		alert('请填写联系人');
+		return false;
+	}
+	if($.trim(linkman_cell) == ''){
+		alert('请填写联系电话');
+		return false;
+	}
+	
+	
+}
+
+    $(function () {
+        $('#createTime1').datetimepicker({
+            format: 'yyyy-mm-dd',
+            autoclose: true,
+            minView: 0,
+            minuteStep: 5,
+            todayBtn: true,
+            language: 'zh-CN'
+        });
+        $('#createTime2').datetimepicker({
+            format: 'yyyy-mm-dd',
+            autoclose: true,
+            minView: 0,
+            minuteStep: 1,
+            todayBtn: true,
+            language: 'zh-CN'
+        });
+    })
+
+
+
+
+
+       function modalShow(){
+	   $('#customerFrameModal').modal('show');
+   }
+
+
+
+   //删除添加的产品
+    function del(id){
+        if(confirm("你确认要删除吗?")){
+            $.post("{:url('Accessories/delpurchase')}",{id:id},function(data){
+                if(data == 3){
+                    alert('不是AJAX请求方式');
+                }else if(data == 0){
+                    alert('删除失败');
+                    location.reload();
+                }else if(data == 1){
+                    location.reload();
+                }
+            },'json')
+        }
+    }
+
+
+
+
+    
+    
+  //根据优惠率计算优惠后价格
+    $('#discounts').change(function(){
+    	var discounts = $("#discounts").val();//获取输入的优惠率
+   		var price_total = document.getElementById('product_price').innerHTML;//获取总价格
+   		var price_s = price_total-(price_total * discounts)/100;//优惠后金额
+       	var discount_price = price_total-price_s;//折扣金额
+       	$("#total_price").text(price_s);
+       	$("#reduced_price").val(price_s);
+       	$("#discount_price").text(discount_price);
+       	$("#discount_rate").text(discounts);
+    	
+       	
+       	//把计算后的价格赋值给表单进行提交
+       	document.getElementById("purchase_discount").value=discount_price;//折扣金额
+       	document.getElementById("purchase_rate").value=discounts;//折扣率
+
+	    document.getElementById("p_price").value=price_s;//总金额
+    })
+    	
+    //根据优惠金额计算优惠后价格
+    $('#discount_amount').change(function(){
+    	var discount_amount = $("#discount_amount").val();//获取输入的优惠金额
+    	var price_total = document.getElementById('product_price').innerHTML;//获取总价格
+    	var price_s = price_total-discount_amount;//优惠后金额
+    	var discount_rate = discount_amount/price_total*100;//计算百分比的优惠率
+    	$("#total_price").text(price_s);
+    	$("#reduced_price").val(price_s);
+    	$("#discount_price").text(discount_amount);
+    	$("#discount_rate").text(discount_rate);
+    	
+    	//把计算后的价格赋值给表单进行提交
+       	document.getElementById("purchase_discount").value=discount_amount;//折扣金额
+       	document.getElementById("purchase_rate").value=discount_rate;//折扣率
+       	
+       	document.getElementById("p_price").value=price_s;//总金额
+       	
+    })
+    
+  		var price = document.getElementById('product_price').innerHTML;
+	    document.getElementById("p_price").value=price;//总金额
+
+
+
+</script>

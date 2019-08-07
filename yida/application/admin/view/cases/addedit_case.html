@@ -1,0 +1,84 @@
+{include file="public/header" /}
+<body style="padding:10px;">
+    <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+      <legend>{$title}</legend>
+    </fieldset>
+    <form class="layui-form" action="" method="post" enctype="multipart/form-data">
+        <div class="layui-form-item">
+            <label class="layui-form-label">公司名称：</label>
+            <div class="layui-input-block">
+                <input type="text" name="com_name" value="<?php if(!empty($info['com_name'])) echo $info['com_name']; ?>" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">行业：</label>
+            <div class="layui-input-inline">
+                <select class="layui-input" name="trade_id">
+                    <option value="">请选择</option>
+                    <?php $t = ''; if(!empty($info['trade_id'])) $t = $info['trade_id']; ?>
+                    {volist name="trade_list" id="vo"}
+                        <option value="{$vo.trade_id}" {if $t neq '' and $t eq $vo['trade_id']} selected {/if}>{$vo.trade_name}</option>
+                    {/volist}
+                </select>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">软件：</label>
+            <div class="layui-input-inline">
+                <select class="layui-input" name="soft_id">
+                    <option value="">请选择</option>
+                    <?php $s = ''; if(!empty($info['soft_id'])) $s = $info['soft_id']; ?>
+                    {volist name="soft_list" id="vo"}
+                        <option value="{$vo.soft_id}" {if $s neq '' and $s eq $vo['soft_id']} selected {/if}>{$vo.soft_name}</option>
+                    {/volist}
+                </select>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">案例图片:</label>
+            <div class="layui-form-block">
+                <div id="preview" style="display:inline;">
+                    <img src="<?php if(!empty($info['case_img'])) echo $info['case_img']; else echo '/static/img/default.png'; ?>" alt=""  width="100" height="100" id="image"/>
+                </div>
+                <input type="file" name="img" id="file" onchange="previewImage(this)" style="display:none;" />
+                <button type="button" class="layui-btn layui-btn-normal" style="margin:10px;display:inline;" id="upload">点击上传</button>
+            </div>
+        </div>
+        <div class="layui-form-item">
+                <label class="layui-form-label">公司描述：</label>
+                <div class="layui-input-block">
+                    <textarea class="layui-input" style="height:150px;" name="com_desc"><?php if(!empty($info['com_desc'])) echo $info['com_desc']; ?></textarea>
+                </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">案例描述：</label>
+            <div class="layui-input-block">
+                <textarea class="layui-input" style="height:150px;" name="case_desc"><?php if(!empty($info['case_desc'])) echo $info['case_desc']; ?></textarea>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">案例内容：</label>
+            <div class="layui-input-block">
+                <textarea id="editor" style="height:150px;" name="case_content"><?php if(!empty($info['case_content'])) echo $info['case_content']; ?></textarea>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label"></label>
+            <div class="layui-input-block">
+                 <button class="layui-btn">提交</button>
+            </div>
+        </div>
+    </form>
+    <script src="__JS__/ueditor/ueditor.config.js"></script>
+    <script src="__JS__/ueditor/ueditor.all.min.js"></script>
+    <script type="text/javascript" charset="utf-8" src="__JS__/ueditor/lang/zh-cn/zh-cn.js"></script>
+    <script type="text/javascript">
+            layui.use('form',function(){
+                var form = layui.form;
+            })
+            $("#upload").on('click',function(){
+                $("#file").click();
+            })
+            var ue = UE.getEditor('editor');
+    </script>
+{include file="public/footer" /}

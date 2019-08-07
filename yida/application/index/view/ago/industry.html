@@ -1,0 +1,184 @@
+{include file="public/header" /}
+    <style>
+        .swiper-container {
+            width: 100%;
+            height: 100%;
+        }
+
+        .swiper-slide {
+            text-align: center;
+            font-size: 18px;
+            background: #ffffff;
+            /* Center slide text vertically */
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: -webkit-flex;
+            display: flex;
+            -webkit-box-pack: center;
+            -ms-flex-pack: center;
+            -webkit-justify-content: center;
+            justify-content: center;
+            -webkit-box-align: center;
+            -ms-flex-align: center;
+            -webkit-align-items: center;
+            align-items: center;
+        }
+
+        .swiper-pagination-bullet-active {
+            background: #fd443f !important;
+        }
+
+        .swiper-pagination-bullet {
+            background: #ffffff;
+            opacity: 1;
+            width: 16px;
+            border-radius: 15px;
+        }
+
+        .banner .swiper-slide img {
+            width: 1920px;
+            height: 600px;
+        }
+
+        .swiper-button-prev {
+            background-image: url("__AGO__/image/首页/合作客户/椭圆3.png");
+            -webkit-background-size: 44px 44px;
+            background-size: 44px 44px;
+            width: 44px;
+        }
+
+        .swiper-button-next {
+            background-image: url("__AGO__/image/首页/合作客户/椭圆3拷贝.png");
+            -webkit-background-size: 44px 44px;
+            background-size: 44px 44px;
+            width: 44px;
+        }
+    </style>
+</head>
+
+<body>
+<div class="navBar">
+    <div class="pullLeft" style="line-height:50px; vertical-align:middle;padding-top: 5px;">
+        <a href="index.html">
+            <img src="{$info.company.logo}" alt="" style="width: 310px;height: 49px;line-height: 0px;">
+        </a>
+        <p class="font14" style="line-height: 0px;">新时代管理软件专家--智赢天下，助你智造赢未来</p>
+    </div>
+    <ul class="nav clearfix pullLeft">
+        <li class="m"><h3><a href="index.html" title="首页">首页</a></h3></li>
+        <li class="m"><h3><a href="software.html" title="体验精品">体验精品</a></h3></li>
+        <li class="m"><h3><a href="industry.html" title="深耕行业">深耕行业</a></h3></li>
+        <li class="m"><h3><a href="thanks.html" title="感谢客户">感谢客户</a></h3></li>
+        <li class="m"><h3><a href="service.html" title="真诚服务">真诚服务</a></h3></li>
+        <li class="m"><h3><a href="enterprise.html" title="良心企业">良心企业</a></h3></li>
+        <li class="m"><h3><a href="signsingle.html" title="签单动态">签单动态</a></h3></li>
+        <li class="block" style="left: 200px;"></li>
+    </ul>
+    <div style="line-height:25px; vertical-align:middle;padding-top: 35px;">
+        <div class="font20">全国免费服务热线</div>
+        <div class="font20 mainColor fontBold">{$info.company.free_server_phone}</div>
+    </div>
+</div>
+<div class="banner">
+    <div class="swiper-container swiper-container1">
+        {volist name="banner" id="vo"}
+            <div class="swiper-wrapper">
+                <div class="swiper-slide">
+                    <img src="{$vo.bn_url}" alt="">
+                </div>
+            </div>
+        {/volist}
+    </div>
+</div>
+<div class="layer textCenter">
+    <div class="serviceRed" style="margin-top: 88px;">
+        行业解决方案
+    </div>
+    <div class="layer overflowAuto " style="padding-top: 50px;padding-bottom: 40px;">
+        <div class="industryProgramBg pullLeft" onmouseover="mOver(1)">
+            <div class="industryProgramBorder">
+                <div class="industryProgramTitle">
+                    外贸出口
+                </div>
+                <div class="industryProgramline"></div>
+                <div style="margin-top: 12px;">
+                    <img class="disBlock" src="__AGO__/image/首页/行业方案/外贸能力.png" alt="">
+                    <img class="disnone marginAuto" src="__AGO__/image/首页/行业方案/图层18.png" alt="">
+                </div>
+            </div>
+        </div>
+        <div class="industryProgramBg pullLeft industryProgramLeft" onmouseover="mOver(2)">
+            <div class="industryProgramBorder">
+                <div class="industryProgramTitle">
+                    国内贸易
+                </div>
+                <div class="industryProgramline"></div>
+                <div style="margin-top: 12px;">
+                    <img class="disBlock" src="__AGO__/image/首页/行业方案/贸易.png" alt="">
+                    <img class="disnone marginAuto" src="__AGO__/image/首页/行业方案/图层620.png" alt="">
+                </div>
+            </div>
+        </div>
+        <div class="industryProgramBg pullLeft industryProgramLeft" onmouseover="mOver(3)">
+            <div class="industryProgramBorder">
+                <div class="industryProgramTitle">
+                    进口贸易
+                </div>
+                <div class="industryProgramline"></div>
+                <div style="margin-top: 12px;">
+                    <img class="disBlock" src="__AGO__/image/首页/行业方案/进口.png" alt="">
+                    <img class="disnone marginAuto" src="__AGO__/image/首页/行业方案/图层621.png" alt="">
+                </div>
+            </div>
+        </div>
+        <div class="industryProgramBg pullLeft industryProgramLeft" onmouseover="mOver(4)">
+            <div class="industryProgramBorder">
+                <div class="industryProgramTitle">
+                    生产制造
+                </div>
+                <div class="industryProgramline"></div>
+                <div style="margin-top: 12px;">
+                    <img class="disBlock" src="__AGO__/image/首页/行业方案/生产.png" alt="" width="103" height="103">
+                    <img class="disnone marginAuto" src="__AGO__/image/首页/行业方案/图层622.png" alt="" width="103" height="103">
+                </div>
+            </div>
+        </div>
+        <div class="industryProgramBg pullLeft industryProgramLeft" onmouseover="mOver(5)">
+            <div class="industryProgramBorder">
+                <div class="industryProgramTitle">
+                    服装 服饰 家纺 纺织
+                </div>
+                <div class="industryProgramline"></div>
+                <div style="margin-top: 12px;">
+                    <img class="disBlock" src="__AGO__/image/首页/行业方案/服装配饰纺织.png" alt="">
+                    <img class="disnone marginAuto" src="__AGO__/image/首页/行业方案/图层623.png" alt="">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="content1" style="line-height: 30px;margin-left: 30px;text-align:left;">
+
+    </div>
+
+</div>
+
+{include file="public/footer" /}
+<script type="text/javascript" src="__AGO__/js/SuperSlide.2.1.js"></script>
+<script type="text/javascript" src="__AGO__/js/swiper.min.js"></script>
+<script type="text/javascript" src="__AGO__/js/p.js"></script>
+<script type="text/javascript" src="__AGO__/js/vue.min.js"></script>
+<script type="text/javascript" src="__AGO__/js/echo.min.js"></script>
+<script>
+    var content1 = document.getElementById('content1');
+    var content2 = document.getElementById('content2');
+
+    function mOver(index) {
+        var data = {};
+        data.id = index;
+        $.post('in_info',data,function(res){
+            content1.innerHTML = res.s_content;
+        })
+    }
+    mOver(1);
+</script>

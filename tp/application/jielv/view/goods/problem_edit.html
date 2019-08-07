@@ -1,0 +1,227 @@
+{include file="public/header" /}
+
+
+
+<link rel="stylesheet" href="_kind/themes/default/default.css" />
+<script src="_kind/kindeditor.js"></script>
+<script src="_kind/lang/zh_CN.js"></script>
+<!--
+必须引入jquery,后面的循环和赋值需要用到
+1.循环上传按钮、
+2.每个上传按钮的点击事件
+建议点击按钮的class有upload_img
+注意：点击按钮之前要用一个input来存放文件的路径
+	input之前需要一个img来显示图片
+-->
+
+<script>
+			KindEditor.ready(function(K) {
+				var editor = K.editor({
+					allowFileManager : true
+				});
+				$(".upload_img").each(function(k,v){ //循环上传按钮、
+					$(v).click(function(){ //每个上传按钮的点击事件
+						editor.loadPlugin('image', function() {
+							editor.plugin.imageDialog({
+								imageUrl:$(v).prev().val(),
+								clickFn : function(url, title, width, height, border, align) {
+									$(v).prev().val(url); //为他之前的input赋值
+									$(v).prev().prev().attr("src",url); //为他之前的之前的img赋值
+									editor.hideDialog();
+								}
+							});
+						});
+					});
+				})
+				editor = K.create('textarea[name="content"]', {
+					allowFileManager : true,
+					afterBlur:function() {
+						this.sync();
+					}
+				});
+			});
+</script>
+<style>
+body {
+	background-color: #eeeeee;
+}
+
+.content {
+	padding: 0 15px !important;
+}
+
+.small-box {
+	margin-bottom: 0px;
+	color: #FFFFFF;
+}
+
+.table-header-sort {
+	cursor: pointer;
+	color: black !important;
+}
+
+.tooltip>.tooltip-inner {
+	background-color: #e5e5e5;
+	color: #0c0c0c
+}
+
+.tooltip.top .tooltip-arrow {
+	border-top-color: #e5e5e5;
+}
+
+#wait {
+	background: rgba(255, 255, 255, 0.5) url("/resource/images/wait.gif")
+		center no-repeat;
+	position: fixed;
+	width: 100%;
+	height: 100%;
+	z-index: 9000;
+}
+
+.dnone {
+	display: none;
+}
+
+[v-cloak] {
+	display: none
+}
+
+.iconfont {
+	width: 50px !important;
+}
+
+.dropdown-menu>li a {
+	transition: background-color ease .3s, color ease .3s, border-color ease
+		.3s;
+}
+
+.dropdown-menu>li a:hover {
+	background-color: #3c8dbc;
+	color: white;
+	border-color: #3c8dbc;
+}
+
+.dropdown-toggle {
+	transition: background-color ease .3s, color ease .3s, border-color ease
+		.3s;
+}
+
+.dropdown-toggle:hover {
+	background-color: #3c8dbc;
+	color: white;
+	border-color: #3c8dbc;
+}
+
+.open .dropdown-toggle {
+	background-color: #3c8dbc !important;
+	color: white !important;
+	border-color: #3c8dbc !important;
+}
+
+.btn-default1 {
+	background-color: #f4f4f4;
+	color: #444;
+	border-color: #ddd;
+}
+
+.small-box .icon {
+	top: -25px !important;
+}
+
+.small-box h3 {
+	font-size: 30px !important;
+	margin: 0 0 10px 0 !important;
+	white-space: nowrap !important;
+	padding: 0 !important;
+	font-weight: normal !important;
+}
+
+.table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th,
+	.table>thead>tr>td, .table>thead>tr>th {
+	line-height: 2.4;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	overflow: hidden;
+}
+</style>
+<div class="" id="main">
+	<section class="content" style="min-width: 760px !important;">
+		<div class="">
+		
+			<form id="mainForm" action="problem_edit" method="post"  onsubmit="return check_from();"
+				class="nice-validator n-default n-bootstrap" novalidate="novalidate">
+				<input type="hidden" id="id" name="id" value="{$se['id']}">
+
+				<div class="box box-solid">
+					<div class="box-body">
+						<div class="row">
+							<div class="col-md-6 col-sm-6">
+								<button type="submit" class="btn btn-primary"
+									id="customerFrameSave">保存</button>
+								<div class="btn-group">
+									<a href="javascript:history.go(-1)" class="btn btn-default">取消</a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="box box-solid">
+					<div class="box-header with-border">
+						<span style="font-weight: bold">问题基本信息</span>
+					</div>
+
+					<div class="box-body">
+							<div class="modal-body" style="height: 500px;">
+									<div class="container-fluid">
+										<div class="form-group col-md-12">
+											<label for="name" class="col-md-2 col-sm-3 control-label">标题<span
+												class="text-red" title="必填">*</span>：
+											</label>
+											<div class="col-md-8 col-sm-7">
+												<input type="text" class="form-control"
+													placeholder="[最多50字]" id="title" name="title" maxlength="50" value="{$se['title']}"
+													aria-required="true">
+											</div>
+											<div class="col-sm-2 validation-tip"></div>
+										</div>
+										
+
+										<div class="form-group col-md-12">
+											<label for="name" class="col-md-2 col-sm-3 control-label">描述<span
+												class="text-red" title="必填">*</span>：
+											</label>
+											<div class="col-md-8 col-sm-7">
+												<textarea class="form-control" id="content" name="content">{$se['content']}</textarea>
+											</div>
+											<div class="col-sm-2 validation-tip"></div>
+										</div>
+
+									</div>
+							
+						
+							</div>
+					</div>
+			</form>
+		</div>
+	</section>
+</div>
+{include file="public/footer" /}
+
+<script>
+//js验证表单提交方法
+function check_from(){
+	var title = $('input[name="title"]').val(); 
+	var content = $('textarea[name="content"]').val();
+	
+	if($.trim(title) == ''){
+		alert('请填写标题');
+		return false;
+	}
+	if($.trim(content) == ''){
+		alert('请填写描述');
+		return false;
+	}
+} 
+
+</script>

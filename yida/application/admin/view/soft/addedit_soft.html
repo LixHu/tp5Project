@@ -1,0 +1,160 @@
+{include file="public/header" /}
+<div class="layui-form" id="softae" style="padding:10px;">
+    <form action="" method="post" enctype="multipart/form-data">
+        <div class="layui-form-item">
+            <label class="layui-form-label"><font color="red">*</font>软件名称:</label>
+            <div class="layui-input-block">
+                <input type="text" name="soft_name" value="<?php if(!empty($info['soft_name'])) echo $info['soft_name']; ?>" class="layui-input" lay-verify="required" />
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label"><font color="red">*</font>是否为精品软件：</label>
+            <div class="layui-input-block">
+                <?php $ig = ''; if(!empty($info['is_groom'])) $ig = $info['is_groom']; ?>
+                <input type="radio" name="is_groom" v-model="is_groom" value="1" title="是" {if $ig neq '' and $ig eq 1} checked {/if}/>
+                <input type="radio" name="is_groom" v-model="is_groom" value='2' title="否" {if $ig eq '' or $ig eq 2 } checked {/if}/>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label"><font color="red">*</font>适用行业:</label>
+            <div class="layui-input-block">
+                <input type="text" name="soft_apply" value="<?php if(!empty($info['soft_apply'])) echo $info['soft_apply']; ?>" class="layui-input" lay-verify="required" />
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label"><font color="red">*</font>功能流程图:</label>
+                <div class="layui-input-block">
+                    <div id="preview1" style="float:left;">
+                      <img id="imghead" width=100 height=100 border=0 src="<?php if(!empty($info['fun_img'])) echo $info['fun_img']; else echo '/static/img/default.png' ;?>">
+                    </div>
+                    <input type="button" data-method="upload" data-num="1" class="layui-btn" value="点击上传">
+                    <input type="file"  style="display:none;" id="image1" name="fun_img" style="float:left;" onchange="previewImage2(this,1)">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><font color="red">*</font>功能以及价值:</label>
+                    <div class="layui-input-block">
+                        <div id="preview2" style="float:left;">
+                          <img id="imghead" width=100 height=100 border=0 src="<?php if(!empty($info['soft_cost'])) echo $info['soft_cost']; else echo '/static/img/default.png' ;?>">
+                        </div>
+                        <input type="button" data-method="upload" data-num="2" class="layui-btn" value="点击上传">
+                        <input type="file"  style="display:none;" id="image2" name="soft_cost" style="float:left;" onchange="previewImage2(this,2)">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <font color="red" style="margin-left:3%;">注:请使用中文逗号，否则会归为一个功能,每个功能最多5个字。最多30个功能</font>
+        <br />
+        <br />
+        <div class="layui-form-item">
+            <label class="layui-form-label"><font color="red">*</font>功能列表:</label>
+            <div class="layui-input-block">
+                <input type="text" name="fun_list" value="<?php if(!empty($info['fun_list'])) echo $info['fun_list']; ?>" class="layui-input" placeholder="多个功能用,隔开" lay-verify="required" />
+            </div>
+        </div>
+        <font color="red" style="margin-left:3%;">注:请填写上传到优酷的视频下方地址</font>
+        <br />
+        <br />
+        <div class="layui-form-item">
+            <label class="layui-form-label"><font color="red">*</font>视频地址:</label>
+            <div class="layui-input-block">
+                <input type="text" name="video_url" value="<?php if(!empty($info['video_url'])) echo $info['video_url']; ?>" class="layui-input"  />
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">展示图片：</label>
+                <div class="layui-input-block">
+                    <div id="preview3" style="float:left;">
+                      <img id="imghead" width=100 height=100 border=0 src="<?php if(!empty($info['soft_img'])) echo $info['soft_img']; else echo '/static/img/default.png' ;?>">
+                    </div>
+                    <input type="button" data-method="upload" data-num="3" class="layui-btn" value="点击上传">
+                    <input type="file"  style="display:none;" id="image3" name="soft_img" style="float:left;" onchange="previewImage2(this,3)">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">软件图片：</label>
+                <div class="layui-input-block">
+                    <div id="preview4" style="float:left;">
+                      <img id="imghead" width=100 height=100 border=0 src="<?php if(!empty($info['soft_img_to'])) echo $info['soft_img_to']; else echo '/static/img/default.png' ;?>">
+                    </div>
+                    <input type="button" data-method="upload" data-num="4" class="layui-btn" value="点击上传">
+                    <input type="file"  style="display:none;" id="image4" name="soft_img_to" style="float:left;" onchange="previewImage2(this,4)">
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label"><font color="red">*</font>软件描述:</label>
+            <div class="layui-input-block">
+                <textarea id="editor" name="soft_desc" style="width:100%;height:300px;"><?php if(!empty($info['soft_desc'])) echo $info['soft_desc']; ?></textarea>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label"></label>
+            <div class="layui-input-block">
+                <button class="layui-btn">提交</button>
+            </div>
+        </div>
+    </form>
+</div>
+<script type="text/javascript">
+
+    function previewImage2(file,num)
+    {
+        var MAXWIDTH = 260;
+        var MAXHEIGHT = 180;
+        var div = document.getElementById('preview'+num);
+        if (file.files && file.files[0])
+        {
+            div.innerHTML ='<img id=imghead'+num+'>';
+            var img = document.getElementById('imghead'+num);
+            console.log(img);
+            img.onload = function(){
+            var rect = clacImgZoomParam(MAXWIDTH, MAXHEIGHT, img.offsetWidth, img.offsetHeight);
+            img.width = 100;
+            img.height = 100
+            //         img.style.marginLeft = rect.left+'px';
+            img.style.marginTop = 0+'px';
+            }
+            var reader = new FileReader();
+            reader.onload = function(evt){img.src = evt.target.result;}
+            reader.readAsDataURL(file.files[0]);
+        }else {
+            var sFilter='filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod=scale,src="';
+            file.select();
+            var src = document.selection.createRange().text;
+            div.innerHTML = '<img id=imghead>';
+            var img = document.getElementById('imghead');
+            img.filters.item('DXImageTransform.Microsoft.AlphaImageLoader').src = src;
+            var rect = clacImgZoomParam(MAXWIDTH, MAXHEIGHT, img.offsetWidth, img.offsetHeight);
+            status =('rect:'+rect.top+','+rect.left+','+rect.width+','+rect.height);
+            div.innerHTML = "<div id=divhead style='width:"+rect.width+"px;height:"+rect.height+"px;margin-top:"+rect.top+"px;"+sFilter+src+"\"'></div>";
+        }
+    }
+</script>
+<script src="__JS__/ueditor/ueditor.config.js"></script>
+<script src="__JS__/ueditor/ueditor.all.min.js"></script>
+<script type="text/javascript">
+    layui.use('form',function(){
+        var form = layui.form;
+        form.on('submit',function(){
+            // vm.submit2();
+            // return false;
+        })
+    })
+    var active = {
+        upload:function(){
+            console.log(1);
+            var num = $(this).data('num');
+            $("#image"+num).click();
+        }
+    }
+    $(".layui-btn").on('click',function(){
+    	var othis = $(this), method = othis.data('method');
+    	active[method] ? active[method].call(this, othis) : '';
+    })
+    var ue = UE.getEditor('editor');
+</script>
+{include file="public/footer" /}

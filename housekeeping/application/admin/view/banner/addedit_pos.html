@@ -1,0 +1,32 @@
+{include file="public/header"}
+<form class="layui-form" action="" method="post" enctype="multipart/form-data">
+    <div class="layui-form-item">
+        <div class="layui-inline">
+          <label class="layui-form-label">名称</label>
+          <div class="layui-input-inline">
+            <input type="text" name="pos_name" value="<?php if(!empty($info['pos_name'])) echo $info['pos_name']; ?>" lay-verify="required" autocomplete="off" class="layui-input">
+          </div>
+        </div>
+     </div>
+     <div class="layui-form-item">
+         <div class="layui-inline">
+           <label class="layui-form-label">描述</label>
+           <div class="layui-input-inline">
+             <input type="text" name="pos_desc" value="<?php if(!empty($info['pos_desc'])) echo $info['pos_desc']; ?>" lay-verify="required" autocomplete="off" class="layui-input">
+           </div>
+         </div>
+     </div>
+    <div class="layui-form-item">
+        <div class="layui-inline">
+            <button type="submit" class="layui-btn layui-btn-normal">提交</button>
+        </div>
+    </div>
+</form>
+<script type="text/javascript">
+    layui.use(['form','upload'],function(){
+        var $ = layui.jquery
+        ,upload = layui.upload
+        ,form = layui.form;
+    });
+</script>
+{include file="public/footer"}

@@ -1,0 +1,90 @@
+{include file="public/header"}
+<blockquote class="layui-elem-quote">广告图片管理</blockquote>
+    <a href="{:url('banner/addedit_banner')}"><button type="button" class="layui-btn">添加广告图片</button></a>
+<table class="layui-table" style="text-align:center;">
+    <thead>
+        <tr>
+            <th style="width:70px;text-align:center;"><input type="checkbox" id="checkall" ></th>
+            <th>名称</th>
+            <th>图片</th>
+            <th>位置</th>
+            <th style="width:200px;">操作</th>
+        </tr>
+    </thead>
+    <tbody>
+        <form class="" action="" class="layui-form" method="post">
+        {volist name="banner_list" id="vo"}
+            <tr>
+                <td>
+                    <input type="checkbox" name="id[]" value="{$vo.bn_id}">
+                </td>
+                <td>{$vo.bn_name}</td>
+                <td><img src="{$vo.bn_url}" alt="" width="50" height="50"></td>
+                <td><?php if(!empty($vo['bn_pos'])) echo banner_pos($vo['bn_pos'])['pos']; ?></td>
+                <td>
+                    <div class="layui-btn-group">
+                      <a href="{:url('banner/addedit_banner','id='.$vo['bn_id'])}"><button class="layui-btn layui-btn-normal" type="button"  data-method="edit">编辑</button></a>
+                      <button class="layui-btn layui-btn-danger" type="button" data-id='{$vo.bn_id}' data-method="del">删除</button>
+                    </div>
+                </td>
+            </tr>
+        {/volist}
+        </form>
+        <tr>
+            <td colspan="5"><button type="button" class="layui-btn layui-btn-danger" data-method="del_all">删除全部</button></td>
+        </tr>
+    </tbody>
+</table>
+<script type="text/javascript">
+
+$('.layui-btn').on('click', function(){
+    var othis = $(this), method = othis.data('method');
+    active[method] ? active[method].call(this, othis) : '';
+});
+var active = {
+    del:function(){
+        var data = {};
+        data.id = $(this).data('id');
+        $.post('del_banner',data,function(msg){
+            if(msg.code == 1){
+                layer.msg(msg.msg,{icon:1});
+                location=location;
+            }else{
+                layer.msg(msg.msg,{icon:2});
+            }
+        });
+    },
+    del_all:function(){
+        var data = [];
+        var val = $("input[name='id[]']");
+        $.each(val,function(k,v){
+            if(v.checked == true){
+                data.push(v.value);
+            }
+        })
+        $.post('del_banner',{"id":data},function(msg){
+            if(msg.code == 1){
+                layer.msg(msg.msg,{icon:1});
+                location=location;
+            }else{
+                layer.msg(msg.msg,{icon:2});
+            }
+        })
+    }
+};
+$("#checkall").click(function(){
+    var input = $("input[name='id[]']");
+    $.each(input,function(k,v){
+        v.checked = !v.checked;
+    })
+});
+    layui.use(['form','layer'],function(){
+        var layer = layui.layer;
+        var form = layui.form;
+        form.on('submit(formDemo)', function(data){
+           layer.msg(JSON.stringify(data.field));
+           return false;
+         });
+    })
+</script>
+{include file="public/footer"}

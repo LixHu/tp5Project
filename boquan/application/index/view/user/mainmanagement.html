@@ -1,0 +1,343 @@
+{include file="public/header" /}
+
+<link rel="stylesheet" href="_ago/css/weui2.css"/>
+    <style>
+        .weui-navbar__item {
+            background: #3dc1ff;
+            color: #FFFFFF;
+            padding: 0.45rem 0;
+            font-size: 0.75rem;
+        }
+
+        .weui-navbar + .weui-tab__bd {
+            padding-top: 2.08rem;
+
+        }
+
+        .weui-navbar__item.weui-bar__item--on {
+            background-color: #3dc1ff;
+        }
+
+        .weui-tab__bd .weui-tab__bd-item.weui-tab__bd-item--active {
+            background: #FFFFFF;
+        }
+
+
+        .page-bd li {
+            margin: 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .weui-navbar__item:after {
+            border-right: 0;
+        }
+
+        .des.weui-cell:before {
+            border-top: 0;
+        }
+
+        .weui-cells {
+            margin-top: 0 !important;
+        }
+
+        .weui-navbar {
+            z-index: 0;
+        }
+
+        .toolbar .picker-button {
+            color: #3dc1ff;
+        }
+
+        .flex-width {
+            min-width: 0
+        }
+
+
+    </style>
+<header class="header">
+    <a href="javascript:location.reload();">
+        <img src="_ago/images/logo@2x.png" alt="" class="vertical-align-middle icon"/>
+        <span class="header-title">博权云服务平台</span>
+    </a>
+    <a href="javascript:void(0)" class="logout" id="logout">
+        <img src="_ago/images/logout.png" alt="" class="vertical-align-middle icon"/>
+    </a>
+</header>
+
+<div class="weui-tab" id="tabParent">
+    <div class="weui-navbar">
+        <a class="tabOneLevelNav weui-navbar__item weui-bar__item--on" data-href="#tab1">
+            <div class="main-tab-active">
+                去抢单
+            </div>
+        </a>
+        <a class="tabOneLevelNav weui-navbar__item" data-href="#tab2">
+            <div class="main-tab-active">
+                已抢单
+            </div>
+        </a>
+        <a class="tabOneLevelNav weui-navbar__item" data-href="#tab3">
+            <div class="main-tab-active">
+                已指派
+            </div>
+        </a>
+    </div>
+    <div class="weui-tab__bd font75">
+        <div id="tab1" class="tabOneLevelItem weui-tab__bd-item weui-tab__bd-item--active">
+            <div class="page-bd">
+                <ul>
+                    {volist name="wo_list.grab" id="vo"}
+                        <li>
+                            <div class="weui-flex js-category">
+                                <div class="weui-flex-item text-center">
+                                    <span class="pull-left">{$vo.add_time|date="n-d H:i",###}</span>
+                                    <span>编号：{$vo.wo_sn}</span>
+                                    <span class="pull-right color-blue">抢单&nbsp</span>
+                                </div>
+                                <i class="icon icon-74"></i>
+                            </div>
+                            <div class="page-category js-categoryInner">
+                                <div class="weui-cells weui-cells_form font75"
+                                     style="background-color: #eff8ff;">
+                                    <div class="weui-cell">
+                                        <div class="weui-cell__hd"><label class="">报修人：</label></div>
+                                        <div class="weui-cell__bd">
+                                            {$vo.jour_name}
+                                        </div>
+                                    </div>
+                                    <div class="weui-cell">
+                                        <div class="weui-cell__hd"><label class=" ">联系方式：</label></div>
+                                        <div class="weui-cell__bd">
+                                            {$vo.contact_info}
+                                        </div>
+                                    </div>
+                                    <div class="weui-cell">
+                                        <div class="weui-cell__hd"><label class=" ">服务地点：</label></div>
+                                        <div class="weui-cell__bd">
+                                            {$vo.address}
+                                        </div>
+                                    </div>
+                                    <div class="weui-cell">
+                                        <div class="weui-cell__hd"><label class=" ">服务车型：</label></div>
+                                        <div class="weui-cell__bd">
+                                            {$vo.car_type}
+                                        </div>
+                                    </div>
+                                    <div class="weui-cell">
+                                        <div class="weui-cell__hd"><label class=" ">发动机匹配厂家：</label></div>
+                                        <div class="weui-cell__bd">
+                                            {$vo.math_ven}
+                                        </div>
+                                    </div>
+                                    <div class="weui-cell">
+                                        <div class="weui-cell__hd"><label class=" ">故障现象描述说明：</label></div>
+                                    </div>
+                                    <div class="weui-cell des">
+                                        <div class="weui-cell__bd">
+                                            {$vo.desc}
+                                        </div>
+                                    </div>
+                                    <div style="margin: 1rem 0.75rem 1rem 0.75rem;">
+                                        <a href="javascript:;" class="weui-btn btn-primary" onclick="take({$vo.wo_id})" id="reservationBtn">提交</a>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </li>
+                    {/volist}
+                </ul>
+            </div>
+        </div>
+        <div id="tab2" class="tabOneLevelItem weui-tab__bd-item">
+            <div class="page-bd">
+                <ul>
+                    {volist name="wo_list.take" id="vo"}
+                        <li>
+                            <div class="weui-flex js-category">
+                                <div class="weui-flex-item text-center">
+                                    <span class="pull-left">{$vo.add_time|date="n-d H:i",###}</span>
+                                    <span>编号：{$vo.wo_sn}</span>
+                                    <span class="pull-right f-orange">待指派&nbsp</span>
+                                </div>
+                                <i class="icon icon-74"></i>
+                            </div>
+                            <div class="page-category js-categoryInner">
+                                <div class="weui-cells weui-cells_form font75" style="background-color: #eff8ff;">
+                                    <div class="weui-cell">
+                                        <div class="weui-cell__hd"><label class="">报修人：</label></div>
+                                        <div class="weui-cell__bd">
+                                            {$vo.jour_name}
+                                        </div>
+                                    </div>
+                                    <div class="weui-cell">
+                                        <div class="weui-cell__hd"><label class=" ">联系方式：</label></div>
+                                        <div class="weui-cell__bd">
+                                            {$vo.contact_info}
+                                        </div>
+                                    </div>
+                                    <div class="weui-cell">
+                                        <div class="weui-cell__hd"><label class=" ">服务地点：</label></div>
+                                        <div class="weui-cell__bd">
+                                            {$vo.address}
+                                        </div>
+                                    </div>
+                                    <div class="weui-cell">
+                                        <div class="weui-cell__hd"><label class=" ">服务车型：</label></div>
+                                        <div class="weui-cell__bd">
+                                            {$vo.car_type}
+                                        </div>
+                                    </div>
+                                    <div class="weui-cell">
+                                        <div class="weui-cell__hd"><label class=" ">发动机匹配厂家：</label></div>
+                                        <div class="weui-cell__bd">
+                                            {$vo.math_ven}
+                                        </div>
+                                    </div>
+                                    <div class="weui-cell">
+                                        <div class="weui-cell__hd"><label class=" ">故障现象描述说明：</label></div>
+                                    </div>
+                                    <div class="weui-cell des">
+                                        <div class="weui-cell__bd">
+                                            {$vo.desc}
+                                        </div>
+                                    </div>
+                                    <div style="margin: 1rem 0.75rem 1rem 0.75rem;">
+                                        <a href="" class="weui-btn btn-primary">指派</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    {/volist}
+                </ul>
+            </div>
+        </div>
+        <div id="tab3" class="tabOneLevelItem weui-tab__bd-item ">
+            <div class="page-bd">
+                <ul>
+                    {volist name="wo_list.aleady" id="vo"}
+                    <li>
+                        <div class="weui-flex js-category">
+                            <div class="weui-flex-item text-center">
+                                <span class="pull-left">8-12 21:10</span>
+                                <span>编号：1234567890</span>
+                                <span class="pull-right color-grey">已指派&nbsp</span>
+                            </div>
+                            <i class="icon icon-74"></i>
+                        </div>
+                        <div class="page-category js-categoryInner">
+
+                            <div class="weui-cells weui-cells_form font75"
+                                 style="background-color: #eff8ff;">
+                                <div class="weui-cell color-blue">
+                                    <div class="weui-cell__hd"><label class=" ">已指派：</label></div>
+                                    <div class="weui-cell__bd">
+                                        {$vo.uname}
+                                    </div>
+                                </div>
+                                <div class="weui-cell">
+                                    <div class="weui-cell__hd"><label class="">报修人：</label></div>
+                                    <div class="weui-cell__bd">
+                                        {$vo.jour_name}
+                                    </div>
+                                </div>
+                                <div class="weui-cell">
+                                    <div class="weui-cell__hd"><label class=" ">联系方式：</label></div>
+                                    <div class="weui-cell__bd">
+                                        {$vo.contact_info}
+                                    </div>
+                                </div>
+                                <div class="weui-cell">
+                                    <div class="weui-cell__hd"><label class=" ">服务地点：</label></div>
+                                    <div class="weui-cell__bd">
+                                        {$vo.address}
+                                    </div>
+                                </div>
+                                <div class="weui-cell">
+                                    <div class="weui-cell__hd"><label class=" ">服务车型：</label></div>
+                                    <div class="weui-cell__bd">
+                                        {$vo.car_type}
+                                    </div>
+                                </div>
+                                <div class="weui-cell">
+                                    <div class="weui-cell__hd"><label class=" ">发动机匹配厂家：</label></div>
+                                    <div class="weui-cell__bd">
+                                        {$vo.math_ven}
+                                    </div>
+                                </div>
+                                <div class="weui-cell">
+                                    <div class="weui-cell__hd"><label class=" ">故障现象描述说明：</label></div>
+                                </div>
+                                <div class="weui-cell des">
+                                    <div class="weui-cell__bd">
+                                        {$vo.desc}
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </li>
+                    {/volist}
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+{include file="public/footer" /}
+<script>
+    $(function () {
+        FastClick.attach(document.body);
+
+    });
+
+    //折叠板
+    $('.js-category').click(function () {
+        $parent = $(this).parent('li');
+        if ($parent.hasClass('js-show')) {
+            $parent.removeClass('js-show');
+            $(this).children('i').removeClass('icon-35').addClass('icon-74');
+        } else {
+            $parent.siblings().removeClass('js-show');
+            $parent.addClass('js-show');
+            $(this).children('i').removeClass('icon-74').addClass('icon-35');
+            $parent.siblings().find('i').removeClass('icon-35').addClass('icon-74');
+        }
+    });
+
+
+    //一级tab切换,  //二级tab切换,  //三级tab切换
+    tabChange('#tabParent .tabOneLevelNav', '#tabParent .tabOneLevelItem');
+
+    /**
+     * tab切换类
+     * @param id 级别切换按钮
+     * @param box 级别切换内容
+     */
+    function tabChange(id, box) {
+        $(id).click(function () {
+            if (!$(this).hasClass('weui-bar__item--on')) {
+                $(id).removeClass('weui-bar__item--on');
+                $(this).addClass('weui-bar__item--on');
+                $(box).removeClass('weui-tab__bd-item--active');
+                $($(this).attr('data-href')).addClass('weui-tab__bd-item--active');
+            }
+        })
+    }
+
+    //退出当前账户
+    $('#logout').click(function () {
+        $.confirm("您确定要退出当前账户吗?", function () {
+            location.href = "{:url('user/signout')}";
+        }, function () {
+            //取消
+        });
+    })
+    var take = function (wid) {
+        var data = {};
+        data.wo_id = wid;
+        $.post('grab_order',data,function(res){
+            alert(res.msg);
+            location.reload();
+        })
+    }
+</script>

@@ -1,0 +1,120 @@
+{include file="public/header" /}
+	<div id="pageAll" style="padding:10px;">
+		<div class="group-button">
+	        <!-- <button class="layui-btn layui-btn-sm layui-btn-primary"  data-method="delAll">
+	            <i class="iconfont">&#xe626;</i> delete
+	        </button> -->
+	        <!-- <button class="layui-btn layui-btn-sm layui-btn-primary">
+	            <i class="iconfont">&#xe62c;</i> 推荐
+	        </button> -->
+	        <!-- <button class="layui-btn layui-btn-sm layui-btn-primary">
+	            <i class="iconfont">&#xe603;</i> 置顶
+	        </button> -->
+	        <!-- <button class="layui-btn layui-btn-sm layui-btn-primary">
+	            <i class="layui-icon">&#x1005;</i> 审核
+	        </button> -->
+	        <!-- <button class="layui-btn layui-btn-sm  layui-btn-primary modal" data-method="add" data-url="addedit_event">
+	            <i class="iconfont">&#xe649;</i> Add
+	        </button> -->
+	    </div>
+		<div class="page">
+            <div class="" style="float:right;">
+                <!-- <button type="button" class="layui-btn" data-method="add" data-url="{:url('banner/addedit_pos')}">添加位置</button> -->
+            </div>
+			<div class="opinion">
+				<div class="opShow">
+					<table class="layui-table">
+						<tr>
+							<td width="66px" class="tdColor tdC"><input type="checkbox" id="checkall"></td>
+							<td width="440px" class="tdColor">名称</td>
+							<td width="396px" class="tdColor">描述</td>
+							<td width="50px" class="tdColor">操作</td>
+						</tr>
+                        {volist name="pos_list" id="vo"}
+						<tr height="40px">
+							<td><input type="checkbox" name="id[]" value="{$vo.pos_id}"></td>
+							<td>{$vo.pos_name}</td>
+							<td>{$vo.pos_desc}</td>
+							<td>
+                                <div class="layui-btn-group">
+                                    <a class="layui-btn layui-btn-normal" href="addedit_pos?id={$vo['pos_id']}">编辑</a>
+                                    <!-- <button type="button" data-id="{$vo.pos_id}" data-method="del" class="layui-btn layui-btn-danger">删除</button> -->
+                                </div>
+                            </td>
+						</tr>
+                        {/volist}
+					</table>
+					<div class="pagelist">{$page}</div>
+				</div>
+				<!-- opinion 表格 显示 end-->
+			</div>
+			<!-- 页面样式end -->
+		</div>
+	</div>
+<script type="text/javascript">
+	layui.use('layer',function(){
+		var layer = layui.layer;
+	})
+	var active = {
+	    'add':function(){
+	        location.href=$(this).data('url');
+	    },del:function(){
+	        var data = {};
+	        data.id = $(this).data('id');
+	        layer.confirm('确定要删除吗？',{
+	            btn:['确定','取消']
+	        },function(){
+	            $.post('del_pos',data,function(msg){
+	                msg = JSON.parse(msg);
+	                if(msg.code == 1){
+	                    layer.msg(msg.msg,{icon:1});
+	                    setTimeout("location.reload()",2000);
+	                }else{
+	                    layer.msg(msg.msg,{icon:2});
+	                }
+	            })
+	        },function(){
+	            console.log('error');
+	        })
+	    },
+	    delAll:function(){
+	        var id = [];
+	        $.each($("input[name='id[]']"),function(k,v){
+	            if(v.checked){
+	                id.push(v.value);
+	            }
+	        })
+	        if(id.length < 1){
+	            layer.msg('请选择要删除的banner',{icon:2});
+	            return false;
+	        }
+	        var data = {};
+	        data.id = id;
+	        layer.confirm('确定要删除吗？',{
+	            btn:['确定','取消']
+	        },function(){
+	            $.post('del_pos',data,function(msg){
+	                msg = JSON.parse(msg);
+	                if(msg.code == 1){
+	                    layer.msg(msg.msg,{icon:1});
+	                    setTimeout("location.reload()",2000);
+	                }else{
+	                    layer.msg(msg.msg,{icon:2});
+	                }
+	            })
+	        },function(){
+
+	        })
+	    }
+	}
+	$("#checkall").click(function(){
+	    $.each($("input[name='id[]']"),function(k,v){
+	        v.checked = !v.checked;
+	    })
+	})
+	$(".layui-btn").on('click',function(){
+	    var othis = $(this), method = othis.data('method');
+	    active[method] ? active[method].call(this, othis) : '';
+	})
+</script>
+{include file="public/footer" /}

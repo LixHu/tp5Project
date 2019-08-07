@@ -1,0 +1,109 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>金币商城</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="_css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="_css/all.css" />
+	</head>
+
+	<body>
+		<!-- <div class="full left driver_head bcol_f ju_mid seventeen col_3 father">
+			确认兑换
+			<div class="son driver_head_son">
+				<span class="mui-icon mui-icon-arrowleft"></span>
+				<span class="jiacu">商</span><span class="col_c10b0b jiacu">城</span>
+			</div>
+		</div> -->
+		<div class="full bcol_f mt_10 left">
+			<!-- <div class="integral_tw thirteen bor_r left bor_b">
+				<img width="17px" style="vertical-align: middle;" src="_images/integral.png"/>
+				<span>积分&nbsp;{$user_gold['balance']}</span>
+			</div> -->
+			<div class="integral_tw thirteen bor_r left bor_b orders" style="width: 100%;">
+				<img width="19px" style="vertical-align: middle;" src="_images/integral_detail.png"/>
+				<span>我的订单</span>
+			</div>
+			<!-- <div class="integral_tw thirteen left bor_b ad_intergral">
+				<img width="17px" style="vertical-align: middle;" src="_images/money_b.png"/>
+				<span>赚取积分</span>
+			</div> -->
+			<div class="integral_tw thirteen bor_r left">
+				<img width="18px" style="vertical-align: middle;" src="_images/gold.png"/>
+				<span>金币&nbsp;{$user_gold['gold']}</span>
+			</div>
+			<div class="integral_tw thirteen bor_r left gold">
+				<img width="19px" style="vertical-align: middle;" src="_images/coupon.png"/>
+				<span>金币明细 </span>
+			</div>
+			<div class="integral_tw thirteen left ad_gold">
+				<img width="17px" style="vertical-align: middle;" src="_images/money_y.png"/>
+				<span>兑换金币</span>
+			</div>
+		</div>
+		<div class="full left bcol_f mt_10 coupon_fa bor_b">
+		{volist name="cate" id="vo"}
+			<div class="left coupon_so" style="width: 25%;" data-cate="{$vo.id}">
+				<img width="51px" src="{$vo.img}"/>
+				<p class="mb_0 twoteen">{$vo.name}兑换</p>
+			</div>
+		{/volist}
+		
+		</div>
+		<div class="full left bcol_f mt_10 bor_b discount_fa">
+			<img class="left" width="64px" src="_images/discount_car.jpg" />
+			<p class="left discount_p wnobr fifteen col_3 mb_0 goods_all">&nbsp;&nbsp;飞翔商品折扣兑换</p>
+			<a href="javascript:;" class="right discount_r goods_all" id="goods_all" width="95px;"><img width="95px;" src="_images/jifen.png"/></a>
+		</div>
+		<div class="full left offer_t">
+			<div class="offer_heng left"></div>
+			<div class="offer_div left twoteen col_3">
+				<img width="16px" style="vertical-align: middle;" src="_images/huo.png" />&nbsp;大家都在兑
+			</div>
+			<div class="offer_heng left"></div>
+		</div>
+		<div class="full left bcol_f offers">
+		{volist name="data" id="vo"}
+			<div class="offers_div left bor_r bor_be" data-id="{$vo.id}" style="text-align:center;">
+				<img class="offers_img" src="{$vo.img}" style="width: 108px;height: 154px;"/>
+				<p class="offers_img thirteen wnobr col_3 mb_0">{$vo.name}</p>
+				<p class="offers_img twoteen wnobr col_ff2323 mb_0">{$vo.price}金币</p>
+			</div>
+		{/volist}
+		</div>
+		<script src="_js/mui.min.js"></script>
+		<script type="text/javascript">
+			mui.init()
+			
+			mui(".full").on('tap','.gold',function(){
+				location.href="{:url('Index/gold')}";
+		    });
+		    mui(".full").on('tap','.orders',function(){
+				location.href="{:url('Index/orders')}";
+		    });
+		    mui(".full").on('tap','.goods_all',function(){
+				// mui.toast("");
+				location.href="{:url('Goods/goods_all')}";
+				// this.getAttribute('data-id');
+		    });
+		    mui("body").on('tap','.bor_be',function(){
+				
+				var goods_id = this.getAttribute('data-id');
+				location.href="{:url('Goods/goods_list')}?id="+goods_id;
+		    });
+		    mui("body").on('tap','.coupon_so',function(){
+				
+				var cate_id = this.getAttribute('data-cate');
+				location.href="{:url('Goods/parts_list')}?id="+cate_id;
+		    });
+		    mui("body").on('tap','.ad_gold',function(){
+				
+				location.href="{:url('Goods/gold_exchange')}";
+		    });
+		    
+		</script>
+	</body>
+
+</html>

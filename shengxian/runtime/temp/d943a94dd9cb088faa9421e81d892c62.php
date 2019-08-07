@@ -1,0 +1,295 @@
+<?php if (!defined('THINK_PATH')) exit(); /*a:3:{s:86:"D:\phpStudy\WWW\my\shengxian\public/../application/admin\view\goods\addedit_goods.html";i:1511409435;s:80:"D:\phpStudy\WWW\my\shengxian\public/../application/admin\view\public\header.html";i:1511320558;s:80:"D:\phpStudy\WWW\my\shengxian\public/../application/admin\view\public\footer.html";i:1511233311;}*/ ?>
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<meta name="renderer" content="webkit">
+<title></title>
+<link rel="stylesheet" href="__CSS__/pintuer.css">
+<link rel="stylesheet" href="__CSS__/admin.css">
+<script src="__JS__/jquery.js"></script>
+<script src="__JS__/pintuer.js"></script>
+<!-- <link rel="stylesheet" type="text/css" href="__CSS__/css.css" /> -->
+<!-- <link rel="stylesheet" type="text/css" href="__CSS__/public.css" /> -->
+<!-- <link rel="stylesheet" type="text/css" href="__CSS__/page.css" /> -->
+<!-- <link rel="stylesheet" href="__JS__/layui/css/layui.css" media="all"> -->
+
+
+<script src="__JS__/layui/layui.js"></script>
+<link rel="stylesheet" href="__JS__/layui/css/layui.css" media="all">
+<script type="text/javascript">
+    layui.use('layer',function(){
+        var layer = layui.layer;
+    })
+</script>
+</head>
+
+<body>
+<!-- <div class="panel admin-panel"> -->
+  <div class="panel-head" id="add"><strong><span class="icon-pencil-square-o"></span>商品详情</strong></div>
+  <div class="body-content">
+    <form method="post" class="form-x" action="" enctype="multipart/form-data">
+      <div class="form-group">
+        <div class="label">
+          <label>商品名称：</label>
+        </div>
+        <div class="field">
+          <input type="text" class="input w50" value="<?php if(!empty($info['goods_name'])) echo $info['goods_name']; ?>" name="goods_name" data-validate="required:请输入商品名" />
+          <div class="tips"></div>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="label">
+          <label>商品缩略图：</label>
+        </div>
+        <div class="field">
+            <div id="preview1" style="float:left;">
+              <img id="imghead" width=100 height=100 border=0 src="<?php if(!empty($info['goods_img'])) echo $info['goods_img']; else echo '/static/default.png' ;?>">
+            </div>
+          <input type="file" class="button margin-left" name="image1" style="float:left;" onchange="previewImage(this)">
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="label">
+          <label>价格：</label>
+        </div>
+        <div class="field"  style="display:inline;">
+          <input type="text" style="width:10%;display:inline-block;" class="input" value="<?php if(!empty($info['spec_price'])) echo $info['spec_price']; ?>" name="goods_price" />
+          <div style="display:inline-block;">
+            <span>原价：</span><input type="text"  class="input" value="<?php if(!empty($info['yuan_price'])) echo $info['yuan_price']; ?>" name="yuan_price"  />
+          </div>
+          <div style="display:inline-block;">
+            <span>会员价:</span>  <input type="text"  class="input" value="<?php if(!empty($info['vip_price'])) echo $info['vip_price']; ?>" name="vip_price"/>
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="label">
+          <label>商品简介：</label>
+        </div>
+        <div class="field">
+          <input type="text" class="input w50" value="<?php if(!empty($info['goods_desc'])) echo $info['goods_desc']; ?>" name="goods_desc"/>
+          <div class="tips"></div>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="label">
+          <label>特点：</label>
+        </div>
+        <div class="field">
+          <textarea name="porint" class="input" style="height:450px; border:1px solid #ddd;"><?php if(!empty($info['porint'])) echo $info['porint']; ?></textarea>
+          <div class="tips"></div>
+        </div>
+      </div>
+      <div class="clear"></div>
+      <div class="form-group">
+        <div class="label">
+          <label>商品属性：</label>
+        </div>
+        <div class="field">
+        <?php if(!empty($info['cat_id'])) $cat = $info['cat_id']; else $cat = '';?>
+          <select class="input w50" name="cat_id" id="cat_id" data-id="<?php if(!empty($_GET['id'])) echo $_GET['id']; else  echo -1 ?>">
+            <option value="">请选择分类</option>
+            <?php if(is_array($cat_list) || $cat_list instanceof \think\Collection || $cat_list instanceof \think\Paginator): $i = 0; $__LIST__ = $cat_list;if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$vo): $mod = ($i % 2 );++$i;?>
+              <option value="<?php echo $vo['cat_id']; ?>" <?php if($cat != '' and $cat == $vo['cat_id']): ?> selected <?php endif; ?>><?php echo $vo['cat_name']; ?></option>
+            <?php endforeach; endif; else: echo "" ;endif; ?>
+          </select>
+      </div>
+
+      <div style="display:none;margin-left:150px;margin-top:10px;" id="attr">
+          <div class="attr_list">
+
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="label">
+          <label>库存：</label>
+        </div>
+        <div class="field">
+          <input type="text" class="input w50" value="<?php if(!empty($info['stock'])) echo $info['stock']; ?>" name="stock"/>
+          <div class="tips"></div>
+        </div>
+      </div>
+      <div class="form-group" >
+           <div class="label">
+             <label>商品相册：</label>
+           </div>
+             <button class="layui-btn files"  type="button"><i class="layui-icon">&#xe62f;</i>点击上传</button>
+             <br/>
+             <div style="margin-top:10px;margin-left:160px;" id="img_list">
+                     <?php if(is_array($goods_img) || $goods_img instanceof \think\Collection || $goods_img instanceof \think\Paginator): $i = 0; $__LIST__ = $goods_img;if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$vo): $mod = ($i % 2 );++$i;?>
+                         <div class="img" style="display:inline;">
+                            <img src="<?php echo $vo['img_url']; ?>" width='150' height='150' style='margin-left:10px; border:1px solid #ccc;'>
+                            <input type="hidden" name="base[]" value="<?php echo $vo['img_url']; ?>">
+                        </div>
+                     <?php endforeach; endif; else: echo "" ;endif; ?>
+                 <div class="img_list" style="display:inline;">
+
+                 </div>
+             </div>
+       </div>
+      <div class="form-group">
+        <div class="label">
+          <label></label>
+        </div>
+        <div class="field">
+          <button class="button bg-main icon-check-square-o" id="sub" type="submit"> 提交</button>
+        </div>
+      </div>
+    </form>
+
+  </div>
+<!-- </div> -->
+<script>
+$('.files').on('click',function(){
+    layer.open({
+        type:2,
+        title:'上传图片',
+        area:['800px','400px'],
+        shadeClose:false,
+        closeBtn:0,
+        btn: ['确定','取消'],
+        content: './upload',
+        yes:function(){
+            $.post('upload','1',function(msg){
+                msg = JSON.parse(msg);
+                if(msg.length == 0) {
+                    layer.msg('请点击上传图片',{icon:2});
+                    return false;
+                }
+                var img_list = $('.img_list'),
+                flag = true,
+                div = $("<div style='display:inline-block;'></div>");
+                $.each(msg,function(k,v){
+                    $.each(img_list,function(key,val){
+                        if(val == v){
+                            flag = false;
+                        }
+                    })
+                    if(flag){
+                        div.append('<div class="img">');
+                        div.append("<img src='"+v+"' width='150' height='150' style='margin-left:10px; border:1px solid #ccc;'>");
+                        div.append("<input type='hidden' name='base[]' value='"+v+"' >");
+                        div.append('</div');
+                    }
+                })
+                img_list.append(div);
+                img_list.parent('div').show();
+                $.post('re_base','1',function(msg){
+                    if(msg == 1){
+                        layer.closeAll();
+                        layer.msg('成功',{icon:1});
+                    }else{
+                        layer.msg('失败',{icon:2});
+                    }
+                })
+            })
+        },
+        btn2:function(){
+
+        }
+    })
+})
+    $('.img').on('click',function(){
+        console.log($(this).remove());
+    })
+function del_img(obj,is_data){
+    if(confirm('确定要删除吗?')){
+        if(is_data == 1){
+            obj.src = '';
+            a--;
+        }else{
+            var data = {};
+            data.id = $(obj).data('img');
+            $.post('del_goods_img',data,function(msg){
+                if(msg.code == 1){
+                    obj.src = '';
+                    a--;
+                }
+            })
+        }
+    }else{
+
+    }
+}
+function previewImage(file,num)
+{
+    if(num){
+        num = num;
+    }else{
+        num = '';
+    }
+ var MAXWIDTH = 260;
+ var MAXHEIGHT = 180;
+ var div = document.getElementById('preview1');
+ if (file.files && file.files[0])
+ {
+   div.innerHTML ='<img id=imghead>';
+   var img = document.getElementById('imghead'+num);
+   img.onload = function(){
+    var rect = clacImgZoomParam(MAXWIDTH, MAXHEIGHT, img.offsetWidth, img.offsetHeight);
+    img.width = rect.width;
+    img.height = rect.height;
+//         img.style.marginLeft = rect.left+'px';
+    // img.style.marginTop = rect.top+'px';
+   }
+   var reader = new FileReader();
+   reader.onload = function(evt){img.src = evt.target.result;}
+   reader.readAsDataURL(file.files[0]);
+   img.src = reader.result;
+   a++;
+ }
+ else //兼容IE
+ {
+  var sFilter='filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod=scale,src="';
+  file.select();
+  var src = document.selection.createRange().text;
+  div.innerHTML = '<img id=imghead>';
+  var img = document.getElementById('imghead');
+  img.filters.item('DXImageTransform.Microsoft.AlphaImageLoader').src = src;
+  var rect = clacImgZoomParam(MAXWIDTH, MAXHEIGHT, img.offsetWidth, img.offsetHeight);
+  status =('rect:'+rect.top+','+rect.left+','+rect.width+','+rect.height);
+  div.innerHTML = "<div id=divhead style='width:"+rect.width+"px;height:"+rect.height+"px;margin-top:"+rect.top+"px;"+sFilter+src+"\"'></div>";
+ }
+}
+function clacImgZoomParam( maxWidth, maxHeight, width, height ){
+  var param = {top:0, left:0, width:width, height:height};
+  if( width>maxWidth || height>maxHeight )
+  {
+    rateWidth = width / maxWidth;
+    rateHeight = height / maxHeight;
+
+    if( rateWidth > rateHeight )
+    {
+      param.width = maxWidth;
+      param.height = Math.round(height / rateWidth);
+    }else
+    {
+      param.width = Math.round(width / rateHeight);
+      param.height = maxHeight;
+    }
+  }
+
+  param.left = Math.round((maxWidth - param.width) / 2);
+  param.top = Math.round((maxHeight - param.height) / 2);
+  return param;
+}
+window.onload = function(){
+    $('#cat_id').change();
+}
+$('#cat_id').change(function(){
+  var id = $(this).val();
+  var goods_id = $(this).data('id');
+  $.get('get_attr?cat_id='+id+'&goods_id='+goods_id,function(msg){
+    $('#attr').css('display','inline-block');
+    $('#attr').html(msg);
+  })
+});
+</script>
+</body>
+
+
+</html>

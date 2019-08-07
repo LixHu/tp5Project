@@ -1,0 +1,33 @@
+{include file="public/header" /}
+    <form class="layui-form" action="" method="post" style="padding:10px;">
+        <div class="layui-form-item">
+            <label class="layui-form-label">描述：</label>
+            <div class="layui-input-block">
+                <input type="text" class="layui-input" name="sign_desc" value="<?php if(!empty($info['sign_desc'])) echo $info['sign_desc']; ?>">
+                <input type="hidden" name="sign_id" value="<?php if(!empty($id)) echo $id; ?>">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label"></label>
+            <div class="layui-input-block">
+                <button type="button" class="layui-btn" id="sub">提交</button>
+            </div>
+        </div>
+    </form>
+    <script type="text/javascript">
+        layui.use('form',function(){
+            var form = layui.form;
+        })
+        $("#sub").on('click',function(){
+            var data = $('form').serialize();
+            $.post('addedit_sign',data,function(ret){
+                if (ret.code == 1) {
+                    layer.msg(ret.msg,{icon:1});
+                    setTimeout("parent.location.reload()",2000);
+                }else {
+                    layer.msg(ret.msg,{icon:2});
+                }
+            })
+        })
+    </script>
+{include file="public/footer" /}

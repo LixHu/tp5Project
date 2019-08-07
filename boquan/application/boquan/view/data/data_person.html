@@ -1,0 +1,538 @@
+{include file="public/header" /}
+    <style>
+        body {
+            background-color: #eeeeee;
+        }
+
+        .content {
+            padding: 0 15px !important;
+        }
+
+        .small-box {
+            margin-bottom: 0px;
+            color: #FFFFFF;
+        }
+
+        .table-header-sort {
+            cursor: pointer;
+            color: black !important;
+        }
+
+        .tooltip > .tooltip-inner {
+            background-color: #e5e5e5;
+            color: #0c0c0c
+        }
+
+        .tooltip.top .tooltip-arrow {
+            border-top-color: #e5e5e5;
+        }
+
+        #wait {
+            background: rgba(255, 255, 255, 0.5) url("/resource/images/wait.gif") center no-repeat;
+
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            z-index: 9000;
+        }
+
+        .dnone {
+            display: none;
+        }
+
+        [v-cloak] {
+            display: none
+        }
+
+        .iconfont {
+            width: 50px !important;
+        }
+
+        .dropdown-menu > li a {
+            transition: background-color ease .3s,
+            color ease .3s,
+            border-color ease .3s;
+        }
+
+        .dropdown-menu > li a:hover {
+            background-color: #3c8dbc;
+            color: white;
+            border-color: #3c8dbc;
+        }
+
+        .dropdown-toggle {
+            transition: background-color ease .3s,
+            color ease .3s,
+            border-color ease .3s;
+        }
+
+        .dropdown-toggle:hover {
+            background-color: #3c8dbc;
+            color: white;
+            border-color: #3c8dbc;
+        }
+
+        .open .dropdown-toggle {
+            background-color: #3c8dbc !important;
+            color: white !important;
+            border-color: #3c8dbc !important;
+        }
+
+        .btn-default1 {
+            background-color: #f4f4f4;
+            color: #444;
+            border-color: #ddd;
+        }
+
+        .small-box .icon {
+            top: -25px !important;
+        }
+
+        .small-box h3 {
+            font-size: 30px !important;
+            margin: 0 0 10px 0 !important;
+            white-space: nowrap !important;
+            padding: 0 !important;
+            font-weight: normal !important;
+        }
+
+        .table > tbody > tr > td, .table > tbody > tr > th, .table > tfoot > tr > td, .table > tfoot > tr > th, .table > thead > tr > td, .table > thead > tr > th {
+            line-height: 2.4;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            overflow: hidden;
+        }
+
+        .nav-tabs {
+            border-bottom: 0;
+        }
+
+        .nav-tabs > li.active > a, .nav-tabs > li.active > a:focus, .nav-tabs > li.active > a:hover {
+            color: #FFFFFF;
+            cursor: default;
+            background-color: #27a9e6;
+            border: 0;
+        }
+
+        .nav-tabs > li > a {
+            border: 1px solid #DDDDDD;
+            margin-right: 0;
+            border-radius: 0;
+            background-color: #eeeeee;
+            color: #000;
+
+        }
+    </style>
+<div id="main">
+    <section class="content" style="min-width: 760px !important;">
+        <div class="box box-solid">
+            <div class="box-body">
+                <div class="row">
+                    <div class="col-md-12 col-sm-12 text-center text-bold" style="font-size: 18px;">
+                        人员统计
+                    </div>
+                    <div class="col-md-12 col-sm-12 mb10">
+                        <div class="pull-right" style="margin-right: 50px;">
+                            <div class="input-group mb10">
+                                <button type="button" class="btn btn-default pull-right" id="daterange-btn"><i
+                                        class="fa fa-calendar"></i> <span>时间</span> <i class="fa fa-caret-down"></i>
+                                </button>
+                            </div>
+                            <div>
+                                <input type="checkbox" style="font-size: 30px;"/> <span>仅显示有统计数据的用户</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div style="width: 100%;">
+                    <ul id="myTab" class="nav nav-tabs" style="width: 450px;margin: 0 auto;">
+                        <li class="active" style="width: 150px;text-align: center">
+                            <a href="#settlementAll" data-toggle="tab">
+                                工单
+                            </a>
+                        </li>
+                        <li style="width: 150px;text-align: center">
+                            <a href="#settlemented" data-toggle="tab">
+                                盈收
+                            </a>
+                        </li>
+                        <li style="width: 150px;text-align: center">
+                            <a href="#settlementTobe" data-toggle="tab">
+                                满意度
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div id="myTabContent" class="tab-content">
+                    <div class="tab-pane fade in active" id="settlementAll">
+                        <div class="box box-solid">
+                            <div class="box-body no-padding">
+                                <div id="serviceStatisticsChart"
+                                     style="width: 100%;height:400px;margin-top: 70px;margin-bottom: 70px;"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="settlemented">
+                        <div class="box box-solid">
+                            <div class="box-body no-padding">
+                                <div id="serviceStatisticsChart1"
+                                     style="width: 100%;height:400px;margin-top: 70px;margin-bottom: 70px;"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="settlementTobe">
+                        <div class="box box-solid">
+                            <div class="box-body no-padding">
+                                <div id="serviceStatisticsChart2"
+                                     style="width: 100%;height:400px;margin-top: 70px;margin-bottom: 70px;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </section>
+</div>
+{include file="public/footer" /}
+<script>
+    $(document).ready(function () {
+        serviceStatisticsFun();
+    });
+
+    //服务统计版块时间段选择，用于图表
+    function serviceStatisticsFun() {
+        //定义locale汉化插件
+        var locale = {
+            "format": 'YYYY-MM-DD',
+            "separator": " -222 ",
+            "applyLabel": "确定",
+            "cancelLabel": "取消",
+            "fromLabel": "起始时间",
+            "toLabel": "结束时间'",
+            "customRangeLabel": "自定义",
+            "weekLabel": "W",
+            "daysOfWeek": ["日", "一", "二", "三", "四", "五", "六"],
+            "monthNames": ["一月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "十一月", "十二月"],
+            "firstDay": 1
+        };
+        //初始化显示最近7日时间
+        $('#daterange-btn span').html(moment().subtract(6, 'days').format('YYYY-MM-DD') + ' - ' + moment().format('YYYY-MM-DD'));
+        //把获取到的日期放到getAll里面获得这个时间段内所有的时间，用chart转化
+        dataPersonChart1();
+        //日期控件初始化
+        $('#daterange-btn').daterangepicker({
+                'locale': locale,
+                applyClass: "btn-primary",
+                //汉化按钮部分
+                ranges: {
+                    '今日': [moment(), moment()],
+                    '昨日': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+                    '最近7日': [moment().subtract(6, 'days'), moment()],
+                    '最近30日': [moment().subtract(29, 'days'), moment()],
+                    '本月': [moment().startOf('month'), moment().endOf('month')],
+                    '上月': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+                },
+                startDate: moment().subtract(6, 'days'),
+                endDate: moment()
+            }, function (start, end) {
+                $('#daterange-btn span').html(start.format('YYYY-MM-DD') + ' - ' + end.format('YYYY-MM-DD'));
+                dataPersonChart1();
+                dataPersonChart2();
+                dataPersonChart3();
+            }
+        );
+    };
+
+
+    //服务统计图表
+    function dataPersonChart1() {
+
+        var person = [];//用户数组
+        var addNum;//合计新增
+        var edNum;//合计完成
+        $.ajax({
+            type: "get",
+            url: "data.json",
+            async: false,
+            success: function (res) {
+                person = res.person;
+                addNum = res.num[0];
+                edNum = res.num[1];
+            }
+        });
+        // 基于准备好的dom，初始化echarts实例
+        var myChart = echarts.init(document.getElementById('serviceStatisticsChart'));
+
+        myChart.setOption({
+            color: ['#41b0e7', "#64e4d1"],
+            title: {
+                text: '',
+                subtext: '合计新增：'+addNum+'         合计完成：'+edNum,
+                subtextStyle: {
+                    color: '#000'
+                },
+                top: 15,
+                left: 'center'
+            },
+            tooltip: {
+                trigger: 'axis',
+                axisPointer: {
+                    type: 'shadow'
+                }
+            },
+            legend: {
+                data: ['新增', '完成']
+            },
+            grid: {
+                left: '3%',
+                right: '3%',
+                bottom: '3%',
+                containLabel: true
+            },
+            toolbox: {
+                feature: {
+                    saveAsImage: {}
+                }
+            },
+            xAxis: {
+                type: 'value',
+                boundaryGap: [0, 0.01]
+            },
+            yAxis: {
+                type: 'category',
+                data: person
+            },
+            series: [
+                {
+                    name: '新增',
+                    type: 'bar',
+                    data: []
+                }, {
+                    name: '完成',
+                    type: 'bar',
+                    data: []
+                }
+            ]
+        });
+
+
+        myChart.showLoading();
+        $.get('data.json').done(function (res) {
+            myChart.hideLoading();
+            // 填入数据
+            myChart.setOption({
+                series: [{
+                    name: '新增',
+                    type: 'bar',
+                    data: res.categories
+                }, {
+                    name: '完成',
+                    type: 'bar',
+                    data: res.series
+                }]
+            });
+
+        });
+
+
+    }
+
+
+    function dataPersonChart2() {
+
+        var person = [];
+        var money;
+        $.ajax({
+            type: "get",
+            url: "data.json",
+            async: false,
+            success: function (res) {
+                person = res.person;
+                money = res.num[2];
+            }
+        });
+
+        // 基于准备好的dom，初始化echarts实例
+        var myChart1 = echarts.init(document.getElementById('serviceStatisticsChart1'));
+
+        myChart1.setOption({
+            color: ['#41b0e7'],
+            title: {
+                text: '',
+                subtext: '合计收入：'+money,
+                subtextStyle: {
+                    color: '#000'
+                },
+                top: 15,
+                left: 'center'
+            },
+            tooltip: {
+                trigger: 'axis',
+                axisPointer: {
+                    type: 'shadow'
+                }
+            },
+            legend: {
+                data: ['收入']
+            },
+            grid: {
+                left: '3%',
+                right: '3%',
+                bottom: '3%',
+                containLabel: true
+            },
+            toolbox: {
+                feature: {
+                    saveAsImage: {}
+                }
+            },
+            xAxis: {
+                type: 'value',
+                boundaryGap: [0, 0.01]
+            },
+            yAxis: {
+                type: 'category',
+                data: person
+            },
+            series: [
+                {
+                    name: '收入',
+                    type: 'bar',
+                    data: []
+                }
+            ]
+        });
+
+
+        myChart1.showLoading();
+        $.get('data.json').done(function (res) {
+            myChart1.hideLoading();
+            // 填入数据
+            myChart1.setOption({
+                series: [{
+                    name: '收入',
+                    type: 'bar',
+                    data: res.categories
+                }]
+            });
+
+        });
+    }
+
+
+    function dataPersonChart3() {
+        var person = [];
+        var good;
+        var normal;
+        var bad;
+        $.ajax({
+            type: "get",
+            url: "data.json",
+            async: false,
+            success: function (res) {
+                person = res.person;
+                good = res.num[3];
+                normal = res.num[4];
+                bad = res.num[5];
+            }
+        });
+        // 基于准备好的dom，初始化echarts实例
+        var myChart2 = echarts.init(document.getElementById('serviceStatisticsChart2'));
+
+        myChart2.setOption({
+            color: ['#41b0e7', "#64e4d1", "#e40018"],
+            title: {
+                text: '',
+                subtext: '合计满意：'+good+'           合计一般：'+normal+'         合计不满意：'+bad,
+                subtextStyle: {
+                    color: '#000'
+                },
+                top: 15,
+                left: 'center'
+            },
+            tooltip: {
+                trigger: 'axis',
+                axisPointer: {
+                    type: 'shadow'
+                }
+            },
+            legend: {
+                data: ['满意', '一般', '不满意']
+            },
+            grid: {
+                left: '3%',
+                right: '3%',
+                bottom: '3%',
+                containLabel: true
+            },
+            toolbox: {
+                feature: {
+                    saveAsImage: {}
+                }
+            },
+            xAxis: {
+                type: 'value',
+                boundaryGap: [0, 0.01]
+            },
+            yAxis: {
+                type: 'category',
+                data: person
+            },
+            series: [
+                {
+                    name: '满意',
+                    type: 'bar',
+                    data: []
+                }, {
+                    name: '一般',
+                    type: 'bar',
+                    data: []
+                }, {
+                    name: '不满意',
+                    type: 'bar',
+                    data: []
+                }
+            ]
+        });
+
+
+        myChart2.showLoading();
+        $.get('data.json').done(function (res) {
+            myChart2.hideLoading();
+            // 填入数据
+            myChart2.setOption({
+                series: [{
+                    name: '满意',
+                    type: 'bar',
+                    data: res.categories
+                }, {
+                    name: '一般',
+                    type: 'bar',
+                    data: res.categories
+                }, {
+                    name: '不满意',
+                    type: 'bar',
+                    data: res.series
+                }]
+            });
+
+        });
+    }
+
+    //解决tab切换前图表未获得宽度导致100%变成100px的情况
+    $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+        // 获取已激活的标签页的名称
+        var activeTab = $(e.target)[0].hash;
+        if (activeTab == "#settlementAll") {
+            dataPersonChart1();
+        }
+        if (activeTab == "#settlemented") {
+            dataPersonChart2();
+        }
+        if (activeTab == "#settlementTobe") {
+            dataPersonChart3();
+        }
+    });
+</script>

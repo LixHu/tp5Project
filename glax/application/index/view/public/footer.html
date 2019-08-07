@@ -1,0 +1,49 @@
+            <footer class="footer">
+                <div class="paddingLR20">
+                    <div class="font14 pullLeft footerLeft">
+                        <div style="float:left;width:240px;letter-spacing:-1px;">
+                            {$info->address|htmlspecialchars_decode}
+                        </div>
+                        <p><span class="white">Contact</span> <span>{$info->sale_phone}</span></p>
+                    </div>
+                    <form class="pullLeft textCenter footerCenter" id="myform">
+                        <p class="font18 footerCenterTitle">Email Updates</p>
+                        <span class="pullLeft">
+                            <input type="email" name="email" placeholder="Enter your email address" class="font14 footerCenterInput"/>
+                        </span>
+                        <span class="pullLeft">
+                            <button type="button" class="font18 footerCenterButton" id="mysub">
+                                submit
+                            </button>
+                        </span>
+                    </form>
+                    <div class="pullLeft font18 footerRight">
+                        <p class="footerRightFont">Follow us on:</p>
+                        <span class="pullLeft footerRightSpan"><a href="" target="_blank"><img
+                                src="__AGO__/image/facebook.png" alt=""/></a></span>
+                        <span class="pullLeft footerRightSpan"><a href="" target="_blank"><img
+                                src="__AGO__/image/twitter.png" alt=""/></a></span>
+                        <span class="pullLeft footerRightSpan"><a href="" target="_blank"><img
+                                src="__AGO__/image/linkedin.png" alt=""/></a></span>
+                        <span class="pullLeft footerRightSpan"><a href="" target="_blank"><img
+                                src="__AGO__/image/instagram.png" alt=""/></a></span>
+                    </div>
+                </div>
+                <script type="text/javascript">
+                    $("#mysub").on('click',function(){
+                        var form = $("#myform").serialize(),
+                        email = $("input[name='email']").val();
+                        if (/[0-9a-zA-Z]+@[0-9a-zA-Z]+(\.[0-9a-zA-Z])/.test(email)) {
+                            $.post('/index/index/subemail',form,function(ret){
+                                alert(ret.msg);
+                                location.reload();
+                            })
+                        }else {
+                            alert('Incorrect mailbox format');
+                        }
+                    })
+                </script>
+            </footer>
+        </div>
+    </body>
+</html>

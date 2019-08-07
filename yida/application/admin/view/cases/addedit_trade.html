@@ -1,0 +1,91 @@
+{include file="public/header" /}
+<div style="padding:10px;padding-top:20px;" id="addedit">
+    <form class="layui-form" action="" method="post">
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">上级菜单</label>
+                <div class="layui-input-inline">
+                    <select v-model="def" class="layui-input" name="pid">
+                        <option value="0">顶级分类</option>
+                        <option v-for="(item,index) in trade_list" :value="item.trade_id">{{item.trade_name}}</option>
+                    </select>
+                    <input type="hidden" name="trade_id" :value="trade_id">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">名称</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="trade_name" class="layui-input" :value="info.trade_name" id="names">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">排序</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="sort" class="layui-input" :value="info.sort">
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label"></label>
+            <div class="layui-input-inline">
+                <button class="layui-btn" type="button" @click="submit">提交</button>
+            </div>
+        </div>
+    </form>
+</div>
+    <script type="text/javascript">
+        layui.use('form',function(){
+            var form = layui.form;
+        })
+        var vm = new Vue({
+            el:"#addedit",
+            data:{
+                trade_id:'',
+                info:'',
+                trade_list:JSON.parse(sessionStorage.getItem('list')),
+                def:sessionStorage.getItem('def')
+            },
+            methods:{
+                 submit:function(){
+                    if ($('#names').val().length > 4) {
+                        layer.msg('名称不能大于4个字符',{icon:2})
+                        return;
+                    }
+                    var data = $('form').serialize();
+                    $.post('addedit_trade',data,function(ret){
+                        if(ret.code == 1){
+                            layer.msg(ret.msg,{icon:1});
+                            setTimeout("parent.location.reload()",2000);
+                        }else {
+                            layer.msg(ret.msg,{icon:2});
+                        }
+                    })
+                    sessionStorage.removeItem('list');
+                },
+                get_trade_id:function(){
+                    if(this.trade_list == '' || this.trade_list == null || this.trade_list == undefined){
+                        location.reload();
+                    }
+                    var url = window.location.search,
+                    data = {};
+                    var loc = url.substr(url.length-1,1);
+                    this.trade_id = loc;
+                    data.trade_id = loc;
+                    var _self = this;
+                    $.post('trade_info',data,function(ret){
+                        _self.info = ret.data;
+                        sessionStorage.setItem('def',ret.data.pid);
+                    })
+                },
+                get_list:function(){
+                    var _self = this;
+                    $.get('trade_list2',function(ret){
+                        sessionStorage.setItem('list',JSON.stringify(ret));
+                    })
+                }
+            }
+        })
+        vm.get_trade_id();
+        vm.get_list();
+    </script>
+{include file="public/footer" /}

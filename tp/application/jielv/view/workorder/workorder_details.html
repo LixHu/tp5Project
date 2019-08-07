@@ -1,0 +1,1145 @@
+{include file="public/header" /}
+<link href="_css/fileUpload.css" rel="stylesheet"  type="text/css" />
+<link href="_css/iconfont.css" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="_js/fileUpload.js"></script>
+<div id="vue">
+    <section class="content">
+        <form action="" method="post" class="form-horizontal nice-validator n-default n-bootstrap" id="myform" novalidate="novalidate">
+            <div class="row box box-solid" style="margin-left: 0;">
+                <div class="box-body" style="line-height: 35px;">
+                    <div class="btn-group">
+                        <a class="btn btn-default btn-group-discrete" href="javascript:history.go(-1)"><li class="fa fa-reply"></li>&nbsp;&nbsp;返回</a>
+                        <!--<button type="button" id="editTaskBtn" class="btn btn-default btn-group-discrete mydisalbe " style="margin-right: 10px;"><i class="fa fa-edit"></i>&nbsp;&nbsp;编辑</button>-->
+                        <!--<button type="button" id="deleteBtn" class="btn btn-danger btn-group-discrete mydisalbe"><li class="fa fa-trash-o"></li>&nbsp;&nbsp;删除</button>-->
+                    </div>
+                    <div class="pull-right button_group">
+                        <?php
+                        $rid = Session('user')->rid;
+                        $gid = Session('user')->gid;
+                        $pid = Session('user')->pid;
+                        $tj = $rid == 3 || $rid == 5;     // 管理员权限
+                        $uid = Session('user')->uid;
+                        ?>
+                        {if ($tj) && $pid != 1}
+                            <button type="button" onclick="offTask(<?php echo $_GET['wid'] ?>)" class="btn btn-default">取消工单</button>
+                        {/if}
+                        {if $info.status eq '待抢单' and ($tj)}
+                            <a href="javascript:showPoolModal(<?php echo $_GET['wid'] ?>);" class="btn btn-primary" style="width: 75px">接单</a>
+                        {/if}
+                        {if $info.status eq '待指派' and ($tj)}
+                            <button type="button" onclick="allotTask(<?php echo $_GET['wid'] ?>);" class="btn btn-primary" style="width: 75px">指派</button>
+                        {/if}
+                        {if $info.status eq '故障处理中' and $pid eq 1}
+                            <button class="btn btn-primary" type="button" onclick="AddPromeshen({$info['wo_id']})">填写解决方案</button>
+                        <div id="promshe" style="display: none;">
+                            <div style="padding: 10px;">
+                                <lable>解决方案：</lable>
+                                <textarea name="" cols="40" rows="3" id="protext"></textarea>
+                            </div>
+                            <div>
+                                
+                            </div>
+                        </div>
+                        <script>
+                            var AddPromeshen = function (wid) {
+                                var data = {};
+                                data.wo_id = wid;
+                                layer.open({
+                                    type:1,
+                                    title:'填写解决方案',
+                                    shadeClose:true,
+                                    area:['400px','280px'],
+                                    btn:['确定','取消'],
+                                    content:$("#promshe"),
+                                    yes:function () {
+                                        data.promeshen = $("#protext").val();
+                                        $.post('AddPromshe',data,function (res) {
+                                            layer.alert(res.msg);
+                                            if(res.code == 1){
+                                                setTimeout(function () {
+                                                    location.reload();
+                                                },2000);
+                                            }
+                                        })
+                                    }
+                                })
+                            }
+                        </script>
+                        {/if}
+                        {if $info.status eq '已指派' and ($uid eq $info.uid)}
+                            <button class="btn btn-primary" type="button" onclick="work_accept({$info['wo_id']})">接受</button>
+                            <button class="btn btn-danger" type="button" onclick="work_refuse({$info['wo_id']})">拒绝</button>
+                            <div id="plan" style="display: none;padding:20px;">
+                                <div class="col-md-4">
+                                    <label style="display: inline-block;">计划时间:</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <input type="text" id="PlanTime1" class="form-control" name="plan_time" style="display: inline-block;" readonly>
+                                </div>
+                            </div>
+                        {/if}
+                        {if $info.status eq '已接受' && $pid != 1 && (($tj) || $uid eq $info.uid)}
+                            <button class="btn btn-primary" type="button" onclick="AppStay({$info['wo_id']})">申请住宿</button>
+                            <button class="btn btn-primary" type="button" onclick="AppSend({$info['wo_id']})">申请派车</button>
+                            <button class="btn btn-primary" type="button" onclick="StartWork({$info['wo_id']})">开始工作</button>
+                            <button class="btn btn-primary" type="button" onclick="TurnSend({$info['wo_id']})">转派</button>
+                        {/if}
+                        {if $info.status eq '进行中' && (($tj) || $uid eq $info.uid)}
+                            <button class="btn btn-primary" type="button" onclick="ComWork({$info['wo_id']})">完成工作</button>
+                            <button class="btn btn-primary" type="button" onclick="declare({$info['wo_id']})">故障申报</button>
+                        {/if}
+                        {if $info.status eq '待审核' and ($tj)}
+                            <button class="btn btn-primary" type="button" onclick="AudSett($info['wo_id'])">审核结算</button>
+                        {/if}
+                        <button type="button" onclick="addRemark(<?php echo $_GET['wid'] ?>)" class="btn btn-primary mydisalbe">添加备注</button>
+                        <script>
+                            var declare = function (wid) {
+                                var data = {};
+                                data.wid = wid;
+                                layer.confirm('确定要申报工单吗？',{
+                                    btn:['确定','取消']
+                                },function () {
+                                    $.post('declares',data,function (res) {
+                                        if (res.code == 1){
+                                            layer.msg(res.msg,{icon:1});
+                                            setTimeout(function () {
+                                                location.reload();
+                                            },2000);
+                                        }else {
+                                            layer.msg(res.msg,{icon:2});
+                                        }
+                                    })
+                                })
+                            }
+                            var offTask = function (wid) {
+                                layer.confirm('确定要取消工单吗？',{
+                                    btn:['确定','取消']
+                                }, function(){
+                                    var data = {};
+                                    data.wo_id = wid;
+                                    $.post('OffTake',data,function (res) {
+                                        if(res.code == 1){
+                                            setTimeout(function () {
+                                                layer.msg(res.msg,{icon:1});
+                                                layer.close();
+                                                location.reload();
+                                            },2000)
+                                        }
+                                    })
+                                });
+                            }
+                            var showPoolModal = function (wid) {
+                                layer.confirm('确定要接受此工单吗？',{
+                                    btn:['确定','取消']
+                                },function () {
+                                    var data = {};
+                                    data.wo_id = wid;
+                                    data.type = 1;
+                                    $.post('TakeOrder',data,function (res) {
+                                        if(res.code == 1){
+                                            layer.msg(res.msg,{icon:1});
+                                            layer.close();
+                                        }else{
+                                            layer.msg(res.msg,{icon:2});
+                                        }
+                                    })
+                                })
+                            }
+                            var allotTask = function (wid) {
+                                location.href="/boquan/workorder/dispath?wid="+wid
+                            }
+                            var addRemark = function (wid) {
+                                $('#wo_id').val(wid);
+                                layer.open({
+                                    type:1,
+                                    title:'添加备注',
+                                    area:['400px','200px'],
+                                    content:$("#remark")
+                                })
+                            }
+                            var sub_remark = function () {
+                                var data = {};
+                                data.wid = $('#wo_id').val();
+                                data.remark = $("#remark1").val();
+                                if(data.remark == ''){
+                                    layer.msg('请填写备注',{icon:2});
+                                }
+                                $.post('SetRemark',data,function (res) {
+                                    if(res.code == 1){
+                                        layer.msg(res.msg,{icon:1});
+                                        setTimeout(function(){
+                                            location.reload();
+                                        },2000);
+                                    }else{
+                                        layer.msg(res.msg,{icon:2});
+
+                                    }
+                                })
+                            }
+                            var work_accept = function (wid) {
+                                layer.open({
+                                    type:1,
+                                    title:"调整计划时间",
+                                    shadeClose:true,
+                                    area:['400px','180px'],
+                                    btn:['接受','取消'],
+                                    yes:function () {
+                                        var data = {};
+                                        data.wo_id = wid;
+                                        data.plan_time = $("input[name='plan_time']").val();
+                                        console.log(data);
+                                        $.post('AcceptWork',data,function (res) {
+                                            if(res.code == 1){
+                                                layer.msg(res.msg,{icon:1});
+                                                setTimeout(function () {
+                                                    layer.closeAll();
+                                                    location.reload();
+                                                },2000)
+                                            }else{
+                                                layer.msg(res.msg,{icon:2});
+                                            }
+                                        })
+                                        return false;
+                                    },
+                                    content:$("#plan")
+                                });
+                            }
+                            var work_refuse = function (wid) {
+                                layer.open({
+                                    type:1,
+                                    title:'填写拒绝原因',
+                                    area:['300px','300px'],
+                                    shadeClose:true,
+                                    content:$("#refuse1"),
+                                    btn:['确定','取消'],
+                                    yes:function () {
+                                        var data = {};
+                                        data.wo_id = wid;
+                                        data.refuse_reason = $('#refuse_reason').val();
+                                        $.post('RefuseWork',data,function (res) {
+                                            layer.alert(res.msg);
+                                            if(res.code == 1){
+                                                setTimeout(function () {
+                                                    layer.closeAll();
+                                                    location.reload();
+                                                },2000)
+                                            }
+                                        })
+                                    }
+                                })
+                            }
+                            var StartWork = function (wid) {
+                                var data = {};
+                                data.wo_id = wid;
+                                $.post('StartWork',data,function (res) {
+                                    layer.alert(res.msg);
+                                    if(res.code == 1){
+                                        setTimeout(function () {
+                                            layer.closeAll();
+                                            location.reload();
+                                        },2000);
+                                    }
+                                })
+                            }
+                            var TurnSend = function (wid) {
+                                location.href="/boquan/workorder/dispath?type=2&wid="+wid
+                            }
+                            var ComWork = function (wid) {
+                                var data = {};
+                                data.wo_id = wid;
+                                $.post('ComOrder',data,function (res) {
+                                    if (res.code == 1){
+                                        layer.msg(res.msg,{icon:1});
+                                        setTimeout(function () {
+                                            layer.closeAll();
+                                            location.reload();
+                                        },2000);
+                                    }else{
+                                        layer.msg(res.msg,{icon:2});
+                                    }
+                                })
+
+                            }
+                            var AudSett = function (wid) {
+                                var data = {};
+                                data.wid = wid;
+                                $.post('AudSett',data,function (res) {
+                                    console.log(res);
+                                })
+                            }
+                        </script>
+                    </div>
+                </div>
+            </div>
+            <div id="refuse1" style="display: none;">
+                <div style="padding: 10px;">
+                <input type="hidden"  name="wid"/>
+                <div style="float: left;"> 拒绝原因：</div>
+                <textarea type="text" name="remark" id="refuse_reason" class="form-control" style="float: left;width: 280px;"></textarea>
+                </div>
+            </div>
+            <div id="remark" style="display: none;">
+                <div  style="padding: 10px;">
+                    <input type="hidden"  name="wid" id="wo_id" />
+                    <div style="float: left;"> 备注：</div><textarea type="text" id="remark1" name="remark" class="form-control" style="float: left;width: 280px;"></textarea>
+                    <div class="btn-group" style="float: right;padding-top:20px; ">
+                        <button class="btn btn-primary" type="button" onclick="sub_remark()">确定</button>
+                        <button class="btn btn-default1">取消</button>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-5" style="padding-right: 0px; padding-left: 18px;">
+                    <div class="box box-solid">
+                        <div class="box-header with-border">
+                            <span style="font-weight: bold">工单信息</span>
+                        </div>
+                        <div class="box-body form-horizontal">
+                            <div style="border-bottom: 1px dashed #ccc;padding-top: 10px;">
+                                <div class="form-group" id="vb_main">
+                                    <div class="col-md-3 col-sm-3 control-label">
+                                        <span style="font-weight: 700">工单编号：</span>
+                                    </div>
+                                    <div class="col-md-9 col-sm-9" style="padding-top: 7px">
+                                        <label>{$info.wo_sn}</label>
+                                    </div>
+                                    <div class="col-md-3 col-sm-3 control-label">
+                                        <span style="font-weight: 700">报修人：</span>
+                                    </div>
+                                    <div class="col-md-9 col-sm-9" style="padding-top: 7px">
+                                        <label><a href="">{$info.jour_name}</a></label>
+                                    </div>
+                                    <div class="col-md-3 col-sm-3 control-label">
+                                        <span style="font-weight: 700">客户：</span>
+                                    </div>
+                                    <div class="col-md-9 col-sm-9" style="padding-top: 7px">
+                                        <label><a href="">{$info.cus_name}</a></label>
+                                    </div>
+                                    <!--<div class="col-md-3 col-sm-3 control-label">-->
+                                        <!--<span style="font-weight: 700">联系人：</span>-->
+                                    <!--</div>-->
+                                    <!--<div class="col-md-9 col-sm-9" style="padding-top: 7px">-->
+                                        <!--<label>（联系人）</label>-->
+                                    <!--</div>-->
+                                    <div class="col-md-3 col-sm-3 control-label">
+                                        <span style="font-weight: 700">地址：</span>
+                                    </div>
+                                    <div class="col-md-9 col-sm-9" style="padding-top: 7px">
+                                        <label style="height:17px;  white-space:normal; cursor: pointer;">地址</label>
+                                    </div>
+                                    <!--<div class="col-md-3 col-sm-3 control-label">-->
+                                        <!--<span style="font-weight: 700">产品：</span>-->
+                                    <!--</div>-->
+                                    <!--<div class="col-md-9 col-sm-9" style="padding-top: 7px">-->
+                                        <!--<label style="margin-right: 5px;">-->
+                                            <!--<a href="">产品</a>-->
+                                        <!--</label>-->
+                                    <!--</div>-->
+                                    <!--<div class="col-md-3 col-sm-3 control-label">-->
+                                        <!--<span style="font-weight: 700">优先级：</span>-->
+                                    <!--</div>-->
+                                    <!--<div class="col-md-9 col-sm-9" style="padding-top: 7px">-->
+                                        <!--<label>{$info.pid}</label>-->
+                                    <!--</div>-->
+                                    <div class="col-md-3 col-sm-3 control-label">
+                                        <span style="font-weight: 700">服务类型：</span>
+                                    </div>
+                                    <div class="col-md-9 col-sm-9" style="padding-top: 7px">
+                                        <label>{$info.server_type}</label>
+                                    </div>
+                                    <div class="col-md-3 col-sm-3 control-label">
+                                        <span style="font-weight: 700">服务内容：</span>
+                                    </div>
+                                    <div class="col-md-9 col-sm-9" style="padding-top: 7px">
+                                        <label>{$info.server_content1}</label>
+                                    </div>
+                                    <div class="col-md-3 col-sm-3 control-label">
+                                        <span style="font-weight: 700">计划时间：</span>
+                                    </div>
+                                    <div class="col-md-9 col-sm-9" style="padding-top: 7px">
+                                        <label><?php if(!empty($info['plan_time'])) echo date("Y-m-d H:i:s",$info['plan_time']); ?></label>
+                                    </div>
+                                    <div class="col-md-3 col-sm-3 control-label">
+                                        <span style="font-weight: 700">描述：</span>
+                                    </div>
+                                    <div class="col-md-9 col-sm-9" style="padding-top: 7px">
+                                        <label>{$info.desc}</label>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-md-3 col-sm-3 control-label">
+                                        <span style="font-weight: 700">负责人：</span>
+                                    </div>
+                                    <div class="col-md-9 col-sm-9" style="padding-top: 7px">
+                                        <label id="executorSpan">{$info.chare_name}</label>
+                                    </div>
+                                    <!--<div class="col-md-3 col-sm-3 control-label">-->
+                                        <!--<span style="font-weight: 700">协同人：</span>-->
+                                    <!--</div>-->
+                                    <!--<div class="col-md-9 col-sm-9" style="padding-top: 7px">-->
+                                        <!--<label id="synergySpan" data-toggle="tooltip" data-placement="top" title="修改协同人"></label>-->
+                                    <!--</div>-->
+                                    <div class="col-lg-3 col-sm-3 control-label">
+                                        <span style="font-weight: 700">工单状态：</span>
+                                    </div>
+                                    <div class="col-md-9 col-sm-9" style="padding-top: 7px">
+                                        <label>{$info.status}</label>
+                                    </div>
+                                    <div class="col-md-3 col-sm-3 control-label">
+                                        <span style="font-weight: 700">创建人：</span>
+                                    </div>
+                                    <div class="col-md-9 col-sm-9" style="padding-top: 7px">
+                                        <label>{$info.add_name}</label>
+                                    </div>
+                                    <div class="col-md-3 col-sm-3 control-label">
+                                        <span style="font-weight: 700">创建时间：</span>
+                                    </div>
+                                    <div class="col-md-9 col-sm-9" style="padding-top: 7px">
+                                        <label>{$info.add_time|date="Y-m-d H:i:s",###}</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-7">
+                    <div class="box-solid box">
+                        <div class="box-header no-padding">
+                            <div class="nav-tabs-custom">
+                                <ul class="nav nav-tabs" id="task_nav">
+                                    <li class="pull-left header"><i class="fa fa-th"></i>关联数据</li>
+                                    <li class="active"><a href="#tab_record" data-toggle="tab" id="recordBtn" aria-expanded="true">工单进度</a></li>
+                                    {if $info.status eq '已完成' || $info.status eq '待审核'}
+                                        <li><a href="#tab_finish" data-toggle="tab">回执信息</a></li>
+                                    {/if}
+                                </ul>
+                                <div class="tab-content">
+                                    <div class="tab-pane active" id="tab_record">
+
+                                        <div class="tab-pane-wrap">
+                                            <div class="col-md-12">
+                                                <ul id="timeline" class="timeline">
+                                                    <li class="time-label">
+                                                        <span id="lastTime" class="bg-red">最近更新</span>
+                                                    </li>
+                                                    <li v-for="item in WorkLog">
+                                                        <i class="fa fa-envelope bg-blue"></i>
+                                                        <div class="timeline-item">
+                                                            <span class="time">
+                                                                <i class="fa fa-clock-o"></i>
+                                                                {{item.add_time}}</span>
+                                                            <h5 class="timline-header"></h5>
+                                                            <p style="font-size: 14px; white-space: pre-line;word-break: break-all;">
+                                                                {{item.desc}}<br />
+                                                                <!--协同人：</p>-->
+                                                            <div class="timeline-body">
+
+                                                            </div>
+                                                        </div>
+                                                    </li>
+                                                </ul>
+                                                <div v-show="!isnull" class="box-footer clearfix text-center" style="border-top-width: 0px; padding: 0px 10px 10px; display: block;">
+                                                    <a href="javascript:void(0);" @click="load_mall" class="uppercase">加载更多</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div id="loading" class="col-md-12">
+
+                                        </div>
+                                        <div id="noData" class="col-md-12" v-show="isnull">
+                                            <div class="box box-solid">
+                                                <div class="box-body">
+                                                </div>
+                                                <div class="overlay text-center">
+                                                    已经是最后一页了
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <style>
+                                        #btnOK:hover{
+                                            background: rgb(60, 141, 188);
+                                        }
+                                        #attachmentUpload:hover{
+                                            background: rgb(60, 141, 188);
+                                        }
+                                    </style>
+                                    <?php $reid = ''; if(!empty($reinfo)) $reid = $reinfo->reid; ?>
+                                    <script>
+                                        function editRE() {
+                                            $('.text').hide();
+                                            $('.container-fluid').show();
+                                            $("#reid").val("<?php echo $reid; ?>");
+                                        }
+                                    </script>
+                                    <div class="tab-pane" id="tab_finish">
+                                        {if !empty($reinfo)}
+                                        <button class="btn btn-default" type="button" onclick="editRE()">编辑回执</button>
+                                        <div class="text">
+                                            <div>
+                                                维修前图片：
+                                                {volist name="reinfo.ago_img" id="vo"}
+                                                    <img src="{$vo}" alt="" width="50" height="50" />
+                                                {/volist}
+                                            </div>
+                                            <div>
+                                                维修后图片：
+                                                {volist name="reinfo.back_img" id="vo"}
+                                                    <img src="{$vo}" alt=""  width="50" height="50"  />
+                                                {/volist}
+                                            <div>备件：</div>
+                                            <table class="table table-hover">
+                                                <thead>
+                                                    <tr role="row">
+                                                        <th class="sorting_disabled" rowspan="1" colspan="1">序号</th>
+                                                        <th class="sorting_disabled" rowspan="1" colspan="1">备件</th>
+                                                        <th class="sorting_disabled" rowspan="1" colspan="1">编号</th>
+                                                        <th class="sorting_disabled" rowspan="1" colspan="1">规格</th>
+                                                        <th class="sorting_disabled" rowspan="1" colspan="1">数量</th>
+                                                        <th class="sorting_disabled" rowspan="1" colspan="1">单价</th>
+                                                        <th class="sorting_disabled" rowspan="1" colspan="1">小计</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {volist name="reinfo.parts_desc.parinfo" id="vo"}
+                                                        <tr>
+                                                            <td>{$vo.id}</td>
+                                                            <td>{$vo.name}</td>
+                                                            <td>{$vo.product_number}</td>
+                                                            <td>{$vo.specification}</td>
+                                                            <td>{$vo.num}</td>
+                                                            <td>{$vo.price}</td>
+                                                            <td>{$vo.num * $vo.price}</td>
+                                                        </tr>
+                                                    {/volist}
+                                                </tbody>
+                                            </table>
+                                            <div>服务：</div>
+                                            <table class="table table-hover">
+                                                <thead>
+                                                    <tr role="row">
+                                                        <th class="sorting_disabled" >序号</th>
+                                                        <th class="sorting_disabled" >服务内容</th>
+                                                        <th class="sorting_disabled">数量</th>
+                                                        <th class="sorting_disabled">单价</th>
+                                                        <th class="sorting_disabled" >小计</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {volist name="reinfo.server_desc.serinfo" id="vo"}
+                                                        <td>{$vo.id}</td>
+                                                        <td>{$vo.name}</td>
+                                                        <td>{$vo.num}</td>
+                                                        <td>{$vo.price}</td>
+                                                        <td>{$vo.num * $vo.price}</td>
+                                                    {/volist}
+                                                </tbody>
+                                            </table>
+                                            <div>折扣价：{$reinfo.discount}</div>
+                                            <div>总价:{$reinfo.totalprice}</div>
+                                        </div>
+                                    </div>
+                                        {/if}
+                                        <div class="container-fluid" style="padding: 10px 15px 10px 15px;{if !empty($reinfo)}display: none;{/if}">
+                                            <div>
+                                        <div class="row form-group">
+                                            <label class="col-md-2 col-sm-3 control-label">维修前图片：</label>
+                                            <div class="col-md-9 col-sm-8">
+                                                <div id="uploadAgo" style="min-height:50px;white-space:normal"
+                                                     class="fileUploadContent">
+
+                                                </div>
+                                                <input type="hidden" id="Ago" value="" />
+                                            </div>
+                                            <label class="col-md-2 col-sm-3 control-label">维修后图片：</label>
+                                            <div class="col-md-9 col-sm-8">
+                                                <div id="uploadBack" style="min-height:50px;white-space:normal"
+                                                     class="fileUploadContent" >
+
+                                                </div>
+                                                <input type="hidden" id="Back" value="" />
+                                            </div>
+                                            <script>
+                                                window.onload = function () {
+                                                    laydate.render({
+                                                        elem: '#PlanTime1',
+                                                        format: 'yyyy-MM-dd HH:mm:ss'
+                                                    });
+                                                    $("#uploadAgo").initUpload({
+                                                        "uploadUrl":"/boquan/index/UploadBase",//上传文件信息地址
+                                                        // "progressUrl":"#",//获取进度信息地址，可选，注意需要返回的data格式如下（{bytesRead: 102516060, contentLength: 102516060, items: 1, percent: 100, startTime: 1489223136317, useTime: 2767}）
+                                                        "selfUploadBtId":"selfUploadBt",//自定义文件上传按钮id
+                                                        "isHiddenUploadBt":false,//是否隐藏上传按钮
+                                                        "isHiddenCleanBt":false,//是否隐藏清除按钮
+                                                        "isAutoClean":false,//是否上传完成后自动清除
+                                                        "velocity":10,//模拟进度上传数据
+                                                        //"rememberUpload":true,//记住文件上传
+                                                        // "showFileItemProgress":false,
+                                                        //"showSummerProgress":false,//总进度条，默认限制
+                                                        //"scheduleStandard":true,//模拟进度的方式，设置为true是按总进度，用于控制上传时间，如果设置为false,按照文件数据的总量,默认为false
+                                                        //"size":350,//文件大小限制，单位kb,默认不限制
+                                                        //"maxFileNumber":3,//文件个数限制，为整数
+                                                        "filelSavePath":"/static/upload",//文件上传地址，后台设置的根目录
+                                                        //"beforeUpload":beforeUploadFun,//在上传前执行的函数
+                                                        "onUpload":onUploadFun,//在上传后执行的函数
+                                                        //autoCommit:true,//文件是否自动上传
+                                                        //"fileType":['png','jpg','docx','doc']，//文件类型限制，默认不限制，注意写的是文件后缀
+
+                                                    });
+                                                    $("#uploadBack").initUpload({
+                                                        "uploadUrl":"/boquan/index/UploadBase",//上传文件信息地址
+                                                        // "progressUrl":"#",//获取进度信息地址，可选，注意需要返回的data格式如下（{bytesRead: 102516060, contentLength: 102516060, items: 1, percent: 100, startTime: 1489223136317, useTime: 2767}）
+                                                        "selfUploadBtId":"selfUploadBt",//自定义文件上传按钮id
+                                                        "isHiddenUploadBt":false,//是否隐藏上传按钮
+                                                        "isHiddenCleanBt":false,//是否隐藏清除按钮
+                                                        "isAutoClean":false,//是否上传完成后自动清除
+                                                        "velocity":10,//模拟进度上传数据
+                                                        //"rememberUpload":true,//记住文件上传
+                                                        // "showFileItemProgress":false,
+                                                        //"showSummerProgress":false,//总进度条，默认限制
+                                                        //"scheduleStandard":true,//模拟进度的方式，设置为true是按总进度，用于控制上传时间，如果设置为false,按照文件数据的总量,默认为false
+                                                        //"size":350,//文件大小限制，单位kb,默认不限制
+                                                        "maxFileNumber":3,//文件个数限制，为整数
+                                                        "filelSavePath":"/static/upload",//文件上传地址，后台设置的根目录
+                                                        //"beforeUpload":beforeUploadFun,//在上传前执行的函数
+                                                        "onUpload":onUploadFun1,//在上传后执行的函数
+                                                        //autoCommit:true,//文件是否自动上传
+                                                        "fileType":['jpg','jpeg','gif','png'] //文件类型限制，默认不限制，注意写的是文件后缀
+                                                    });
+                                                    function onUploadFun(opt,data) {
+                                                        $("#Ago").val(data);
+                                                    }
+                                                    function onUploadFun1(opt,data) {
+                                                        $("#Back").val(data);
+                                                    }
+                                                }
+                                            </script>
+                                            <div class="row">
+                                                <div class="col-xs-12 table-responsive">
+                                                    <p class="lead">备件</p>
+                                                    <a href="javascript:" style="font-size: 14px" onclick="addPro()"> 添加</a>
+                                                    <div id="partTable_wrapper" class="dataTables_wrapper form-inline dt-bootstrap no-footer">
+                                                        <div class="row">
+                                                            <div class="col-sm-6"></div>
+                                                            <div class="col-sm-6"></div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-sm-12">
+                                                                <table class="table dataTable no-footer" id="partTable" role="grid">
+                                                                    <thead>
+                                                                        <tr role="row">
+                                                                            <th class="sorting_disabled" rowspan="1" colspan="1">序号</th>
+                                                                            <th class="sorting_disabled" rowspan="1" colspan="1">备件</th>
+                                                                            <th class="sorting_disabled" rowspan="1" colspan="1">编号</th>
+                                                                            <th class="sorting_disabled" rowspan="1" colspan="1">规格</th>
+                                                                            <th class="sorting_disabled" rowspan="1" colspan="1">数量</th>
+                                                                            <th class="sorting_disabled" rowspan="1" colspan="1">单价</th>
+                                                                            <th class="sorting_disabled" rowspan="1" colspan="1">小计</th>
+                                                                            <th class="sorting_disabled" rowspan="1" colspan="1">操作</th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody id="whtbody">
+                                                                    {if !empty($reinfo)}
+                                                                    {volist name="reinfo.parts_desc.parinfo" id="vo"}
+                                                                        <tr>
+                                                                            <td class="proidid">{$vo.id}</td>
+                                                                            <td>{$vo.name}</td>
+                                                                            <td>{$vo.product_number}</td>
+                                                                            <td>{$vo.specification}</td>
+                                                                            <td><input type="number" value="{$vo.num}" max=""></td>
+                                                                            <td>{$vo.price}</td>
+                                                                            <td>{$vo.num * $vo.price}</td>
+                                                                            <td><a href="javascript:;" onclick="delPro(this)">删除</a></td>
+                                                                        </tr>
+                                                                    {/volist}
+                                                                    {else /}
+                                                                        <tr class="odd">
+                                                                            <td valign="top" class="dataTables_empty">暂无相关数据</td>
+                                                                        </tr>
+                                                                    {/if}
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-sm-5"></div>
+                                                            <div class="col-sm-7"></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-xs-12">
+                                                    <p class="lead">服务</p>
+                                                    <a href="javascript:" style="font-size: 14px" onclick="addServer()"> 添加</a>
+                                                    <div id="serviceTable_wrapper" class="dataTables_wrapper form-inline dt-bootstrap no-footer">
+                                                        <div class="row">
+                                                            <div class="col-sm-6"></div>
+                                                            <div class="col-sm-6"></div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-sm-12">
+                                                                <table class="table dataTable no-footer" id="serviceTable">
+                                                                    <thead>
+                                                                        <tr role="row">
+                                                                            <th class="sorting_disabled" >序号</th>
+                                                                            <th class="sorting_disabled" >服务内容</th>
+                                                                            <th class="sorting_disabled">数量</th>
+                                                                            <th class="sorting_disabled">单价</th>
+                                                                            <th class="sorting_disabled" >小计</th>
+                                                                            <th class="sorting_disabled" >操作</th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody id="serviceTbody">
+                                                                    {if !empty($reinfo)}
+                                                                    {volist name="reinfo.server_desc.serinfo" id="vo"}
+                                                                        <td class="sidid">{$vo.id}</td>
+                                                                        <td>{$vo.name}</td>
+                                                                        <td><input type="number" value="{$vo.num}"></td>
+                                                                        <td>{$vo.price}</td>
+                                                                        <td>{$vo.num * $vo.price}</td>
+                                                                        <td><a href="javascript:;" onclick="delser(this)">删除</a></td>
+                                                                    {/volist}
+                                                                        {else /}
+                                                                            <tr class="odd">
+                                                                                <td valign="top" colspan="6" class="dataTables_empty1">暂无相关数据</td>
+                                                                            </tr>
+                                                                        {/if}
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
+                                                            <script>
+                                                                function delPro(obj) {
+                                                                    $(obj).parent().parent().remove();
+                                                                }
+                                                                function delser(obj) {
+                                                                    $(obj).parent().parent().remove();
+                                                                }
+                                                            </script>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-sm-5"></div>
+                                                            <div class="col-sm-7"></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-xs-12">
+                                                    <p class="lead">合计</p>
+                                                    <div class="table-responsive">
+                                                        <table class="table">
+                                                            <tbody>
+
+                                                            <tr>
+                                                                <th style="width:50%">备件费用:</th>
+                                                                <td id="partCost">0.00</td>
+                                                            </tr>
+
+
+                                                            <tr>
+                                                                <th>服务费用</th>
+                                                                <td id="serviceCost">0.00</td>
+                                                            </tr>
+
+
+                                                            <tr>
+                                                                <th>折扣费用</th>
+                                                                <td><input style="width: 80px;border: 1px #A9A9A9 solid;" class="text-red"
+                                                                           type="number"
+                                                                           id="fuprice"
+                                                                           value="{if !empty($reinfo)}{$reinfo.discount}{/if}"
+                                                                           onkeyup="changeTotal()"
+                                                                           placeholder="0.00"></td>
+                                                            </tr>
+
+                                                            <tr>
+                                                                <th>总计:</th>
+                                                                <td id="totalCost">{if !empty($reinfo)}{$reinfo.totalprice}{else /} 0.00{/if} </td>
+                                                            </tr>
+
+                                                            <div>折扣价：</div>
+                                                            <div>总价:</div>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+<div id="addPro" style="display: none;padding: 10px;">
+    <form method="post" id="proForm" class="form-horizontal">
+        <div class="box box-solid">
+            <div class="box-body">
+                <div class="row" style="margin-right: 0px;">
+                    <div class="form-group" style="margin-bottom: 10px;">
+                        <div class="col-xs-1"></div>
+                        <label for="partId" class="col-xs-2">备件:<span class="text-red" title="必填">*</span>：</label>
+                        <div class="col-xs-8">
+                            <select name="proid" class="form-control" id="partId" onchange="getPartsInfo()" >
+                                <option value="">请选择配件</option>
+                                {volist name="parlist" id="vo"}
+                                    <option value="{$vo.id}">{$vo.name}</option>
+                                {/volist}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-xs-1"></div>
+                        <label class="col-xs-2" for="serialNumber">序列号：</label>
+                        <div class="col-xs-8">
+                            <input type="text" style="overflow-y: auto;white-space:normal;" class="form-control"
+                                   id="serialNumber" name="serialNumber" readonly="readonly" maxlength="50">
+                        </div>
+                        <input type="hidden" id="parid" />
+                    </div>
+                    <div class="form-group">
+                        <div class="col-xs-1"></div>
+                        <label class="col-xs-2" for="salePrice">单价：</label>
+                        <div class="col-xs-8">
+                            <input type="number" min="0.01" style="overflow-y: auto;white-space:normal;"
+                                   class="form-control" id="salePrice" name="salePrice" value="" readonly="readonly">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-xs-1"></div>
+                        <label class="col-xs-2" for="number">数量<span class="text-red" title="必填">*</span>：</label>
+                        <div class="col-xs-8">
+                            <input type="number" min="1" step="1"
+                                   class="form-control" name="number" id="number" value="" max="1">
+                        </div>
+                        <div class="col-xs-2 validation-tip"></div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-xs-1"></div>
+                        <label for="total" class="col-xs-2">小计：</label>
+                        <div class="col-xs-8">
+                            <input type="text" data-rule="required" style="overflow-y: auto;white-space:normal;" class="form-control"
+                                   id="total" name="total" value="" readonly="readonly" maxlength="50">
+                        </div>
+                        <div class="col-xs-2 validation-tip"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<div id="addServer" style="display: none;padding: 10px;">
+    <form method="post" class="form-horizontal">
+        <div class="box box-solid">
+            <div class="box-body">
+                <div class="row" style="margin-right: 0px;">
+                    <div class="form-group" style="margin-bottom: 10px;">
+                        <label for="partId" class="col-xs-3" style="text-align: center;">服务内容:<span class="text-red" title="必填">*</span>：</label>
+                        <div class="col-xs-8">
+                            <select name="serverid" class="form-control" id="serverId" onchange="getServer()">
+                                <option value="">请选择服务内容</option>
+                                {volist name="serverlist" id="vo"}
+                                    <option value="{$vo.id}">{$vo.name}</option>
+                                {/volist}
+                            </select>
+                        </div>
+                        <input type="hidden" id="sid" />
+                    </div>
+                    <div class="form-group">
+                        <div class="col-xs-1"></div>
+                        <label class="col-xs-2" for="salePrice">单价：</label>
+                        <div class="col-xs-8">
+                            <input type="number" min="0.01" data-rule="required" style="overflow-y: auto;white-space:normal;"
+                                   class="form-control" id="Sprice" name="salePrice" value="" readonly="readonly">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-xs-1"></div>
+                        <label class="col-xs-2" for="number">数量<span class="text-red" title="必填">*</span>：</label>
+                        <div class="col-xs-8">
+                            <input type="number" min="1" step="1" class="form-control"
+                                   id="Snumber" name="number" value="" data-rule="required integer(+) num;">
+                        </div>
+                        <div class="col-xs-2 validation-tip"></div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-xs-1"></div>
+                        <label for="total" class="col-xs-2">小计：</label>
+                        <div class="col-xs-8">
+                            <input type="text" data-rule="required" style="overflow-y: auto;white-space:normal;"
+                                   class="form-control" id="Stotal" name="total" value="" readonly="readonly" maxlength="50">
+                        </div>
+                        <div class="col-xs-2 validation-tip"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<input type="hidden" id="reid" />
+<script>
+    function totalPrice(type,price) {
+        if (type == 1){
+            // +
+            $('#totalCost').html(parseInt($('#totalCost').html()) + parseInt(price));
+        }else{
+            $('#totalCost').html(parseInt($('#totalCost').html()) - parseInt(price));
+            if(type == 3){
+                if(parseInt($('#totalCost').html()) <= 0){
+                    $('#totalCost').html(0);
+                }
+            }
+        }
+    }
+    function partCost(type,price) {
+        if (type == 1){
+            // +
+            $('#partCost').html(parseInt($('#partCost').html()) + parseInt(price));
+        }else{
+            $('#partCost').html(parseInt($('#partCost').html()) - parseInt(price));
+        }
+    }
+    function serviceCost(type,price) {
+        if (type == 1){
+            // +
+            $('#serviceCost').html(parseInt($('#serviceCost').html()) + parseInt(price));
+        }else{
+            $('#serviceCost').html(parseInt($('#serviceCost').html()) - parseInt(price));
+        }
+    }
+    var addPro = function () {
+        $('#serialNumber').val('');
+        $('#number').val('');
+        $("#salePrice").val('');
+        $('#total').val('');
+        $("#parid").val('');
+        layer.open({
+            type:1,
+            title:'添加配件',
+            area:['600px','400px'],
+            btn:['确定','取消'],
+            content:$("#addPro"),
+            yes:function () {
+                var proid = $("#parid").val(),data = {};
+                data.parid = proid;
+                $.post('getParInfo',data,function (res) {
+                    $('.dataTables_empty').hide();
+                    var idid = $(".proidid");
+                    var html;
+                    for (var i = 0 ;i<idid.length;i++){
+                        html = idid[i].innerHTML;
+                        if(res.data.id == html){
+                            layer.msg('已经存在',{icon:2});
+                            return false;
+                        }
+                    }
+                    var tr = '<tr>';
+                    tr += '<td class="proidid">'+res.data.id+'</td>';
+                    tr += '<td>'+res.data.name+'</td>';
+                    tr += '<td>'+res.data.product_number+'</td>';
+                    tr += '<td>'+res.data.specification+'</td>';
+                    tr += '<td><input type="number" id="numpro'+res.data.id+'" value="'+$("#number").val()+'" /></td>';
+                    tr += '<td>'+res.data.price+'</td>';
+                    tr += '<td>'+$('#total').val()+'</td>';
+                    tr += '<td><a href="javascript:;" class="delPro">删除</a></td>';
+                    tr += '</tr>';
+                    $("#partTable").append(tr);
+                    partCost(1,$('#total').val());
+                    totalPrice(1,$('#total').val());
+                    layer.closeAll();
+                    $(".delPro").on('click',function () {
+                        totalPrice(2,$(this).parent().prev().html());
+                        partCost(2,$(this).parent().prev().html());
+                        $(this).parent().parent().remove();
+                        if($('#partTable').children('tr').length >= 0){
+                            $('.dataTables_empty').show();
+                        }
+                    })
+                    $("#numpro"+res.data.id).on('change',function () {
+                        $(this).parent().next().next().html($(this).val() * res.data.price)
+                    })
+                    $("#numpro"+res.data.id).on('keyup',function () {
+                        var val = $(this).val();
+                        if(val >= res.data.p_count){
+                            $(this).val(res.data.p_count);
+                        }else if(val < 0) {
+                            $(this).val(1);
+                        }
+                    })
+                })
+            }
+        })
+    }
+    var addServer = function () {
+        layer.open({
+            type:1,
+            title:'添加服务',
+            area:['600px','400px'],
+            btn:['确定','取消'],
+            content:$("#addServer"),
+            yes:function () {
+                var data = {};
+                data.sid = $("#sid").val();
+                $.post('getServerInfo',data,function (res) {
+                    $(".dataTables_empty1").hide();
+                    var tr = '<tr>';
+                    var idid = $(".sidid");
+                    var html;
+                    for (var i = 0 ;i<idid.length;i++){
+                        html = idid[i].innerHTML;
+                        if(res.data.id == html){
+                            layer.msg('已经存在',{icon:2});
+                            return false;
+                        }
+                    }
+                    tr += '<td class="sidid">'+res.data.id+'</td>';
+                    tr += '<td>'+res.data.name+'</td>';
+                    tr += '<td> <input type="number" id="numser'+res.data.id+'" value="'+$("#Snumber").val()+'" /></td>';
+                    tr += '<td>'+res.data.price+'</td>';
+                    tr += '<td>'+$('#Stotal').val()+'</td>';
+                    tr += '<td><a href="javascript:;" class="delSer">删除</a></td>';
+                    tr += '</tr>';
+                    $("#serviceTable").append(tr);
+                    totalPrice(1,$('#Stotal').val());
+                    serviceCost(1,$('#Stotal').val());
+                    layer.closeAll();
+                    $(".delSer").on('click',function () {
+                        totalPrice(2,$(this).parent().prev().html());
+                        serviceCost(2,$(this).parent().prev().html());
+                        $(this).parent().parent().remove();
+                        if($('#serviceTable').children('tr').length >= 0){
+                            $('.dataTables_empty1').show();
+                        }
+                    })
+                    $("#numser"+res.data.id).on('change',function () {
+                        $(this).parent().next().next().html($(this).val() * res.data.price)
+                    })
+                })
+            }
+        })
+    }
+    var getPartsInfo = function () {
+        var data = {};
+        data.parid = $("#partId").val();
+        $.post('getParInfo',data,function (res) {
+            if(res.code == 1){
+                $('#serialNumber').val(res.data.product_number);
+                $('#number').val(1);
+                $("#number").attr('max',res.data.p_count);
+                $("#salePrice").val(res.data.price);
+                $('#total').val($('#number').val()*res.data.price);
+                $("#number").on('change',function () {
+                    $('#total').val($(this).val()* $("#salePrice").val());
+                })
+                $("#number").on('keyup',function () {
+                    var val = $(this).val();
+                    if(val >= res.data.p_count){
+                        $(this).val(res.data.p_count);
+                    }else if(val < 0) {
+                        $(this).val(1);
+                    }
+                })
+
+                $("#parid").val(res.data.id);
+            }
+        })
+    }
+    var getServer = function () {
+        $("#Sprice").val('');
+        $("#Snumber").val('');
+        $('#Stotal').val('');
+        $("#sid").val('');
+        var data = {};
+        data.sid = $('#serverId').val();
+        $.post('getServerInfo',data,function (res) {
+            $("#Sprice").val(res.data.price);
+            $("#Snumber").val(1);
+            $('#Stotal').val($("#Snumber").val()*res.data.price);
+            $("#sid").val(res.data.id);
+        })
+    }
+    var changeTotal = function () {
+        totalPrice(3,$('#fuprice').val());
+    }
+</script>
+    <div class="row no-print">
+        <div class="col-xs-12">
+            <button id="btnOK" onclick="subRece()" type="button" class="btn btn-primary pull-right"><i class="fa fa-credit-card"></i> 完成</button>
+        </div>
+    </div>
+</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                    </div></div></div></form>
+    </section>
+</div>
+<script>
+    var subRece = function () {
+        var data = {},
+            proinfo = [],
+            sinfo = {};
+        $.each($(".proidid"),function (k,v) {
+            proinfo[k] = {};
+            proinfo[k].id = v.innerHTML;
+            proinfo[k].num = $(".proidid").eq(k).parent().find("input[type='number']").val();
+        })
+        $.each($(".sidid"),function (k,v) {
+            sinfo[k] = {};
+            sinfo[k].id = v.innerHTML;
+            sinfo[k].num = $(".sidid").eq(k).parent().find("input[type='number']").val();
+        })
+        if ($("#reid").val() != ''){
+            data.reid = $("#reid").val();
+        }
+        // data.discount
+        data.agoimg = $("#Ago").val();
+        data.backimg = $("#Back").val();
+        data.proinfo = proinfo;
+        data.sinfo = sinfo;
+        data.discount = $("#fuprice").val();
+        data.wid = "<?php echo $_GET['wid'];?>";
+        data.total =  $("#totalCost").html();
+        $.post('SubRece',data,function (res) {
+            if(res.code == 1){
+                layer.msg(res.msg,{icon:1});
+                setTimeout(function () {
+                    location.reload();
+                },2000);
+            }else{
+                layer.msg(res.msg,{icon:2});
+            }
+        })
+    }
+    function completeHandler() {
+
+    }
+    var vm = new Vue({
+        el:"#vue",
+        data:{
+            currpage:1,
+            pagesize:5,
+            isnull:false,
+            WorkLog:[]
+        },
+        methods:{
+            getLog:function(){
+                var data = {},
+                    $this = this;
+                data.currpage = this.currpage;
+                data.pagesize = this.pagesize;
+                $.post('getworkstatus',data,function(res){
+                    if(res.code == 1){
+                        $this.WorkLog.push.apply($this.WorkLog,res.data);
+                    }else{
+                        $this.isnull = true;
+                    }
+                })
+            },
+            load_mall:function(){
+                this.currpage++;
+                this.getLog();
+            }
+        }
+    });
+    vm.getLog();
+</script>
+
+{include file="public/footer" /}

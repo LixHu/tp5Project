@@ -1,0 +1,99 @@
+{include file="public/header" /}
+<body style="padding:10px;">
+    <div class="layui-fluid larry-wrapper">
+        <div class="layui-row layui-col-space30">
+            <div class="layui-col-xs24">
+                <!--头部搜索-->
+                <section class="panel panel-padding">
+                    <!-- <form class="layui-form" data-params='{"dataName":"article","action":"list"}' action="./data/article.json">
+                        <div class="layui-form">
+                            <div class="layui-inline">
+                                <select name="city">
+                                    <option value="0">请选择分类</option>
+                                    <option value="010">北京</option>
+                                    <option value="021">上海</option>
+                                    <option value="0571">杭州</option>
+                                </select>
+                            </div>
+                            <div class="layui-inline">
+                                <div class="layui-input-inline">
+                                    <input class="layui-input start-date" name="start_date" placeholder="开始日">
+                                </div>
+                                <div class="layui-input-inline">
+                                    <input class="layui-input end-date" name="end_date" placeholder="截止日">
+                                </div>
+                            </div>
+                            <div class="layui-inline">
+                                <div class="layui-input-inline">
+                                    <input class="layui-input" name="keyword" placeholder="关键字">
+                                </div>
+                            </div>
+                            <div class="layui-inline">
+                                <button lay-submit class="layui-btn layui-btn-primary" lay-filter="search">查找</button>
+                            </div>
+                        </div>
+                    </form> -->
+                </section>
+
+                <!--列表-->
+                <section class="panel panel-padding">
+                    <div class="group-button">
+                        <button class="layui-btn layui-btn-sm layui-btn-primary ">
+                            <i class="iconfont">&#xe626;</i> 删除
+                        </button>
+                        <!-- <button class="layui-btn layui-btn-sm layui-btn-primary">
+                            <i class="iconfont">&#xe62c;</i> 推荐
+                        </button> -->
+                        <!-- <button class="layui-btn layui-btn-sm layui-btn-primary">
+                            <i class="iconfont">&#xe603;</i> 置顶
+                        </button> -->
+                        <!-- <button class="layui-btn layui-btn-sm layui-btn-primary">
+                            <i class="layui-icon">&#x1005;</i> 审核
+                        </button> -->
+                        <button class="layui-btn layui-btn-sm  layui-btn-primary modal" onclick="location.href='/admin/admin/addedit_admin'">
+                            <i class="iconfont">&#xe649;</i> 添加管理员
+                        </button>
+                    </div>
+
+                    <div class="layui-form">
+                        <table class="layui-table" lay-filter="article">
+                            <tr>
+                                <td width="40"><input type="checkbox" id="checkall" ></td>
+                                <td>用户名</td>
+                                <td>联系方式</td>
+                                <td>邮箱</td>
+                                <td>角色</td>
+                                <td>头像</td>
+                                <td>最后登录时间</td>
+                                <td>操作</td>
+                            </tr>
+                            {volist name="list" id="vo"}
+                                <tr>
+                                    <td><input type="checkbox" name="id[]" value="{$vo.admin_id}"> </td>
+                                    <td>{$vo.user_name}</td>
+                                    <td>{$vo.mobile}</td>
+                                    <td>{$vo.email}</td>
+                                    <td>{$vo.role_name}</td>
+                                    <td><img src="{$vo.header_img}" alt="" width="50" height="50"></td>
+                                    <td><?php if(!empty($vo['login_time'])) echo date("Y/m/d H:i:s",$vo['login_time']) ; ?></td>
+                                    <td>
+                                        <div class="layui-btn-group">
+                                            <a href="addedit_admin?id={$vo.admin_id}" class="layui-btn layui-btn-mini"><i class="iconfont">&#xe653;</i>编辑</a>
+                                            <button class="layui-btn layui-btn-mini layui-btn-danger"><i class="iconfont">&#xe626;</i>删除</button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            {/volist}
+                        </table>
+                        <div class="pagelist">
+                            {$page}
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+    <script>
+        layui.use('list');
+    </script>
+{include file="public/footer" /}

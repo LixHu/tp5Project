@@ -1,0 +1,65 @@
+{include file="public/header" /}
+    <style>
+        input::-webkit-input-placeholder {
+            font-size: 0.75rem;
+        }
+
+        input:-ms-input-placeholder {
+            font-size: 0.75rem;
+        }
+        .weui-label {
+            width: 2.4rem;
+        }
+
+        .weui-cells:before {
+            -webkit-transform: scaleY(.0);
+            transform: scaleY(.0);
+        }
+    </style>
+<header class="header">
+    <a href="javascripte:location.reload();">
+        <img src="_ago/images/logo@2x.png" alt="" class="vertical-align-middle icon"/>
+        <span class="header-title">博权云服务平台</span>
+    </a>
+</header>
+
+<div class="space"></div>
+<div class="body-content-margin">
+    <form action="" method="post">
+    <div class="login-form">
+        <div class="weui-cells weui-cells_form">
+            <div class="weui-cell">
+                <div class="weui-cell__hd">
+                    <label class="weui-label">
+                        <img src="_ago/images/password.png" alt="" class="icon"/>
+                    </label>
+                </div>
+                <div class="weui-cell__bd">
+                    <input class="weui-input" id="regPassword" type="password" name="password" placeholder="请输入密码"/>
+                </div>
+            </div>
+        </div>
+        <div class="weui-cells weui-cells_form">
+            <div class="weui-cell">
+                <div class="weui-cell__hd">
+                    <label class="weui-label">
+                        <img src="_ago/images/password.png" alt="" class="icon"/>
+                    </label>
+                </div>
+                <div class="weui-cell__bd">
+                    <input class="weui-input" id="confirmPassword" type="password" name="password2"
+                           placeholder="请再次输入密码"/>
+                </div>
+            </div>
+        </div>
+    </div>
+    <button type="submit" class="weui-btn btn-primary">确认修改</button>
+    <a href="javascript:window.history.go(-1);" class="weui-btn weui-btn_default">返回</a>
+    </form>
+</div>
+{include file="public/footer" /}
+<script>
+    $(function () {
+        FastClick.attach(document.body);
+    });
+</script>

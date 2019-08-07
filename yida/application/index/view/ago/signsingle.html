@@ -1,0 +1,279 @@
+{include file="public/header" /}
+    <style>
+        .swiper-container {
+            width: 100%;
+            height: 100%;
+        }
+
+        .swiper-slide {
+            text-align: center;
+            font-size: 18px;
+            background: #ffffff;
+            /* Center slide text vertically */
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: -webkit-flex;
+            display: flex;
+            -webkit-box-pack: center;
+            -ms-flex-pack: center;
+            -webkit-justify-content: center;
+            justify-content: center;
+            -webkit-box-align: center;
+            -ms-flex-align: center;
+            -webkit-align-items: center;
+            align-items: center;
+        }
+
+        .swiper-pagination-bullet-active {
+            background: #fd443f !important;
+        }
+
+        .swiper-pagination-bullet {
+            background: #ffffff;
+            opacity: 1;
+            width: 16px;
+            border-radius: 15px;
+        }
+
+        .banner .swiper-slide img {
+            width: 1920px;
+            height: 600px;
+        }
+
+        .swiper-button-prev {
+            background-image: url("__AGO__/image/首页/合作客户/椭圆3.png");
+            -webkit-background-size: 44px 44px;
+            background-size: 44px 44px;
+            width: 44px;
+        }
+
+        .swiper-button-next {
+            background-image: url("__AGO__/image/首页/合作客户/椭圆3拷贝.png");
+            -webkit-background-size: 44px 44px;
+            background-size: 44px 44px;
+            width: 44px;
+        }
+    </style>
+</head>
+
+<body>
+<div id="vContent" v-cloak>
+    <div class="navBar">
+        <div class="pullLeft" style="line-height:50px; vertical-align:middle;padding-top: 5px;">
+            <a href="index.html">
+                <img src="{$info.company.logo}" alt="" style="width: 310px;height: 49px;line-height: 0px;">
+            </a>
+            <p class="font14" style="line-height: 0px;">新时代管理软件专家--智赢天下，助你智造赢未来</p>
+        </div>
+        <ul class="nav clearfix pullLeft">
+            <li class="m"><h3><a href="index.html" title="首页">首页</a></h3></li>
+            <li class="m"><h3><a href="software.html" title="体验精品">体验精品</a></h3></li>
+            <li class="m"><h3><a href="industry.html" title="深耕行业">深耕行业</a></h3></li>
+            <li class="m"><h3><a href="thanks.html" title="感谢客户">感谢客户</a></h3></li>
+            <li class="m"><h3><a href="service.html" title="真诚服务">真诚服务</a></h3></li>
+            <li class="m"><h3><a href="enterprise.html" title="良心企业">良心企业</a></h3></li>
+            <li class="m"><h3><a href="signsingle.html" title="签单动态">签单动态</a></h3></li>
+            <li class="block" style="left: 600px;"></li>
+        </ul>
+        <div style="line-height:25px; vertical-align:middle;padding-top: 35px;">
+            <div class="font20">全国免费服务热线</div>
+            <div class="font20 mainColor fontBold">{$info.company.free_server_phone}</div>
+        </div>
+    </div>
+    <div class="banner">
+        <div class="swiper-container swiper-container1">
+            {volist name="banner" id="vo"}
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide">
+                        <img src="{$vo.bn_url}" alt="">
+                    </div>
+                </div>
+            {/volist}
+        </div>
+    </div>
+    <div class="layer textCenter">
+        <div class="bigTitleRed" style="margin-top: 25px;">
+            签单动态
+        </div>
+        <p class="gray" style="margin-top: 5px;">
+            智赢天下随时欢迎你的加入，让我们真诚为你服务，助你智造赢未来
+        </p>
+        <div class="marginAuto overflowAuto signsingleTab">
+            <div class="pullLeft signsingleTabConHover" onclick="tab(this,1)">
+                公司动态
+            </div>
+            <div class="pullLeft signsingleTabCon" onclick="tab(this,2)">
+                企业之家
+            </div>
+            <div class="pullLeft signsingleTabCon" onclick="tab(this,3)">
+                专家观点
+            </div>
+        </div>
+        <div id="tabContent1" class="tabContent1">
+            <ul >
+                <li v-for="item in list">{{item.sign_desc}}</li>
+            </ul>
+        </div>
+        <div id="tabContent2" class="tabContent2 textLeft disnone">
+            <ul>
+                <li v-for="item in list1" >
+                    <a :href="'signsingle_detail.html?id='+item.under_com_id">
+                        <div class="pullLeft overflowAuto tabContent2Img">
+                            <img :src="item.com_img" alt="" width="215" height="129">
+                        </div>
+                        <div class="tabContent2Con">
+                            <h3 class="ellipsis">
+                                {{item.com_name}}</h3>
+                            <p class="ellipsis3">
+                                {{item.com_desc}}</p>
+                            <p class="tabContent2ConA">
+                                查看详情
+                            </p>
+                        </div>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div id="tabContent3" class="tabContent2 textLeft disnone">
+            <ul>
+                <li v-for="item in list2" >
+                    <a :href="'expert_detail.html?id='+item.expert_id">
+                        <div class="pullLeft overflowAuto tabContent2Img">
+                            <img :src="item.expert_img" alt="" width="215" height="129">
+                        </div>
+                        <div class="tabContent2Con">
+                            <h3 class="ellipsis">
+                                {{item.expert_name}}</h3>
+                            <p class="ellipsis3">
+                                {{item.expert_desc}}</p>
+                            <p class="tabContent2ConA">
+                                查看详情
+                            </p>
+                        </div>
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+    </div>
+    {include file="public/footer" /}
+<script type="text/javascript" src="__AGO__/js/SuperSlide.2.1.js"></script>
+<script type="text/javascript" src="__AGO__/js/swiper.min.js"></script>
+<script type="text/javascript" src="__AGO__/js/p.js"></script>
+<script type="text/javascript" src="__AGO__/js/vue.min.js"></script>
+<script type="text/javascript" src="__AGO__/js/echo.min.js"></script>
+<script>
+
+    var vContent = new Vue({
+        el: '#vContent',
+        data: {
+            purl: purl,
+            list: [],
+            list1: [],
+            list2: []
+        },
+        methods: {
+
+        },
+        updated: function () {
+            Echo.init({
+                offset: 100,// 离可视区域多少像素的图片可以被加载
+                throttle: 100//	图片延迟多少毫秒加载
+            });
+        }
+    })
+    $.ajax({
+        type: 'POST',
+        url: '/index/company/get_sign',
+        dataType: 'JSON',
+        data: {
+            "id":"1"
+        },
+        success: function (res) {
+            vContent.list = res;
+        },
+        error: function () {
+
+        }
+    });
+    $.ajax({
+        type: 'POST',
+        url: '/index/company/under_com',
+        dataType: 'JSON',
+        data: {
+            "id":"1"
+        },
+        success: function (res) {
+            vContent.list1 = res;
+        },
+        error: function () {
+
+        }
+    });
+    $.ajax({
+        type: 'POST',
+        url: '/index/company/get_expert',
+        dataType: 'JSON',
+        data: {
+            "id":"1"
+        },
+        success: function (res) {
+            console.log(res);
+            vContent.list2 = res;
+        },
+        error: function () {
+
+        }
+    });
+
+
+
+    var content1 = document.getElementById('content1');
+    var content2 = document.getElementById('content2');
+    var signsingleTabCon = document.getElementsByClassName('signsingleTabCon');
+    var signsingleTabConHover = document.getElementsByClassName('signsingleTabConHover');
+    var tabContent1 = document.getElementById('tabContent1');
+    var tabContent2 = document.getElementById('tabContent2');
+    var tabContent3 = document.getElementById('tabContent3');
+
+    function tab(ele, index) {
+        for (var i = 0; i < signsingleTabConHover.length; i++) {
+            signsingleTabConHover[i].classList.add('signsingleTabCon');
+            signsingleTabConHover[i].classList.remove('signsingleTabConHover');
+        }
+        ele.classList.remove('signsingleTabCon');
+        ele.classList.add('signsingleTabConHover');
+        if (index == 1) {
+            tabContent1.classList.remove('disnone');
+            tabContent2.classList.add('disnone');
+            tabContent3.classList.add('disnone');
+        } else if (index == 2) {
+            tabContent1.classList.add('disnone');
+            tabContent2.classList.remove('disnone');
+            tabContent3.classList.add('disnone');
+
+        } else if (index == 3) {
+            tabContent1.classList.add('disnone');
+            tabContent2.classList.add('disnone');
+            tabContent3.classList.remove('disnone');
+
+        }
+    }
+
+
+    function autoScroll(obj) {
+        $(obj).find("ul").animate({
+            marginTop: "-43px"
+        }, 500, function () {
+            $(this).css({marginTop: "0px"}).find("li:first").appendTo(this);
+        })
+    }
+
+    $(function () {
+        setInterval('autoScroll(".tabContent1")', 3000);
+        // setInterval('autoScroll(".tabContent3")', 3000);
+    })
+
+
+
+</script>

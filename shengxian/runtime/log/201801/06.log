@@ -1,0 +1,567 @@
+---------------------------------------------------------------
+[ 2018-01-06T11:10:21+08:00 ] 127.0.0.1 127.0.0.1 GET /
+[ info ] shengxian.com/ [运行时间：0.326019s][吞吐率：3.07req/s] [内存消耗：1,477.39kb] [文件加载：48]
+[ info ] [ LANG ] F:\zm\my\shengxian\thinkphp\lang\zh-cn.php
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => '',
+    1 => NULL,
+    2 => NULL,
+  ),
+)
+[ info ] [ HEADER ] array (
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8',
+  'upgrade-insecure-requests' => '1',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.26 Safari/537.36 Core/1.63.4630.400 QQBrowser/10.0.520.400',
+  'connection' => 'close',
+  'host' => 'shengxian.com',
+)
+[ info ] [ PARAM ] array (
+)
+[ info ] [ SESSION ] INIT array (
+  'id' => '',
+  'var_session_id' => '',
+  'prefix' => 'think',
+  'type' => '',
+  'auto_start' => true,
+)
+[ info ] [ LOG ] INIT File
+---------------------------------------------------------------
+[ 2018-01-06T11:10:22+08:00 ] 127.0.0.1 127.0.0.1 GET /admin/users/login.html
+[ info ] shengxian.com/admin/users/login.html [运行时间：0.040002s][吞吐率：25.00req/s] [内存消耗：1,524.05kb] [文件加载：48]
+[ info ] [ LANG ] F:\zm\my\shengxian\thinkphp\lang\zh-cn.php
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'admin',
+    1 => 'users',
+    2 => 'login',
+  ),
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'PHPSESSID=8q9bho673m63jdnh6msk5nl4m7',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8',
+  'upgrade-insecure-requests' => '1',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.26 Safari/537.36 Core/1.63.4630.400 QQBrowser/10.0.520.400',
+  'connection' => 'close',
+  'host' => 'shengxian.com',
+)
+[ info ] [ PARAM ] array (
+  '/admin/users/login_html' => '',
+)
+[ info ] [ SESSION ] INIT array (
+  'id' => '',
+  'var_session_id' => '',
+  'prefix' => 'think',
+  'type' => '',
+  'auto_start' => true,
+)
+[ info ] [ RUN ] app\admin\controller\Users->login[ F:\zm\my\shengxian\application\admin\controller\Users.php ]
+[ info ] [ VIEW ] F:\zm\my\shengxian\public/../application/admin\view\users\login.html [ array (
+) ]
+[ info ] [ LOG ] INIT File
+---------------------------------------------------------------
+[ 2018-01-06T11:10:22+08:00 ] 127.0.0.1 127.0.0.1 GET /admin/users/doimg
+[ info ] shengxian.com/admin/users/doimg [运行时间：0.490028s][吞吐率：2.04req/s] [内存消耗：1,418.55kb] [文件加载：46]
+[ info ] [ LANG ] F:\zm\my\shengxian\thinkphp\lang\zh-cn.php
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'admin',
+    1 => 'users',
+    2 => 'doimg',
+  ),
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'PHPSESSID=8q9bho673m63jdnh6msk5nl4m7',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate',
+  'referer' => 'http://shengxian.com/admin/users/login.html',
+  'accept' => 'image/webp,image/apng,image/*,*/*;q=0.8',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.26 Safari/537.36 Core/1.63.4630.400 QQBrowser/10.0.520.400',
+  'connection' => 'close',
+  'host' => 'shengxian.com',
+)
+[ info ] [ PARAM ] array (
+  '/admin/users/doimg' => '',
+)
+[ info ] [ SESSION ] INIT array (
+  'id' => '',
+  'var_session_id' => '',
+  'prefix' => 'think',
+  'type' => '',
+  'auto_start' => true,
+)
+[ info ] [ RUN ] app\admin\controller\Users->doimg[ F:\zm\my\shengxian\application\admin\controller\Users.php ]
+[ info ] [ LOG ] INIT File
+---------------------------------------------------------------
+[ 2018-01-06T11:10:31+08:00 ] 127.0.0.1 127.0.0.1 POST /admin/users/login.html
+[ info ] shengxian.com/admin/users/login.html [运行时间：0.203011s][吞吐率：4.93req/s] [内存消耗：1,920.66kb] [文件加载：53]
+[ info ] [ LANG ] F:\zm\my\shengxian\thinkphp\lang\zh-cn.php
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'admin',
+    1 => 'users',
+    2 => 'login',
+  ),
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'PHPSESSID=8q9bho673m63jdnh6msk5nl4m7',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate',
+  'referer' => 'http://shengxian.com/admin/users/login.html',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.26 Safari/537.36 Core/1.63.4630.400 QQBrowser/10.0.520.400',
+  'content-type' => 'application/x-www-form-urlencoded',
+  'upgrade-insecure-requests' => '1',
+  'origin' => 'http://shengxian.com',
+  'cache-control' => 'max-age=0',
+  'content-length' => '36',
+  'connection' => 'close',
+  'host' => 'shengxian.com',
+)
+[ info ] [ PARAM ] array (
+  '/admin/users/login_html' => '',
+  'name' => 'admin',
+  'password' => '123456',
+  'code' => 'r9h2',
+)
+[ info ] [ SESSION ] INIT array (
+  'id' => '',
+  'var_session_id' => '',
+  'prefix' => 'think',
+  'type' => '',
+  'auto_start' => true,
+)
+[ info ] [ RUN ] app\admin\controller\Users->login[ F:\zm\my\shengxian\application\admin\controller\Users.php ]
+[ info ] [ DB ] INIT mysql
+[ info ] [ LOG ] INIT File
+[ error ] [2002]SQLSTATE[HY000] [2002] ��һ���޷����ӵ����糢����һ���׽��ֲ�����
+[F:\zm\my\shengxian\thinkphp\library\think\db\Connection.php:293]
+---------------------------------------------------------------
+[ 2018-01-06T18:49:49+08:00 ] 127.0.0.1 127.0.0.1 GET /
+[ info ] shengxian.com/ [运行时间：0.089005s][吞吐率：11.24req/s] [内存消耗：1,477.38kb] [文件加载：48]
+[ info ] [ LANG ] F:\zm\my\shengxian\thinkphp\lang\zh-cn.php
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => '',
+    1 => NULL,
+    2 => NULL,
+  ),
+)
+[ info ] [ HEADER ] array (
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8',
+  'upgrade-insecure-requests' => '1',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.26 Safari/537.36 Core/1.63.4630.400 QQBrowser/10.0.520.400',
+  'connection' => 'close',
+  'host' => 'shengxian.com',
+)
+[ info ] [ PARAM ] array (
+)
+[ info ] [ SESSION ] INIT array (
+  'id' => '',
+  'var_session_id' => '',
+  'prefix' => 'think',
+  'type' => '',
+  'auto_start' => true,
+)
+[ info ] [ LOG ] INIT File
+---------------------------------------------------------------
+[ 2018-01-06T18:49:50+08:00 ] 127.0.0.1 127.0.0.1 GET /admin/users/login.html
+[ info ] shengxian.com/admin/users/login.html [运行时间：0.044002s][吞吐率：22.73req/s] [内存消耗：1,408.48kb] [文件加载：46]
+[ info ] [ LANG ] F:\zm\my\shengxian\thinkphp\lang\zh-cn.php
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'admin',
+    1 => 'users',
+    2 => 'login',
+  ),
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'PHPSESSID=9fn061gi5u9thmlcd649nfjg51',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8',
+  'upgrade-insecure-requests' => '1',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.26 Safari/537.36 Core/1.63.4630.400 QQBrowser/10.0.520.400',
+  'connection' => 'close',
+  'host' => 'shengxian.com',
+)
+[ info ] [ PARAM ] array (
+  '/admin/users/login_html' => '',
+)
+[ info ] [ SESSION ] INIT array (
+  'id' => '',
+  'var_session_id' => '',
+  'prefix' => 'think',
+  'type' => '',
+  'auto_start' => true,
+)
+[ info ] [ RUN ] app\admin\controller\Users->login[ F:\zm\my\shengxian\application\admin\controller\Users.php ]
+[ info ] [ VIEW ] F:\zm\my\shengxian\public/../application/admin\view\users\login.html [ array (
+) ]
+[ info ] [ LOG ] INIT File
+---------------------------------------------------------------
+[ 2018-01-06T18:49:50+08:00 ] 127.0.0.1 127.0.0.1 GET /admin/users/doimg
+[ info ] shengxian.com/admin/users/doimg [运行时间：0.067004s][吞吐率：14.92req/s] [内存消耗：1,418.55kb] [文件加载：46]
+[ info ] [ LANG ] F:\zm\my\shengxian\thinkphp\lang\zh-cn.php
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'admin',
+    1 => 'users',
+    2 => 'doimg',
+  ),
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'PHPSESSID=9fn061gi5u9thmlcd649nfjg51',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate',
+  'referer' => 'http://shengxian.com/admin/users/login.html',
+  'accept' => 'image/webp,image/apng,image/*,*/*;q=0.8',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.26 Safari/537.36 Core/1.63.4630.400 QQBrowser/10.0.520.400',
+  'connection' => 'close',
+  'host' => 'shengxian.com',
+)
+[ info ] [ PARAM ] array (
+  '/admin/users/doimg' => '',
+)
+[ info ] [ SESSION ] INIT array (
+  'id' => '',
+  'var_session_id' => '',
+  'prefix' => 'think',
+  'type' => '',
+  'auto_start' => true,
+)
+[ info ] [ RUN ] app\admin\controller\Users->doimg[ F:\zm\my\shengxian\application\admin\controller\Users.php ]
+[ info ] [ LOG ] INIT File
+---------------------------------------------------------------
+[ 2018-01-06T18:49:56+08:00 ] 127.0.0.1 127.0.0.1 POST /admin/users/login.html
+[ info ] shengxian.com/admin/users/login.html [运行时间：0.449026s][吞吐率：2.23req/s] [内存消耗：2,180.88kb] [文件加载：59]
+[ info ] [ LANG ] F:\zm\my\shengxian\thinkphp\lang\zh-cn.php
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'admin',
+    1 => 'users',
+    2 => 'login',
+  ),
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'PHPSESSID=9fn061gi5u9thmlcd649nfjg51',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate',
+  'referer' => 'http://shengxian.com/admin/users/login.html',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.26 Safari/537.36 Core/1.63.4630.400 QQBrowser/10.0.520.400',
+  'content-type' => 'application/x-www-form-urlencoded',
+  'upgrade-insecure-requests' => '1',
+  'origin' => 'http://shengxian.com',
+  'cache-control' => 'max-age=0',
+  'content-length' => '36',
+  'connection' => 'close',
+  'host' => 'shengxian.com',
+)
+[ info ] [ PARAM ] array (
+  '/admin/users/login_html' => '',
+  'name' => 'admin',
+  'password' => '123456',
+  'code' => 'ptgw',
+)
+[ info ] [ SESSION ] INIT array (
+  'id' => '',
+  'var_session_id' => '',
+  'prefix' => 'think',
+  'type' => '',
+  'auto_start' => true,
+)
+[ info ] [ RUN ] app\admin\controller\Users->login[ F:\zm\my\shengxian\application\admin\controller\Users.php ]
+[ info ] [ DB ] INIT mysql
+[ info ] [ CACHE ] INIT File
+[ info ] [ VIEW ] F:\zm\my\shengxian\public/../application/admin\view/tips.html [ array (
+  0 => 'code',
+  1 => 'msg',
+  2 => 'data',
+  3 => 'url',
+  4 => 'wait',
+) ]
+[ info ] [ LOG ] INIT File
+[ sql ] [ DB ] CONNECT:[ UseTime:0.069004s ] mysql:dbname=shengxian;host=61.152.175.76;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `sx_admin` [ RunTime:0.032002s ]
+[ sql ] [ SQL ] SELECT * FROM `sx_admin` WHERE  `username` = 'admin'  AND `password` = 'e10adc3949ba59abbe56e057f20f883e' LIMIT 1 [ RunTime:0.014001s ]
+[ sql ] [ SQL ] UPDATE `sx_admin`  SET `login_time`='1515235795'  WHERE  `admin_id` = 1 [ RunTime:0.078004s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `sx_admin_log` [ RunTime:0.023002s ]
+[ sql ] [ SQL ] INSERT INTO `sx_admin_log` (`admin_id` , `log_info` , `log_ip` , `log_url` , `log_time`) VALUES (1 , '登录' , '127.0.0.1' , 'http://shengxian.com/admin/users/login.html' , '1515235796') [ RunTime:0.086005s ]
+---------------------------------------------------------------
+[ 2018-01-06T18:49:58+08:00 ] 127.0.0.1 127.0.0.1 GET /admin/admin/index
+[ info ] shengxian.com/admin/admin/index [运行时间：0.299017s][吞吐率：3.34req/s] [内存消耗：2,249.92kb] [文件加载：56]
+[ info ] [ LANG ] F:\zm\my\shengxian\thinkphp\lang\zh-cn.php
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'admin',
+    1 => 'admin',
+    2 => 'index',
+  ),
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'PHPSESSID=9fn061gi5u9thmlcd649nfjg51',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate',
+  'referer' => 'http://shengxian.com/admin/users/login.html',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.26 Safari/537.36 Core/1.63.4630.400 QQBrowser/10.0.520.400',
+  'upgrade-insecure-requests' => '1',
+  'connection' => 'close',
+  'host' => 'shengxian.com',
+)
+[ info ] [ PARAM ] array (
+  '/admin/admin/index' => '',
+)
+[ info ] [ SESSION ] INIT array (
+  'id' => '',
+  'var_session_id' => '',
+  'prefix' => 'think',
+  'type' => '',
+  'auto_start' => true,
+)
+[ info ] [ RUN ] app\admin\controller\Admin->index[ F:\zm\my\shengxian\application\admin\controller\Admin.php ]
+[ info ] [ DB ] INIT mysql
+[ info ] [ VIEW ] F:\zm\my\shengxian\public/../application/admin\view\admin\index.html [ array (
+  0 => 'list',
+) ]
+[ info ] [ LOG ] INIT File
+[ sql ] [ DB ] CONNECT:[ UseTime:0.024001s ] mysql:dbname=shengxian;host=61.152.175.76;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `sx_admin_left` [ RunTime:0.051003s ]
+[ sql ] [ SQL ] SELECT * FROM `sx_admin_left` `a` INNER JOIN `sx_role_left` `b` ON `b`.`left_id`=`a`.`id` INNER JOIN `sx_admin_role` `c` ON `b`.`role_id`=`c`.`role_id` WHERE  (  pid = 0 and is_show = 1 and c.role_id = 1 ) ORDER BY sort asc [ RunTime:0.048003s ]
+[ sql ] [ SQL ] SELECT * FROM `sx_admin_left` WHERE  (  pid = 1 and is_show = 1 ) [ RunTime:0.014001s ]
+[ sql ] [ SQL ] SELECT * FROM `sx_admin_left` WHERE  (  pid = 4 and is_show = 1 ) [ RunTime:0.013001s ]
+[ sql ] [ SQL ] SELECT * FROM `sx_admin_left` WHERE  (  pid = 6 and is_show = 1 ) [ RunTime:0.013000s ]
+[ sql ] [ SQL ] SELECT * FROM `sx_admin_left` WHERE  (  pid = 9 and is_show = 1 ) [ RunTime:0.012001s ]
+[ sql ] [ SQL ] SELECT * FROM `sx_admin_left` WHERE  (  pid = 13 and is_show = 1 ) [ RunTime:0.015001s ]
+[ sql ] [ SQL ] SELECT * FROM `sx_admin_left` WHERE  (  pid = 16 and is_show = 1 ) [ RunTime:0.015001s ]
+[ sql ] [ SQL ] SELECT * FROM `sx_admin_left` WHERE  (  pid = 19 and is_show = 1 ) [ RunTime:0.014001s ]
+---------------------------------------------------------------
+[ 2018-01-06T18:49:58+08:00 ] 127.0.0.1 127.0.0.1 GET /admin/admin/right.html
+[ info ] shengxian.com/admin/admin/right.html [运行时间：0.349020s][吞吐率：2.87req/s] [内存消耗：2,214.09kb] [文件加载：55]
+[ info ] [ LANG ] F:\zm\my\shengxian\thinkphp\lang\zh-cn.php
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'admin',
+    1 => 'admin',
+    2 => 'right',
+  ),
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'PHPSESSID=9fn061gi5u9thmlcd649nfjg51',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate',
+  'referer' => 'http://shengxian.com/admin/admin/index',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.26 Safari/537.36 Core/1.63.4630.400 QQBrowser/10.0.520.400',
+  'upgrade-insecure-requests' => '1',
+  'connection' => 'close',
+  'host' => 'shengxian.com',
+)
+[ info ] [ PARAM ] array (
+  '/admin/admin/right_html' => '',
+)
+[ info ] [ SESSION ] INIT array (
+  'id' => '',
+  'var_session_id' => '',
+  'prefix' => 'think',
+  'type' => '',
+  'auto_start' => true,
+)
+[ info ] [ RUN ] app\admin\controller\Admin->right[ F:\zm\my\shengxian\application\admin\controller\Admin.php ]
+[ info ] [ DB ] INIT mysql
+[ info ] [ VIEW ] F:\zm\my\shengxian\public/../application/admin\view\admin\right.html [ array (
+  0 => 'info',
+) ]
+[ info ] [ LOG ] INIT File
+[ sql ] [ DB ] CONNECT:[ UseTime:0.018001s ] mysql:dbname=shengxian;host=61.152.175.76;charset=utf8
+[ sql ] [ SQL ] select VERSION() as version [ RunTime:0.011001s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `sx_admin` [ RunTime:0.012001s ]
+[ sql ] [ SQL ] SELECT * FROM `sx_admin` `a` INNER JOIN `sx_admin_role` `b` ON `a`.`role_id`=`b`.`role_id` WHERE  (  admin_id =1 ) LIMIT 1 [ RunTime:0.012000s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `sx_goods` [ RunTime:0.064004s ]
+[ sql ] [ SQL ] SELECT COUNT(*) AS tp_count FROM `sx_goods` LIMIT 1 [ RunTime:0.012001s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `sx_order` [ RunTime:0.016001s ]
+[ sql ] [ SQL ] SELECT COUNT(*) AS tp_count FROM `sx_order` LIMIT 1 [ RunTime:0.013000s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `sx_users` [ RunTime:0.037002s ]
+[ sql ] [ SQL ] SELECT COUNT(*) AS tp_count FROM `sx_users` LIMIT 1 [ RunTime:0.011001s ]
+[ sql ] [ SQL ] SELECT COUNT(*) AS tp_count FROM `sx_users` WHERE  (  add_time between '1515168000' and '1515235798' ) LIMIT 1 [ RunTime:0.011001s ]
+[ sql ] [ SQL ] SELECT * FROM `sx_order` WHERE  (  order_status = 2 ) [ RunTime:0.012000s ]
+[ sql ] [ SQL ] SELECT COUNT(*) AS tp_count FROM `sx_goods` WHERE  (  is_recommend = 1 ) LIMIT 1 [ RunTime:0.011001s ]
+[ sql ] [ SQL ] SELECT COUNT(*) AS tp_count FROM `sx_order` WHERE  (  order_status = 2 ) LIMIT 1 [ RunTime:0.011001s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `sx_goods_category` [ RunTime:0.016001s ]
+[ sql ] [ SQL ] SELECT COUNT(*) AS tp_count FROM `sx_goods_category` WHERE  (  is_show = 1 ) LIMIT 1 [ RunTime:0.012000s ]
+---------------------------------------------------------------
+[ 2018-01-06T18:50:00+08:00 ] 127.0.0.1 127.0.0.1 POST /admin/admin/tixing
+[ info ] shengxian.com/admin/admin/tixing [运行时间：0.193011s][吞吐率：5.18req/s] [内存消耗：2,006.10kb] [文件加载：53]
+[ info ] [ LANG ] F:\zm\my\shengxian\thinkphp\lang\zh-cn.php
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'admin',
+    1 => 'admin',
+    2 => 'tixing',
+  ),
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'PHPSESSID=9fn061gi5u9thmlcd649nfjg51',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate',
+  'referer' => 'http://shengxian.com/admin/admin/index',
+  'content-type' => 'application/x-www-form-urlencoded; charset=UTF-8',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.26 Safari/537.36 Core/1.63.4630.400 QQBrowser/10.0.520.400',
+  'x-requested-with' => 'XMLHttpRequest',
+  'origin' => 'http://shengxian.com',
+  'accept' => '*/*',
+  'content-length' => '10',
+  'connection' => 'close',
+  'host' => 'shengxian.com',
+)
+[ info ] [ PARAM ] array (
+  '/admin/admin/tixing' => '',
+  'admin_id' => '1',
+)
+[ info ] [ SESSION ] INIT array (
+  'id' => '',
+  'var_session_id' => '',
+  'prefix' => 'think',
+  'type' => '',
+  'auto_start' => true,
+)
+[ info ] [ RUN ] app\admin\controller\Admin->tixing[ F:\zm\my\shengxian\application\admin\controller\Admin.php ]
+[ info ] [ DB ] INIT mysql
+[ info ] [ LOG ] INIT File
+[ sql ] [ DB ] CONNECT:[ UseTime:0.017001s ] mysql:dbname=shengxian;host=61.152.175.76;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `sx_goods_category` [ RunTime:0.012001s ]
+[ sql ] [ SQL ] SELECT COUNT(*) AS tp_count FROM `sx_goods_category` WHERE  (  is_show = 1 ) LIMIT 1 [ RunTime:0.011001s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `sx_goods` [ RunTime:0.013000s ]
+[ sql ] [ SQL ] SELECT COUNT(*) AS tp_count FROM `sx_goods` WHERE  (  is_recommend = 1 ) LIMIT 1 [ RunTime:0.011001s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `sx_order` [ RunTime:0.012001s ]
+[ sql ] [ SQL ] SELECT COUNT(*) AS tp_count FROM `sx_order` WHERE  (  order_status = 2 ) LIMIT 1 [ RunTime:0.011000s ]
+---------------------------------------------------------------
+[ 2018-01-06T18:50:05+08:00 ] 127.0.0.1 127.0.0.1 GET /admin/admin/role_list.html
+[ info ] shengxian.com/admin/admin/role_list.html [运行时间：0.145008s][吞吐率：6.90req/s] [内存消耗：2,238.70kb] [文件加载：56]
+[ info ] [ LANG ] F:\zm\my\shengxian\thinkphp\lang\zh-cn.php
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'admin',
+    1 => 'admin',
+    2 => 'role_list',
+  ),
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'PHPSESSID=9fn061gi5u9thmlcd649nfjg51',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate',
+  'referer' => 'http://shengxian.com/admin/admin/index',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.26 Safari/537.36 Core/1.63.4630.400 QQBrowser/10.0.520.400',
+  'upgrade-insecure-requests' => '1',
+  'connection' => 'close',
+  'host' => 'shengxian.com',
+)
+[ info ] [ PARAM ] array (
+  '/admin/admin/role_list_html' => '',
+)
+[ info ] [ SESSION ] INIT array (
+  'id' => '',
+  'var_session_id' => '',
+  'prefix' => 'think',
+  'type' => '',
+  'auto_start' => true,
+)
+[ info ] [ RUN ] app\admin\controller\Admin->role_list[ F:\zm\my\shengxian\application\admin\controller\Admin.php ]
+[ info ] [ DB ] INIT mysql
+[ info ] [ VIEW ] F:\zm\my\shengxian\public/../application/admin\view\admin\role_list.html [ array (
+  0 => 'role',
+) ]
+[ info ] [ LOG ] INIT File
+[ sql ] [ DB ] CONNECT:[ UseTime:0.017001s ] mysql:dbname=shengxian;host=61.152.175.76;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `sx_admin_role` [ RunTime:0.012001s ]
+[ sql ] [ SQL ] SELECT * FROM `sx_admin_role` [ RunTime:0.011000s ]
+---------------------------------------------------------------
+[ 2018-01-06T18:50:07+08:00 ] 127.0.0.1 127.0.0.1 GET /admin/admin/role.html?id=1
+[ info ] shengxian.com/admin/admin/role.html?id=1 [运行时间：0.282016s][吞吐率：3.55req/s] [内存消耗：2,210.91kb] [文件加载：55]
+[ info ] [ LANG ] F:\zm\my\shengxian\thinkphp\lang\zh-cn.php
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'admin',
+    1 => 'admin',
+    2 => 'role',
+  ),
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'PHPSESSID=9fn061gi5u9thmlcd649nfjg51',
+  'accept-language' => 'zh-CN,zh;q=0.9',
+  'accept-encoding' => 'gzip, deflate',
+  'referer' => 'http://shengxian.com/admin/admin/role_list.html',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.26 Safari/537.36 Core/1.63.4630.400 QQBrowser/10.0.520.400',
+  'upgrade-insecure-requests' => '1',
+  'connection' => 'close',
+  'host' => 'shengxian.com',
+)
+[ info ] [ PARAM ] array (
+  '/admin/admin/role_html' => '',
+  'id' => '1',
+)
+[ info ] [ SESSION ] INIT array (
+  'id' => '',
+  'var_session_id' => '',
+  'prefix' => 'think',
+  'type' => '',
+  'auto_start' => true,
+)
+[ info ] [ RUN ] app\admin\controller\Admin->role[ F:\zm\my\shengxian\application\admin\controller\Admin.php ]
+[ info ] [ DB ] INIT mysql
+[ info ] [ VIEW ] F:\zm\my\shengxian\public/../application/admin\view\admin\role.html [ array (
+  0 => 'role_id',
+  1 => 'role_name',
+  2 => 'left',
+  3 => 'role',
+) ]
+[ info ] [ LOG ] INIT File
+[ sql ] [ DB ] CONNECT:[ UseTime:0.023002s ] mysql:dbname=shengxian;host=61.152.175.76;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `sx_admin_role` [ RunTime:0.015000s ]
+[ sql ] [ SQL ] SELECT * FROM `sx_admin_role` [ RunTime:0.013001s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `sx_admin_left` [ RunTime:0.014001s ]
+[ sql ] [ SQL ] SELECT * FROM `sx_admin_left` WHERE  (  pid = 0 and is_show = 1 ) [ RunTime:0.013001s ]
+[ sql ] [ SQL ] SELECT * FROM `sx_admin_left` WHERE  (  is_show = 1 and pid = 1 ) [ RunTime:0.014001s ]
+[ sql ] [ SQL ] SELECT * FROM `sx_admin_left` WHERE  (  is_show = 1 and pid = 4 ) [ RunTime:0.015001s ]
+[ sql ] [ SQL ] SELECT * FROM `sx_admin_left` WHERE  (  is_show = 1 and pid = 6 ) [ RunTime:0.015000s ]
+[ sql ] [ SQL ] SELECT * FROM `sx_admin_left` WHERE  (  is_show = 1 and pid = 9 ) [ RunTime:0.017001s ]
+[ sql ] [ SQL ] SELECT * FROM `sx_admin_left` WHERE  (  is_show = 1 and pid = 13 ) [ RunTime:0.013001s ]
+[ sql ] [ SQL ] SELECT * FROM `sx_admin_left` WHERE  (  is_show = 1 and pid = 16 ) [ RunTime:0.014001s ]
+[ sql ] [ SQL ] SELECT * FROM `sx_admin_left` WHERE  (  is_show = 1 and pid = 19 ) [ RunTime:0.013001s ]
+[ sql ] [ SQL ] SELECT `a`.`id` FROM `sx_admin_left` `a` INNER JOIN `sx_role_left` `b` ON `b`.`left_id`=`a`.`id` INNER JOIN `sx_admin_role` `c` ON `b`.`role_id`=`c`.`role_id` WHERE  (  is_show = 1 and c.role_id = 1 ) [ RunTime:0.014001s ]
+[ sql ] [ SQL ] SELECT * FROM `sx_admin_role` WHERE  `role_id` = 1 LIMIT 1 [ RunTime:0.014000s ]

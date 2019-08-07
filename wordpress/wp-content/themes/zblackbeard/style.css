@@ -1,0 +1,324 @@
+/*
+ Theme Name:   ZBlackbeard
+ Description:  ZBlackbeard is a modern responsive WordPress Theme. It's perfect for web agencies, digital studios, corporate, product showcase, personal and business portfolio.
+ Author:       Themeisle
+ Author URI:   https://themeisle.com
+ Template:     zerif-lite
+ Version:      1.0.10
+ License:      GNU General Public License version 2
+ License URI:  license.txt
+ Text Domain:  zblackbeard
+ Tags:         one-column, two-columns, right-sidebar, custom-background, custom-menu, editor-style, featured-images, threaded-comments, translation-ready
+*/
+
+
+/*--------------------------------------------------------------
+General
+--------------------------------------------------------------*/
+.entry-content a {
+	color: #3bbbd2;
+}
+.entry-content a:visited {
+	color: #3bbbd2;
+}
+.entry-content a:hover {
+	color: #ea4747;
+}
+
+/*--------------------------------------------------------------
+Header
+--------------------------------------------------------------*/
+.navbar {
+	background: rgba(51,67,70, 0.9);
+}
+.navbar-inverse .navbar-nav ul.sub-menu {
+	background: rgba(51,67,70, 1);
+}
+.navbar-inverse .navbar-nav > li > a,
+.navbar-inverse .main-navigation > ul > li > a {
+	color: #c0cdcf;
+}
+.focus {
+	background: #202728;
+	color: #c0cdcf;
+}
+.focus h5 {
+	color: #FFF;
+}
+.focus h6 {
+	color: #c0cdcf;
+}
+.navbar-inverse .navbar-nav ul.sub-menu li a {
+	color: #c0cdcf;
+}
+.navbar-inverse .navbar-nav ul.sub-menu li:hover > a {
+	color: #3bbbd2;
+}
+.navbar-inverse .navbar-nav>li>a:hover {
+	color: #3bbbd2;
+}
+.nav li a.nav-active {
+	color: #3bbbd2;
+}
+.nav li a.nav-active:before {
+	background: #3bbbd2;
+}
+.header {
+	min-height: 0;
+}
+.header {
+	background: rgba(51,67,70, 0.5);
+}
+.intro-text {
+	color: #FFF;
+}
+
+/*--------------------------------------------------------------
+Content
+--------------------------------------------------------------*/
+.dark-text {
+	color: #3bbbd2;
+}
+h2.white-text {
+	color: #3bbbd2;
+}
+.works {
+	background: #f5f5f5;
+}
+.about-us {
+	background: #202728;
+	color: #c0cdcf;
+}
+.red-btn {
+	border-radius: 1px;
+    border-width: 2px;
+	border-style: solid;
+    border-color: #ea4747;
+    position: relative;
+    background: rgba(234,71,71,0.4);
+}
+.red-btn:hover {
+    border-width: 2px;
+	border-style: solid;
+    border-color: #ea4747;
+    background: rgba(234,71,71,1);
+}
+.green-btn {
+	border-radius: 1px;
+    border-width: 2px;
+	border-style: solid;
+    border-color: #3bbbd2;
+    position: relative;
+    background: rgba(59,187,210,0.4);
+}
+.green-btn:hover {
+    border-width: 2px;
+	border-style: solid;
+    border-color: #3bbbd2;
+    background: rgba(59,187,210,1);
+}
+.intro-text {
+	background: rgba(51,67,70,0.3);
+	padding: 15px 0;
+}
+.testimonial {
+	background: #3bbbd2;
+}
+.feedback-box .message {
+	color: #334346;
+}
+.our-team {
+	background: #f5f5f5;
+}
+.textarea-box {
+	border-radius: 0;
+}
+body{
+	background: #fdfdfd;
+}
+.entry-title:before {
+	content: "";
+	background: #ea4747;
+}
+.entry-title a:hover{
+	color: #ea4747;
+}
+.entry-title, 
+.entry-title a, 
+.widget-title, 
+.widget-title a {
+	color: #334346;
+}
+.widget .widget-title:before, .entry-title:before {
+	content: "";
+	background: #3bbbd2;
+}
+body, button, input, select, textarea {
+	color: #334346;
+}
+/* Selection colours (easy to forget) */
+::selection {
+	background: #3bbbd2 !important;
+	color: #FFF !important;
+}
+::-moz-selection {
+	background: #3bbbd2 !important;
+	color: #FFF !important;
+}
+.testimonial h2 {
+	color: #FFF;
+}
+#client-feedbacks .feedback-box {
+	border-radius: 1px;
+}
+.input-box {
+	border-radius: 1px;
+	background: rgba(255,255,255, 1) !important;
+}
+.textarea-box {
+	border-radius: 1px;
+	background: rgba(255,255,255, 1) !important;
+}
+.newsletter {
+	background: #ea4747;
+}
+.separator-one {
+	background: rgba(59, 187, 210, 0.9);
+}
+.separator-one .green-btn {
+	border-radius: 1px;
+	border-width: 2px;
+	border-style: solid;
+	border-color: #ea4747;
+	position: relative;
+	background: rgba(234,71,71,0.9);
+}
+.separator-one .green-btn:hover {
+	background: rgba(234,71,71,1);
+}
+.purchase-now {
+	background: rgba(234, 71, 71, 0.9);
+}
+.purchase-now .red-btn {
+	float: right;
+	border-radius: 1px;
+	border-width: 2px;
+	border-style: solid;
+	border-color: rgba(51,67,70, 1);
+	position: relative;
+	background: rgba(51,67,70, 0.8);
+}
+.purchase-now .red-btn:hover {
+	background: rgba(51,67,70, 1);
+}
+.latest-news h6 {
+	color: #334346;
+}
+.focus-box .service-icon {
+	border: 10px solid rgba(255, 255, 255, 0.1);
+}
+.red-border-bottom:before {
+	background: #ea4747;
+}
+.about-us p {
+	color: #c0cdcf;
+}
+.about-us .big-intro {
+	color: #FFF;
+	font-size: 55px;
+}
+.latest-news {
+	background: #f5f5f5;
+}
+#carousel-homepage-latestnews .item .latestnews-box .latestnews-title a:before {
+	content: "";
+	background: #ea4747;
+}
+.copyright {
+	background: rgba(0,0,0,0.3);
+}
+
+.comments-area input[type="text"],
+.comments-area input[type="email"],
+.comments-area input[type="url"],
+.comments-area textarea {
+	background: rgba(51,67,70, 0.8);
+	color: #FFF;
+}
+.comment-form #submit,
+.comment-reply-link {
+	color: #fff;
+	border-radius: 1px;
+	border-width: 2px;
+	border-style: solid;
+	border-color: #ea4747;
+	position: relative;
+	background: rgba(234,71,71,0.8);
+}
+.comment-form #submit:hover,
+.comment-reply-link:hover {
+	background: rgba(234,71,71,1);
+}
+.widget_search input, .entry-content .search-form input[type="search"] {
+	background: rgba(51,67,70, 0.8);
+	color: #FFF;
+}
+.entry-content .search-form input[type="search"] {
+	width: 83%;
+	padding: 12px 15% 12px 2%;
+}
+.entry-content .search-form {
+	position: relative;
+	width: auto;
+	float: left;
+}
+.entry-content .search-form input[type="submit"] {
+	display: block;
+	width: 46px;
+	height: 46px;
+	position: absolute;
+	top: 0;
+	right: 0;
+	padding: 0;
+	margin: 0;
+	background: url(images/search_icon1.png) no-repeat center center;
+	text-indent: -99999999999px;
+}
+.company-details {
+	color: #c0cdcf;
+}
+.zerif-copyright-box {
+	color: #c0cdcf;
+}
+.zerif-copyright {
+	color: #3bbbd2;
+}
+.zerif-copyright:hover {
+	opacity: 0.8;
+}
+.our-team .row > div .red-border-bottom:before {
+	background: #ea4747;
+}
+.team-member .social-icons ul li a {
+	background: none;
+}
+.team-member .social-icons ul li a:hover {
+	color: #3bbbd2;
+}
+.social-icons .widget li:before {
+	content: '';
+	display: none;
+}
+.packages {
+	background: rgba(51, 67, 70, 1);
+}
+
+.skills input {
+	color: #c0cdcf !important;
+}
+/*--------------------------------------------------------------
+Footer
+--------------------------------------------------------------*/
+#footer {
+	background: #334346;
+}

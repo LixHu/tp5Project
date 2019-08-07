@@ -1,0 +1,192 @@
+{include file="public/header" /}
+<body>
+<div class="panel admin-panel">
+  <div class="panel-head" id="add"><strong><span class="icon-pencil-square-o"></span>增加员工</strong></div>
+  <div class="body-content">
+    <form method="post" class="form-x" action="" enctype="multipart/form-data">
+      <div class="form-group">
+        <div class="label">
+          <label>订单编号：</label>
+        </div>
+        <div class="field">
+          <input type="text" class="input w50" value="<?php if(!empty($info['order_sn'])) echo $info['order_sn']; ?>" name="order_sn" data-validate="" readonly />订单编号自动生成
+          <div class="tips"></div>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="label">
+          <label>家政类型:</label>
+        </div>
+        <div class="field">
+          <select name="hk_type" class="input w50">
+            <option value="0">请选择家政类型</option>
+            <?php if(!empty($info['position_id'])) $poid = $info['position_id']; else $poid = '';?>
+            {volist name="position_list" id="vo"}
+              <option value="{$vo.id}" {if condition="$poid neq '' and $poid eq $vo.id"} selected {/if} >{$vo.position_name}</option>
+            {/volist}
+          </select>
+          <div class="tips"></div>
+        </div>
+      </div>
+      <div class="clear"></div>
+      <?php if(!empty($info['is_reserve']))$re = $info['is_reserve']; else $re = ''; ?>
+      <div class="form-group">
+        <div class="label">
+          <label>是否预约：</label>
+        </div>
+        <div class="field">
+          <select name="is_reserve" class="input w50">
+            <option value="2" {if condition="$re neq '' and 2 eq $re"} selected {/if}>否</option>
+            <option value="1" {if condition="$re neq '' and 1 eq $re"} selected {/if}>是</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="label">
+          <label>用户地址：</label>
+        </div>
+        <div class="field">
+          <button type="button" id="add_list" class="layui-btn"> 选择用户地址</button>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="label">
+          <label>订单价格：</label>
+        </div>
+        <div class="field">
+          <input type="text" class="input w50" name="order_price" value="<?php if(!empty($info['order_price'])) echo $info['order_price']; ?>"/>
+          <div class="tips"></div>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="label">
+          <label>订单状态：</label>
+        </div>
+        <div class="field">
+            <?php if(!empty($info['order_status'])) $os = $info['order_status'] ; else $os = ''; ?>
+          <select name="order_status" class="input w50">
+            <option value="1" {if condition="$os neq '' and 1 eq $os"}>进行中</option>
+            <option value="2" {if condition="$os neq '' and 2 eq $os"}>已完成</option>
+          </select>
+          <div class="tips"></div>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="label">
+          <label>支付状态：</label>
+        </div>
+        <div class="field">
+
+                <?php if(!empty($info['pay_status'])) $ps = $info['pay_status'] ; else $ps = ''; ?>
+          <select name="pay_status" class="input w50">
+            <option value="1" {if condition="$ps neq '' and 1 eq $ps"}>待支付</option>
+            <option value="2" {if condition="$ps neq '' and 2 eq $ps"}>已支付</option>
+          </select>
+          <div class="tips"></div>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="label">
+          <label>开始时间：</label>
+        </div>
+        <div class="field">
+          <input type="text" class="input w50" name="start_time" value="<?php if(!empty($info['start_time'])) echo $info['start_time']; else echo '';?>" id="stime" />
+          <div class="tips"></div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <div class="label">
+          <label>需求：</label>
+        </div>
+        <div class="field">
+          <input type="text" class="input w50" name="demand" value="<?php if(!empty($info['demand'])) echo $info['demand']; else echo '';?>"/>
+          <div class="tips"></div>
+        </div>
+      </div>
+
+      <div id="address_list" class="layui-table" style="display:none;text-align:center;">
+          <table>
+              <tr>
+                  <th></th>
+                  <th>姓名</th>
+                  <th>手机号</th>
+                  <th>省</th>
+                  <th>市</th>
+                  <th>区</th>
+                  <th>具体地址</th>
+              </tr>
+              {volist name="add_list" id="vo"}
+                  <tr>
+                      <td><input type="radio" name="ad_id"  value="{$vo.ad_id}"></td>
+                      <td>{$vo.name}</td>
+                      <td>{$vo.mobile}</td>
+                      <td>{$vo.province}</td>
+                      <td>{$vo.city}</td>
+                      <td>{$vo.area}</td>
+                      <td>{$vo.add}</td>
+                  </tr>
+              {/volist}
+          </table>
+          <font color="red" >注：选择地址后不用添加</font>
+          <div>
+                  <table class="layui-table" style="text-align:center;">
+                      <tr>
+                          <td colspan="2"><h2>添加订单地址</h2></td>
+                      </tr>
+                      <tr>
+                          <td>姓名:</td>
+                          <td><input type="text" name="name" class="input" value="<?php if(!empty($info['name'])) echo $info['name']; else echo ''; ?> "></td>
+                      </tr>
+                      <tr>
+                          <td>手机号:</td>
+                          <td><input type="text" name="mobile" class="input" value="<?php if(!empty($info['mobile'])) echo $info['mobile']; else echo ''; ?> "></td>
+                      </tr>
+                      <tr>
+                          <td>具体地址:</td>
+                          <td><input type="text" name="add" class="input" value="<?php if(!empty($info['add'])) echo $info['add']; else echo ''; ?>"></td>
+                      </tr>
+                      <tr>
+                          <td colspan="2"><button type="button" class="layui-btn" id="close">确定</button></td>
+                      </tr>
+                  </table>
+          </div>
+      </div>
+      <div class="form-group">
+        <div class="label">
+          <label></label>
+        </div>
+        <div class="field">
+          <button class="button bg-main icon-check-square-o" type="submit"> 提交</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+<script type="text/javascript">
+layui.use(['layer','laydate'],function(){
+    var layer = layui.layer,
+    laydate = layui.laydate;
+    laydate.render({
+        elem:"#stime",
+        type:'datetime'
+    })
+
+})
+    $("#add_list").on('click',function(){
+        layer.open({
+            type: 1,
+            title: '选择用户地址',
+            area: ['630px', '360px'],
+            shade: 0.8,
+            closeBtn: 1,
+            shadeClose: true,
+            content: $("#address_list")
+        })
+    })
+    $("#close").on('click',function(){
+        layer.closeAll();
+    })
+</script>
+</body>
+{include file="public/footer" /}

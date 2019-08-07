@@ -1,0 +1,39 @@
+{include file="public/head" /}
+<fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+  <legend>{$title}</legend>
+</fieldset>
+    <form class="layui-form" action="" method="post">
+        <div class="layui-form-item" style="width:300px;">
+            <label class="layui-form-label"><font color="red"></font>身份名：</label>
+            <div class="layui-input-block">
+                <input type="text" name="iden_name" value="<?php if(!empty($info['iden_name'])) echo $info['iden_name']; else echo '';?>" class="layui-input" lay-verify="required">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-inline">
+              <label class="layui-form-label">身份描述：</label>
+              <div class="layui-input-inline">
+                <input type="text" name="iden_power" lay-verify="required" autocomplete="off" class="layui-input" value="<?php if(!empty($info['iden_power'])) echo $info['iden_power']; else echo '';?>">
+              </div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-inline">
+              <label class="layui-form-label">每年条数：</label>
+              <div class="layui-input-inline">
+                <input type="text" name="position" lay-verify="required|number" autocomplete="off" class="layui-input" value="<?php if(!empty($info['position'])) echo $info['position']; else echo '';?>">
+              </div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button  lay-submit="" class="layui-btn">提交</button>
+            </div>
+        </div>
+    </form>
+    <script type="text/javascript">
+        layui.use('form',function(){
+            var form = layui.form;
+        })
+    </script>
+{include file="public/footer" /}

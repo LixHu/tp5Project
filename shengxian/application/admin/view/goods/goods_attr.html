@@ -1,0 +1,89 @@
+{include file="public/header" /}
+
+  
+
+<link rel="stylesheet" type="text/css" href="__CSS__/bootstrap.min.css" />
+
+
+
+<!--主要样式-->
+
+<link rel="stylesheet" type="text/css" href="__CSS__/style.css" />
+
+
+
+<script type="text/javascript" src="__JS__/jquery-1.7.2.min.js"></script>
+
+<script type="text/javascript">
+
+$(function(){
+
+    $('.tree li:has(ul)').addClass('parent_li').find(' > span').attr('title', 'Collapse this branch');
+
+    $('.tree li.parent_li > span').on('click', function (e) {
+
+        var children = $(this).parent('li.parent_li').find(' > ul > li');
+
+        if (children.is(":visible")) {
+
+            children.hide('fast');
+
+            $(this).attr('title', 'Expand this branch').find(' > i').addClass('icon-plus-sign').removeClass('icon-minus-sign');
+
+        } else {
+
+            children.show('fast');
+
+            $(this).attr('title', 'Collapse this branch').find(' > i').addClass('icon-minus-sign').removeClass('icon-plus-sign');
+
+        }
+
+        e.stopPropagation();
+
+    });
+
+});
+
+</script>
+<body>
+<div class="panel admin-panel"> 
+	<div class="panel-head"><strong class="icon-reorder" style="display:inline;"> 商品属性</strong> </div>
+    <ul class="search" style="padding-left:10px;">
+        <li> <a class="button border-main icon-plus-square-o" style="width: 105px;height: 42px;" href="{:url('goods/addedit_attr')}"> 添加属性</a> </li>
+     </ul>
+	<div class="tree well">
+		<ul>
+			<li>
+
+				<span><i class="icon-folder-open"></i> 商品分类</span> 
+
+				{volist name="cat_list" id="vo"}
+					<ul>
+
+						<li>
+
+							<span><i class="icon-minus-sign"></i> {$vo.cat_name}</span> 
+
+							<ul>
+								{volist name="vo.child" id="v"}
+									<li>
+									
+										<span><i class="icon-leaf"></i> {$v.attr_name}</span>  <a class="button border-main" href="{:url('goods/addedit_attr','id='.$v['attr_id'])}">修改</a>
+
+									</li>
+								{/volist}
+
+							</ul>
+
+						</li>
+
+					</ul>
+
+				{/volist}
+			</li>
+		</ul>
+
+	</div>
+</div>
+</body>
+{include file="public/footer" /}

@@ -1,0 +1,236 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>我的订单</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="_css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="_css/all.css" />
+		<style>
+		body{
+			background: #fff !important;
+			margin: 0 20px !important;
+		}
+		li{
+			list-style: none;
+		}
+/**--------**/
+.allorder-list {
+    border-bottom: 1px dashed #d9d9d9;
+}
+.text-black {
+    color: #000000;
+}
+.text-red {
+    color: #cd2626;
+}
+.allorder-list-state {
+	border-top: 1px dashed #eeeeee;
+    padding: 0.8rem 0.5rem;
+    font-size: 14px;
+}
+.allorder-list-content {
+    background: #eeeeee;
+    padding: 0.5rem;
+    margin-bottom: 0.5rem;
+    overflow: auto;
+}
+.pull-left {
+    float: left;
+}
+.pull-right {
+    float: right;
+}
+.allorder-list-img {
+    width: 90px;
+    height: 90px;
+    display: block;
+    margin-right: 0.5rem;
+}
+.allorder-list-right {
+    float: left;
+    position: relative;
+    width: calc(100% - 1rem - 90px);
+    font-size: 0.8rem;
+    overflow: auto;
+}
+.allorder-list-right-title {
+    font-size: 12px;
+    width: calc(100% - 75px);
+}
+.allorder-list-right-money {
+    width: 75px;
+    text-align: right;
+    font-size: 14px;
+    color: #cd2626;
+}
+.allorder-list-right-num {
+    font-size: 12px;
+    text-align: right;
+    color: #adadad;
+    width: 40px;
+}
+.allorder-list-right-p {
+    position: relative;
+    font-size: 12px;
+    color: #adadad;
+}
+.allorder-list-right-type {
+    width: 100%;
+    word-break: break-all;
+}
+.allorder-list-right-size {
+    font-size: 12px;
+    float: left;
+    width: 100%;
+    color: #adadad;
+    clear: right;
+}
+.ellipsis {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.ellipsis2 {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+}
+.allorder-list-total {
+    font-size: 0.8rem;
+    text-align: right;
+}
+.allorder-list-btngroup {
+    text-align: right;
+    margin: 0.5rem 0;
+}
+
+
+		</style>
+	</head>
+
+	<body>
+	
+	{volist name="data" id="vo"}
+		 <ul id="contain">
+	        <li>
+	            
+	                <div class="allorder-list">
+	                    <div class="allorder-list-state">
+	                        <span>物流单号：{$vo.tracking_number}</span>
+	                        {if condition="$vo['status'] eq 2"}
+	                        <span class="pull-right" style="color: #AAAAAA;">已发货</span>
+	                        {else}
+	                        <span class="pull-right text-red">未发货</span
+	                        {/if}
+	                    </div>
+	                    <div class="allorder-list-content">
+	                        <div class="pull-left">
+	                            <img src="{$vo.goods_img}" class="allorder-list-img">
+	                        </div>
+	                        <div class="allorder-list-right">
+	                            <div>
+	                                <p class="pull-left ellipsis2 allorder-list-right-title">
+	                                    {$vo.goods_name}</p>
+	                                <!-- <span class="pull-right ellipsis allorder-list-right-money">￥60000.00</span>
+	                                <span class="pull-right ellipsis allorder-list-right-num" style="clear: right;">×3451</span> -->
+	                            </div>
+	                            <div class="allorder-list-right-p">
+	                                <p class="pull-left allorder-list-right-type">价格：<span class="pull-right ellipsis allorder-list-right-money">￥{$vo.goods_price}</span></p>
+	                            </div>
+	                            <div class="allorder-list-right-size">
+	                                <p class="ellipsis">数量：<span class="pull-right ellipsis allorder-list-right-num" style="clear: right;">×{$vo.goods_num}</span></p>
+	                                <!-- <p class="ellipsis">颜色：米拉色</p> -->
+	                            </div>
+	                        </div>
+	                    </div>
+	                    
+	                    <div>
+	                    	
+	                        	<p class="allorder-list-total">共计&nbsp;{$vo.goods_num}&nbsp;件商品 合计：{$vo.order_price}（含运费）</p>
+	                        
+	                        <!-- <div class="allorder-list-btngroup"><a href="order_detail.html" class="text-black">
+	                            </a><a href="javascript:;" class="weui-btn index-login-forget">查看订单</a>
+	                        </div> -->
+	                    </div>
+	                </div>
+	            
+	        </li>
+	    </ul>
+	    {/volist}
+	    
+		<!-- <div class="integrald_div bcol_f left mt_10">
+			<p class="left fifteen col_3 mb_0 integrald_pl wnobr">成功邀请好友</p>
+			<p class="right mb_0 col_ff9232 fifteen integrald_pr mb_5 wnobr">
+				<img width="18px" style="vertical-align: middle;" src="_images/integral.png"/>
+				&nbsp;+10
+			</p>
+			<p class="full left thirteen col_6 mb_5 wnobr">
+				2017-09-27 08:17:07
+			</p>
+		</div>
+		<div class="integrald_div bcol_f left mt_10">
+			<p class="left fifteen col_3 mb_0 integrald_pl wnobr">成功邀请好友</p>
+			<p class="right mb_0 col_ff9232 fifteen integrald_pr mb_5 wnobr">
+				<img width="18px" style="vertical-align: middle;" src="_images/integral.png"/>
+				&nbsp;+10
+			</p>
+			<p class="full left thirteen col_6 mb_5 wnobr">
+				2017-09-27 08:17:07
+			</p>
+		</div>
+		<div class="integrald_div bcol_f left mt_10">
+			<p class="left fifteen col_3 mb_0 integrald_pl wnobr">成功邀请好友</p>
+			<p class="right mb_0 col_ff9232 fifteen integrald_pr mb_5 wnobr">
+				<img width="18px" style="vertical-align: middle;" src="_images/integral.png"/>
+				&nbsp;+10
+			</p>
+			<p class="full left thirteen col_6 mb_5 wnobr">
+				2017-09-27 08:17:07
+			</p>
+		</div>
+		<div class="integrald_div bcol_f left mt_10">
+			<p class="left fifteen col_3 mb_0 integrald_pl wnobr">成功邀请好友</p>
+			<p class="right mb_0 col_ff9232 fifteen integrald_pr mb_5 wnobr">
+				<img width="18px" style="vertical-align: middle;" src="_images/integral.png"/>
+				&nbsp;+10
+			</p>
+			<p class="full left thirteen col_6 mb_5 wnobr">
+				2017-09-27 08:17:07
+			</p>
+		</div>
+		<div class="integrald_div bcol_f left mt_10">
+			<p class="left fifteen col_3 mb_0 integrald_pl wnobr">成功邀请好友</p>
+			<p class="right mb_0 col_ff9232 fifteen integrald_pr mb_5 wnobr">
+				<img width="18px" style="vertical-align: middle;" src="_images/integral.png"/>
+				&nbsp;+10
+			</p>
+			<p class="full left thirteen col_6 mb_5 wnobr">
+				2017-09-27 08:17:07
+			</p>
+		</div>
+		<div class="integrald_div bcol_f left mt_10">
+			<p class="left fifteen col_3 mb_0 integrald_pl wnobr">成功邀请好友</p>
+			<p class="right mb_0 col_ff9232 fifteen integrald_pr mb_5 wnobr">
+				<img width="18px" style="vertical-align: middle;" src="_images/integral.png"/>
+				&nbsp;+10
+			</p>
+			<p class="full left thirteen col_6 mb_5 wnobr">
+				2017-09-27 08:17:07
+			</p>
+		</div> -->
+		<script src="_js/mui.min.js"></script>
+		<script type="text/javascript">
+			mui.init()
+			mui(".full").on('tap','.index',function(){
+				// mui.toast("移动端点击事件用tap;click会延迟300ms执行,影响体验");
+				
+				location.href="{:url('Index/index')}";
+		    });
+		</script>
+	</body>
+
+</html>

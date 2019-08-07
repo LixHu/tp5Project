@@ -1,0 +1,117 @@
+{include file="public/header" /}
+<div id="pageAll" style="padding:10px;">
+		<div class="pageTop">
+			<div class="page">
+				banner管理
+			</div>
+		</div>
+		<div class="page">
+			<!-- banner页面样式 -->
+            <div class="" style="float:right;margin:10px;">
+                <button class="layui-btn layui-btn-normal" data-method="add" data-url="{:url('banner/addedit_banner')}"><i class="layui-icon">&#xe654;</i>上传广告</button>
+            </div>
+			<div class="banner">
+				<!-- banner 表格 显示 -->
+				<div class="banShow">
+					<table class="layui-table">
+						<tr>
+							<td class="tdColor"><input type="checkbox" id="checkall" ></td>
+							<td class="tdColor">名称</td>
+							<td class="tdColor">图片</td>
+							<td class="tdColor">位置</td>
+							<td class="tdColor">添加时间</td>
+							<td class="tdColor">操作</td>
+						</tr>
+                        {volist name="banner_list" id="vo"}
+    						<tr>
+    							<td><input type="checkbox" name="id[]" value="{$vo.bn_id}"></td>
+    							<td>{$vo.bn_name}</td>
+    							<td><img src="{$vo.bn_url}" alt="" width="100" height="60"></td>
+    							<td>{$vo.pos_name}</td>
+    							<td>{if condition="!empty($vo['add_time'])"} {$vo.add_time|date="Y-m-d H:i",###} {/if}</td>
+    							<td>
+                                    <div class="layui-btn-group">
+                                        <a class="layui-btn layui-btn-normal" href="addedit_banner?id={$vo['bn_id']}">编辑</a>
+    									<button type="button" data-id="{$vo.bn_id}" data-method="del" class="layui-btn layui-btn-danger">删除</button>
+                                    </div>
+                                </td>
+    						</tr>
+                        {/volist}
+						<tr>
+							<td colspan="15">
+								<div class="pagelist">{$page}</div>
+							</td>
+						</tr>
+						<tr>
+							<td><button type="button" class="layui-btn layui-btn-danger" data-method="delAll">删除</button></td>
+							<td colspan="15"></td>
+						</tr>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+<script type="text/javascript">
+var active = {
+    'add':function(){
+        location.href=$(this).data('url');
+    },del:function(){
+        var data = {};
+        data.id = $(this).data('id');
+        layer.confirm('确定要删除吗？',{
+            btn:['确定','取消']
+        },function(){
+            $.post('del_banner',data,function(msg){
+                msg = JSON.parse(msg);
+                if(msg.code == 1){
+                    layer.msg(msg.msg,{icon:1});
+                    setTimeout("location.reload()",2000);
+                }else{
+                    layer.msg(msg.msg,{icon:2});
+                }
+            })
+        },function(){
+            console.log('error');
+        })
+    },
+    delAll:function(){
+        var id = [];
+        $.each($("input[name='id[]']"),function(k,v){
+            if(v.checked){
+                id.push(v.value);
+            }
+        })
+        if(id.length < 1){
+            layer.msg('请选择要删除的banner',{icon:2});
+            return false;
+        }
+        var data = {};
+        data.id = id;
+        layer.confirm('确定要删除吗？',{
+            btn:['确定','取消']
+        },function(){
+            $.post('del_banner',data,function(msg){
+                msg = JSON.parse(msg);
+                if(msg.code == 1){
+                    layer.msg(msg.msg,{icon:1});
+                    setTimeout("location.reload()",2000);
+                }else{
+                    layer.msg(msg.msg,{icon:2});
+                }
+            })
+        },function(){
+
+        })
+    }
+}
+$("#checkall").click(function(){
+    $.each($("input[name='id[]']"),function(k,v){
+        v.checked = !v.checked;
+    })
+})
+$(".layui-btn").on('click',function(){
+    var othis = $(this), method = othis.data('method');
+    active[method] ? active[method].call(this, othis) : '';
+})
+</script>
+{include file="public/footer" /}

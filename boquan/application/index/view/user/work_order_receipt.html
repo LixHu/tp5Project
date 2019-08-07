@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="description" content="">
+    <title>博权云服务平台-工单回执</title>
+    <script src="_js/vue.min.js"></script>
+    <link rel="stylesheet" href="_ago/lib/weui.min.css">
+    <link rel="stylesheet" href="_ago/css/jquery-weui.css">
+    <link rel="stylesheet" href="_ago/css/style.css">
+    <link rel="stylesheet" href="_ago/css/weui2.css"/>
+    <link rel="stylesheet" href="_ago/css/webuploader.css">
+
+    <style>
+
+        .weui-cells {
+            margin-top: 0 !important;
+        }
+
+        .toolbar .picker-button {
+            color: #3dc1ff;
+        }
+
+        .weui-label {
+            border: 0;
+        }
+        .weui-label:before {
+            border: 0;
+        }
+
+        .page-bd li {
+            margin: 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .weui-popup__modal {
+            background: #ffffff;
+        }
+    </style>
+</head>
+
+<body ontouchstart style="background: #f6f6f6 !important;">
+<div id="vue">
+    <header class="backheader">
+        <a id="backPrev">
+            <img src="_ago/images/back.png" alt="">
+        </a>
+        <div>工单回执</div>
+    </header>
+    <div>
+        <div class="feedbackFormList">
+            服务
+            <a href="javascript:;" class="open-popup" data-target="#half"><img src="_ago/images/add-service.png" alt=""></a>
+        </div>
+        <div class="feedbackFormServiceList">
+            <table>
+                <thead>
+                <tr>
+                    <th>服务内容</th>
+                    <th>单价</th>
+                    <th>数量</th>
+                    <th>小计</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr v-if="serlist.length == 0">
+                    <td style="width: 30%;">--</td>
+                    <td>--</td>
+                    <td>--</td>
+                    <td>--</td>
+                </tr>
+                <tr v-for="item in serlist">
+                    <td style="width: 30%;">{{item.name}}</td>
+                    <td>{{item.price}}</td>
+                    <!--<td><input type="number" :value="item.listnum" style="width: 20px;"></td>-->
+                    <td>{{item.listnum}}</td>
+                    <td>{{item.price*item.listnum}}</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="feedbackFormList">
+            备件
+            <a href="javascript:;" class="open-popup" data-target="#half1"><img src="_ago/images/add-service.png" alt=""></a>
+        </div>
+        <div class="feedbackFormServiceList">
+            <table>
+                <thead>
+                <tr>
+                    <th>备件</th>
+                    <th>序列号</th>
+                    <th>单价</th>
+                    <th>数量</th>
+                    <th>小计</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr v-if="Plist.length == 0">
+                    <td style="width: 25%;">--</td>
+                    <td>--</td>
+                    <td>--</td>
+                    <td>--</td>
+                    <td>--</td>
+                </tr>
+                <tr v-for="item in Plist">
+                    <td style="width: 25%;">{{item.name}}</td>
+                    <td>{{item.product_number}}</td>
+                    <td>{{item.price}}</td>
+                    <td>{{item.listnum2}}</td>
+                    <td>{{item.price * item.listnum2}}</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="feedbackFormServiceMoney">总价：{{Ctotal}}元</div>
+        <div id="uploader-demo" style="margin-left: 1rem;">
+            <div id="fileList" class="uploader-list"></div>
+            <div id="filePicker">选择图片</div>
+            <p class="remarks">备注：请选择维修前图片和维修后图片，请按照顺序上传，总共两张。</p>
+        </div>
+        <div class="body-content-margin" style="padding: 0.75rem 0;">
+            <a href="javascript:;" class="weui-btn btn-primary" id="reservationBtn" @click="subReceipt()">回执并完成</a>
+        </div>
+    </div>
+
+    <div id="half" class='weui-popup__container popup-bottom'>
+        <div class="weui-popup__overlay"></div>
+        <div class="weui-popup__modal">
+            <div class="toolbar">
+                <div class="toolbar-inner">
+                    <a href="javascript:;" class="picker-button close-popup" id="close1">关闭</a>
+                    <h1 class="title">添加服务内容</h1>
+                </div>
+            </div>
+            <div class="modal-content" style="height: 400px;">
+                <div class="weui-cells weui-cells_form">
+                    <div class="weui-cell weui-cell_select weui-cell_select-after">
+                        <div class="weui-cell__hd">
+                            <label class="weui-label">服务内容</label>
+                        </div>
+                        <div class="weui-cell__bd">
+                            <select class="weui-select" name="select2" v-model="sid">
+                                <option value="">请选择</option>
+                                {volist name="server" id="vo"}
+                                    <option value="{$vo.id}">{$vo.name}</option>
+                                {/volist}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="weui-cell">
+                        <div class="weui-cell__hd"><label class="weui-label">单价</label></div>
+                        <div class="weui-cell__bd">
+                            <input class="weui-input" type="text" v-model="Sprice" disabled>
+                        </div>
+                    </div>
+                    <div class="weui-cell">
+                        <div class="weui-cell__hd"><label class="weui-label">数量</label></div>
+                        <div class="weui-cell__bd">
+                            <input class="weui-input" v-model="Stem" type="number">
+                        </div>
+                    </div>
+                    <div class="weui-cell">
+                        <div class="weui-cell__hd"><label class="weui-label">小计</label></div>
+                        <div class="weui-cell__bd">
+                            <input class="weui-input" type="text" v-model="Stotal" disabled>
+                        </div>
+                    </div>
+                    <div class="body-content-margin" style="padding: 0.75rem 0;">
+                        <a href="javascript:;" class="weui-btn btn-primary" @click="getSerinfo()">添加</a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        </div>
+    <div id="half1" class='weui-popup__container popup-bottom'>
+        <div class="weui-popup__overlay"></div>
+        <div class="weui-popup__modal">
+            <div class="toolbar">
+                <div class="toolbar-inner">
+                    <a href="javascript:;" class="picker-button close-popup">关闭</a>
+                    <h1 class="title">添加备件</h1>
+                </div>
+            </div>
+            <div class="modal-content" style="height: 400px;">
+                <div class="weui-cells weui-cells_form">
+                    <div class="weui-cell weui-cell_select weui-cell_select-after">
+                        <div class="weui-cell__hd">
+                            <label class="weui-label">备件</label>
+                        </div>
+                        <div class="weui-cell__bd">
+                            <select class="weui-select" name="select2" v-model="Pid">
+                                <option value="">请选择</option>
+                                {volist name="parts" id="vo"}
+                                <option value="{$vo.id}">{$vo.name}</option>
+                                {/volist}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="weui-cell">
+                        <div class="weui-cell__hd"><label class="weui-label">序列号</label></div>
+                        <div class="weui-cell__bd">
+                            <input class="weui-input" type="text" v-model="Pronumber" disabled>
+                        </div>
+                    </div>
+                    <div class="weui-cell">
+                        <div class="weui-cell__hd"><label class="weui-label">单价</label></div>
+                        <div class="weui-cell__bd">
+                            <input class="weui-input" type="text" v-model="Price" disabled>
+                        </div>
+                    </div>
+                    <div class="weui-cell">
+                        <div class="weui-cell__hd"><label class="weui-label">数量</label></div>
+                        <div class="weui-cell__bd">
+                            <input class="weui-input" v-model="Ptem" type="number">
+                        </div>
+                    </div>
+                    <div class="weui-cell">
+                        <div class="weui-cell__hd"><label class="weui-label">小计</label></div>
+                        <div class="weui-cell__bd">
+                            <input class="weui-input" type="text" v-model="Ptotal" disabled>
+                        </div>
+                    </div>
+                    <div class="body-content-margin" style="padding: 0.75rem 0;">
+                        <a href="javascript:;" class="weui-btn btn-primary" @click="getSerinfo2()">添加</a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+<script>
+    var vm = new Vue({
+        el:"#vue",
+        data:{
+            sid:'',
+            Sprice:'',
+            Snum:'',
+            Stem:'',
+            Stotal:'',
+            serlist:[],
+            Ctotal:0.00,
+            Pid:'',
+            Price:'',
+            Pnum:'',
+            Ptem:'',
+            Ptotal:'',
+            Pronumber:'',
+            Plist:[],
+            Img:''
+        },
+        methods:{
+            getSerinfo:function () {
+                var $this = this,
+                    data = {};
+                data.sid = $this.sid;
+
+                $.post('getServer',data,function (res) {
+                    if(res.code == 1){
+                        $.closePopup();
+                        for (var i = 0;i<$this.serlist.length;i++){
+                            if($this.serlist[i].id == res.data.id){
+                                $this.serlist[i].listnum += parseInt($this.Stem);
+                                $this.count($this.Stem * res.data.price);
+                                return false;
+                            }
+                        }
+                        res.data['listnum'] = $this.Stem;
+                        $this.serlist.push(res.data);
+                        $this.count(res.data['listnum'] * res.data.price);
+                    }
+                    $this.sid = '';
+                    $this.Sprice = '';
+                    $this.Stem = '';
+                    $this.Stotal = '';
+                })
+            },
+            getSerinfo2:function () {
+                var $this = this,
+                    data = {};
+                data.pid = $this.Pid;
+
+                $.post('getParts',data,function (res) {
+                    if(res.code == 1){
+                        $.closePopup();
+                        for (var i = 0;i<$this.Plist.length;i++){
+                            if($this.Plist[i].id == res.data.id){
+                                $this.Plist[i].listnum2 += parseInt($this.Ptem);
+                                $this.count($this.Ptem * res.data.price);
+                                return false;
+                            }
+                        }
+                        res.data['listnum2'] = $this.Ptem;
+                        $this.count(res.data['listnum2'] * res.data.price);
+                        $this.Plist.push(res.data);
+                        // $this.Ctotal = $this.serlist + $this.Plist;
+                    }
+                    $this.Pid = '';
+                    $this.Price = '';
+                    $this.Ptem = '';
+                    $this.Ptotal = '';
+                })
+            },
+            count:function (price) {
+                console.log(price);
+                this.Ctotal = parseInt(this.Ctotal)+ parseInt(price);
+                console.log(this.Ctotal);
+            },
+            subReceipt:function () {
+                // console.log(this.Img);
+                // console.log(this.Plist);
+                // console.log(this.serlist);
+                // console.log(this.Ctotal);
+                var Plist = this.Plist,
+                    serlist = this.serlist,
+                    prr = [],
+                    serr = [],
+                    trr = {};
+                for (var i = 0; i< serlist.length;i++){
+                    serr.push({
+                        num:serlist[i].listnum,
+                        id:serlist[i].id
+                    })
+                }
+                for (var i = 0; i< Plist.length;i++){
+                    prr.push({
+                        num:Plist[i].listnum2,
+                        id:Plist[i].id
+                    })
+                }
+                trr.sinfo = serr;
+                trr.proinfo = prr;
+                trr.wid = "<?php echo $_GET['id'];?>";
+                trr.total = this.Ctotal;
+                trr.img = this.Img;
+                trr.reid = '';
+                $.post('SubReceipt',trr,function (res) {
+                    alert(res.msg);
+                    if(res.code == 1){
+                        setTimeout(function () {
+                            history.go(-1);
+                        },1000)
+                    }
+                })
+            }
+        },
+        watch:{
+            sid:function (newvalue) {
+                var $this = this,
+                    data = {};
+                console.log($this.serlist);
+                data.sid = newvalue;
+                $.post('getServer',data,function (res) {
+                    $this.Sprice = res.data.price;
+                    $this.Stem = 1;
+                    $this.Stotal = res.data.price * $this.Stem;
+                })
+            },
+            Pid:function (newvalue) {
+                var $this = this,
+                    data = {};
+                data.pid = newvalue;
+                $.post('getParts',data,function (res) {
+                    $this.Price = res.data.price;
+                    $this.Pronumber = res.data.product_number;
+                    $this.Ptem = 1;
+                    $this.Ptotal = res.data.price * $this.Ptem;
+                })
+            }
+        }
+    })
+</script>
+</html>
+<script src="_ago/lib/jquery-2.1.4.js"></script>
+<script src="_ago/lib/fastclick.js"></script>
+<script src="_ago/js/jquery-weui.js"></script>
+<script src="_ago/js/webuploader.js"></script>
+
+<script>
+    $(function () {
+        FastClick.attach(document.body);
+
+    });
+    $('body').on('click', '#backPrev', function () {
+        if ($(this).hasClass('no-reload')) {
+            window.location.href = document.referrer;//返回上一页并刷新
+        } else {
+            window.history.go(-1);//返回上一页不刷新
+        }
+    })
+
+    /**
+     * 上传图片类
+     */
+    /*---------------------------------------*/
+
+    // 初始化Web Uploader
+    var uploader = WebUploader.create({
+        // 选完文件后，是否自动上传。
+        auto: true,
+        // swf文件路径
+        swf: 'https://cdn.staticfile.org/webuploader/0.1.5/Uploader.swf',
+        // 文件接收服务端。
+        server: '/index/index/UploadBase',
+        // 选择文件的按钮。可选。
+        // 内部根据当前运行是创建，可能是input元素，也可能是flash.
+        pick: '#filePicker',
+        // 只允许选择图片文件。
+        accept: {
+            title: 'Images',
+            extensions: 'gif,jpg,jpeg,bmp,png',
+            mimeTypes: 'image/*'
+        },
+        fileNumLimit: 2
+    });
+    var $list = $('#fileList');
+    // 当有文件添加进来的时候
+    uploader.on('fileQueued', function (file) {
+        var $li = $(
+            '<div id="' + file.id + '" class="file-item thumbnail">' +
+            '<img>' +
+            '<div class="info">' + file.name + '</div>' +
+            '</div>'
+            ),
+            $img = $li.find('img');
+
+        // $list为容器jQuery实例
+        $list.append($li);
+
+        // 创建缩略图
+        // 如果为非图片文件，可以不用调用此方法。
+        // thumbnailWidth x thumbnailHeight 为 100 x 100
+        uploader.makeThumb(file, function (error, src) {
+            if (error) {
+                $img.replaceWith('<span>不能预览</span>');
+                return;
+            }
+
+            $img.attr('src', src);
+        }, 100, 100);
+    });
+
+    // 文件上传过程中创建进度条实时显示。
+    uploader.on('uploadProgress', function (file, percentage) {
+        var $li = $('#' + file.id),
+            $percent = $li.find('.progress span');
+        // 避免重复创建
+        if (!$percent.length) {
+            $percent = $('<p class="progress"><span></span></p>')
+                .appendTo($li)
+                .find('span');
+        }
+        $percent.css('width', percentage * 100 + '%');
+    });
+
+    // 文件上传成功，给item添加成功class, 用样式标记上传成功。
+    uploader.on('uploadSuccess', function (file, response) {
+        console.log(response);
+//        $( '#'+file.id ).addClass('upload-state-done');
+        vm.Img = vm.Img +' - '+ response.url;
+    });
+
+    // 文件上传失败，显示上传出错。
+    uploader.on('uploadError', function (file) {
+        var $li = $('#' + file.id),
+            $error = $li.find('div.error');
+        // 避免重复创建
+        if (!$error.length) {
+            $error = $('<div class="error"></div>').appendTo($li);
+        }
+        $error.text('上传失败');
+    });
+
+    // 完成上传完了，成功或者失败，先删除进度条。不管成功或者失败，在文件上传完后都会触发uploadComplete事件。
+    uploader.on('uploadComplete', function (file) {
+        $('#' + file.id).find('.progress').remove();
+    });
+
+</script>

@@ -1,0 +1,63 @@
+{include file="public/header" /}
+<div style="padding:20px;">
+    <div>
+        <button class="btn btn-default" type="button" onclick="history.go(-1)"><i class="fa fa-reply"></i> 返回</button>
+    </div>
+    <div class="col-md-7" style="border-right:1px solid #aaa;">
+        <table class="table table-hover table-bordered" style="text-align:center; ">
+            <tr>
+                <td colspan="6"><h3>派车申请单</h3></td>
+            </tr>
+            <tr>
+                <td>单号</td>
+                <td>{$info.wo_sn}</td>
+                <td>出行服务方式</td>
+                <td colspan="3">{if $info.travel_type eq 1}派车{else /}乘车{/if}</td>
+            </tr>
+            <tr>
+                <td>起始地点</td>
+                <td>{$info.star_add}</td>
+                <td>终点</td>
+                <td>{$info.server_add}</td>
+                <td>单程距离</td>
+                <td>{$info.km_num}</td>
+            </tr>
+            <tr>
+                <td>外出时间</td>
+                <td>{$info.out_time}</td>
+                <td>外出人数</td>
+                <td>{$info.out_num}</td>
+                <td>交通费</td>
+                <td>{$info.price}</td>
+            </tr>
+        </table>
+    </div>
+    <div class="col-md-5 btn3">
+        {if $info.status eq 0}
+        <button class="btn btn-primary" type="button" onclick="aud({$info.send_id},1)">通过</button>
+        <button class="btn btn-default" type="button" onclick="aud({$info.send_id},2)">驳回</button>
+        {/if}
+    </div>
+</div>
+<style>
+    .btn3 button{
+        width: 80px;height:40px;font-size: 18px;margin:80px 30px;
+    }
+</style>
+<script>
+
+    var aud = function (sid,type) {
+        var data = {};
+        data.sappid = sid;
+        data.type = type;
+        $.post('HanldSendApp',data,function (res) {
+            if(res.code == 1){
+                layer.msg(res.msg,{icon:1});
+                setTimeout(function () {
+                    location.reload();
+                },2000);
+            }
+        })
+    }
+</script>
+{include file="public/footer" /}

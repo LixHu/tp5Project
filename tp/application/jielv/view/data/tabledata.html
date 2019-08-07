@@ -1,0 +1,54 @@
+{include file="public/header" /}
+<div style="padding:20px;">
+    <div class="btn btn-group">
+        <button type="button" onclick="del()" class="btn btn-danger">批量删除</button>
+        <button type="button" onclick="history.go(-1);" class="btn btn-normal">返回</button>
+    </div>
+    <table class="table table-hover table-boder" style="width: 100%;">
+        <tr>
+            <th><input type="checkbox" id="checkall"></th>
+            {volist name="data.col" id="vo"}
+            <th>{$vo.Field}</th>
+            {/volist}
+        </tr>
+        {volist name="data.list" id="vo"}
+        <tr>
+            <td><input type="checkbox" name="id[]" value="<?php if(!empty($data['primary'])) echo $vo[$data['primary']]; ?>"></td>
+            {volist name="vo" id="v"}
+                <td>{$v}</td>
+            {/volist}
+        </tr>
+        {/volist}
+    </table>
+    <div>{$page}</div>
+</div>
+<script>
+
+    $("#checkall").on("change",function () {
+        $.each($("input[name='id[]']"),function (k,v) {
+            v.checked = !v.checked;
+        })
+    })
+    var del = function () {
+        var id = [],
+            data = {};
+        $.each($("input[name='id[]']"),function (k,v) {
+            if (v.checked == true){
+                id.push(v.value)
+            }
+        })
+        data.id = id;
+        $.post("delData",data,function (res) {
+            if (res.code == 1){
+                layer.msg(res.msg,{icon:1});
+                setTimeout(function () {
+                    layer.closeAll();
+                    location.reload();
+                },2000)
+            }else{
+                layer.msg(res.msg,{icon:2});
+            }
+        })
+    }
+</script>
+{include file="public/footer" /}

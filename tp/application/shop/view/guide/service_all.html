@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>服务中心</title>
+    <meta http-equiv="x-ua-compatible" content="IE=edge">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <!--<meta name="apple-mobile-web-app-capable" content="yes">-->
+    <!--<meta name="apple-touch-fullscreen" content="yes">-->
+    <link rel="stylesheet" type="text/css" href="_lib/weui.min.css">
+    <link rel="stylesheet" type="text/css" href="_css/jquery-weui.css">
+    <link rel="stylesheet" type="text/css" href="_css/style_h5.css">
+    <link rel="stylesheet" type="text/css" href="_css/font-awesome.min.css">
+    <style>
+        .weui-btn_primary {
+            background-color: #f18b2d;
+        }
+        .weui-vcode-btn {
+            color: #f18b2d;
+        }
+        .weui-cells {
+            margin-top: 0;
+        }
+    </style>
+    <!--[if IE]>
+    <script src="http://libs.useso.com/js/html5shiv/3.7/html5shiv.min.js"></script>
+    <![endif]-->
+</head>
+<body ontouchstart>
+<div class="font14 text-center" style="line-height: 3;">
+    你是否遇到以下问题
+</div>
+<div class="weui-cells font14">
+    {if condition="!empty($data)"}
+    {volist name="data" id="vo"}
+    <a class="weui-cell weui-cell_access" href="{:url('Guide/service_list',['id'=>$vo['id']])}">
+        <div class="weui-cell__bd">
+            <p>{$vo.title}</p>
+        </div>
+        <div class="weui-cell__ft">
+        </div>
+    </a>
+    {/volist}
+    {else}
+    <div class="weui-flex__item">
+        <div style="padding: 0 5px;">
+            暂无数据
+        </div>
+    </div>
+    {/if}
+    
+</div>
+
+<script src="_lib/jquery-2.1.4.js"></script>
+<script src="_js/h5.js"></script>
+<script src="_lib/fastclick.js"></script>
+<script src="_js/jquery-weui.js"></script>
+<script type="text/javascript">
+    $(function () {
+        FastClick.attach(document.body);
+    });
+    //返回顶部
+    $('#backTop').click(function () {
+        $('#content').animate({scrollTop: 0}, 300);
+    });
+
+
+</script>
+</body>
+</html>

@@ -1,0 +1,61 @@
+{include file="public/header"}
+<table class="layui-table table-center">
+    <tr>
+        <th></th>
+        <th>商品名称</th>
+        <th>商品图片</th>
+        <th>价格</th>
+        <th>会员价格</th>
+        <th>数量</th>
+    </tr>
+    {volist name='goods_list' id="vo"}
+        <tr class="tabtr">
+            <td><input type="checkbox" name="id[]" value="{$vo.goods_id}"></td>
+            <td>{$vo.goods_name}</td>
+            <td><img src="{$vo.goods_img}"  width="30" height="30" alt=""></td>
+            <td><input type="text" name="price[]" value="{$vo.spec_price}" class="layui-input" style="width:100px;"></td>
+            <td><input type="text" name="vip_price[]" value="{$vo.vip_price}" class="layui-input" style="width:100px;"></td>
+            <td><input type="text" name="num[]" value="1" class="layui-input" style="width:100px;"></td>
+        </tr>
+    {/volist}
+</table>
+<div >
+    <button type="button" class="layui-btn" id="colse">确认添加</button>
+</div>
+<script type="text/javascript">
+    var index = parent.layer.getFrameIndex(window.name);
+    //关闭iframe
+    $('#colse').click(function(){
+        var id = [],
+        flag = false,
+        tr = $('<tbody></tbody>');
+        $.each($("input[name='id[]']"),function(k,v){
+            $.each(parent.$("input[name='id[]']"),function(key,val){
+                if(v.value == val.value){
+                    layer.msg('商品已存在',{icon:2});
+                    flag =  false;
+                    return false;
+                }else{
+                    flag = true;
+                    return true;
+                }
+            })
+            if(v.checked == true){
+                tr.append("<tr></tr>");
+                tr.append($(".tabtr").eq(k).html());
+                tr.append('<td><button type="button" class="layui-btn" data-method="del_goods">删除</button></td>');
+                flag = true;
+            }
+        });
+        if(flag){
+            parent.$("#tab").append(tr);
+            parent.$("input[type='checkbox']").attr('checked',true);
+            parent.layer.msg('添加成功',{icon:1});
+            parent.layer.close(index);
+        }
+    });
+    layui.use('layer',function(){
+        var layer = layui.layer;
+    })
+</script>
+{include file="public/footer"}

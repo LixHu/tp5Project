@@ -1,0 +1,782 @@
+{include file="public/header" /}
+<link rel="stylesheet" href="_css/select2.min.css">
+
+<link
+	href="http://cdn.bootcss.com/bootstrap-daterangepicker/2.1.25/daterangepicker.css"
+	rel="stylesheet" />
+<script
+	src="http://cdn.bootcss.com/bootstrap-daterangepicker/2.1.25/moment.min.js"></script>
+<script
+	src="http://cdn.bootcss.com/bootstrap-daterangepicker/2.1.25/daterangepicker.js"></script>
+<script src="_js/bootstrap-datetimepicker.min.js"></script>
+<script src="_js/bootstrap-datetimepicker.zh-CN.js"></script>
+
+<link rel="stylesheet" href="_css/bootstrap-datetimepicker.min.css">
+<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+<!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+<link rel="stylesheet" href="_kind/themes/default/default.css">
+<script src="_kind/kindeditor.js"></script>
+<script src="_kind/lang/zh_CN.js"></script>
+<!--
+必须引入jquery,后面的循环和赋值需要用到
+1.循环上传按钮、
+2.每个上传按钮的点击事件
+建议点击按钮的class有upload_img
+注意：点击按钮之前要用一个input来存放文件的路径
+	input之前需要一个img来显示图片
+-->
+
+<script>
+function readys(){
+    KindEditor.ready(function(K) {
+        var editor = K.editor({
+            allowFileManager : true
+        });
+        $(".upload_img").each(function(k,v){ //循环上传按钮、
+            $(v).click(function(){ //每个上传按钮的点击事件
+                editor.loadPlugin('image', function() {
+                    editor.plugin.imageDialog({
+                        imageUrl:$(v).prev().val(),
+                        clickFn : function(url, title, width, height, border, align) {
+                            $(v).prev().val(url); //为他之前的input赋值
+                            $(v).prev().prev().attr("src",url); //为他之前的之前的img赋值
+                            editor.hideDialog();
+                        }
+                    });
+                });
+            });
+        })
+    });
+}
+readys();
+</script>
+<style>
+body {
+	background-color: #eeeeee;
+}
+
+.content {
+	padding: 0 15px !important;
+}
+
+.small-box {
+	margin-bottom: 0px;
+	color: #FFFFFF;
+}
+
+.table-header-sort {
+	cursor: pointer;
+	color: black !important;
+}
+
+.tooltip>.tooltip-inner {
+	background-color: #e5e5e5;
+	color: #0c0c0c
+}
+
+.tooltip.top .tooltip-arrow {
+	border-top-color: #e5e5e5;
+}
+
+#wait {
+	background: rgba(255, 255, 255, 0.5) url("/resource/images/wait.gif")
+		center no-repeat;
+	position: fixed;
+	width: 100%;
+	height: 100%;
+	z-index: 9000;
+}
+
+.dnone {
+	display: none;
+}
+
+[v-cloak] {
+	display: none
+}
+
+.iconfont {
+	width: 50px !important;
+}
+
+.dropdown-menu>li a {
+	transition: background-color ease .3s, color ease .3s, border-color ease
+		.3s;
+}
+
+.dropdown-menu>li a:hover {
+	background-color: #3c8dbc;
+	color: white;
+	border-color: #3c8dbc;
+}
+
+.dropdown-toggle {
+	transition: background-color ease .3s, color ease .3s, border-color ease
+		.3s;
+}
+
+.dropdown-toggle:hover {
+	background-color: #3c8dbc;
+	color: white;
+	border-color: #3c8dbc;
+}
+
+.open .dropdown-toggle {
+	background-color: #3c8dbc !important;
+	color: white !important;
+	border-color: #3c8dbc !important;
+}
+
+.btn-default1 {
+	background-color: #f4f4f4;
+	color: #444;
+	border-color: #ddd;
+}
+
+.small-box .icon {
+	top: -25px !important;
+}
+
+.small-box h3 {
+	font-size: 30px !important;
+	margin: 0 0 10px 0 !important;
+	white-space: nowrap !important;
+	padding: 0 !important;
+	font-weight: normal !important;
+}
+
+.table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th,
+	.table>thead>tr>td, .table>thead>tr>th {
+	line-height: 2.4;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	overflow: hidden;
+}
+
+.nav-tabs>li>a {
+	border: 1px solid transparent;
+	border-radius: 5px;
+}
+
+.nav-tabs>li.active>a, .nav-tabs>li.active>a:focus, .nav-tabs>li.active>a:hover
+	{
+	color: #FFFFFF;
+	cursor: default;
+	background-color: #27a9e6;
+}
+
+.nav-tabs {
+	border-bottom: 0;
+}
+
+.box-header>.fa, .box-header>.glyphicon, .box-header>.ion, .box-header .box-title
+	{
+	font-size: 15px;
+	font-weight: bold;
+}
+
+.modal-content label {
+	line-height: 34px;
+}
+</style>
+</head>
+<body>
+	<div class="" id="main">
+		<section class="content" style="min-width: 760px !important;">
+			<div class="col-md-3 col-sm-3">
+				<div class="box box-solid">
+					<div class="box-header with-border" id="accordion">
+						<h4 class="box-title">优惠券类别</h4>
+						<div class="box-tools">
+							<button type="button" class="btn btn-box-tool"
+								data-toggle="collapse" data-parent="#accordion"
+								href="#collapseOne" aria-expanded="true">
+								<i class="fa fa-minus"></i>
+							</button>
+						</div>
+					</div>
+					<div class="box-body no-padding collapse in" id="collapseOne"
+						aria-expanded="true" style="">
+						<ul id="wikiTypeUL" class="nav nav-pills nav-stacked">
+							{if condition="$cateid eq 0"}
+							<li class="active"><a href="{:url('parts_all',['cateid'=>0])}">
+									<i class="fa fa-file-text-o"></i> <span name="typeName">全部</span>
+
+							</a></li>
+							{else}
+							<li><a href="{:url('parts_all',['cateid'=>0])}">
+									<i class="fa fa-file-text-o"></i> <span name="typeName">全部</span>
+
+							</a></li>
+							{/if} 
+							{volist name="partscate" id="vo"}
+							{if condition="$cateid eq $vo['id']"}
+							<li class="active"><a href="{:url('parts_all',['cateid'=>$vo['id']])}"> <i class="fa fa-file-text-o"></i> 
+							<span name="typeName">{$vo.name}</span>
+							<i class="fa fa-close" style="float: right;font-size: 15px;" data-id="{$vo.id}"></i></a>
+							</li>
+							{else}
+							<li><a href="{:url('parts_all',['cateid'=>$vo['id']])}"> <i class="fa fa-file-text-o"></i> 
+							<span name="typeName">{$vo.name}</span>
+							<i class="fa fa-close" style="float: right;font-size: 15px;" data-id="{$vo.id}" ></i></a>
+							</li>
+							{/if}
+							{/volist}
+							<li><a href="{:url('ad_cate')}">
+								<i class="fa fa-plus"></i> <span name="typeName">添加分类</span></a>
+							</li>
+
+						</ul>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-9 col-sm-9">
+				<div class="box box-solid">
+					<div class="box-body">
+						<div class="col-md-8" id="auth_delete">
+							<a href="javascript:delmes()" class="btn btn-default btn-sm"><i
+								class="glyphicon glyphicon-trash"></i>&nbsp;&nbsp;批量删除</a> <a
+								href="javascript:$('#customerFrameModal').modal('show');"
+								class="btn btn-primary btn-sm checkbox-toggle"><i
+								class="fa fa-plus"></i> &nbsp;&nbsp;新增</a>
+						</div>
+						<form id="search" name="search_parts" method="get"
+							action="search_parts">
+							<div class="input-group  col-md-4">
+								<input type="text" class="form-control keyword-search criteria"
+									placeholder="请输入参数" value="" id="keyword" name="keyword"
+									maxlength="50"> <span class="input-group-btn">
+									<button class="btn btn-primary" type="submit" id="btnSearch">搜
+										索</button>
+								</span>
+							</div>
+						</form>
+					</div>
+				</div>
+				<div class="box box-solid">
+					<div class="box-body no-padding">
+						<div class="table-responsive list">
+							<table class="table table-hover table-striped table-bordered"
+								id="taskTable">
+								<thead>
+									<tr>
+										<th><input type="checkbox" name="checkAll"
+											id="checkSelect" value="全选"></th>
+										<th id="tour_1" name="taskCustomer">参数</th>
+										<th name="taskCustomerLinkmanPhone">库存</th>
+										<th name="taskCustomerLinkmanPhone">类别</th>
+										<th name="taskCustomerLinkmanPhone">图片</th>
+										<th name="taskCustomerAddress">使用时间</th>
+
+										<th>操作</th>
+									</tr>
+								</thead>
+								<tbody>
+									{if condition="$res eq false"} 
+									{volist name="parts_all" id="vo"}
+									<tr>
+										<td><input type="checkbox" class="checkSelect"
+											name="checkSelect"
+											value="{$vo.id}"
+											id="checkSelect_6e83e2f2-f111-11e7-9aa4-00163e12f748"></td>
+										<td name="taskCustomer">{$vo.name}</td>
+
+										<td name="taskCustomerLinkmanPhone">{$vo.p_count}</td>
+
+										<td name="taskServiceType">{$vo.cateid}</td>
+										<td name="taskServiceType"><img src="{$vo.img}" style="width: 45px;height: 45px;"></td>
+
+										
+										<td name="taskLevel">{$vo.start_time}&nbsp;至&nbsp;{$vo.end_time}</td>
+
+										<td name="taskLevel"><a
+											href="{:url('parts_edit',['id'=>$vo.id])}">编辑</a> <a
+											href="javascript:del({$vo.id})">删除</a> </td>
+									</tr>
+									{/volist} {else}
+									<tr>
+										<td colspan="19" style="text-align: center;">未找到相关数据</td>
+									</tr>
+									{/if}
+
+								</tbody>
+							</table>
+						</div>
+					</div>
+					<div class="box-footer ">
+						
+						<div class="col-lg-8 ">
+							<!-- <ul class="pagination pull-right" id="pagination1"></ul> -->
+
+						{$page}
+						</div>
+					</div>
+
+				</div>
+			</div>
+			<div class="modal fade in" id="customerFrameModal"
+				aria-hidden="false">
+				<div class="modal-dialog" style="width: 770px;">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal"
+								aria-label="Close">
+								<span aria-hidden="true">×</span>
+							</button>
+							<h4 class="modal-title">新增优惠券</h4>
+						</div>
+						<div class="modal-body" style="height: 500px;">
+							<form name="add" id="add" method="post" action="parts_new" onsubmit="return check_from();">
+								<div class="container-fluid">
+
+									<div class="form-group col-md-12">
+										<label for="name" class="col-md-2 col-sm-3 control-label">参数<span
+											class="text-red" title="必填">*</span>：
+										</label>
+										<div class="col-md-8 col-sm-7">
+											<input type="text" class="form-control" placeholder="[最多50字]"
+												  name="name" maxlength="50" aria-required="true">
+										</div>
+										<div class="col-sm-2 validation-tip"></div>
+									</div>
+									<div class="form-group col-md-12">
+										<label for="name" class="col-md-2 col-sm-3 control-label">价格<span
+											class="text-red" title="必填">*</span>：
+										</label>
+										<div class="col-md-8 col-sm-7">
+											<input type="text" class="form-control" placeholder="[只允许数字]"
+												  name="price" maxlength="50" aria-required="true" onkeyup="this.value=this.value.replace(/\D/g,'')">
+										</div>
+										<div class="col-sm-2 validation-tip"></div>
+									</div>
+
+									<div class="form-group col-md-12">
+										<label for="name" class="col-md-2 col-sm-3 control-label">使用时间<span
+											class="text-red" title="必填">*</span>：
+										</label>
+										<div class="col-md-8 col-sm-7">
+											<input type="text" readonly value="" id="createTime1"
+											name="start_time" class="form-control"  style="width: 40%;float: left;"/>
+											<div style="float: left;width: 20%;text-align: center;">至</div>
+											<input type="text" readonly value="" id="createTime2"
+											name="end_time" class="form-control"  style="width: 40%;float: right;"/>
+										</div>
+										<div class="col-sm-2 validation-tip"></div>
+									</div>
+
+									
+
+									<!-- <div class="form-group col-md-12">
+										<label for="lmPhone" class="col-md-2 col-sm-3 control-label">标准单价<span
+											class="text-red" title="必填">*</span>：
+										</label>
+										<div class="col-md-8 col-sm-7">
+											<input type="text" class="form-control" id="price"
+												placeholder="最多两位小数" name="price" maxlength="50"
+												aria-required="true">
+										</div>
+										<div class="col-sm-2 validation-tip"></div>
+									</div>
+
+
+									<div class="form-group col-md-12">
+										<label for="lmPhone" class="col-md-2 col-sm-3 control-label">销售单价<span
+											class="text-red" title="必填">*</span>：
+										</label>
+										<div class="col-md-8 col-sm-7">
+											<input type="text" class="form-control" id="out_price"
+												placeholder="最多两位小数" name="out_price" maxlength="50"
+												aria-required="true">
+										</div>
+										<div class="col-sm-2 validation-tip"></div>
+									</div>
+
+
+									<div class="form-group col-md-12">
+										<label for="lmPhone" class="col-md-2 col-sm-3 control-label">单位<span
+											class="text-red" title="必填">*</span>：
+										</label>
+										<div class="col-md-8 col-sm-7">
+											<input type="text" class="form-control" id="unit"
+												placeholder="最多50字" name="unit" maxlength="50"
+												aria-required="true">
+										</div>
+										<div class="col-sm-2 validation-tip"></div>
+									</div> -->
+
+									<div class="form-group col-md-12">
+										<label for="lmPhone" class="col-md-2 col-sm-3 control-label">库存<span
+											class="text-red" title="选填"></span>：
+										</label>
+										<div class="col-md-8 col-sm-7">
+											<input type="text" class="form-control" id="unit"
+												placeholder="[只允许数字]" name="p_count" maxlength="50"
+												aria-required="true" onkeyup="this.value=this.value.replace(/\D/g,'')">
+										</div>
+										<div class="col-sm-2 validation-tip"></div>
+									</div>
+
+
+									<!-- <div class="form-group col-md-12">
+										<label for="lmPhone" class="col-md-2 col-sm-3 control-label">规格<span
+											class="text-red" title="必填">*</span>：
+										</label>
+										<div class="col-md-8 col-sm-7">
+											<input type="text" class="form-control" name="specification"
+												id="specification" value="" placeholder="[最多50字]"
+												maxlength="50" aria-required="true">
+										</div>
+										<div class="col-sm-2 validation-tip"></div>
+									</div> -->
+
+									<div class="form-group col-md-12">
+										<label for="lmPhone" class="col-md-2 col-sm-3 control-label">分类<span
+											class="text-red" title="必填">*</span>：
+										</label>
+										<div class="col-md-8 col-sm-7">
+
+											<select style="width: 100%;height: 30px;" id="cateid" name="cateid"
+												tabindex="-1"  
+												aria-hidden="true"> 
+												{volist name="partscate" id="vo"}
+												<option value="{$vo.id}" selected="selected">{$vo.name}</option>
+												{/volist}
+											</select>
+
+										</div>
+										<div class="col-sm-2 validation-tip"></div>
+									</div>
+
+
+									 <div class="form-group col-md-12">
+		                               <label for="lmPhone" class="col-md-2 col-sm-3 control-label">图片<span class="text-red"  title="必填">*</span>：</label>
+		                               <div class="col-md-8 col-sm-7">
+		                                    <img src="" style="max-width:100px;">
+											<input type="hidden" name="img" value="" /> 
+											<input type="button" class="upload_img" value="选择图片" />
+		                               </div>
+		                               <div class="col-sm-2 validation-tip"></div>
+		                            </div>
+
+									<!-- <div class="form-group col-md-12">
+										<label for="lmPhone" class="col-md-2 col-sm-3 control-label">产品介绍
+											<span class="text-red" title="必填">*</span>：
+										</label>
+										<div class="col-md-8 col-sm-7">
+											<textarea class="form-control" id="content" name="content"></textarea>
+										</div>
+										<div class="col-sm-2 validation-tip"></div>
+									</div> -->
+								</div>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-default"
+								data-dismiss="modal">关闭</button>
+							<button type="submit" class="btn btn-primary"
+								id="customerFrameSave">保存</button>
+						</div>
+						</form>
+						
+					</div>
+				</div>
+			</div>
+			
+		</section>
+	</div>
+	{include file="public/footer" /}
+	<script>
+    //分页
+//     $('#pagination1').jqPaginator({
+//         totalPages: 12,//设置分页的总页数
+//         visiblePages: 5,//设置最多显示的页码数（例如有100也，当前第1页，则显示1 - 7页）
+//         currentPage: 1,//	设置当前的页码
+//         first: "<li class=\"first\"><a href=\"javascript:;\">首页</a></li>",
+//         last: "<li class=\"last\"><a href=\"javascript:;\">末页</a></li>",
+//         prev: "<li class=\"prev\"><a href=\"javascript:;\">上一页</a></li>",
+//         next: "<li class=\"next\"><a href=\"javascript:;\">下一页</a></li>",
+//         page: "<li class=\"page\" ><a href=\"javascript:;\">{{page}}</a></li>",
+//         onPageChange: function (num, type) {
+// //            alert(num);
+//         }
+//     });
+//     $('#pagination2').jqPaginator({
+//         totalPages: 12,//设置分页的总页数
+//         visiblePages: 5,//设置最多显示的页码数（例如有100也，当前第1页，则显示1 - 7页）
+//         currentPage: 1,//	设置当前的页码
+//         first: "<li class=\"first\"><a href=\"javascript:;\">首页</a></li>",
+//         last: "<li class=\"last\"><a href=\"javascript:;\">末页</a></li>",
+//         prev: "<li class=\"prev\"><a href=\"javascript:;\">上一页</a></li>",
+//         next: "<li class=\"next\"><a href=\"javascript:;\">下一页</a></li>",
+//         page: "<li class=\"page\" ><a href=\"javascript:;\">{{page}}</a></li>",
+//         onPageChange: function (num, type) {
+// //            alert(num);
+//         }
+//     });
+//     $('#pagination3').jqPaginator({
+//         totalPages: 12,//设置分页的总页数
+//         visiblePages: 5,//设置最多显示的页码数（例如有100也，当前第1页，则显示1 - 7页）
+//         currentPage: 1,//	设置当前的页码
+//         first: "<li class=\"first\"><a href=\"javascript:;\">首页</a></li>",
+//         last: "<li class=\"last\"><a href=\"javascript:;\">末页</a></li>",
+//         prev: "<li class=\"prev\"><a href=\"javascript:;\">上一页</a></li>",
+//         next: "<li class=\"next\"><a href=\"javascript:;\">下一页</a></li>",
+//         page: "<li class=\"page\" ><a href=\"javascript:;\">{{page}}</a></li>",
+//         onPageChange: function (num, type) {
+// //            alert(num);
+//         }
+//     });
+    //工单池版块选择时间
+    // $('#createTime').daterangepicker({
+    //     applyClass: "btn-primary",
+    //     locale: {
+    //         format: 'YYYY-MM-DD',
+    //         applyLabel: '确定',
+    //         applyClass: "btn-primary",
+    //         cancelLabel: '取消',
+    //         fromLabel: '开始',
+    //         toLabel: '结束',
+    //         daysOfWeek: '日_一_二_三_四_五_六'.split('_'),
+    //         monthNames: '1月_2月_3月_4月_5月_6月_7月_8月_9月_10月_11月_12月'.split('_'),
+    //     },
+    //     startDate: moment().subtract(6, 'days'),
+    //     endDate: moment()
+    // });
+
+
+    //点击高级搜索
+    // $("#advanceIcon").click(function () {
+    //     if ($(this).children("span").attr("class") == "glyphicon glyphicon-plus") {
+    //         //关闭
+    //         $(this).children("span").removeClass("glyphicon-plus");
+    //         $(this).children("span").addClass("glyphicon-minus");
+    //         $('#isAdvanced').val(1);
+    //     } else if ($(this).children("span").attr("class") == "glyphicon glyphicon-minus") {
+    //         //展开
+    //         $(this).children("span").removeClass("glyphicon-minus");
+    //         $(this).children("span").addClass("glyphicon-plus");
+    //         $('#isAdvanced').val(0);
+    //     }
+    // });
+
+
+    // function orderTask(ele) {
+    //     $("#sortSeachModel").attr("name", ele.dataset.name);
+    //     if (ele.dataset.sort == 'true') {
+    //         $("#sortSeachModel").val("false");
+    //     } else if (ele.dataset.sort == 'false') {
+    //         $("#sortSeachModel").val("true");
+    //     }
+    //     console.log($("#sortSeachModel"));
+    //     $("#mainForm").trigger('submit');
+    // }
+
+    // $(".btnReset").click(function () {
+    //     $("#collapseExample input").val("");
+    //     $("#name").val("");
+    //     $("#state").val("");
+    //     showWait();
+    // });
+    // ////以上是高级搜索 调用的方法
+
+//js验证表单提交方法
+function check_from(){
+	var start_time = $('input[name="start_time"]').val();
+	var name = $('input[name="name"]').val();
+	var end_time = $('input[name="end_time"]').val();
+	var p_count = $('input[name="p_count"]').val(); 
+
+	
+	if($.trim(name) == ''){
+		alert('请填写参数');
+		return false;
+	}
+	if($.trim(start_time) == ''){
+		alert('请选择开始时间');
+		return false;
+	}
+	if($.trim(end_time) == ''){
+		alert('请选择结束时间');
+		return false;
+	}
+	if($.trim(p_count) == ''){
+		alert('请填写库存');
+		return false;
+	}
+	
+} 
+
+    ////以下是复选框的选中
+    $("#checkSelect").change(function () {
+        if ($(this).is(':checked')) {
+            $("input[name='checkSelect']").prop("checked", "checked");
+        } else {
+            $("input[name='checkSelect']").removeAttr("checked");
+        }
+    });
+    $("input[name='checkSelect']").change(function () {
+        var flag = true;
+        $("input[name='checkSelect']").each(function () {
+            if (!$(this).is(':checked')) {
+                flag = false;
+                return false;
+            }
+        });
+        if (flag) {
+            $("#checkSelect").prop("checked", "checked");
+        } else {
+            $("#checkSelect").removeAttr("checked");
+        }
+    });
+    ////以上是复选框的选中
+    
+    
+    //显示新建页面,隐藏文件库页面
+    function newFile(id1, id2) {
+        $('#' + id1).hide();
+        $('#' + id2).show();
+    }
+
+   //隐藏新建页面,显示文件库页面
+    function back(id1, id2) {
+        $('#' + id1).show();
+        $('#' + id2).hide();
+        $("input,textarea").val("");
+        UE.getEditor('container').setContent('', false);
+        $("select").val(option[0]);
+        $("input:radio,input:checkbox").attr("checked",false);
+    }
+   
+   function modalShow(){
+	   $('#customerFrameModal').modal('show');
+   }
+   
+    //删除产品
+    function del(id){
+        if(confirm("你确认要删除吗?")){
+            $.post("{:url('Coupons/delparts')}",{id:id},function(data){
+                if(data == -1){
+                    alert('不是AJAX请求方式');
+                }else if(data == 0){
+                    alert('删除失败');
+                    location.reload();
+                }else if(data == 1){
+                    location.reload();
+                }
+            },'json')
+        }
+    }
+
+    //删除产品分类
+    // function delcate(e,id){
+    	
+    // 	alert(id);
+    // 	e = e || window.event;  
+		  //    if(e.stopPropagation) { //W3C阻止冒泡方法  
+		  //        e.stopPropagation();  
+		  //    } else {  
+		  //        e.cancelBubble = true; //IE阻止冒泡方法  
+		  //    }  
+    //     if(confirm("你确认要删除吗?")){
+    //         $.post("{:url('Coupons/delcate')}",{id:id},function(data){
+    //             if(data == -1){
+    //                 alert('不是AJAX请求方式');
+    //             }else if(data == 0){
+    //                 alert('删除失败');
+    //                 location.reload();
+    //             }else if(data == 1){
+    //                 location.reload();
+    //             }
+    //         },'json')
+    //     }
+    // }
+
+	//搜索框没内容处理
+    $('.fa-close').click(function(event){
+    	var id = $(this).attr('data-id');
+		event.stopPropagation();  
+    	if(confirm("你确认要删除吗?")){
+            $.post("{:url('Coupons/delcate')}",{id:id},function(data){
+
+                if(data == -1){
+                    alert('不是AJAX请求方式');
+                }else if(data == 0){
+                    alert('删除失败');
+                    location.reload();
+                }else if(data == 1){
+                    location.reload();
+                }
+            },'json')
+        }
+		return false;
+		
+		
+
+
+    })
+
+   function savestatus(){
+	   alert('确定要更改状态吗？');
+   }
+
+   //批量删除
+  	function delmes(){
+  		//获取选中的数据id
+  		obj = document.getElementsByName("checkSelect");
+		    var mid = [];
+		    for(k in obj){
+		        if(obj[k].checked)
+		            mid.push(obj[k].value);
+		    }
+		//判断是否有选中数据
+		if (mid == '') {
+			alert('请先选择');
+		}else{
+			if(confirm('你确定要删除吗？')){
+		  		$.post("{:url('Coupons/del')}",{id:mid},function(data){
+	                if(data == 0){
+	                    alert('删除失败');
+	                    location.reload();
+	                }else if(data == 1){
+	                    location.reload();
+	                }
+	            },'json')
+  			}
+		}
+  		
+  	}
+
+
+  	//搜索框没内容处理
+    $('#btnSearch').click(function(){
+    	var keyword = $('#keyword').val();
+    	if (keyword == '') {
+    		return false;
+    	}
+    })
+
+
+
+    $(function () {
+        $('#createTime1').datetimepicker({
+            format: 'yyyy-mm-dd',
+            autoclose: true,
+            minView: 0,
+            minuteStep: 5,
+            todayBtn: true,
+            language: 'zh-CN'
+        });
+        $('#createTime2').datetimepicker({
+            format: 'yyyy-mm-dd',
+            autoclose: true,
+            minView: 0,
+            minuteStep: 1,
+            todayBtn: true,
+            language: 'zh-CN'
+        });
+    })
+
+</script>

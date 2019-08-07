@@ -1,0 +1,483 @@
+{include file="public/header" /}
+<link rel="stylesheet" href="_css/select2.min.css">
+
+<link
+	href="http://cdn.bootcss.com/bootstrap-daterangepicker/2.1.25/daterangepicker.css"
+	rel="stylesheet" />
+<script
+	src="http://cdn.bootcss.com/bootstrap-daterangepicker/2.1.25/moment.min.js"></script>
+<script
+	src="http://cdn.bootcss.com/bootstrap-daterangepicker/2.1.25/daterangepicker.js"></script>
+<script src="_js/bootstrap-datetimepicker.min.js"></script>
+<script src="_js/bootstrap-datetimepicker.zh-CN.js"></script>
+
+<link rel="stylesheet" href="_css/bootstrap-datetimepicker.min.css">
+<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+<!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+<link rel="stylesheet" href="_kind/themes/default/default.css" />
+<script src="_kind/kindeditor.js"></script>
+<script src="_kind/lang/zh_CN.js"></script>
+<!--
+必须引入jquery,后面的循环和赋值需要用到
+1.循环上传按钮、
+2.每个上传按钮的点击事件
+建议点击按钮的class有upload_img
+注意：点击按钮之前要用一个input来存放文件的路径
+	input之前需要一个img来显示图片
+-->
+
+<script>
+			KindEditor.ready(function(K) {
+				var editor = K.editor({
+					allowFileManager : true
+				});
+				$(".upload_img").each(function(k,v){ //循环上传按钮、
+					$(v).click(function(){ //每个上传按钮的点击事件
+						editor.loadPlugin('image', function() {
+							editor.plugin.imageDialog({
+								imageUrl:$(v).prev().val(),
+								clickFn : function(url, title, width, height, border, align) {
+									$(v).prev().val(url); //为他之前的input赋值
+									$(v).prev().prev().attr("src",url); //为他之前的之前的img赋值
+									editor.hideDialog();
+								}
+							});
+						});
+					});
+				})
+				editor = K.create('textarea[name="content"]', {
+					allowFileManager : true,
+					afterBlur:function() {
+						this.sync();
+					}
+				});
+			});
+</script>
+<style>
+body {
+	background-color: #eeeeee;
+}
+
+.content {
+	padding: 0 15px !important;
+}
+
+.small-box {
+	margin-bottom: 0px;
+	color: #FFFFFF;
+}
+
+.table-header-sort {
+	cursor: pointer;
+	color: black !important;
+}
+
+.tooltip>.tooltip-inner {
+	background-color: #e5e5e5;
+	color: #0c0c0c
+}
+
+.tooltip.top .tooltip-arrow {
+	border-top-color: #e5e5e5;
+}
+
+#wait {
+	background: rgba(255, 255, 255, 0.5) url("/resource/images/wait.gif")
+		center no-repeat;
+	position: fixed;
+	width: 100%;
+	height: 100%;
+	z-index: 9000;
+}
+
+.dnone {
+	display: none;
+}
+
+[v-cloak] {
+	display: none
+}
+
+.iconfont {
+	width: 50px !important;
+}
+
+.dropdown-menu>li a {
+	transition: background-color ease .3s, color ease .3s, border-color ease
+		.3s;
+}
+
+.dropdown-menu>li a:hover {
+	background-color: #3c8dbc;
+	color: white;
+	border-color: #3c8dbc;
+}
+
+.dropdown-toggle {
+	transition: background-color ease .3s, color ease .3s, border-color ease
+		.3s;
+}
+
+.dropdown-toggle:hover {
+	background-color: #3c8dbc;
+	color: white;
+	border-color: #3c8dbc;
+}
+
+.open .dropdown-toggle {
+	background-color: #3c8dbc !important;
+	color: white !important;
+	border-color: #3c8dbc !important;
+}
+
+.btn-default1 {
+	background-color: #f4f4f4;
+	color: #444;
+	border-color: #ddd;
+}
+
+.small-box .icon {
+	top: -25px !important;
+}
+
+.small-box h3 {
+	font-size: 30px !important;
+	margin: 0 0 10px 0 !important;
+	white-space: nowrap !important;
+	padding: 0 !important;
+	font-weight: normal !important;
+}
+
+.table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th,
+	.table>thead>tr>td, .table>thead>tr>th {
+	line-height: 2.4;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	overflow: hidden;
+}
+
+.nav-tabs>li>a {
+	border: 1px solid transparent;
+	border-radius: 5px;
+}
+
+.nav-tabs>li.active>a, .nav-tabs>li.active>a:focus, .nav-tabs>li.active>a:hover
+	{
+	color: #FFFFFF;
+	cursor: default;
+	background-color: #27a9e6;
+}
+
+.nav-tabs {
+	border-bottom: 0;
+}
+
+.box-header>.fa, .box-header>.glyphicon, .box-header>.ion, .box-header .box-title
+	{
+	font-size: 15px;
+	font-weight: bold;
+}
+
+.modal-content label {
+	line-height: 34px;
+}
+
+</style>
+</head>
+<body>
+	<div class="" id="main">
+		<section class="content" style="min-width: 760px !important;">
+			
+			<div class="col-md-9 col-sm-9" style="width: 100%;">
+				<div class="box box-solid">
+					<div class="box-body">
+						<div class="col-md-8" id="auth_delete">
+							<a href="{:url('Goods/goods_order')}" class="btn btn-primary btn-sm checkbox-toggle">全部</a>
+							<a href="javascript:delmes()" class="btn btn-default btn-sm"><i
+								class="glyphicon glyphicon-trash"></i>删除</a>
+
+						</div>
+						<form id="search" name="search_order" method="get"
+							action="search_order">
+							<div class="input-group  col-md-4">
+								<input type="text" class="form-control keyword-search criteria"
+									placeholder="输入订单编号/客户名称" value="" id="keyword" name="keyword"
+									maxlength="50"> <span class="input-group-btn">
+									<button class="btn btn-primary" type="submit" id="btnSearch">搜
+										索</button>
+								</span>
+							</div>
+						</form>
+					</div>
+				</div>
+				<div class="box box-solid">
+					<div class="box-body no-padding">
+						<div class="table-responsive list">
+							<table class="table table-hover table-striped table-bordered"
+								id="taskTable">
+								<thead>
+									<tr>
+										<th><input type="checkbox" name="checkAll"
+											id="checkSelect" value="全选"></th>
+										<th id="tour_1" name="taskCustomer">订单编号</th>
+										<th name="taskCustomerLinkmanPhone">客户名称</th>
+										<th name="taskCustomerLinkmanPhone">产品名称</th>
+										<th name="taskCustomerLinkmanPhone">产品图片</th>
+										<th name="taskCustomerLinkmanPhone">产品数量</th>
+										<th name="taskCustomerLinkmanPhone">订单总价</th>
+										<th name="taskCustomerLinkmanPhone">客户地址</th>
+										<th name="taskCustomerLinkmanPhone">描述</th>
+										<th name="taskCustomerLinkmanPhone">发货单号</th>
+										<th>操作</th>
+									</tr>
+								</thead>
+								<tbody>
+									{if condition="$res eq false"} 
+									{volist name="data" id="vo"}
+									<tr>
+										<td><input type="checkbox" class="checkSelect"
+											name="checkSelect"
+											value="{$vo.id}"
+											id="checkSelect_6e83e2f2-f111-11e7-9aa4-00163e12f748"></td>
+										<td name="taskCustomer">{$vo.order_number}</td>
+										<td name="taskCustomer">{$vo.user_name}</td>
+										<td name="taskCustomer">{$vo.goods_name}</td>
+										<td name="taskCustomer"><img src="{$vo.goods_img}" style="width:50px;height:50px;"/></td>
+										<td name="taskCustomer">{$vo.goods_num}</td>
+										<td name="taskCustomer">{$vo.order_price}</td>
+										<td name="taskCustomer">{$vo.address}</td>
+										<td name="taskCustomerLinkmanPhone">{$vo.content}</td>
+										<td name="taskCustomerLinkmanPhone">{$vo.tracking_number}</td>
+										<td name="taskLevel">
+											{if condition="$vo['status'] eq 1"}
+											<a class="btn btn-primary btn-sm checkbox-toggle" onclick="fahuo({$vo.id})">发货</a>
+											{else}
+											<a class="btn btn-primary btn-sm checkbox-toggle" style="background-color: #888888;border-color: #888888;">已发货</a>
+											{/if}
+										</td>
+									</tr>
+									{/volist} {else}
+									<tr>
+										<td colspan="19" style="text-align: center;">未找到相关数据</td>
+									</tr>
+									{/if}
+
+								</tbody>
+							</table>
+						</div>
+					</div>
+					<div class="box-footer ">
+						
+						<div class="col-lg-8 ">
+							<!-- <ul class="pagination pull-right" id="pagination1"></ul> -->
+
+						{$page}
+						</div>
+					</div>
+
+				</div>
+			</div>
+
+
+				<div  id="customerFrameModal" style="display: none;">
+					<div style="width: 770px;">
+						<div class="modal-content">
+							<!-- <div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal"
+										aria-label="Close">
+									<span aria-hidden="true">×</span>
+								</button>
+								<h4 class="modal-title">发货单号</h4>
+							</div> -->
+							<div class="modal-body" style="height: 100px;">
+								<form name="add" id="form1" method="post" action="ad_cee" onsubmit="return check_from();">
+									<div class="container-fluid">
+										<div class="form-group col-md-12">
+											<label for="lmPhone" class="col-md-2 col-sm-3 control-label">发货单号<span
+													class="text-red" title="必填"></span>：
+											</label>
+											<div class="col-md-8 col-sm-7">
+												<input type="text" class="form-control"
+													   placeholder="[只允许数字|字母]" name="tracking_number" maxlength="50"
+													   aria-required="true">
+											</div>
+											<div class="col-sm-2 validation-tip"></div>
+										</div>
+
+									</div>
+							</div>
+							</div>
+			                    <div class="btn btn-group" style="float: right;">
+			                        <a class="btn btn-primary btn-close" id="wiki-sub">提交</a>
+			                    </div>
+			                </div>
+							</form>
+
+						</div>
+					</div>
+				</div>
+
+
+
+			
+		</section>
+	</div>
+	{include file="public/footer" /}
+	<script>
+
+
+// //js验证表单提交方法
+// function check_from(){
+// 	var title = $('input[name="title"]').val();
+// 	var content = $('textarea[name="content"]').val();
+	
+// 	if($.trim(title) == ''){
+// 		alert('请填写标题');
+// 		return false;
+// 	}
+// 	if($.trim(content) == ''){
+// 		alert('请填写描述');
+// 		return false;
+// 	}
+	
+// } 
+
+    ////以下是复选框的选中
+    $("#checkSelect").change(function () {
+        if ($(this).is(':checked')) {
+            $("input[name='checkSelect']").prop("checked", "checked");
+        } else {
+            $("input[name='checkSelect']").removeAttr("checked");
+        }
+    });
+    $("input[name='checkSelect']").change(function () {
+        var flag = true;
+        $("input[name='checkSelect']").each(function () {
+            if (!$(this).is(':checked')) {
+                flag = false;
+                return false;
+            }
+        });
+        if (flag) {
+            $("#checkSelect").prop("checked", "checked");
+        } else {
+            $("#checkSelect").removeAttr("checked");
+        }
+    });
+    ////以上是复选框的选中
+    
+    
+    //显示新建页面,隐藏文件库页面
+    function newFile(id1, id2) {
+        $('#' + id1).hide();
+        $('#' + id2).show();
+    }
+
+   //隐藏新建页面,显示文件库页面
+    function back(id1, id2) {
+        $('#' + id1).show();
+        $('#' + id2).hide();
+        $("input,textarea").val("");
+        UE.getEditor('container').setContent('', false);
+        $("select").val(option[0]);
+        $("input:radio,input:checkbox").attr("checked",false);
+    }
+
+
+
+
+   function fahuo(oid) {
+   		
+        layer.open({
+            type:1,
+            title:'填写发货单号',
+            area:['70%','200px'],
+            shadeClose:true,
+            content:$("#customerFrameModal")
+        })
+        // alert(oid);
+        $('#wiki-sub').prop('data-oid',oid);
+    }
+    $('#wiki-sub').on('click',function(){
+    		var oid = $(this).prop('data-oid');
+        	var tracking_number = $('input[name="tracking_number"]').val();
+        	if($.trim(tracking_number) == ''){
+				alert('请填写发货单号');
+				return false;
+			}
+        	$.post("{:url('Goods/fahuo')}",{oid:oid,tracking_number:tracking_number},function(data){
+	                if(data == 0){
+	                    alert('操作失败');
+	                }else if(data == 1){
+	                    location.reload();
+	                }else if(data == 3){
+	                    alert('操作异常');
+	                }
+	            },'json')
+    })
+
+
+
+   //批量删除
+  	function delmes(){
+  		//获取选中的数据id
+  		obj = document.getElementsByName("checkSelect");
+		    var mid = [];
+		    for(k in obj){
+		        if(obj[k].checked)
+		            mid.push(obj[k].value);
+		    }
+		//判断是否有选中数据
+		if (mid == '') {
+			alert('请先选择');
+		}else{
+			if(confirm('你确定要删除吗？')){
+		  		$.post("{:url('Goods/del_order')}",{id:mid},function(data){
+	                if(data == 0){
+	                    alert('删除失败');
+	                    location.reload();
+	                }else if(data == 1){
+	                    location.reload();
+	                }
+	            },'json')
+  			}
+		}
+  		
+  	}
+
+
+  	//搜索框没内容处理
+    $('#btnSearch').click(function(){
+    	var keyword = $('#keyword').val();
+    	if (keyword == '') {
+    		return false;
+    	}
+    })
+ 	
+ 	//审核
+    function audit(oid){
+            
+    	var tracking_number = $('input[name="tracking_number"]').val();
+        $.post("{:url('Goods/fahuo')}",{oid:oid,tracking_number:tracking_number},function(data){
+	                if(data == 0){
+	                    alert('操作失败');
+	                }else if(data == 1){
+	                    location.reload();
+	                }else if(data == 3){
+	                    alert('操作异常');
+	                }
+	            },'json')
+        }
+
+
+
+
+
+
+
+</script>

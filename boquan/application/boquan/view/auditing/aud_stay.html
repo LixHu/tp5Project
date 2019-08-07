@@ -1,0 +1,54 @@
+{include file="public/header" /}
+<div style="padding:20px;">
+    <div>
+        <button class="btn btn-default" type="button" onclick="history.go(-1)"><i class="fa fa-reply"></i> 返回</button>
+    </div>
+    <div class="col-md-7" style="border-right:1px solid #aaa;">
+        <table class="table table-hover table-bordered" style="text-align:center; ">
+            <tr>
+                <td colspan="6"><h3>住宿申请单</h3></td>
+            </tr>
+            <tr>
+                <td width="100">单号</td>
+                <td colspan="5">{$info.wo_sn}</td>
+            </tr>
+            <tr>
+                <td width="100">申请理由</td>
+                <td colspan="5">{$info.apply_reason}</td>
+            </tr>
+            <tr>
+                <td width="100">申请天数</td>
+                <td>{$info.apply_num}</td>
+                <td width="100">费用</td>
+                <td colspan="2">{$info.count_price}</td>
+            </tr>
+        </table>
+    </div>
+    <div class="col-md-5 btn3">
+        {if $info.status eq 0}
+            <button class="btn btn-primary" type="button" onclick="aud({$info.sapp_id},1)">通过</button>
+            <button class="btn btn-default" type="button" onclick="aud({$info.sapp_id},2)">驳回</button>
+        {/if}
+    </div>
+</div>
+<style>
+    .btn3 button{
+        width: 80px;height:40px;font-size: 18px;margin:80px 30px;
+    }
+</style>
+<script>
+    var aud = function (sid,type) {
+        var data = {};
+        data.sappid = sid;
+        data.type = type;
+        $.post('HanldAudStay',data,function (res) {
+            if(res.code == 1){
+                layer.msg(res.msg,{icon:1});
+                setTimeout(function () {
+                    location.reload();
+                },2000);
+            }
+        })
+    }
+</script>
+{include file="public/footer" /}

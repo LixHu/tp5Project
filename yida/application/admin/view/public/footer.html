@@ -1,0 +1,16 @@
+    </body>
+    <script type="text/javascript">
+        var img = document.getElementById('file'),
+        imgShow = document.getElementById('image'),
+        conte = document.getElementById('val');
+        function startt() {
+              var imgFile = new FileReader();
+              imgFile.readAsDataURL(img.files[0]);
+              imgFile.onload = function () {
+                  var imgData = this.result; //base64数据
+                  imgShow.setAttribute('src', imgData);
+                  conte.value = imgData;
+              }
+          }
+    </script>
+</html>

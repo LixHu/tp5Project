@@ -1,0 +1,184 @@
+{include file="public/header" /}
+<style>
+body {
+	background: #eeeeee;
+}
+
+.content {
+	padding: 0 15px !important;
+}
+
+.edui1_iframeholder {
+	width: 100% !important;
+}
+
+#edui1 {
+	width: 100% !important;
+}
+
+#container {
+	height: 300px;
+}
+</style>
+
+
+{if condition="!empty($se)"}
+<section class="content" id="new">
+	<form id="form1" method="post" class="form-horizontal nice-validator n-default n-bootstrap" action="edit_mes" onsubmit="return check_from();">
+		<div class="box box-solid">
+			<div class="box-body">
+				<button type="submit" class="btn btn-primary btn-close"
+					id="wiki-sub">
+					<li class="fa fa-save"></li> &nbsp;&nbsp;提交
+				</button>
+				
+				
+				<a href="javascript:history.go(-1)" class="btn btn-default">取消</a>
+			</div>
+		</div>
+		<div class="box box-solid">
+			<div class="box-header with-border">
+				<span style="font-weight: bold">公告信息</span>
+			</div>
+			<div class="box-body">
+				<div class="row">
+					<input type="hidden" name="id" value="{$se['id']}">
+					<div class="col-md-12 form-group">
+						<label for="title" class="col-md-2  col-sm-3 control-label"><span
+							class="text-red" title="必填">*</span>标题：</label>
+						<div class="col-md-8 col-sm-7 col-padding-custom">
+							<input type="text" class="form-control" id="title" name="title"
+								placeholder="请输入标题[最多50字]"
+								data-rule-name="[/^[a-zA-Z0-9\u4e00-\u9fa5]+$/, '中文、字母、数字']"
+								value="{$se['title']}" maxlength="50" aria-required="true">
+						</div>
+						<div class="col-sm-2 validation-tip"></div>
+					</div>
+					<div class="col-md-12 form-group" style="height: 500px;">
+						<label for="title" class="col-md-2 control-label">详情：</label>
+						<div class="col-md-8">
+							<div>
+								<!-- 加载编辑器的容器 -->
+								<script id="container" name="content" type="text/plain">
+
+                                </script>
+								<!-- 配置文件 -->
+								<script type="text/javascript" src="_js/ueditor.config.js"></script>
+								<!-- 编辑器源码文件 -->
+								<script type="text/javascript" src="_js/ueditor.all.js"></script>
+								<!-- 实例化编辑器 -->
+								<script type="text/javascript">
+                                    var ue = UE.getEditor('container');
+                                    ue.ready(function(){
+                                    	var va = '{$se['content']}';
+									     ue.setContent(va);
+									})
+                                </script>
+							</div>
+						</div>
+						<div class="col-md-2 validation-tip"></div>
+					</div>
+
+				</div>
+
+
+			</div>
+		</div>
+
+	</form>
+</section>
+{else}
+<section class="content" id="new">
+	<form id="form1" method="post" class="form-horizontal nice-validator n-default n-bootstrap" action="admessage" onsubmit="return check_from();">
+		<div class="box box-solid">
+			<div class="box-body">
+				<button type="submit" class="btn btn-primary btn-close"
+					id="wiki-sub">
+					<li class="fa fa-save"></li> &nbsp;&nbsp;提交
+				</button>
+				
+				
+				
+			</div>
+		</div>
+		<div class="box box-solid">
+			<div class="box-header with-border">
+				<span style="font-weight: bold">公告信息</span>
+			</div>
+			<div class="box-body">
+				<div class="row">
+					
+					<div class="col-md-12 form-group">
+						<label for="title" class="col-md-2  col-sm-3 control-label"><span
+							class="text-red" title="必填">*</span>标题：</label>
+						<div class="col-md-8 col-sm-7 col-padding-custom">
+							<input type="text" class="form-control" id="title" name="title"
+								placeholder="请输入标题[最多50字]"
+								data-rule-name="[/^[a-zA-Z0-9\u4e00-\u9fa5]+$/, '中文、字母、数字']"
+								value="" maxlength="50" aria-required="true">
+						</div>
+						<div class="col-sm-2 validation-tip"></div>
+					</div>
+					<div class="col-md-12 form-group" style="height: 500px;">
+						<label for="title" class="col-md-2 control-label">详情：</label>
+						<div class="col-md-8">
+							<div>
+								<!-- 加载编辑器的容器 -->
+								<script id="container" name="content" type="text/plain">
+
+                                </script>
+								<!-- 配置文件 -->
+								<script type="text/javascript" src="_js/ueditor.config.js"></script>
+								<!-- 编辑器源码文件 -->
+								<script type="text/javascript" src="_js/ueditor.all.js"></script>
+								<!-- 实例化编辑器 -->
+								<script type="text/javascript">
+                                    var ue = UE.getEditor('container');
+                                    
+                                </script>
+							</div>
+						</div>
+						<div class="col-md-2 validation-tip"></div>
+					</div>
+
+				</div>
+
+
+			</div>
+		</div>
+
+	</form>
+</section>
+{/if}
+
+
+<script type="text/javascript">
+    //js验证表单提交方法
+	function check_from(){
+		var title = $('input[name="title"]').val();
+		
+
+		if($.trim(title) == ''){
+			alert('请填写标题');
+			return false;
+		}
+		
+	}
+
+    //显示新建页面,隐藏文件库页面
+    function newFile(id1, id2) {
+        $('#' + id1).hide();
+        $('#' + id2).show();
+    }
+
+    //隐藏新建页面,显示文件库页面
+    function back(id1, id2) {
+
+    }
+
+
+
+
+
+</script>
+{include file="public/footer" /}

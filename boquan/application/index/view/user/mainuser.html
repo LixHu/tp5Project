@@ -1,0 +1,1448 @@
+{include file="public/header" /}
+<link rel="stylesheet" href="_ago/js/webuoloader/webuploader.css">
+    <style>
+        .jumbotron {
+            background: transparent url(images/banner.jpg) repeat-x 50% 0%;
+            color: #fff;
+            text-shadow: 1px 1px 1px #3b3262;
+            margin-bottom: 0;
+        }
+
+        .jumbotron .container {
+            position: relative;
+        }
+
+        .jumbotron .github-btns {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+        }
+
+        .fetature {
+            margin-top: 30px;
+        }
+
+        .page-body {
+            min-height: 450px;
+        }
+
+        .page-container {
+            margin-top: 10px;
+        }
+
+        .page-container h1,
+        .page-container h2,
+        .page-container h3 {
+            padding-top: 70px;
+            margin-top: -50px;
+        }
+
+        .logo {
+            position: relative;
+            padding-left: 60px;
+        }
+        .logo span {
+            position: absolute;
+            left: 15px;
+            top: 8px;
+            font-size: 2em;
+            text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+        }
+        .logo.active {
+            color: #fff;
+        }
+        @media (min-width: 768px) {
+            .fetature .row .col-lg-4 {
+                min-height: 250px;
+            }
+        }
+        .footer {
+            width: 100%;
+            overflow: hidden;
+            color: #f2f2f2;
+            background: #212121;
+            margin-top: 50px;
+        }
+        .footer-fixed-bottom {
+            position: fixed;
+            bottom: 0;
+        }
+        .footer a {
+            color: #f2f2f2;
+        }
+        .footer .footer-inner {
+            margin: 15px;
+        }
+        .wu-example {
+            position: relative;
+            padding: 45px 15px 15px;
+            margin: 15px 0;
+            background-color: #fafafa;
+            box-shadow: inset 0 3px 6px rgba(0, 0, 0, .05);
+            border-color: #e5e5e5 #eee #eee;
+            border-style: solid;
+            border-width: 1px 0;
+        }
+        .wu-example:after {
+            content:"ç¤ºä¾‹";
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            font-size: 12px;
+            font-weight: bold;
+            color: #bbb;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        @media (min-width: 768px) {
+            .bs-example {
+                margin-left: 0;
+                margin-right: 0;
+                background-color: #fff;
+                border-width: 1px;
+                border-color: #ddd;
+                border-radius: 4px 4px 0 0;
+                box-shadow: none;
+            }
+        }
+        .post-toc {
+            margin-top: 30px;
+            margin-bottom: 30px;
+            padding-top: 10px;
+            padding-bottom: 10px;
+            text-shadow: 0 1px 0 #fff;
+            background-color: #f7f5fa;
+            border-radius: 5px;
+        }
+
+        .post-toc .nav > li > a {
+            display: block;
+            color: #716b7a;
+            padding: 5px 20px;
+        }
+
+        .post-toc .nav .nav > li > a {
+            padding-top: 3px;
+            padding-bottom: 3px;
+            padding-left: 30px;
+            font-size: 90%;
+        }
+
+        .post-toc.affix {
+            position: static;
+        }
+
+        .post-toc .nav .nav {
+            display: none;
+            margin-bottom: 8px;
+        }
+
+
+        @media (min-width: 992px) {
+            .post-toc.affix {
+                position: fixed;
+                width: 213px;
+                top: 50px;
+            }
+
+            .post-toc .nav > .active > ul {
+                display: block;
+            }
+        }
+
+        @media (min-width: 1200px) {
+            .post-toc.affix {
+                width: 263px;
+            }
+
+            .post-toc .nav > .active > ul {
+                display: block;
+            }
+        }
+
+        .post-toc .nav > .active > a,
+        .post-toc .nav > .active:hover > a,
+        .post-toc .nav > .active:focus > a {
+            font-weight: bold;
+            color: #563d7c;
+            background-color: transparent;
+            border-right: 1px solid #563d7c;
+        }
+
+        .friends-links {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        .weixin {
+            text-align: center;
+            display: inline-block;
+        }
+        .weixin img {
+            width: 80px;
+        }
+
+
+        /********************************
+        *
+        *  COMMENTS
+        *
+        ********************************/
+
+
+        .comment {
+            background-color: transparent;
+            border-color: #CACACA;
+            border-style: solid;
+            border-width: 1px;
+            color: black;
+            display: block;
+            margin-bottom: 10px;
+            margin-top: 10px;
+            padding: 0px;
+            width: 100%;
+        }
+
+        .comment .commentheader {
+            border-bottom-color: #CACACA;
+            border-bottom-style: solid;
+            border-bottom-width: 1px;
+            color: black;
+            background-image: -webkit-linear-gradient(#F8F8F8,#E1E1E1);
+            background-image: -moz-linear-gradient(#F8F8F8,#E1E1E1);
+            color: black;
+            display: block;
+            float: left;
+            font-family: helvetica, arial, freesans, clean, sans-serif;
+            font-size: 12px;
+            font-style: normal;
+            font-variant: normal;
+            font-weight: normal;
+            height: 33px;
+            line-height: 33px;
+            margin: 0px;
+            overflow-x: hidden;
+            overflow-y: hidden;
+            padding: 0px;
+            text-overflow: ellipsis;
+            text-shadow: rgba(255, 255, 255, 0.699219) 1px 1px 0px;
+            white-space: nowrap;
+            width: 100%;
+        }
+
+        .comment .commentheader .commentgravatar {
+            background-attachment: scroll;
+            background-clip: border-box;
+            background-color: white;
+            background-image: none;
+            background-origin: padding-box;
+            border-color: #C8C8C8;
+            border-style: solid;
+            border-width: 1px;
+            color: black;
+            display: inline-block;
+            float: none;
+            font-family: helvetica, arial, freesans, clean, sans-serif;
+            font-size: 1px;
+            font-style: normal;
+            font-variant: normal;
+            font-weight: normal;
+            height: 24px;
+            line-height: 1px;
+            margin-left: 5px;
+            margin-right: 3px;
+            margin-top: -2px;
+            overflow-x: visible;
+            overflow-y: visible;
+            padding: 1px;
+            text-overflow: clip;
+            text-shadow: rgba(255, 255, 255, 0.699219) 1px 1px 0px;
+            vertical-align: middle;
+            white-space: nowrap;
+            width: 24px;
+        }
+
+        .comment .commentheader a:link {
+            text-decoration: none;
+        }
+
+        .comment .commentheader a:hover {
+            border-bottom:1px solid;
+        }
+
+
+        .comment .commentheader .commentuser {
+            background-color: transparent;
+            color: black;
+            display: inline;
+            float: none;
+            font-family: helvetica, arial, freesans, clean, sans-serif;
+            font-size: 12px;
+            font-style: normal;
+            font-variant: normal;
+            font-weight: bold;
+            height: 0px;
+            line-height: 16px;
+            margin-left: 5px;
+            margin-right: 10px;
+            overflow-x: visible;
+            overflow-y: visible;
+            padding: 0px;
+            text-overflow: clip;
+            text-shadow: rgba(255, 255, 255, 0.699219) 1px 1px 0px;
+            white-space: nowrap;
+            width: 0px;
+        }
+
+        .comment .commentheader .commentdate {
+            background-color: transparent;
+            color: #777;
+            display: inline;
+            float: none;
+            font-family: helvetica, arial, freesans, clean, sans-serif;
+            font-size: 11px;
+            font-style: normal;
+            font-variant: normal;
+            font-weight: normal;
+            height: 0px;
+            line-height: 33px;
+            margin: 0px;
+            overflow-x: visible;
+            overflow-y: visible;
+            padding: 0px;
+            text-overflow: clip;
+            text-shadow: rgba(255, 255, 255, 0.699219) 1px 1px 0px;
+            white-space: nowrap;
+            width: 20em;
+        }
+
+        .comment .commentbody {
+            background-attachment: scroll;
+            background-clip: border-box;
+            background-color: transparent;
+            background-image: none;
+            background-origin: padding-box;
+            color: #333;
+            display: block;
+            margin-bottom: 1em;
+            margin-left: 1em;
+            margin-right: 1em;
+            margin-top: 40px;
+            overflow-x: visible;
+            overflow-y: visible;
+            padding: 0em;
+            position: static;
+            width: 96%;
+            word-wrap: break-word;
+        }
+
+        .comment .commentbody p {
+            margin-bottom: 0.5em;
+            margin-top: 0.5em;
+            margin-left: 0em;
+            margin-right: 0em;
+        }
+
+        .comment .commentbody pre {
+            border: 0px solid #ddd;
+            background-color: #eef;
+            padding: 0 .4em;
+        }
+
+        .comment .commentbody pre code {
+            border: 0px solid #ddd;
+        }
+
+        .comment .commentbody code {
+            border: 1px solid #ddd;
+            background-color: #eef;
+            font-size: 85%;
+            padding: 0 .2em;
+        }
+
+
+
+
+        /*demoæ ·å¼*/
+        #picker {
+            display: inline-block;
+            line-height: 1.428571429;
+            vertical-align: middle;
+            margin: 0 12px 0 0;
+        }
+        #picker .webuploader-pick {
+            padding: 6px 12px;
+            display: block;
+        }
+
+
+        #uploader-demo .thumbnail {
+            width: 110px;
+            height: 110px;
+        }
+        #uploader-demo .thumbnail img {
+            width: 100%;
+        }
+        .uploader-list {
+            width: 100%;
+            overflow: hidden;
+        }
+        .file-item {
+            float: left;
+            position: relative;
+            margin: 0 20px 20px 0;
+            padding: 4px;
+        }
+        .file-item .error {
+            position: absolute;
+            top: 4px;
+            left: 4px;
+            right: 4px;
+            background: red;
+            color: white;
+            text-align: center;
+            height: 20px;
+            font-size: 14px;
+            line-height: 23px;
+        }
+        .file-item .info {
+            position: absolute;
+            left: 4px;
+            bottom: 4px;
+            right: 4px;
+            height: 20px;
+            line-height: 20px;
+            text-indent: 5px;
+            background: rgba(0, 0, 0, 0.6);
+            color: white;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow : ellipsis;
+            font-size: 12px;
+            z-index: 10;
+        }
+        .upload-state-done:after {
+            content:"\f00c";
+            font-family: FontAwesome;
+            font-style: normal;
+            font-weight: normal;
+            line-height: 1;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            font-size: 32px;
+            position: absolute;
+            bottom: 0;
+            right: 4px;
+            color: #4cae4c;
+            z-index: 99;
+        }
+        .file-item .progress {
+            position: absolute;
+            right: 4px;
+            bottom: 4px;
+            height: 3px;
+            left: 4px;
+            height: 4px;
+            overflow: hidden;
+            z-index: 15;
+            margin:0;
+            padding: 0;
+            border-radius: 0;
+            background: transparent;
+        }
+        .file-item .progress span {
+            display: block;
+            overflow: hidden;
+            width: 0;
+            height: 100%;
+            background: #d14 url(../images/progress.png) repeat-x;
+            -webit-transition: width 200ms linear;
+            -moz-transition: width 200ms linear;
+            -o-transition: width 200ms linear;
+            -ms-transition: width 200ms linear;
+            transition: width 200ms linear;
+            -webkit-animation: progressmove 2s linear infinite;
+            -moz-animation: progressmove 2s linear infinite;
+            -o-animation: progressmove 2s linear infinite;
+            -ms-animation: progressmove 2s linear infinite;
+            animation: progressmove 2s linear infinite;
+            -webkit-transform: translateZ(0);
+        }
+        @-webkit-keyframes progressmove {
+            0% {
+                background-position: 0 0;
+            }
+            100% {
+                background-position: 17px 0;
+            }
+        }
+        @-moz-keyframes progressmove {
+            0% {
+                background-position: 0 0;
+            }
+            100% {
+                background-position: 17px 0;
+            }
+        }
+        @keyframes progressmove {
+            0% {
+                background-position: 0 0;
+            }
+            100% {
+                background-position: 17px 0;
+            }
+        }
+
+        a.travis {
+            position: relative;
+            top: -4px;
+            right: 15px;
+        }
+        .weui-cell__ft .icon {
+            font-size: 0.75rem;
+        }
+
+        .weui-tab__bd .weui-tab__bd-item.weui-tab__bd-item--active {
+            background-color: #FFFFFF;
+        }
+
+        input::-webkit-input-placeholder {
+            font-size: 0.75rem;
+        }
+
+        input:-ms-input-placeholder {
+            font-size: 0.75rem;
+        }
+
+        .weui-navbar__item {
+            background: #3dc1ff;
+            color: #FFFFFF;
+            padding: 0.45rem 0;
+            font-size: 0.75rem;
+        }
+
+        .weui-navbar + .weui-tab__bd {
+            padding-top: 2.10rem;
+            background: #FFFFFF;
+        }
+
+        #tab3 .weui-navbar__item {
+            background: #FFFFFF !important;
+            color: #000000;
+            padding: 0.6rem 0;
+        }
+
+        #tab3 .weui-navbar + .weui-tab__bd {
+            padding-top: 2.38rem;
+        }
+
+        #tab3tab1 .weui-navbar__item, #tab3tab3 .weui-navbar__item {
+            background: #eeeeee !important;
+            color: #000000;
+            padding: 0.3125rem 0;
+        }
+
+        #tab3tab1 .weui-navbar + .weui-tab__bd, #tab3tab3 .weui-navbar + .weui-tab__bd {
+            padding-top: 1.8125rem;
+        }
+
+        .weui-navbar__item.weui-bar__item--on {
+            background-color: #3dc1ff;
+        }
+
+        #tab3 .weui-navbar__item.weui-bar__item--on {
+            background: #FFFFFF !important;
+            color: #3dc1ff;
+        }
+
+        #tab3tab1 .weui-navbar__item.weui-bar__item--on, #tab3tab3 .weui-navbar__item.weui-bar__item--on {
+            background: #3dc1ff !important;
+            color: #FFFFFF;
+        }
+
+        .weui-navbar__item:after {
+            border-right: 0;
+        }
+
+        .des.weui-cell:before {
+            border-top: 0;
+        }
+
+        .weui-cells {
+            margin-top: 0 !important;
+        }
+
+        .weui-navbar {
+            z-index: 0;
+        }
+
+        .toolbar .picker-button {
+            color: #3dc1ff;
+        }
+
+        .placeholder1 {
+            margin: 0.7rem;
+            padding: 0 0.5rem;
+            background-color: #ffffff;
+            height: 1.9rem;
+            line-height: 1.9rem;
+            text-align: center;
+            border: 1px solid #eeeeee;
+            border-radius: 0.2rem;
+            font-size: 0.75rem;
+        }
+
+        .placeholder2 {
+            margin: 0.7rem;
+            padding: 0 0.5rem;
+            background-color: #ffffff;
+            height: 1.9rem;
+            line-height: 1.9rem;
+            text-align: center;
+            border-radius: 0.2rem;
+            font-size: 0.75rem;
+        }
+
+        .circle {
+            background: #3dc1ff;
+            color: #FFFFFF;
+            width: 1.9rem;
+            height: 1.9rem;
+            margin: 0 auto;
+            border-radius: 100%;
+        }
+
+        .flex-width {
+            min-width: 0
+        }
+
+        .weui-label {
+            width: 2.4rem;
+        }
+
+        .weui-label-font {
+            margin-right: 0.5rem;
+        }
+
+    </style>
+<header class="header">
+    <a href="javasript:location.reload();">
+        <img src="_ago/images/logo@2x.png" alt="" class="vertical-align-middle icon"/>
+        <span class="header-title">博权云服务平台</span>
+    </a>
+    <a href="javascript:void(0)" class="logout" id="logout">
+        <img src="_ago/images/logout.png" alt="" class="vertical-align-middle icon"/>
+    </a>
+</header>
+
+<div class="weui-tab" id="tabParent">
+    <div class="weui-navbar">
+        <a class="tabOneLevelNav weui-navbar__item weui-bar__item--on" data-href="#tab1">
+            <div class="main-tab-active">
+                维修预约
+            </div>
+        </a>
+        <a class="tabOneLevelNav weui-navbar__item" data-href="#tab2">
+            <div class="main-tab-active">
+                远程诊断
+            </div>
+        </a>
+        <a class="tabOneLevelNav weui-navbar__item" data-href="#tab3">
+            <div class="main-tab-active">
+                <span style="position:relative;">
+                    个人中心
+                   {if $server.logcount egt 1} <span class="badge"></span> {/if}
+                </span>
+            </div>
+        </a>
+    </div>
+    <div class="weui-tab__bd">
+        <div id="tab1" class="tabOneLevelItem weui-tab__bd-item weui-tab__bd-item--active">
+            <form id="myform">
+                <div class="weui-cells weui-cells_form font75">
+                    <div class="weui-cell">
+                        <div class="weui-cell__bd" id="show-actions"
+                             style="-webkit-box-flex: inherit;-webkit-flex: inherit;flex: inherit;">
+                            <p>
+                                <span>选择模式</span><img src="_ago/images/select@2x.png" alt=""
+                                 style="width: 0.75rem;height: 0.75rem;">
+                            </p>
+
+                        </div>
+                        <!--<div class="weui-cell__ft">-->
+                        <!--<img src="_ago/images/select@2x.png" alt="" class="select-icon"> -->
+                        <!--</div>-->
+                        <!--<div class="weui-cell__hd" style="width: 1rem;height: 1rem;">-->
+                        <!---->
+                        <!--</div>-->
+                        <a id="serviceProvider" href="javascript:void (0)"
+                           style="position:absolute;right: 1.3rem;top: 10px;color: #000000;display: none;">
+                            <div style="position:relative;">
+                                <div class="weui-cell__bd ellipsis text-right" id="serviceName"
+                                     style="-webkit-box-flex: inherit;-webkit-flex: inherit;flex: inherit;width: 7.5rem;">
+                                    <span>选择服务商</span>
+                                </div>
+                                <div class="weui-cell__hd">
+                                    <img src="_ago/images/select@2x.png" alt="" class="select-icon-position" style="width: 0.75rem;height: 0.75rem;">
+                                </div>
+                            </div>
+                        </a>
+
+                    </div>
+                    <!--<div class="weui-cell">-->
+                        <!--<div class="weui-cell__hd"><label class="">报修人名称：</label></div>-->
+                        <!--<div class="weui-cell__bd">-->
+                            <!--<input class="weui-input" type="text" name="" />-->
+                        <!--</div>-->
+                    <!--</div>-->
+                    <input type="hidden" name="gid" />
+                    <input type="hidden" name="type" />
+                    <!--<div class="weui-cell">-->
+                        <!--<div class="weui-cell__hd"><label class=" ">联系方式：</label></div>-->
+                        <!--<div class="weui-cell__bd">-->
+                            <!--<input class="weui-input" type="text" name="contact_info" />-->
+                        <!--</div>-->
+                    <!--</div>-->
+                    <div class="weui-cell">
+                        <div class="weui-cell__hd"><label class=" ">服务类型：</label></div>
+                        <div class="weui-cell__bd">
+                            <select class="weui-input" name="server_type">
+                                <option value="1">保内免费</option>
+                                <option value="2">保内收费</option>
+                                <option value="3">保外免费</option>
+                                <option value="4">保外收费</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="weui-cell">
+                        <div class="weui-cell__hd" name="server_type"><label class=" ">服务内容：</label></div>
+                        <div class="weui-cell__bd">
+                            <select class="weui-input" name="server_content">
+                                <option value="1">安装</option>
+                                <option value="2">维修</option>
+                                <option value="3">保养</option>
+                                <option value="4">巡检</option>
+                                <option value="5">检查</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="weui-cell">
+                        <div class="weui-cell__hd" name="server_content"><label class=" ">服务地点：</label></div>
+                        <div class="weui-cell__bd">
+                            <input class="weui-input" type="text" name="address" />
+                        </div>
+                    </div>
+                    <div class="weui-cell">
+                        <div class="weui-cell__hd"><label class=" ">服务车型：</label></div>
+                        <div class="weui-cell__bd">
+                            <input class="weui-input" type="text" name="car_type" pattern="[0-9]*">
+                        </div>
+                    </div>
+                    <div class="weui-cell">
+                        <div class="weui-cell__hd"><label class=" ">发动机匹配厂家：</label></div>
+                        <div class="weui-cell__bd">
+                            <input class="weui-input" type="text" name="math_ven" pattern="[0-9]*">
+                        </div>
+                    </div>
+                    <div class="weui-cell">
+                        <div class="weui-cell__hd"><label class="">故障现象描述说明：</label></div>
+                    </div>
+                    <div class="weui-cell des">
+                        <div class="weui-cell__bd">
+                            <textarea class="weui-textarea" name="desc" placeholder="请输入故障现象描述说明" rows="3"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="body-content-margin" style="padding: 0.75rem;">
+                    <div id="uploader-demo">
+                        <div id="fileList" class="uploader-list"></div>
+                        <div id="filePicker">选择图片</div>
+                        <input type="hidden" id="imgBase" name="imgBase" />
+                    </div>
+                </div>
+                <div class="body-content-margin">
+                    <a href="" class="weui-btn btn-primary" id="reservationBtn">提交</a>
+                </div>
+            </form>
+        </div>
+        <div id="tab2" class="tabOneLevelItem weui-tab__bd-item font75">
+            <div class="diagnosisModelTitle">诊断结果</div>
+            <div class="weui-cell">
+                <div class="weui-cell__bd" style="text-align: center;">
+                    <button class="btn btn-primary" style="width: 50%;height:150px;border-radius: 50%; font-size: 20px;color: #fff;" onclick="remote()">远程诊断</button>
+                </div>
+            </div>
+            <script>
+                var remote = function () {
+                    var data = {};
+                    $.post("Remote",data,function (res) {
+                        console.log(res);
+                    })
+                }
+            </script>
+        </div>
+        <div id="tab3" class="tabOneLevelItem weui-tab__bd-item ">
+            <div class="weui-tab">
+                <div class="weui-navbar">
+                    <a class="tabTwoLevelNav font75 weui-navbar__item" data-href="#tab3tab2">
+                        我的车型
+                    </a>
+                    <a class="tabTwoLevelNav font75 weui-navbar__item" data-href="#tab3tab3">
+                        <span style="position:relative;">
+                            消息通知
+                            {if $server.logcount egt 1} <span class="badge"></span> {/if}
+                        </span>
+                    </a>
+                    <a class="tabTwoLevelNav font75 weui-navbar__item weui-bar__item--on" data-href="#tab3tab1">
+                        账号安全
+                    </a>
+                </div>
+                <div class="weui-tab__bd">
+                    <div id="tab3tab1" class="tabTwoLevelItem weui-tab__bd-item weui-tab__bd-item--active">
+                        <div class="weui-tab">
+                            <div class="weui-navbar">
+                                <a class="tabThreeLevelNav font75 weui-navbar__item weui-bar__item--on"
+                                   data-href="#tab3tab1tab1">
+                                    更换手机号
+                                </a>
+                                <a class="tabThreeLevelNav font75 weui-navbar__item" data-href="#tab3tab1tab2">
+                                    修改密码
+                                </a>
+                            </div>
+                            <div class="weui-tab__bd">
+                                <div id="tab3tab1tab1"
+                                     class="tabThreeLevelItem weui-tab__bd-item weui-tab__bd-item--active">
+                                    <div class="weui-flex">
+                                        <div class="weui-flex__item flex-width weui-actionsheet_cancel">
+                                            <div class="placeholder2">
+                                                <div class="circle">1</div>
+                                                <div class="font75 text-center">
+                                                    输入手机号
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="weui-flex__item flex-width weui-actionsheet_cancel">
+                                            <div class="placeholder2">
+                                                <div class="circle">2</div>
+                                                <div class="font75 text-center">
+                                                    获取验证码
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="weui-flex__item flex-width weui-actionsheet_cancel">
+                                            <div class="placeholder2">
+                                                <div class="circle">3</div>
+                                                <div class="font75 text-center">
+                                                    完成更换
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div style="margin: 1.5rem 0 0.5rem 0;width: 100%;">
+                                        <form action="" id="edit_mob" method="post">
+                                            <div class="weui-cells weui-cells_form">
+                                                <div class="weui-cell">
+                                                    <div class="weui-cell__hd">
+                                                        <label class="weui-label">
+                                                            <img src="_ago/images/phone.png" alt="" class="icon"/>
+                                                        </label>
+                                                    </div>
+                                                    <div class="weui-cell__bd">
+                                                        <input class="weui-input" type="number" name="mobile" pattern="[0-9]*"
+                                                               placeholder="请输入手机号"/>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="weui-cells weui-cells_form">
+                                                <div class="weui-cell">
+                                                    <div class="weui-cell__hd">
+                                                        <label class="weui-label">
+                                                            <img src="_ago/images/verification_code.png" alt="" class="icon"/>
+                                                        </label>
+                                                    </div>
+                                                    <div class="weui-cell__bd" style="position: relative;">
+                                                        <input class="weui-input" id="verification" type="text" name="verify"
+                                                               pattern="[0-9]*" placeholder="请输入验证码"/>
+                                                        <a href="javascript:void(0)" id="sendbtn" onclick="sendSms('{:url('Sendmes/send_sms')}')" class="weui-btn btn-primary2" style="position: absolute;right: 0;top: -0.4rem;font-size: 0.75rem;padding-left: 0.75rem;padding-right: 0.75rem;">获取验证码</a>
+                                                        <a href="javascript:void(0)" id="sendbtn2" class="weui-btn btn-primary2"
+                                                           style="display: none;position: absolute;right: 0;top: -27px;font-size: 0.75rem;padding-left: 0.75rem;padding-right: 0.75rem;">获取验证码</a>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div style="margin: 0.75rem;color: #828181;" class="font75">
+                                        更换手机号后，下次登录可使用新手机号
+                                        <p>当前手机号：{$server.info.mobile}</p>
+                                    </div>
+                                    <div class="body-content-margin">
+                                        <a href="javascript:;" onclick="edit_mobile()" class="weui-btn btn-primary">确定</a>
+                                    </div>
+                                </div>
+                                <div id="tab3tab1tab2" class="tabThreeLevelItem weui-tab__bd-item">
+                                    <div class="weui-flex">
+                                        <div class="weui-flex__item flex-width weui-actionsheet_cancel">
+                                            <div class="placeholder2">
+                                                <div class="circle">1</div>
+                                                <div class="font75 text-center">
+                                                    填写原密码
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="weui-flex__item flex-width weui-actionsheet_cancel">
+                                            <div class="placeholder2">
+                                                <div class="circle">2</div>
+                                                <div class="font75 text-center">
+                                                    设置新密码
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="weui-flex__item flex-width weui-actionsheet_cancel">
+                                            <div class="placeholder2">
+                                                <div class="circle">3</div>
+                                                <div class="font75 text-center">
+                                                    完成设置
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div style="margin: 1.5rem 0 0.5rem 0;width: 100%;">
+                                        <form action="" id="edit_password">
+                                            <div class="weui-cells weui-cells_form">
+                                                <div class="weui-cell font75">
+                                                    <div class="weui-cell__hd"><label class="weui-label-font ">原密码</label>
+                                                    </div>
+                                                    <div class="weui-cell__bd">
+                                                        <input class="weui-input" type="password" name="oldpassword"
+                                                               placeholder="请输入原密码">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="weui-cells weui-cells_form">
+                                                <div class="weui-cell font75">
+                                                    <div class="weui-cell__hd"><label class="weui-label-font ">新密码</label>
+                                                    </div>
+                                                    <div class="weui-cell__bd">
+                                                        <input class="weui-input" type="password" name="newpassword"
+                                                               placeholder="请输入新密码">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="weui-cells weui-cells_form">
+                                                <div class="weui-cell font75">
+                                                    <div class="weui-cell__hd"><label class="weui-label-font ">新密码</label>
+                                                    </div>
+                                                    <div class="weui-cell__bd">
+                                                        <input class="weui-input" type="password" name="newpassword2"
+                                                               placeholder="请再次输入新密码">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div class="body-content-margin">
+                                        <a href="javascript:;" onclick="edit_password()" class="weui-btn btn-primary">确定</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div id="tab3tab2" class="tabTwoLevelItem weui-tab__bd-item">
+                        <form action="" id="car_submit" method="post" >
+                            <div class="weui-cells font75">
+                                <div class="weui-cell font75">
+                                    <div class="weui-cell__hd"><label>车辆牌照：</label></div>
+                                    <div class="weui-cell__bd">
+                                        <input class="weui-input" type="text" name="license"
+                                               value="{$server.car_info.license}" disabled />
+                                    </div>
+                                </div>
+                                <div class="weui-cell font75">
+                                    <div class="weui-cell__hd"><label>车辆长宽高：</label></div>
+                                    <div class="weui-cell__bd">
+                                        <input class="weui-input" type="text" name="lwh"
+                                               value="{$server.car_info.lwh}" disabled />
+                                    </div>
+                                </div>
+                                <div class="weui-cell font75">
+                                    <div class="weui-cell__hd"><label>车辆重量：</label></div>
+                                    <div class="weui-cell__bd">
+                                        <input class="weui-input" type="text" name="weight"
+                                               value="{$server.car_info.weight}" disabled />
+                                    </div>
+                                </div>
+                                <div class="weui-cell font75">
+                                    <div class="weui-cell__hd"><label>车辆类型：</label></div>
+                                    <div class="weui-cell__bd">
+                                        <input class="weui-input" type="text" name="car_type"
+                                               value="{$server.car_info.car_type}" disabled>
+                                    </div>
+                                </div>
+                                <div class="weui-cell font75">
+                                    <div class="weui-cell__hd"><label>发动机匹配厂家：</label></div>
+                                    <div class="weui-cell__bd">
+                                        <input class="weui-input" type="text" name="math_vend"
+                                               value="{$server.car_info.math_vend}" disabled>
+                                    </div>
+                                </div>
+                                <div class="weui-cell font75">
+                                    <div class="weui-cell__hd"><label>发动机类型：</label></div>
+                                    <div class="weui-cell__bd">
+                                        <input class="weui-input" type="text" name="engine_type"
+                                               value="{$server.car_info.engine_type}" disabled>
+                                    </div>
+                                </div>
+                                <div class="weui-cell font75">
+                                    <div class="weui-cell__hd"><label>维修历史：</label></div>
+                                    <div class="weui-cell__bd">
+                                        <input class="weui-input" type="text" name="server_history"
+                                               value="{$server.car_info.server_history}" disabled>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="body-content-margin" style="margin-top: 0.75rem;">
+                                <a href="javascript: void(0)" class="weui-btn btn-primary" id="modifyCar">修改</a>
+                                <a href="javascript: void(0)" class="weui-btn weui-btn_default" style="display: none;"
+                                   id="modifyCarBack">返回</a>
+                            </div>
+                        </form>
+                    </div>
+                    <div id="tab3tab3" class="tabTwoLevelItem weui-tab__bd-item">
+                        <div class="weui-tab">
+                            <div class="weui-navbar">
+                                <a class="tabThreeLevelNav font75 weui-navbar__item weui-bar__item--on"
+                                   data-href="#tab3tab3tab1" id="reservationMessage">
+                                    <span style="position:relative;">
+                                        预约消息
+                                        {if $server.logcount egt 1} <span class="badge"></span> {/if}
+                                    </span>
+                                </a>
+                                <a class="tabThreeLevelNav font75 weui-navbar__item" data-href="#tab3tab3tab2">
+                                    诊断历史
+                                </a>
+                            </div>
+                            <div class="weui-tab__bd font75">
+                                <div id="tab3tab3tab1" class="tabThreeLevelItem weui-tab__bd-item weui-tab__bd-item--active">
+                                    {volist name="server.log_list" id="vo"}
+                                        <div class="weui-cell weui-cell_access">
+                                            <div class="weui-cell__bd weui-cell_primary">
+                                                <p>{$vo.add_time|date="n-d H:i",###} <span>{$vo.desc}</span></p>
+                                            </div>
+                                        </div>
+                                    {/volist}
+                                </div>
+                                <div id="tab3tab3tab2" class="tabThreeLevelItem weui-tab__bd-item">
+                                    <div class="weui-media-box weui-media-box_text">
+                                        <!--<h4 class="weui-media-box__title font75">-->
+                                            <!--01-09 13:00 <span>编号：编号</span>-->
+                                        <!--</h4>-->
+                                        <!--<p class="weui-media-box__desc">-->
+                                            <!--<p><span class="color-blue2">可能故障:</span><span>诊断历史</span></p>-->
+                                        <!--</p>-->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="full" class='weui-popup__container'>
+    <div class="weui-popup__overlay"></div>
+    <div class="weui-popup__modal">
+        <div class="toolbar">
+            <div class="toolbar-inner">
+                <a href="javascript:;" class="picker-button close-popup">关闭</a>
+                <h1 class="title">选择服务商</h1>
+            </div>
+        </div>
+        <div class="modal-content" style="background-color: #fff;font-size: 0.75rem;">
+            <div class="weui-cell">
+                <div class="weui-cell__hd"><img
+                        src="_ago/images/location.png"
+                        alt="" style="width:20px;margin-right:5px;display:block"></div>
+                <div class="weui-cell__bd">
+                    <p class="">{$server['address']}</p>
+                </div>
+            </div>
+            <div class="weui-cell">
+                <input type="search" placeholder="搜索" required=""
+                       style="border: 1px solid #3dc1ff;padding: 8px 10px;width: calc(100% - 3rem);    border-radius: 0.2rem 0 0 0.2rem;" id="keyword" />
+                <button id="searchServiceBtn" style="padding: 8px 10px;border: 0;background: #3dc1ff;color: #FFFFFF;width: 3rem;border-radius: 0 0.2rem 0.2rem 0;" type="button">
+                    搜索
+                </button>
+            </div>
+            <div id="defaultService">
+                <div class="serviceModelTitle">常用服务商</div>
+                {volist name="server.common" id="vo"}
+                    <div class="weui-flex">
+                        {volist name="$vo" id="v"}
+                            <div class="weui-flex__item flex-width weui-actionsheet_cancel">
+                                <div class="placeholder1 ellipsis">{$v.gname}</div>
+                                <input type="hidden" name="group_id" value="{$v.gid}" />
+                            </div>
+                        {/volist}
+                    </div>
+                {/volist}
+                <div class="serviceModelTitle" style="margin-bottom: 0.75rem;">附近服务商</div>
+                <div id="nearby">
+                    {volist name="near_server" id="vo"}
+                        <div class="weui-cell">
+                            <div class="weui-cell__bd">{$vo.gname}</div>
+                            <div style="float:right;">{$vo.kmnum}km</div>
+                            <input type="hidden" name="group_id" value="{$vo.gid}" />
+                        </div>
+                        <div style="clear:both;color:#b5b7a1;padding:0 15px;">{$vo.address}</div>
+                    {/volist}
+                </div>
+            </div>
+            <div id="searchService" style="display: none;">
+                <div class="serviceModelTitle" style="margin-bottom: 0.75rem;">搜索结果</div>
+                <div id="searchService2">
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{include file="public/footer" /}
+<script src="_ago/js/webuoloader/webuploader.js"></script>
+<script>
+    $("#serviceProvider").on('click',function () {
+        $("#full").popup();
+    })
+    var type = $("input[name='type']");
+    type.val(0);
+    $(function () {
+        FastClick.attach(document.body);
+    });
+
+    $("#mode").select({
+        title: "选择模式",
+        items: ["服务商模式", "抢单"],
+        onChange: function (d) {
+            console.log(this, d);
+        },
+        onClose: function () {
+            console.log("close");
+        },
+        onOpen: function () {
+            console.log("open");
+        },
+    });
+
+    //选择模式
+    $(document).on("click", "#show-actions", function () {
+        $.actions({
+            title: "选择模式",
+            onClose: function () {
+
+            },
+            actions: [
+                {
+                    text: "服务商模式",
+                    className: "color-primary",
+                    onClick: function () {
+                        $('#serviceProvider').show();
+                        $('#show-actions').find('span').text('服务商模式');
+                        type.val(1);
+                    }
+                },
+                {
+                    text: "抢单模式",
+                    className: "color-primary",
+                    onClick: function () {
+                        $('#serviceProvider').hide();
+                        $('#show-actions').find('span').text('抢单模式');
+                        type.val(2);
+                    }
+                }
+            ]
+        });
+    });
+    //选择服务商
+    $(document).on("open", ".weui-popup-modal", function () {
+        console.log("open popup");
+    }).on("close", ".weui-popup-modal", function () {
+        console.log("close popup");
+    });
+    //点击常用服务商
+    $('.placeholder1').click(function () {
+        $('#serviceName span').text($(this).text());
+        $("input[name='gid']").val($(this).parent().find('input').val());
+        $('.close-popup').click();
+    })
+    //点击附近服务及搜索服务
+    $('#nearby .weui-cell__bd,#searchService .weui-cell__bd').click(function () {
+        $('#serviceName span').text($(this).text());
+        console.log($(this).parent().find('input'));
+        $("input[name='gid']").val($(this).parent().find('input').val());
+        $('.close-popup').click();
+    })
+    //点击搜索按钮
+    $('#searchServiceBtn').click(function () {
+        $('#searchService').show();
+        $('#defaultService').hide();
+        var data = {};
+        data.keyword = $("#keyword").val()
+        $.post('getSearchGroup',data,function (res) {
+            $div = $("<div id=\"search\"></div>");
+            $div.html('');
+            $("#searchService2").html('');
+            if(res.code == 1){
+                $.each(res.data,function (k,v) {
+                    $div.append("<div class=\"weui-cell\" onclick='change(this)'>" +
+                        "<div class=\"weui-cell__bd\">"+v.gname+"</div>" +
+                        "<input type=\"hidden\" name=\"group_id\" value="+v.gid+" />" +
+                        "</div>");
+                });
+                $("#searchService2").append($div);
+            }
+        })
+    })
+    var change = function (obj) {
+        $('#serviceName span').text($(obj).text());
+        $("input[name='gid']").val($(obj).parent().find('input').val());
+        $('.close-popup').click();
+    }
+    //预约提交
+    $('#reservationBtn').click(function () {
+        if (type.val() == 0){
+            alert("请选择模式");
+            return false;
+        }else{
+            var gid = $("input[name='gid']");
+            if (type.val() == 1 && gid.val() == ''){
+                return false;
+            }
+            var form = $('#myform').serialize();
+            $.post('sub_order',form,function(res){
+                $.toast(res.msg);
+                if(res.code == 1){
+                    setTimeout(function () {
+                        history.go(0);
+                    },2000)
+                }
+            })
+            return false;
+        }
+        // $.toast("提交失败", "cancel");
+    })
+    //一级tab切换,  //二级tab切换,  //三级tab切换
+    tabChange('#tabParent .tabOneLevelNav', '#tabParent .tabOneLevelItem');
+    tabChange('#tab3 .tabTwoLevelNav', '#tab3 .tabTwoLevelItem');
+    tabChange('#tab3tab1 .tabThreeLevelNav', '#tab3tab1 .tabThreeLevelItem');
+    tabChange('#tab3tab3 .tabThreeLevelNav', '#tab3tab3 .tabThreeLevelItem');
+
+    /**
+     * tab切换类
+     * @param id 级别切换按钮
+     * @param box 级别切换内容
+     */
+    function tabChange(id, box) {
+        $(id).click(function () {
+            if (!$(this).hasClass('weui-bar__item--on')) {
+                $(id).removeClass('weui-bar__item--on');
+                $(this).addClass('weui-bar__item--on');
+                $(box).removeClass('weui-tab__bd-item--active');
+                $($(this).attr('data-href')).addClass('weui-tab__bd-item--active');
+            }
+        })
+    }
+    //点击修改
+    $('#modifyCar').click(function () {
+        if ($(this).text() != '保存') {
+            $(this).text('保存');
+            $('#tab3tab2 input').removeAttr('disabled');
+            $('#tab3tab2 input').eq(0).focus();
+            $('#modifyCarBack').show();
+        } else {
+            var car_form = $('#car_submit').serializeArray();
+            $(this).text('修改');
+            $('#tab3tab2 input').attr('disabled', 'disabled');
+            $('#modifyCarBack').hide();
+            console.log(car_form);
+            $.post('submycar',car_form,function(res){
+                alert(res.msg);
+            })
+        }
+    })
+    //点击返回
+    $('#modifyCarBack').click(function () {
+        $('#modifyCar').text('修改');
+        $('#tab3tab2 input').attr('disabled', 'disabled');
+        $('#modifyCarBack').hide();
+    })
+    //点击消息通知，红点消失
+    $('#tab3 .tabTwoLevelNav').eq(2).click(function () {
+        if ($('#tab3tab3 .tabThreeLevelNav').eq(0).hasClass('weui-bar__item--on')) {
+            $.get('ReadLog',function (res) {
+                if (res.code == 1){
+                    $('.badge').hide();
+                }
+            })
+        }
+    })
+    //点击预约消息，红点消失
+    $('#reservationMessage').click(function () {
+        $('.badge').hide();
+        $.get('ReadLog',function (res) {
+            if (res.code == 1){
+                $('.badge').hide();
+            }
+        })
+    })
+    //退出当前账户
+    $('#logout').click(function () {
+        $.confirm("您确定要退出当前账户吗?", function () {
+            location.href = '{:url('user/signout')}';
+        }, function () {
+            //取消
+        });
+    })
+    // 修改手机号发送验证码
+    var sendbtn = $('#sendbtn');
+    var sendbtn2 = $('#sendbtn2');
+    var wait=60;
+    var sendSms = function(){
+        var data = {};
+        data.mobile = $("input[name='mobile']").val();
+        data.method = 'edit';
+        $.post('/index/SendMes/send_sms',data,function(res){
+            alert(res.msg);
+            if(res.code == 1000){
+                codetime();
+            }
+        })
+    }
+    function codetime() {
+        if (wait == 0) {
+            sendbtn.show();
+            sendbtn2.hide();
+            sendbtn2.text("获取验证码");
+            wait = 60;
+        } else {
+            sendbtn.hide();
+            sendbtn2.show();
+            sendbtn2.text("已发送(" + wait+ 's' + ")");
+            wait--;
+            setTimeout(function() {
+                codetime();
+            },1000)
+        }
+    }
+    // 修改手机号提交表单
+    var edit_mobile = function(){
+        var form = $("#edit_mob").serializeArray();
+        $.post('EditMobile',form,function(res){
+            if (res.code == 1){
+                alert(res.msg);
+                location.reload();
+            }else{
+                alert(res.msg);
+            }
+        })
+    }
+    var edit_password = function () {
+        var data = $("#edit_password").serializeArray();
+        $.post('EditPass',data,function(res){
+            if (res.code == 1){
+                alert(res.msg);
+                location.reload();
+            }else{
+                alert(res.msg);
+            }
+        })
+    }
+    /**
+     * 上传图片类
+     */
+    /*---------------------------------------*/
+
+    // 初始化Web Uploader
+    var uploader = WebUploader.create({
+        // 选完文件后，是否自动上传。
+        auto: true,
+        // swf文件路径
+        swf: 'https://cdn.staticfile.org/webuploader/0.1.5/Uploader.swf',
+        // 文件接收服务端。
+        server: '{:url('index/UploadBase')}',
+        // 选择文件的按钮。可选。
+        // 内部根据当前运行是创建，可能是input元素，也可能是flash.
+        pick: '#filePicker',
+        // 只允许选择图片文件。
+        accept: {
+            title: 'Images',
+            extensions: 'gif,jpg,jpeg,bmp,png',
+            mimeTypes: 'image/*'
+        }
+    });
+    var $list = $('#fileList');
+    // 当有文件添加进来的时候
+    uploader.on( 'fileQueued', function( file ) {
+        var $li = $(
+            '<div id="' + file.id + '" class="file-item thumbnail">' +
+            '<img>' +
+            '<div class="info">' + file.name + '</div>' +
+            '</div>'
+            ),
+            $img = $li.find('img');
+
+        // $list为容器jQuery实例
+        $list.append( $li );
+
+        // 创建缩略图
+        // 如果为非图片文件，可以不用调用此方法。
+        // thumbnailWidth x thumbnailHeight 为 100 x 100
+        uploader.makeThumb( file, function( error, src ) {
+            if ( error ) {
+                $img.replaceWith('<span>不能预览</span>');
+                return;
+            }
+
+            $img.attr( 'src', src );
+        }, 100, 100 );
+    });
+
+    // 文件上传过程中创建进度条实时显示。
+    uploader.on( 'uploadProgress', function( file, percentage ) {
+        var $li = $( '#'+file.id ),
+            $percent = $li.find('.progress span');
+        // 避免重复创建
+        if ( !$percent.length ) {
+            $percent = $('<p class="progress"><span></span></p>')
+                .appendTo( $li )
+                .find('span');
+        }
+        $percent.css( 'width', percentage * 100 + '%' );
+    });
+
+    // 文件上传成功，给item添加成功class, 用样式标记上传成功。
+    uploader.on( 'uploadSuccess', function(file,response) {
+        $('#imgBase').val($('#imgBase').val()+' - '+response.url);
+//        $( '#'+file.id ).addClass('upload-state-done');
+
+    });
+
+    // 文件上传失败，显示上传出错。
+    uploader.on( 'uploadError', function( file) {
+        var $li = $( '#'+file.id ),
+            $error = $li.find('div.error');
+        // 避免重复创建
+        if ( !$error.length ) {
+            $error = $('<div class="error"></div>').appendTo( $li );
+        }
+        $error.text('上传失败');
+    });
+
+    // 完成上传完了，成功或者失败，先删除进度条。不管成功或者失败，在文件上传完后都会触发uploadComplete事件。
+    uploader.on( 'uploadComplete', function( file ) {
+        $( '#'+file.id ).find('.progress').remove();
+    });
+
+</script>

@@ -1,0 +1,808 @@
+{include file="public/header" /}
+<link rel="stylesheet" href="_css/select2.min.css">
+
+<link
+    href="http://cdn.bootcss.com/bootstrap-daterangepicker/2.1.25/daterangepicker.css"
+    rel="stylesheet" />
+<script
+    src="http://cdn.bootcss.com/bootstrap-daterangepicker/2.1.25/moment.min.js"></script>
+<script
+    src="http://cdn.bootcss.com/bootstrap-daterangepicker/2.1.25/daterangepicker.js"></script>
+<script src="_js/bootstrap-datetimepicker.min.js"></script>
+<script src="_js/bootstrap-datetimepicker.zh-CN.js"></script>
+
+<link rel="stylesheet" href="_css/bootstrap-datetimepicker.min.css">
+<link rel="stylesheet" href="_kind/themes/default/default.css">
+<script src="_kind/kindeditor.js"></script>
+<script src="_kind/lang/zh_CN.js"></script>
+<!--
+必须引入jquery,后面的循环和赋值需要用到
+1.循环上传按钮、
+2.每个上传按钮的点击事件
+建议点击按钮的class有upload_img
+注意：点击按钮之前要用一个input来存放文件的路径
+    input之前需要一个img来显示图片
+-->
+
+<script>
+function readys(){
+    KindEditor.ready(function(K) {
+        var editor = K.editor({
+            allowFileManager : true
+        });
+        $(".upload_img").each(function(k,v){ //循环上传按钮、
+            $(v).click(function(){ //每个上传按钮的点击事件
+                editor.loadPlugin('image', function() {
+                    editor.plugin.imageDialog({
+                        imageUrl:$(v).prev().val(),
+                        clickFn : function(url, title, width, height, border, align) {
+                            $(v).prev().val(url); //为他之前的input赋值
+                            $(v).prev().prev().attr("src",url); //为他之前的之前的img赋值
+                            editor.hideDialog();
+                        }
+                    });
+                });
+            });
+        })
+    });
+}
+readys();
+</script>
+<style>
+
+body {
+    background-color: #eeeeee;
+}
+
+.content {
+    padding: 0 15px !important;
+}
+
+.small-box {
+    margin-bottom: 0px;
+    color: #FFFFFF;
+}
+
+.table-header-sort {
+    cursor: pointer;
+    color: black !important;
+}
+
+.tooltip>.tooltip-inner {
+    background-color: #e5e5e5;
+    color: #0c0c0c
+}
+
+.tooltip.top .tooltip-arrow {
+    border-top-color: #e5e5e5;
+}
+
+#wait {
+    background: rgba(255, 255, 255, 0.5) url("/resource/images/wait.gif")
+        center no-repeat;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    z-index: 9000;
+}
+
+.dnone {
+    display: none;
+}
+
+[v-cloak] {
+    display: none
+}
+
+.iconfont {
+    width: 50px !important;
+}
+
+.dropdown-menu>li a {
+    transition: background-color ease .3s, color ease .3s, border-color ease
+        .3s;
+}
+
+.dropdown-menu>li a:hover {
+    background-color: #3c8dbc;
+    color: white;
+    border-color: #3c8dbc;
+}
+
+.dropdown-toggle {
+    transition: background-color ease .3s, color ease .3s, border-color ease
+        .3s;
+}
+
+.dropdown-toggle:hover {
+    background-color: #3c8dbc;
+    color: white;
+    border-color: #3c8dbc;
+}
+
+.open .dropdown-toggle {
+    background-color: #3c8dbc !important;
+    color: white !important;
+    border-color: #3c8dbc !important;
+}
+
+.btn-default1 {
+    background-color: #f4f4f4;
+    color: #444;
+    border-color: #ddd;
+}
+
+.small-box .icon {
+    top: -25px !important;
+}
+
+.small-box h3 {
+    font-size: 30px !important;
+    margin: 0 0 10px 0 !important;
+    white-space: nowrap !important;
+    padding: 0 !important;
+    font-weight: normal !important;
+}
+
+.table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th,
+    .table>thead>tr>td, .table>thead>tr>th {
+    line-height: 2.4;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+</style>
+<div class="" id="main">
+    <section class="content" style="min-width: 760px !important;">
+        <div class="">
+
+            <input type="hidden" id="sortSeachModel" name="sortBy[taskNo]" value="false"> <input type="hidden" id="workTaskId" name="id" value="">
+
+            <div class="box box-solid">
+                <div class="box-body">
+                    <div class="row">
+                        <div class="col-md-6 col-sm-6">
+                            <div class="btn-group" id="auth_delete">
+
+                                
+                                <a href="javascript:$('#customerFrameModal').modal('show');" class="filterToBe filterActive" style="margin-left: 10px;">新建</a>
+                                <a href="{:url('Driver/driver_list',['cid'=>0])}" {if condition="$cid eq 0"} class="filterToBe filterActive" {else} class="filterToBe" {/if}>全部</a>
+                                {volist name="cart_type" id="vo"}
+                                <a href="{:url('Driver/driver_list',['cid'=>$vo.id])}" {if condition="$cid eq $vo['id']"} class="filterToBe filterActive" {else} class="filterToBe" {/if}>{$vo.type_name}</a>
+                                {/volist}
+                                <!-- <a href="javascript:del()" class="btn btn-default btn-sm" style="margin-left: 10px;">删除</a> -->
+
+                            </div>
+                            
+                        </div>
+
+                        <div class="col-md-6 col-sm-6">
+                            <form id="mainForm" action="search_driver" method="get"
+                                class="nice-validator n-default n-bootstrap"
+                                novalidate="novalidate">
+                                <div class="input-group">
+                                    <input type="text" class="form-control keyword-search criteria"
+                                        placeholder="请输入姓名 | 手机号" value="" id="keyword" name="keyword"
+                                        maxlength="50"> <span class="input-group-btn">
+                                        <button class="btn btn-primary" type="submit" id="btnSearch">搜
+                                            索</button>
+                                    </span>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="box box-solid">
+                <div class="box-body no-padding">
+                    <div class="table-responsive list">
+                        <table class="table table-hover table-striped table-bordered"
+                            id="taskTable">
+                            <thead>
+                                <tr><th></th>
+                                    <th>所属区域</th>
+                                    <th>姓名</th>
+                                    <th id="tour_1" name="taskCustomer">手机号</th>
+                                    <th name="taskCustomerLinkmanPhone">积分</th>
+                                    <th name="taskCustomerLinkmanPhone">金币</th>
+                                    <th name="taskCustomerLinkmanPhone">证件照</th>
+                                    <th name="taskProduct">状态</th>
+                                    <th name="taskPlanTime">操作</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {if condition="$res eq false"} 
+                                {volist name="data" id="vo"}
+                                <tr>
+                                    <td name="taskCustomer"></td>
+                                    <td name="taskCustomer">{$vo.region_id}</td>
+                                    <td name="taskCustomer">{$vo.rela_name}</td>
+                                    <td name="taskCustomer">{$vo.mobile}</td>
+                                    <td name="taskCustomer">{$vo.integer}</td>
+                                    <td name="taskCustomer">{$vo.glod}</td>
+                                    <td name="taskCustomer"><img src="{$vo.driverlicens_header}" style="width: 100px;height: 100px;"></td>
+
+                                    
+                                    {if condition="$vo['aud_status'] eq 1"}
+                                    <td name="taskCustomer" style="color: #6495ED;">已开通</td>
+                                    <td name="taskCustomer"><a href="javascript:savestatus({$vo.did});" style="color: red;">冻结</a></td>
+                                    {else}
+                                    <td name="taskCustomer" style="color: red;">已冻结</td>
+                                    <td name="taskCustomer"><a href="javascript:savestatus({$vo.did});">开通</a></td>
+                                    {/if}
+                                </tr>
+                                {/volist} {else}
+
+                                <tr>
+                                    <td colspan="19" style="text-align: center;">未找到相关数据</td>
+                                </tr>
+                                {/if}
+                            
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="box-footer ">
+                    <div class="col-lg-8 ">
+                        <!-- <ul class="pagination pull-right" id="pagination1"></ul> -->
+
+                        {$page}
+                    </div>
+                </div>
+
+            </div>
+                
+
+
+
+            <div class="modal fade in" id="customerFrameModal"
+                aria-hidden="false">
+                <div class="modal-dialog" style="width: 800px;">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal"
+                                aria-label="Close">
+                                <span aria-hidden="true">×</span>
+                            </button>
+                            <h4 class="modal-title">新增司机</h4>
+                        </div>
+                        <div class="modal-body">
+                            <form name="add" id="add" method="post" action="" onsubmit="return check_from();">
+                                <div class="container-fluid">
+                                        <div class="form-group col-md-12" style="text-align: center;font-weight:bold;">身份信息
+                                        </div>
+                                        <div class="form-group col-md-12">
+                                            <label for="lmPhone" class="col-md-2 col-sm-3 control-label">地区<span
+                                                class="text-red" title="必填">*</span>：
+                                            </label>
+                                            <div class="col-md-8 col-sm-7">
+
+                                                <select name="" id="province" data-toggle="popover" data-placement="bottom" data-content="请选择省份" style="width: 45%;height: 30px;">
+                                                    <option>请选择省份</option>
+                                                    {volist name="region_data" id="vo"}
+                                                    <option value="{$vo.id}">{$vo.name}</option>
+                                                    {/volist}
+                                                </select>
+                                                <select name="region_id" id="city"
+                                                data-toggle="popover" data-placement="bottom" data-content="请选择市" style="width: 45%;height: 30px;">
+                                                    <option value="0">请选择市</option>
+                                                </select>
+                                                <!-- <select name="district_id" id="area" data-toggle="popover" data-placement="bottom" data-content="请选择区" style="width: 100%;height: 30px;">
+                                                    <option value="0">请选择区</option>
+                                                    
+                                                </select> -->
+
+                                            </div>
+                                            <div class="col-sm-2 validation-tip"></div>
+                                        </div>
+                                        <div class="form-group col-md-12">
+                                            <label for="lmPhone" class="col-md-2 col-sm-3 control-label">真实姓名<span
+                                                    class="text-red" title="必填"></span>：
+                                            </label>
+                                            <div class="col-md-8 col-sm-7">
+                                                <input type="text" class="form-control"
+                                                       placeholder="[最多10字]" name="rela_name" maxlength="50"
+                                                       aria-required="true">
+                                            </div>
+                                            <div class="col-sm-2 validation-tip"></div>
+                                        </div>
+                                        <div class="form-group col-md-12">
+                                            <label for="lmPhone" class="col-md-2 col-sm-3 control-label">手机号<span
+                                                    class="text-red" title="必填"></span>：
+                                            </label>
+                                            <div class="col-md-8 col-sm-7">
+                                                <input type="text" class="form-control"
+                                                       placeholder="[只允许数字]" name="mobile" maxlength="50"
+                                                       aria-required="true" onkeyup="this.value=this.value.replace(/\D/g,'')">
+                                            </div>
+                                            <div class="col-sm-2 validation-tip"></div>
+                                        </div>
+                                        <div class="form-group col-md-12">
+                                            <label for="lmPhone" class="col-md-2 col-sm-3 control-label">身份证号<span
+                                                    class="text-red" title="必填"></span>：
+                                            </label>
+                                            <div class="col-md-8 col-sm-7">
+                                                <input type="text" class="form-control"
+                                                       placeholder="[最多10字]" name="id_card" maxlength="50"
+                                                       aria-required="true" onkeyup="value=value.replace(/[^\w\.\/]/ig,'')">
+                                            </div>
+                                            <div class="col-sm-2 validation-tip"></div>
+                                        </div>
+                                        <div class="form-group col-md-12">
+                                            <label for="name" class="col-md-2 col-sm-3 control-label">初领驾照时间<span class="text-red" title="必填">*</span>：
+                                            </label>
+                                            <div class="col-md-8 col-sm-7">
+                                                <input type="text" readonly value="" id="createTime1"
+                                                name="first_driver" class="form-control"/>
+                                            </div>
+                                            <div class="col-sm-2 validation-tip"></div>
+                                        </div>
+                                        <div class="form-group col-md-12" style="text-align: center;font-weight:bold;">银行卡信息
+                                        </div>
+                                        <div class="form-group col-md-12">
+                                            <label for="lmPhone" class="col-md-2 col-sm-3 control-label">持卡人姓名<span
+                                                    class="text-red" title="必填"></span>：
+                                            </label>
+                                            <div class="col-md-8 col-sm-7">
+                                                <input type="text" class="form-control"
+                                                       placeholder="[最多10字]" name="bank_name" maxlength="50"
+                                                       aria-required="true">
+                                            </div>
+                                            <div class="col-sm-2 validation-tip"></div>
+                                        </div>
+                                        <div class="form-group col-md-12">
+                                            <label for="lmPhone" class="col-md-2 col-sm-3 control-label">银行卡号<span
+                                                    class="text-red" title="必填"></span>：
+                                            </label>
+                                            <div class="col-md-8 col-sm-7">
+                                                <input type="text" class="form-control"
+                                                       placeholder="[只允许数字]" name="bank_num" maxlength="50"
+                                                       aria-required="true" onkeyup="this.value=this.value.replace(/\D/g,'')">
+                                            </div>
+                                            <div class="col-sm-2 validation-tip"></div>
+                                        </div>
+                                        <div class="form-group col-md-12" style="text-align: center;font-weight:bold;">车辆信息
+                                        </div>
+                                        <div class="form-group col-md-12">
+                                            <label for="lmPhone" class="col-md-2 col-sm-3 control-label">车牌号<span
+                                                    class="text-red" title="必填"></span>：
+                                            </label>
+                                            <div class="col-md-8 col-sm-7">
+                                                <input type="text" class="form-control"
+                                                       placeholder="[只允许数字]" name="car_num" maxlength="50"
+                                                       aria-required="true" >
+                                            </div>
+                                            <div class="col-sm-2 validation-tip"></div>
+                                        </div>
+                                        <div class="form-group col-md-12">
+                                            <label for="lmPhone" class="col-md-2 col-sm-3 control-label">车辆所有人<span
+                                                    class="text-red" title="必填"></span>：
+                                            </label>
+                                            <div class="col-md-8 col-sm-7">
+                                                <input type="text" class="form-control"
+                                                       placeholder="[最多10字]" name="owner" maxlength="50"
+                                                       aria-required="true">
+                                            </div>
+                                            <div class="col-sm-2 validation-tip"></div>
+                                        </div>
+                                        <div class="form-group col-md-12">
+                                            <label for="name" class="col-md-2 col-sm-3 control-label">车辆注册时间<span class="text-red" title="必填">*</span>：
+                                            </label>
+                                            <div class="col-md-8 col-sm-7">
+                                                <input type="text" readonly value="" id="createTime2"
+                                                name="car_date" class="form-control"/>
+                                            </div>
+                                            <div class="col-sm-2 validation-tip"></div>
+                                        </div>
+                                        <div class="form-group col-md-12">
+                                           <label for="lmPhone" class="col-md-2 col-sm-3 control-label">   行驶证正面照<span class="text-red"  title="必填">*</span>：
+                                           </label>
+                                           <div class="col-md-8 col-sm-7">
+                                                <img src="" style="max-width:100px;">
+                                                <input type="hidden" name="driverlicens_top" value="" /> 
+                                                <input type="button" class="upload_img" value="选择图片" />
+                                           </div>
+                                           <div class="col-sm-2 validation-tip"></div>
+                                        </div>
+                                        <div class="form-group col-md-12">
+                                           <label for="lmPhone" class="col-md-2 col-sm-3 control-label">   行驶证反面照<span class="text-red"  title="必填">*</span>：
+                                           </label>
+                                           <div class="col-md-8 col-sm-7">
+                                                <img src="" style="max-width:100px;">
+                                                <input type="hidden" name="driverlicens_under" value="" /> 
+                                                <input type="button" class="upload_img" value="选择图片" />
+                                           </div>
+                                           <div class="col-sm-2 validation-tip"></div>
+                                        </div>
+                                        <div class="form-group col-md-12">
+                                           <label for="lmPhone" class="col-md-2 col-sm-3 control-label">   驾驶证正面照<span class="text-red"  title="必填">*</span>：
+                                           </label>
+                                           <div class="col-md-8 col-sm-7">
+                                                <img src="" style="max-width:100px;">
+                                                <input type="hidden" name="driverlicens_header" value="" /> 
+                                                <input type="button" class="upload_img" value="选择图片" />
+                                           </div>
+                                           <div class="col-sm-2 validation-tip"></div>
+                                        </div>
+                                        <div class="form-group col-md-12">
+                                           <label for="lmPhone" class="col-md-2 col-sm-3 control-label">   驾驶证反面照<span class="text-red"  title="必填">*</span>：
+                                           </label>
+                                           <div class="col-md-8 col-sm-7">
+                                                <img src="" style="max-width:100px;">
+                                                <input type="hidden" name="driverlicens_footer" value="" /> 
+                                                <input type="button" class="upload_img" value="选择图片" />
+                                           </div>
+                                           <div class="col-sm-2 validation-tip"></div>
+                                        </div>
+                                        <div class="form-group col-md-12">
+                                           <label for="lmPhone" class="col-md-2 col-sm-3 control-label">   人车合一照<span class="text-red"  title="必填">*</span>：
+                                           </label>
+                                           <div class="col-md-8 col-sm-7">
+                                                <img src="" style="max-width:100px;">
+                                                <input type="hidden" name="car_person" value="" /> 
+                                                <input type="button" class="upload_img" value="选择图片" />
+                                           </div>
+                                           <div class="col-sm-2 validation-tip"></div>
+                                        </div>
+                                        <div class="form-group col-md-12" style="text-align: center;font-weight:bold;">从业信息
+                                        </div>
+                                        <div class="form-group col-md-12">
+                                            <label for="lmPhone" class="col-md-2 col-sm-3 control-label">服务卡号<span
+                                                    class="text-red" title="必填"></span>：
+                                            </label>
+                                            <div class="col-md-8 col-sm-7">
+                                                <input type="text" class="form-control"
+                                                       placeholder="[只允许数字 | 字母]" name="service_number" maxlength="50"
+                                                       aria-required="true" onkeyup="value=value.replace(/[^\w\.\/]/ig,'')">
+                                            </div>
+                                            <div class="col-sm-2 validation-tip"></div>
+                                        </div>
+                                        <div class="form-group col-md-12">
+                                           <label for="lmPhone" class="col-md-2 col-sm-3 control-label">   服务卡照片<span class="text-red"  title="必填">*</span>：
+                                           </label>
+                                           <div class="col-md-8 col-sm-7">
+                                                <img src="" style="max-width:100px;">
+                                                <input type="hidden" name="service_img" value="" /> 
+                                                <input type="button" class="upload_img" value="选择图片" />
+                                           </div>
+                                           <div class="col-sm-2 validation-tip"></div>
+                                        </div>
+                                        <div class="form-group col-md-12">
+                                           <label for="lmPhone" class="col-md-2 col-sm-3 control-label">   从业资格证照片<span class="text-red"  title="必填">*</span>：
+                                           </label>
+                                           <div class="col-md-8 col-sm-7">
+                                                <img src="" style="max-width:100px;">
+                                                <input type="hidden" name="certification_img" value="" /> 
+                                                <input type="button" class="upload_img" value="选择图片" />
+                                           </div>
+                                           <div class="col-sm-2 validation-tip"></div>
+                                        </div>
+                                        <div class="form-group col-md-12">
+                                            <label for="lmPhone" class="col-md-2 col-sm-3 control-label">车类型<span
+                                                class="text-red" title="必填">*</span>：
+                                            </label>
+                                            <div class="col-md-8 col-sm-7">
+
+                                                <select style="width: 100%;height: 30px;" id="cateid" name="car_id"
+                                                    tabindex="-1"  
+                                                    aria-hidden="true"> 
+                                                    {volist name="cart_type" id="vo"}
+                                                    <option value="{$vo.id}" >{$vo.type_name}</option>
+                                                    {/volist}
+                                                </select>
+
+                                            </div>
+                                            <div class="col-sm-2 validation-tip"></div>
+                                        </div>
+                                        <div id="gongsi">
+                                            <div class="form-group col-md-12" style="text-align: center;font-weight:bold;">公司信息
+                                            </div>
+                                            <div class="form-group col-md-12">
+                                                <label for="lmPhone" class="col-md-2 col-sm-3 control-label">车牌所属<span
+                                                        class="text-red" title="必填"></span>：
+                                                </label>
+                                                <div class="col-md-8 col-sm-7">
+                                                    <input type="text" class="form-control"
+                                                           placeholder="[最多10字]" name="plate_belongs" maxlength="50"
+                                                           aria-required="true">
+                                                </div>
+                                                <div class="col-sm-2 validation-tip"></div>
+                                            </div>
+                                            <div class="form-group col-md-12">
+                                                <label for="lmPhone" class="col-md-2 col-sm-3 control-label">出租车公司<span
+                                                        class="text-red" title="必填"></span>：
+                                                </label>
+                                                <div class="col-md-8 col-sm-7">
+                                                    <input type="text" class="form-control"
+                                                           placeholder="[最多10字]" name="taxi_enterprise" maxlength="50"
+                                                           aria-required="true">
+                                                </div>
+                                                <div class="col-sm-2 validation-tip"></div>
+                                            </div>
+                                        </div>
+                                        
+
+                                </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default"
+                                data-dismiss="modal">关闭</button>
+                            <button type="submit" class="btn btn-primary"
+                                id="customerFrameSave">保存</button>
+                        </div>
+                        </form>
+                        
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </section>
+</div>
+{include file="public/footer" /}
+
+<script>
+//js验证验单内容
+function check_from(){
+    var rela_name = $('input[name="rela_name"]').val();
+    var mobile = $('input[name="mobile"]').val();
+    var id_card = $('input[name="id_card"]').val();
+    var first_driver = $('input[name="first_driver"]').val();
+    var bank_name = $('input[name="bank_name"]').val();
+    var bank_num = $('input[name="bank_num"]').val();
+    var car_num = $('input[name="car_num"]').val();
+    var owner = $('input[name="owner"]').val();
+    var car_date = $('input[name="car_date"]').val();
+    var driverlicens_top = $('input[name="driverlicens_top"]').val();
+    var driverlicens_under = $('input[name="driverlicens_under"]').val();
+    var driverlicens_header = $('input[name="driverlicens_header"]').val();
+    var driverlicens_footer = $('input[name="driverlicens_footer"]').val();
+    var car_person = $('input[name="car_person"]').val();
+    var service_number = $('input[name="service_number"]').val();
+    var service_img = $('input[name="service_img"]').val();
+    var certification_img = $('input[name="certification_img"]').val();
+
+    if($('#city').val()==0){
+        alert('请选择地区');
+        return false;
+    }
+    if($.trim(rela_name) == ''){
+        alert('请填写真实姓名');
+        return false;
+    }
+    if($.trim(mobile) == ''){
+        alert('请填写手机号');
+        return false;
+    }
+    if(!(/^1[34578]\d{9}$/.test(mobile))){
+        alert("手机号码格式有误，请重填");
+        return false;
+    }
+    if($.trim(id_card) == ''){
+        alert('请填写身份证号');
+        return false;
+    }
+    if($.trim(first_driver) == ''){
+        alert('请选择初领驾照时间');
+        return false;
+    }
+    if($.trim(bank_name) == ''){
+        alert('请填写持卡人姓名');
+        return false;
+    }
+    if($.trim(bank_num) == ''){
+        alert('请填写银行卡号');
+        return false;
+    }
+    if($.trim(car_num) == ''){
+        alert('请填写车牌号');
+        return false;
+    }
+    if($.trim(owner) == ''){
+        alert('请填写车辆所有人');
+        return false;
+    }
+    if($.trim(car_date) == ''){
+        alert('请车辆注册时间');
+        return false;
+    }
+    if($.trim(driverlicens_top) == ''){
+        alert('请上传行驶证正面照');
+        return false;
+    }
+    if($.trim(driverlicens_under) == ''){
+        alert('请上传行驶证反面照');
+        return false;
+    }
+    if($.trim(driverlicens_header) == ''){
+        alert('请上传驾驶证正面照');
+        return false;
+    }
+    if($.trim(driverlicens_footer) == ''){
+        alert('请上传驾驶证反面照');
+        return false;
+    }
+    if($.trim(car_person) == ''){
+        alert('请上传人车合一照');
+        return false;
+    }
+
+    $.ajax({ 
+        type: "POST",//方法类型
+        dataType: "json",//预期服务器返回的数据类型
+        url: "{:url('Driver/ad_driver')}" ,//url
+        data: $('#add').serialize(),
+        success: function (data) {
+            
+            if (data['code'] == 1) {
+                // alert(data['mages']);
+                location.reload();
+            }else if(data['code'] == 3){
+                alert(data['mages']);
+            }
+           
+        }
+    })
+}
+    
+
+    $(function () {
+        $('#createTime1').datetimepicker({
+            format: 'yyyy-mm-dd',
+            autoclose: true,
+            minView: 0,
+            minuteStep: 5,
+            todayBtn: true,
+            language: 'zh-CN'
+        });
+        $('#createTime2').datetimepicker({
+            format: 'yyyy-mm-dd',
+            autoclose: true,
+            minView: 0,
+            minuteStep: 1,
+            todayBtn: true,
+            language: 'zh-CN'
+        });
+    })
+
+    ////以下是复选框的选中
+    $("#checkSelect").change(function () {
+        if ($(this).is(':checked')) {
+            $("input[name='checkSelect']").prop("checked", "checked");
+        } else {
+            $("input[name='checkSelect']").removeAttr("checked");
+        }
+    });
+    $("input[name='checkSelect']").change(function () {
+        var flag = true;
+        $("input[name='checkSelect']").each(function () {
+            if (!$(this).is(':checked')) {
+                flag = false;
+                return false;
+            }
+        });
+        if (flag) {
+            $("#checkSelect").prop("checked", "checked");
+        } else {
+            $("#checkSelect").removeAttr("checked");
+        }
+    });
+    ////以上是复选框的选中
+    
+    
+    //更改状态
+    function savestatus(did){
+        if(confirm('确认操作？')){
+           $.post("{:url('Driver/save_status')}",{did:did},function(data){
+                        if(data == 0){
+                            alert('操作失败');
+                        }else if(data == 1){
+                            location.reload();
+                        }else if(data == 3){
+                            alert('操作异常');
+                        }
+                    },'json')
+        }
+    }
+        //批量删除
+    function del(){
+        //获取选中数据的id值
+        obj = document.getElementsByName("checkSelect");
+            var mid = [];
+            for(k in obj){
+                if(obj[k].checked)
+                    mid.push(obj[k].value);
+            }
+        //判断是否有选中数据
+        if (mid == '') {
+            alert('请先选择');
+        }else{
+            if(confirm('你确定要删除吗？')){
+                $.post("{:url('Clientall/del')}",{id:mid},function(data){
+                    if(data == 0){
+                        alert('删除失败');
+                        location.reload();
+                    }else if(data == 1){
+                        location.reload();
+                    }
+                },'json')
+            }
+        }
+        
+    }
+
+
+    //搜索框没内容处理
+    $('#btnSearch').click(function(){
+        var keyword = $('#keyword').val();
+        if (keyword == '') {
+            return false;
+        }
+    })
+
+
+
+    function ad_driver() {
+        
+        layer.open({
+            type:1,
+            title:'新增司机',
+            area:['70%','100%'],
+            shadeClose:true,
+            content:$("#customerFrameModal")
+        })
+        // alert(oid);
+        $('#wiki-sub').prop('data-oid',oid);
+    }
+
+
+
+$('#province').change(function(){
+    var id = $('#province').val();
+    $.post("{:url('Service/change_address')}",{id:id},function(data){
+        var str = '<option selected="selected" value="0">请选择市（地区）</option>';
+        if(data.length>0){
+           for(var i=0; i<data.length; i++){
+                str += '<option value="'+data[i].id+'">'+data[i].name+'</option>';
+           }
+       }
+      $('#city').html(str);
+    },'json');
+});
+$('#city').change(function(){
+    var id = $('#city').val();
+    $.post("{:url('Service/change_address')}",{id:id},function(data){
+        var str = '<option selected="selected" value="0">请选择县（地区）</option>';
+        if(data.length>0){
+            for(var i=0; i<data.length; i++){
+                str += '<option value="'+data[i].id+'">'+data[i].name+'</option>';
+            }
+        }else{
+            $('#area').removeAttr('name');
+            $('#city').attr('name','district_id');
+        }
+        $('#area').html(str);
+    },'json');
+});
+
+
+$('#cateid').on('change',function(){
+    
+    if ($(this).val()==1) {
+        $('#gongsi').show();
+    }else{
+        $('#gongsi').hide();
+    }
+    // switch (parseInt($(this).val())){
+    //     case 1:
+    //         $('#gongsi').show();
+    //     break;
+    //     default:
+    //         $('#gongsi').hide();
+    //     break;
+    // }
+})
+</script>

@@ -1,0 +1,30 @@
+{include file="public/head" /}
+<body>
+	<!-- 头部 -->
+	<div class="head">
+		<div class="headL">
+			<img class="headLogo" src="__IMG__/headLogo.png" width="300" height="70"/>
+		</div>
+		<div class="headR">
+			<p class="p1">
+				欢迎您 {$Think.Session.admin['nickname']}
+			</p>
+			<p class="p2">
+				<a href="javascript:;" id="clear" class="resetPWD">清除缓存</a>&nbsp;&nbsp;
+				<a href="javascript:;" id="cancel">退出</a>
+			</p>
+		</div>
+		<!-- onclick="{if(confirm(&quot;确定退出吗&quot;)){return true;}return false;}" -->
+	</div>
+	<script type="text/javascript">
+		$("#cancel").click(function(){
+			if(window.parent.confirm('确定要退出吗')){
+				window.parent.location.href="/admin/users/cancel";
+			}
+		})
+
+		$("#clear").click(function(){
+			window.parent.location.href="/admin/index/clear";
+		})
+	</script>
+{include file="public/footer" /}

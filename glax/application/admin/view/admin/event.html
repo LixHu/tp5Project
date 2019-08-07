@@ -1,0 +1,172 @@
+{include file="public/header" /}
+<style media="screen">
+    .desc{
+        width:400px;
+        height: 50px;
+        overflow: hidden;
+        text-overflow:ellipsis;
+    }
+</style>
+<body style="padding:10px;">
+    <section class="panel panel-padding">
+        <form class="layui-form" >
+            <!--<div class="layui-form">
+                <div class="layui-inline">
+                    <select name="city">
+                        <option value="0">请选择分类</option>
+                        <option value="010">北京</option>
+                        <option value="021">上海</option>
+                        <option value="0571">杭州</option>
+                    </select>
+                </div>
+                <div class="layui-inline">
+                    <div class="layui-input-inline">
+                        <input class="layui-input start-date" name="start_date" placeholder="开始日">
+                    </div>
+                    <div class="layui-input-inline">
+                        <input class="layui-input end-date" name="end_date" placeholder="截止日">
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <div class="layui-input-inline">
+                        <input class="layui-input" name="keyword" placeholder="关键字">
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <button lay-submit class="layui-btn layui-btn-primary" lay-filter="search">查找</button>
+                </div>
+            </div>-->
+        </form>
+    </section>
+        <div class="group-button">
+            <button class="layui-btn layui-btn-sm layui-btn-primary"  data-method="delAll">
+                <i class="iconfont">&#xe626;</i> 删除
+            </button>
+            <!-- <button class="layui-btn layui-btn-sm layui-btn-primary">
+                <i class="iconfont">&#xe62c;</i> 推荐
+            </button> -->
+            <!-- <button class="layui-btn layui-btn-sm layui-btn-primary">
+                <i class="iconfont">&#xe603;</i> 置顶
+            </button> -->
+            <!-- <button class="layui-btn layui-btn-sm layui-btn-primary">
+                <i class="layui-icon">&#x1005;</i> 审核
+            </button> -->
+            <button class="layui-btn layui-btn-sm  layui-btn-primary modal" data-method="add" data-url="addedit_event">
+                <i class="iconfont">&#xe649;</i> 添加
+            </button>
+        </div>
+    <table class="layui-table">
+        <tr>
+            <td width="50"><input type="checkbox" id="checkall" /></td>
+            <td>事件标题</td>
+            <td class="desc">事件描述</td>
+            <td>事件图片</td>
+            <td>事件时间</td>
+            <td>是否显示</td>
+            <td width="260">操作</td>
+        </tr>
+        {volist name="list" id="vo"}
+            <tr>
+                <td><input type="checkbox" name="id[]" value="{$vo.eid}"> </td>
+                <td class="desc">{$vo.etitle}</td>
+                <td class="desc">{$vo.edesc}</td>
+                <td><img src="{$vo.eimg}" width="50" height="50" alt=""> </td>
+                <td>{$vo.etime|date="M.d,Y",###}</td>
+                <td onclick="changest('is_show',{$vo.is_show},{$vo.eid})">{if $vo['is_show'] eq 1} <img src="/static/img/yes.png"  />{else if}<img src="/static/img/no.png" /> {/if}</td>
+                <td>
+                    <div class="layui-btn-group">
+                        <a href="addedit_event?id={$vo.eid}" class="layui-btn layui-btn-normal">编辑</a>
+                        <button type="button" class="layui-btn layui-btn-danger" data-method="del" data-id="{$vo.eid}">删除</button>
+                    </div>
+                </td>
+            </tr>
+        {/volist}
+    </table>
+    <div class="pagelist">{$page}</div>
+
+    <script type="text/javascript">
+    layui.use('layer',function(){
+        var layer = layui.layer;
+    })
+    var changest = function (type,status,eid){
+        var data = {};
+        data.db = 'event';
+        data.pk = 'eid';
+        data.type = type;
+        data.status = status;
+        data.id = eid;
+        $.post('/admin/index/up_status',data,function(ret){
+            if (ret.code == 1) {
+                layer.msg(ret.msg,{icon:1});
+                setTimeout("location.reload()",2000);
+            }else {
+                layer.msg(ret.msg,{icon:2});
+            }
+        })
+    }
+    var active = {
+    'add':function(){
+        location.href=$(this).data('url');
+    },del:function(){
+        var data = {};
+        data.id = $(this).data('id');
+        data.db = 'event';
+        layer.confirm('确定要删除吗？',{
+            btn:['确定','取消']
+        },function(){
+            $.post('/admin/index/del',data,function(msg){
+                msg = JSON.parse(msg);
+                if(msg.code == 1){
+                    layer.msg(msg.msg,{icon:1});
+                    setTimeout("location.reload()",2000);
+                }else{
+                    layer.msg(msg.msg,{icon:2});
+                }
+            })
+        },function(){
+            console.log('error');
+        })
+    },
+    delAll:function(){
+        var id = [];
+        $.each($("input[name='id[]']"),function(k,v){
+            if(v.checked){
+                id.push(v.value);
+            }
+        })
+        if(id.length < 1){
+            layer.msg('请选择要删除的事件',{icon:2});
+            return false;
+        }
+        var data = {};
+        data.id = id;
+        data.db = 'event';
+        layer.confirm('确定要删除吗？',{
+            btn:['确定','取消']
+        },function(){
+            $.post('del_under',data,function(msg){
+                msg = JSON.parse(msg);
+                if(msg.code == 1){
+                    layer.msg(msg.msg,{icon:1});
+                    setTimeout("location.reload()",2000);
+                }else{
+                    layer.msg(msg.msg,{icon:2});
+                }
+            })
+        },function(){
+
+        })
+    }
+    }
+    $("#checkall").click(function(){
+    $.each($("input[name='id[]']"),function(k,v){
+        v.checked = !v.checked;
+    })
+    })
+    $(".layui-btn").on('click',function(){
+        var othis = $(this), method = othis.data('method');
+        active[method] ? active[method].call(this, othis) : '';
+    })
+
+    </script>
+{include file="public/footer" /}

@@ -1,0 +1,194 @@
+{include file="public/header" /}
+<style>
+body {
+	background: #eeeeee;
+}
+
+.content {
+	padding: 0 15px !important;
+}
+
+.edui1_iframeholder {
+	width: 100% !important;
+}
+
+#edui1 {
+	width: 100% !important;
+}
+
+#container {
+	height: 300px;
+}
+
+.table-striped>tbody>tr:nth-of-type(odd) {
+	background-color: #fff !important;
+}
+</style>
+<section class="content" id="new">
+	<form id="form1" method="post"
+		class="form-horizontal nice-validator n-default n-bootstrap"
+		novalidate="novalidate" antion="delmes">
+		<div class="box box-solid">
+			<div class="box-body">
+
+				<div class="btn-group" id="auth_delete">
+					<a href="javascript:delmes()" class="btn btn-primary btn-close"
+					id="wiki-sub">
+					<li class="fa fa-save"></li> &nbsp;&nbsp;删除
+				</a>
+				</div>
+				<!-- /.btn-group -->
+
+			</div>
+		</div>
+		<div class="box box-solid">
+			<div class="box-body no-padding">
+				<div class="table-responsive list">
+					<table class="table table-hover table-striped table-bordered"
+						id="taskTable">
+						<thead>
+							<tr>
+								<th style="width: 20px;"><input type="checkbox"
+									name="checkAll" id="checkSelect" value="全选"></th>
+								<th style="width: 1%;"></th>
+								<th>公告名称</th>
+								<th style="width: 4%;">操作</th>
+								
+							</tr>
+						</thead>
+						<tbody>
+							{if condition="$res eq false"} {volist
+							name="message_list" id="vo"}
+							<tr>
+								<td><input type="checkbox" class="checkSelect"
+									name="checkSelect" value="{$vo.id}"
+									id="checkSelect_6e83e2f2-f111-11e7-9aa4-" style="margin-top: 13px;"></td>
+								<td>
+								{if condition="$vo.status eq 1"}
+								<div style="border-radius: 100%; background: red;color: red;width: 8px; height: 8px; margin-top: 14px;"></div>
+								{else}
+								<div style="border-radius: 100%; width: 10px; height: 10px; margin-top: 14px;"></div>
+								{/if}
+								</td>
+								<td>
+									
+									<div class="panel panel-default" style="margin-bottom: 0;">
+									<div style="border-radius: 100%;"></div>
+										<div class="panel-heading">
+											<h4 class="panel-title">
+												<a data-toggle="collapse" data-parent="#accordion"
+													href="#collapseC{$vo.id}" id="title" onclick="sbtn({$vo.id});"> {$vo.title} </a>
+												<span style="width: 8%;float: right;margin-top: 0;margin-bottom: 0;font-size: 16px;">{$vo.ad_time|date="Y-m-d",###}</span>
+
+											</h4>
+											
+										</div>
+										<div id="collapseC{$vo.id}" class="panel-collapse collapse ">
+											<div class="panel-body">{$vo.content}</div>
+										</div>
+										
+									</div>
+									
+								</td>
+								<td><a href="{:url('edit_mes',['id'=>$vo.id])}" class="btn btn-primary btn-sm checkbox-toggle" style="margin-top: 4px;">编辑</a></td>
+
+									
+								
+							</tr>
+							{/volist} {else}
+							<tr>
+								<td colspan="19" style="text-align: center;">未找到相关数据</td>
+							</tr>
+							{/if}
+
+
+						
+						</tbody>
+					</table>{$page}
+				</div>
+			</div>
+
+
+		</div>
+
+
+	</form>
+</section>
+
+
+
+<script type="text/javascript">
+////以下是复选框的选中
+$("#checkSelect").change(function () {
+    if ($(this).is(':checked')) {
+        $("input[name='checkSelect']").prop("checked", "checked");
+    } else {
+        $("input[name='checkSelect']").removeAttr("checked");
+    }
+});
+$("input[name='checkSelect']").change(function () {
+    var flag = true;
+    $("input[name='checkSelect']").each(function () {
+        if (!$(this).is(':checked')) {
+            flag = false;
+            return false;
+        }
+    });
+    if (flag) {
+        $("#checkSelect").prop("checked", "checked");
+    } else {
+        $("#checkSelect").removeAttr("checked");
+    }
+});
+////以上是复选框的选中
+
+    //显示新建页面,隐藏文件库页面
+    function newFile(id1, id2) {
+        $('#' + id1).hide();
+        $('#' + id2).show();
+    }
+
+   //隐藏新建页面,显示文件库页面
+    function back(id1, id2) {
+        $('#' + id1).show();
+        $('#' + id2).hide();
+        $("input,textarea").val("");
+        UE.getEditor('container').setContent('', false);
+        $("select").val(option[0]);
+        $("input:radio,input:checkbox").attr("checked",false);
+    }
+    //获取所查看信息的id值，更新消息状态
+  	function sbtn(id){
+  		$.post("{:url('System/savestatus')}",{id:id})
+  		
+  	}
+
+  	//批量删除
+  	function delmes(){
+  		//获取选中的数据id
+  		obj = document.getElementsByName("checkSelect");
+		    var mid = [];
+		    for(k in obj){
+		        if(obj[k].checked)
+		            mid.push(obj[k].value);
+		    }
+		//判断是否有选中数据
+		if (mid == '') {
+			alert('请先选择');
+		}else{
+			if(confirm('你确定要删除吗？')){
+		  		$.post("{:url('System/delmes')}",{id:mid},function(data){
+	                if(data == 0){
+	                    alert('删除失败');
+	                    location.reload();
+	                }else if(data == 1){
+	                    location.reload();
+	                }
+	            },'json')
+  			}
+		}
+  		
+  	}
+
+</script>
+{include file="public/header" /}

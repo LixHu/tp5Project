@@ -1,0 +1,132 @@
+{include file="public/header" /}
+<link rel="stylesheet" href="_css/single.css">
+<div class="content" id="vue">
+    <table class="table table-hover">
+        <tr>
+            <th><input type="checkbox" id="checkall"></th>
+            <th>工单编号</th>
+            <th>报修人</th>
+            <th>联系方式</th>
+            <th>地点</th>
+            <th>服务类型</th>
+            <th>申请时间</th>
+            <th>操作</th>
+        </tr>
+        <tr v-for="item in workorder">
+            <td><input type="checkbox" name="id[]" :value="item.wo_id"></td>
+            <td>{{item.wo_sn}}</td>
+            <td>{{item.jour_name}}</td>
+            <td>{{item.jour_mobile}}</td>
+            <td>{{item.address}}</td>
+            <td>
+                <span v-if="item.server_type == 1">保内免费</span>
+                <span v-if="item.server_type == 2">保内收费</span>
+                <span v-if="item.server_type == 3">保外免费</span>
+                <span v-if="item.server_type == 4">保外收费</span>
+            </td>
+            <td>{{item.add_time}}</td>
+            <td>
+                <button type="button" class="btn btn-primary" @click="single(item.wo_id)">抢单</button>
+            </td>
+        </tr>
+        <tr v-if="workorder.length == 0" style="text-align: center;">
+            <td colspan="15">暂无数据</td>
+        </tr>
+    </table>
+    <div style="margin-left: 20px;float: left;">
+        共 {{countnum}} 条记录 共{{countpage}}页 每页显示
+        <select v-model="pagesize">
+            <option value="10">10</option>
+            <option value="20">20</option>
+            <option value="50">50</option>
+        </select>条
+    </div>
+    <div id="vue-dingyi-paging" style="float: right;">
+        <ul>
+            <li>
+                <a class="pageLink" href="#" @click="setPage(page-1)">
+                    <</a>
+            </li>
+            <li v-for="n in countpage">
+                <a class="pageLink" href="#" v-text="n" @click="setPage(n)" :class="{ curPage: n+1 == page }"></a>
+            </li>
+            <li><a class="pageLink" href="#" @click="setPage(page+1)">></a></li>
+        </ul>
+    </div>
+</div>
+<script>
+    var vm = new Vue({
+        el: '#vue',
+        data: {
+            pagesize: 10,
+            countnum: 0,
+            countpage: 0,
+            page: 1,
+            workorder: []
+        },
+        methods: {
+            getData: function () {
+                var $this = this;
+                var data = {};
+                data.status = 8;
+                // data.wo_sn = this.wo_sn;
+                // data.server_type = this.server_type;
+                data.page = this.page;
+                data.pagesize = this.pagesize;
+                // data.pid = this.pid;
+                // data.createtime = $("#createtime").val();
+                $this.loading = true;
+                $.post('getWorkList', data, function (res) {
+                    if (res.code == 1) {
+                        $this.countnum = res.count;
+                        $this.countpage = res.countpage;
+                        $this.workorder = res.data;   // 数据
+                    } else {
+                        //暂无数据
+                        $this.countnum = 0;
+                        $this.countpage = 0;
+                        $this.workorder = [];
+                    }
+                    $this.loading = false;
+                })
+            },
+            setPage: function (num) {
+                //页码小于等于1
+                console.log(num);
+                if (num <= 1) {
+                    this.page = 1;
+                    this.getData();
+                    return false;
+                }
+                //页码大于总页数
+                if (num >= this.countpage) {
+                    this.page = this.countpage;
+                    this.getData();
+                    return false;
+                }
+                //页码赋给当前页
+                this.page = num;
+                this.getData();
+            },
+            single:function (wo_id) {
+                var data = {},
+                    $this = this;
+                data.wo_id = wo_id;
+                $.post('GlabS',data,function (res) {
+                    layer.alert(res.msg);
+                    setTimeout(function () {
+                        location.reload();
+                    },2000)
+                })
+            }
+        },
+        watch: {
+            pagesize: function (oldvalue, newvalue) {
+                // this.pagesize = newvalue;
+                this.getData();
+            }
+        }
+    })
+    vm.getData();
+</script>
+{include file="public/footer" /}

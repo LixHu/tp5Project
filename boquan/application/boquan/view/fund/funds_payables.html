@@ -1,0 +1,850 @@
+{include file="public/header" /}
+<script src="http://cdn.bootcss.com/bootstrap-daterangepicker/2.1.25/moment.min.js"></script>
+
+<style>
+    body {
+        background-color: #eeeeee;
+    }
+
+    .content {
+        padding: 0 15px !important;
+    }
+
+    .small-box {
+        margin-bottom: 0px;
+        color: #FFFFFF;
+    }
+
+    .table-header-sort {
+        cursor: pointer;
+        color: black !important;
+    }
+
+    .tooltip > .tooltip-inner {
+        background-color: #e5e5e5;
+        color: #0c0c0c
+    }
+
+    .tooltip.top .tooltip-arrow {
+        border-top-color: #e5e5e5;
+    }
+
+    #wait {
+        background: rgba(255, 255, 255, 0.5) url("/resource/images/wait.gif") center no-repeat;
+
+        position: fixed;
+        width: 100%;
+        height: 100%;
+        z-index: 9000;
+    }
+
+    .dnone {
+        display: none;
+    }
+
+    [v-cloak] {
+        display: none
+    }
+
+    .iconfont {
+        width: 50px !important;
+    }
+
+    .dropdown-menu > li a {
+        transition: background-color ease .3s,
+        color ease .3s,
+        border-color ease .3s;
+    }
+
+    .dropdown-menu > li a:hover {
+        background-color: #3c8dbc;
+        color: white;
+        border-color: #3c8dbc;
+    }
+
+    .dropdown-toggle {
+        transition: background-color ease .3s,
+        color ease .3s,
+        border-color ease .3s;
+    }
+
+    .dropdown-toggle:hover {
+        background-color: #3c8dbc;
+        color: white;
+        border-color: #3c8dbc;
+    }
+
+    .open .dropdown-toggle {
+        background-color: #3c8dbc !important;
+        color: white !important;
+        border-color: #3c8dbc !important;
+    }
+
+    .btn-default1 {
+        background-color: #f4f4f4;
+        color: #444;
+        border-color: #ddd;
+    }
+
+    .small-box .icon {
+        top: -25px !important;
+    }
+
+    .small-box h3 {
+        font-size: 30px !important;
+        margin: 0 0 10px 0 !important;
+        white-space: nowrap !important;
+        padding: 0 !important;
+        font-weight: normal !important;
+    }
+
+    .table > tbody > tr > td, .table > tbody > tr > th, .table > tfoot > tr > td, .table > tfoot > tr > th, .table > thead > tr > td, .table > thead > tr > th {
+        line-height: 2.4;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+    }
+</style>
+<div class="" id="main">
+    <section class="content" style="min-width: 760px !important;">
+        <div class="">
+            <form id="mainForm" action="" method="post" class="nice-validator n-default n-bootstrap"
+                  novalidate="novalidate">
+                <input type="hidden" id="sortSeachModel" name="sortBy[taskNo]" value="false">
+                <input type="hidden" id="workTaskId" name="id" value="">
+                <!--搜索条件-->
+                <div class="box box-solid">
+                    <div class="box-body">
+                        <div class="row">
+                            <div class="col-md-12 col-sm-12" style="margin-bottom: 10px;">
+                                <div class="input-group" id="documentDate">
+                                    <span style="line-height: 34px;">单据日期：</span>
+                                    <span class="filterToBe filterActive">全部</span>
+                                    <span class="filterToBe">今天</span>
+                                    <span class="filterToBe">昨天</span>
+                                    <span class="filterToBe">本周</span>
+                                    <span class="filterToBe">上周</span>
+                                    <span class="filterToBe">自定义</span>
+                                    <span style="position: relative;">
+                                        <input type="text" id="createTime1" class="form-control"
+                                               style="position:absolute;left:0;top: -7px;width: 200px;display: none;">
+                                    </span>
+
+                                </div>
+                            </div>
+                            <div class="col-md-12 col-sm-12" style="margin-bottom: 10px;">
+                                <div class="input-group" id="receiptDate">
+                                    <span style="line-height: 34px;">收据日期：</span>
+                                    <span class="filterToBe filterActive">全部</span>
+                                    <span class="filterToBe">今天</span>
+                                    <span class="filterToBe">昨天</span>
+                                    <span class="filterToBe">本周</span>
+                                    <span class="filterToBe">上周</span>
+                                    <span class="filterToBe">自定义</span>
+                                    <span style="position: relative;">
+                                        <input type="text" id="createTime2" class="form-control"
+                                               style="position:absolute;left:0;top: -7px;width: 200px;display: none;">
+                                    </span>
+
+                                </div>
+                            </div>
+                            <div class="col-md-12 col-sm-12" style="margin-bottom: 10px;">
+                                <div class="input-group" id="settlementDate">
+                                    <span style="line-height: 34px;">结算日期：</span>
+                                    <span class="filterToBe filterActive">全部</span>
+                                    <span class="filterToBe">已结算</span>
+                                    <span class="filterToBe">未结算</span>
+                                </div>
+                            </div>
+                            <div class="col-md-12 col-sm-12" style="margin-bottom: 10px;">
+                                <span class="pull-left col-md-3 col-sm-3" style="line-height: 34px;">
+                                    <div class="input-group">
+                                        <span class="input-group-btn">
+                                            <span class="btn span-default no-padding"
+                                                  style="cursor:default;width: 90px;">客户：</span>
+                                        </span>
+                                        <select style="width: 100%;" id="customerId" name="customerId" tabindex="-1"
+                                                class="select2-hidden-accessible " aria-hidden="true">
+                                            <option value="" selected=""></option>
+                                        </select>
+                                    </div>
+                                </span>
+
+                                <span class="pull-left  col-md-3 col-sm-3" style="line-height: 34px;">
+                                    <div class="input-group">
+                                        <span class="input-group-btn">
+                                            <span class="btn span-default no-padding"
+                                                  style="cursor:default;width: 90px;">创建人：</span>
+                                        </span>
+                                        <select style="width: 100%;" id="customerLinkman" name="customerId"
+                                                tabindex="-1"
+                                                class="select2-hidden-accessible" aria-hidden="true">
+                                            <option value="" selected=""></option>
+                                        </select>
+                                    </div>
+                                </span>
+                                <span class="pull-left  col-md-3 col-sm-3" style="line-height: 34px;">
+                                    <div class="input-group">
+                                        <span class="input-group-btn">
+                                            <span class="btn span-default no-padding"
+                                                  style="cursor:default;width: 90px;">维修人员：</span>
+                                        </span>
+                                        <select style="width: 100%;" id="repairMan" name="customerId" tabindex="-1"
+                                                class="select2-hidden-accessible  " aria-hidden="true">
+                                            <option value="" selected=""></option>
+                                        </select>
+                                    </div>
+                                </span>
+                                <script>
+                                    $(function () {
+                                        $("#customerId").select2({
+                                            ajax: {
+                                                url: '/linkman/getListAsyn',
+                                                data: function (params) {
+                                                    console.log(params);
+                                                    return {
+                                                        keyword: params.term || "", // search term
+                                                        pageNum: params.page || 1, //第几页返回查询
+                                                        customerId: $("#customerId").val()
+                                                    };
+                                                },
+                                                processResults: function (data, params) {
+                                                    params.page = params.page || 1;
+                                                    var itemList = [];
+                                                    var dataList = data.list;
+                                                    for (var i = 0; i < dataList.length; i++) {
+                                                        itemList[i] = {
+                                                            id: dataList[i].id,
+                                                            text: dataList[i].name,
+                                                            phone: dataList[i].phone
+                                                        };
+                                                    }
+                                                    return {
+                                                        results: itemList,
+                                                        pagination: {
+                                                            more: (params.page * 10) < data.total  //每页10条数据
+                                                        }
+                                                    };
+                                                }
+
+                                            },
+                                            placeholder: '请选择', //默认文字提示
+                                            allowClear: true, //允许在单选时清除
+                                            escapeMarkup: function (markup) {
+                                                return markup;
+                                            }, // 自定义格式化防止xss注入
+                                            minimumInputLength: 0, //最少输入多少个字符后开始查询。0：表示没有字符也搜索，即显示列表
+                                            formatResult: function formatRepo(repo) {
+                                                return repo.text;
+                                            }, // 函数用来渲染结果
+                                            formatSelection: function formatRepoSelection(repo) {
+                                                return repo.text;
+                                            }, // 函数用于呈现当前的选择
+                                            templateResult: function (state) { //数据格式化
+                                                if (!state.id) {
+                                                    return state.text;
+                                                }
+                                                var $state = $(
+                                                    '<table><tr>' +
+                                                    '<td><span style="font-weight: 700">' + state.text + "</span><br/>电话：" + state.phone +
+                                                    '</td></tr></table>'
+                                                );
+                                                return $state;
+                                            },
+                                            language: 'zh-CN'
+                                        });
+                                        $("#customerLinkman").select2({
+                                            ajax: {
+                                                url: '/task/customer/list',
+                                                data: function (params) {
+                                                    return {
+                                                        keyword: params.term || "", // search term
+                                                        pageNum: params.page || 1 //第几页返回查询
+                                                    };
+                                                },
+                                                processResults: function (data, params) {
+                                                    params.page = params.page || 1;
+                                                    var itemList = [];
+                                                    var dataList = data.list;
+                                                    for (var i = 0; i < dataList.length; i++) {
+                                                        itemList.push({
+                                                            id: dataList[i].id,
+                                                            text: dataList[i].name,
+                                                            lmPhone: dataList[i].lmPhone
+                                                        });
+                                                    }
+                                                    return {
+                                                        results: itemList,
+                                                        pagination: {
+                                                            more: (params.page * 10) < data.total //每页10条数据
+                                                        }
+                                                    };
+                                                }
+                                            },
+                                            placeholder: '请选择',
+                                            allowClear: true,//允许在单选时清除
+                                            language: 'zh-CN',
+                                            escapeMarkup: function (markup) {
+                                                return markup;
+                                            }, // 自定义格式化防止xss注入
+                                            minimumInputLength: 0,//最少输入多少个字符后开始查询。0：表示没有字符也搜索，即显示列表
+                                            formatResult: function formatRepo(repo) {
+                                                return repo.name;
+                                            }, // 函数用来渲染结果
+                                            formatSelection: function formatRepoSelection(repo) {
+                                                return repo.text;
+                                            }, // 函数用于呈现当前的选择
+                                            templateResult: function (state) { //数据格式化
+                                                if (!state.id) {
+                                                    return state.text;
+                                                }
+                                                var $state = $(
+                                                    '<table><tr>' +
+                                                    '<td><span style="font-weight: 700">' + state.text + "</span><br/>电话：" + state.lmPhone +
+                                                    '</td></tr></table>'
+                                                );
+                                                return $state;
+                                            }
+                                        });
+                                        $("#repairMan").select2({
+                                            ajax: {
+                                                url: '/task/customer/list',
+                                                data: function (params) {
+                                                    return {
+                                                        keyword: params.term || "", // search term
+                                                        pageNum: params.page || 1 //第几页返回查询
+                                                    };
+                                                },
+                                                processResults: function (data, params) {
+                                                    params.page = params.page || 1;
+                                                    var itemList = [];
+                                                    var dataList = data.list;
+                                                    for (var i = 0; i < dataList.length; i++) {
+                                                        itemList.push({
+                                                            id: dataList[i].id,
+                                                            text: dataList[i].name,
+                                                            lmPhone: dataList[i].lmPhone
+                                                        });
+                                                    }
+                                                    return {
+                                                        results: itemList,
+                                                        pagination: {
+                                                            more: (params.page * 10) < data.total //每页10条数据
+                                                        }
+                                                    };
+                                                }
+                                            },
+                                            placeholder: '请选择',
+                                            allowClear: true,//允许在单选时清除
+                                            language: 'zh-CN',
+                                            escapeMarkup: function (markup) {
+                                                return markup;
+                                            }, // 自定义格式化防止xss注入
+                                            minimumInputLength: 0,//最少输入多少个字符后开始查询。0：表示没有字符也搜索，即显示列表
+                                            formatResult: function formatRepo(repo) {
+                                                return repo.name;
+                                            }, // 函数用来渲染结果
+                                            formatSelection: function formatRepoSelection(repo) {
+                                                return repo.text;
+                                            }, // 函数用于呈现当前的选择
+                                            templateResult: function (state) { //数据格式化
+                                                if (!state.id) {
+                                                    return state.text;
+                                                }
+                                                var $state = $(
+                                                    '<table><tr>' +
+                                                    '<td><span style="font-weight: 700">' + state.text + "</span><br/>电话：" + state.lmPhone +
+                                                    '</td></tr></table>'
+                                                );
+                                                return $state;
+                                            }
+                                        });
+                                    });
+
+                                </script>
+                            </div>
+                            <div class="col-md-12 col-sm-12">
+                                <div class="input-group">
+                                    <span class="input-group-btn">
+                                            <button type="button" class="btn btn-default btnReset"
+                                                    style="margin-left: 5px;" value="重置">重 置</button>
+                                        </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="box box-solid">
+                    <div class="box-body">
+                        <div class="row">
+                            <div class="col-md-6 col-sm-6">
+                                <div class="btn-group" id="auth_delete">
+                                    <a class="btn btn-primary btn-sm" @click="deleteWorkTask()">批量收款</a>
+                                </div><!-- /.btn-group -->
+                            </div>
+                            <div class="col-md-6 col-sm-6">
+                                <div class="input-group">
+                                    <input type="text" class="form-control keyword-search criteria"
+                                           placeholder="请输入工单编号" v-model="keyword" id="keyword" name="keyword" maxlength="50">
+                                    <span class="input-group-btn">
+                                            <button class="btn btn-primary" id="btnSearch" @click="search">搜 索</button>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="box box-solid">
+                    <div class="box-body no-padding">
+                        <div class="table-responsive list">
+                            <table class="table table-hover table-striped table-bordered" id="taskTable">
+                                <thead>
+                                <tr>
+                                    <th><input type="checkbox" name="checkAll" id="checkSelect" value="全选"></th>
+                                    <th>工单编号</th>
+                                    <th id="tour_1">单据类型</th>
+                                    <th>单据日期</th>
+                                    <th>客户名称</th>
+                                    <th>应收金额</th>
+                                    <th>已收金额</th>
+                                    <th>单据备注</th>
+                                    <!--<th name="taskCreateTime">备注</th>-->
+                                    <th>工单状态</th>
+                                    <!--<th>操作</th>-->
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr v-for="item in funds_list">
+                                    <td><input type="checkbox" class="checkSelect" name="checkSelect"
+                                               :value="item.fund_id"></td>
+                                    <td>
+                                        <a >{{item.wo_id}}</a>
+                                    </td>
+                                    <td name="taskCustomer">{{item.billt_time}}</td>
+
+                                    <td name="taskCustomerLinkmanPhone">13112345678</td>
+
+                                    <td name="taskCustomerAddress">
+                                        {{item.buyer}}
+                                    </td>
+
+                                    <td name="taskServiceType">{{item.must_bill_price}}</td>
+
+                                    <td name="taskLevel">{{item.alea_bill_price}}</td>
+
+                                    <!--<td name="taskLevel">{{item.not_bill_price}}</td>-->
+
+
+                                    <td name="taskAllotUser">
+                                        {{item.remark}}
+                                        <!--<a href="/security/user/view/c38b6477-e14b-11e7-a9a3-00163e12f748">周理强</a>-->
+
+                                    </td>
+                                    <!--<td name="taskAllotTime"> 备注</td>-->
+
+                                    <td name="taskAllotTime"><span class="label " style="background-color: #69b5f0">
+                                                            {{item.status}}
+                                                    </span></td>
+
+                                    <td>
+                                        <!--<button type="button" class="btn btn-small btn-primary"-->
+                                                <!--data-id="6e83e2f2-f111-11e7-9aa4-00163e12f748"-->
+                                                <!--data-plantime="2018-01-04 14:30:00" pattern="yyyy-MM-dd HH:mm:ss"-->
+                                                <!--onclick="setPlanTime(this)">接单-->
+                                        <!--</button>-->
+                                        <!--<button type="button" class="btn btn-small btn-default"-->
+                                                <!--data-id="6e83e2f2-f111-11e7-9aa4-00163e12f748"-->
+                                                <!--data-plantime="2018-01-04 14:30:00" pattern="yyyy-MM-dd HH:mm:ss"-->
+                                                <!--onclick="setPlanTime(this)">接单-->
+                                        <!--</button>-->
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="19" style="text-align: center;" v-show="funds_list.length == 0">未找到相关数据</td>
+                                </tr>
+
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="box-footer ">
+                        <div class="col-lg-4 ">共 {{total}} 记录&nbsp; 共 {{totalpage}} 页 &nbsp; &nbsp;每页显示<select id="sizeSelect" v-model="pagesize">
+                            <option value="10" selected="">10</option>
+                            <option value="20">20</option>
+                            <option value="50">50</option>
+                        </select>条
+                        </div>
+                        <div class="col-lg-8 ">
+                            <ul class="pagination pull-right" id="pagination1"></ul>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <div class="modal fade" id="plantimeModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+                 aria-hidden="true">
+                <div class="modal-dialog" style="width: 500px;">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">
+                                <span aria-hidden="true">×</span>
+                                <span class="sr-only">Close</span>
+                            </button>
+                            <h4 class="modal-title">调整计划时间</h4>
+                        </div>
+                        <div class="modal-body" style="height: 0px;">
+                            <div class="col-sm-12 form-group">
+                                <div class="input-group" style="padding-top: 10px;">
+                                                    <span class="input-group-btn">
+                                                        <span class="btn span-default">计划时间：</span>
+                                                    </span>
+                                    <input type="text" class="form-control publink_datetime" id="planTime"
+                                           name="planTime" data-rule="require" maxlength="50">
+                                    <input type="hidden" id="taskId">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">取消
+                            </button>
+                            <button type="button" onclick="acceptTask();" class="btn btn-primary">接单</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+{include file="public/footer" /}
+<script>
+
+    var vm = new Vue({
+        el:"#main",
+        data:{
+            keyword:'',
+            time:'',
+            stime:'',
+            jtime:'',
+            total:0,        //总条数
+            totalpage:0,    //
+            currentpage:1,  //当前页
+            pagecount:0,    //总页数
+            pagesize:10,    //每页数量
+            funds_list:[],
+        },
+        methods:{
+            search:function(){
+                this.getData();
+            },
+            getData:function(){
+                var data = {},
+                    _self = this;
+                data.keyword = this.keyword;
+                data.status = 2;
+                data.time = this.time;
+                data.stime = this.stime;
+                data.jtime = this.jtime;
+                data.currentpage = this.currentpage;
+                data.pagesize = this.pagesize;
+                $.post('getData',data,function(res){
+                    if (res.code == 1){
+                        _self.funds_list = res.data;
+                        _self.total =  res.total;
+                        _self.totalpage = res.totalpage;
+                    }else {
+                        _self.funds_list = [];
+                        _self.total =  0;
+                        _self.totalpage = 0;
+                    }
+                })
+            },
+            deleteWorkTask:function () {
+
+            }
+        },
+        watch:{
+            pagesize(curval,oldval){
+                if(oldval !== curval){
+                    this.pagesize = curval;
+                    this.getData();
+                }
+            }
+        }
+    });
+    vm.getData();
+    //分页
+    //     $('#pagination1').jqPaginator({
+    //         totalPages: 12,//设置分页的总页数
+    //         visiblePages: 5,//设置最多显示的页码数（例如有100也，当前第1页，则显示1 - 7页）
+    //         currentPage: 1,//	设置当前的页码
+    //         first: "<li class=\"first\"><a href=\"javascript:;\">首页</a></li>",
+    //         last: "<li class=\"last\"><a href=\"javascript:;\">末页</a></li>",
+    //         prev: "<li class=\"prev\"><a href=\"javascript:;\">上一页</a></li>",
+    //         next: "<li class=\"next\"><a href=\"javascript:;\">下一页</a></li>",
+    //         page: "<li class=\"page\" ><a href=\"javascript:;\">{{page}}</a></li>",
+    //         onPageChange: function (num, type) {
+    // //            alert(num);
+    //         }
+    //     });
+    //定义locale汉化插件
+    // var locale = {
+    //     "format": 'YYYY-MM-DD',
+    //     "separator": " -222 ",
+    //     "applyLabel": "确定",
+    //     "cancelLabel": "取消",
+    //     "fromLabel": "起始时间",
+    //     "toLabel": "结束时间'",
+    //     "customRangeLabel": "自定义",
+    //     "weekLabel": "W",
+    //     "daysOfWeek": ["日", "一", "二", "三", "四", "五", "六"],
+    //     "monthNames": ["一月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "十一月", "十二月"],
+    //     "firstDay": 1
+    // };
+    // //日期控件初始化
+    // $('#daterange-btn1').daterangepicker({
+    //         'locale': locale,
+    //         applyClass: "btn-primary",
+    //         //汉化按钮部分
+    //         ranges: {
+    //             '今日': [moment(), moment()],
+    //             '昨日': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+    //             '最近7日': [moment().subtract(6, 'days'), moment()],
+    //             '最近30日': [moment().subtract(29, 'days'), moment()],
+    //             '本月': [moment().startOf('month'), moment().endOf('month')],
+    //             '上月': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+    //         },
+    //         startDate: moment().subtract(6, 'days'),
+    //         endDate: moment()
+    //     },
+    //     function (start, end) {
+    //         $('#daterange-btn1 span').html(start.format('YYYY-MM-DD') + ' - ' + end.format('YYYY-MM-DD'));
+    //         //ajax
+    //     }
+    // );
+    // $('#daterange-btn2').daterangepicker({
+    //         'locale': locale,
+    //         applyClass: "btn-primary",
+    //         //汉化按钮部分
+    //         ranges: {
+    //             '今日': [moment(), moment()],
+    //             '昨日': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+    //             '最近7日': [moment().subtract(6, 'days'), moment()],
+    //             '最近30日': [moment().subtract(29, 'days'), moment()],
+    //             '本月': [moment().startOf('month'), moment().endOf('month')],
+    //             '上月': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+    //         },
+    //         startDate: moment().subtract(6, 'days'),
+    //         endDate: moment()
+    //     },
+    //     function (start, end) {
+    //         $('#daterange-btn2 span').html(start.format('YYYY-MM-DD') + ' - ' + end.format('YYYY-MM-DD'));
+    //         //ajax
+    //     }
+    // );
+
+
+    ////以下是复选框的选中
+    $("#checkSelect").change(function () {
+        if ($(this).is(':checked')) {
+            $("input[name='checkSelect']").prop("checked", "checked");
+        } else {
+            $("input[name='checkSelect']").removeAttr("checked");
+        }
+    });
+    $("input[name='checkSelect']").change(function () {
+        var flag = true;
+        $("input[name='checkSelect']").each(function () {
+            if (!$(this).is(':checked')) {
+                flag = false;
+                return false;
+            }
+        });
+        if (flag) {
+            $("#checkSelect").prop("checked", "checked");
+        } else {
+            $("#checkSelect").removeAttr("checked");
+        }
+    });
+    ////以上是复选框的选中
+
+
+    //分别是三个筛选按钮
+    $('#documentDate .filterToBe').click(function () {
+        if (!$(this).hasClass('filterActive')) {
+            $('#documentDate .filterToBe').removeClass('filterActive');
+            $(this).addClass('filterActive');
+            var time = timeFilter($(this).text(), 'createTime1');
+            vm.time = time.startTime + ',' + time.endTime;
+            vm.getData();
+        }
+    })
+    $('#receiptDate .filterToBe').click(function () {
+        if (!$(this).hasClass('filterActive')) {
+            $('#receiptDate .filterToBe').removeClass('filterActive');
+            $(this).addClass('filterActive');
+            var time = timeFilter($(this).text(), 'createTime2');
+            vm.stime = time.startTime + ',' + time.endTime;
+            vm.getData();
+        }
+    })
+    $('#settlementDate .filterToBe').click(function () {
+        if (!$(this).hasClass('filterActive')) {
+            $('#settlementDate .filterToBe').removeClass('filterActive');
+            $(this).addClass('filterActive');
+            vm.jtime = time.startTime + ',' + time.endTime;
+            vm.getData();
+        }
+    })
+
+    /**
+     * 时间筛选类
+     * @param text 时间字（比如今天，本周）
+     * @param id 时间选择id，用于不同的时间选择器
+     */
+    function timeFilter(text, id) {
+        var startTime;
+        var endTime;
+        switch (text) {
+            case '全部':
+                startTime = '';
+                endTime = '';
+                $('#' + id).hide();
+                break;
+            case '今天':
+                startTime = moment().format('YYYY-MM-DD');
+                endTime = moment().format('YYYY-MM-DD');
+                $('#' + id).hide();
+                break;
+            case '昨天':
+                startTime = moment().subtract(1, 'days').format('YYYY-MM-DD');
+                endTime = moment().subtract(1, 'days').format('YYYY-MM-DD');
+                $('#' + id).hide();
+                break;
+            case '本周':
+                $('#' + id).hide();
+                switch (moment().format('dddd')) {
+                    case 'Monday':
+                        startTime = moment().format('YYYY-MM-DD');
+                        endTime = moment().add(6, 'days').format('YYYY-MM-DD');
+                        break;
+                    case 'Tuesday':
+                        startTime = moment().subtract(1, 'days').format('YYYY-MM-DD');
+                        endTime = moment().add(5, 'days').format('YYYY-MM-DD');
+                        break;
+                    case 'Wednesday':
+                        startTime = moment().subtract(2, 'days').format('YYYY-MM-DD');
+                        endTime = moment().add(4, 'days').format('YYYY-MM-DD');
+                        break;
+                    case 'Thursday':
+                        startTime = moment().subtract(3, 'days').format('YYYY-MM-DD');
+                        endTime = moment().add(3, 'days').format('YYYY-MM-DD');
+                        break;
+                    case 'Friday':
+                        startTime = moment().subtract(4, 'days').format('YYYY-MM-DD');
+                        endTime = moment().add(2, 'days').format('YYYY-MM-DD');
+                        break;
+                    case 'Saturday':
+                        startTime = moment().subtract(5, 'days').format('YYYY-MM-DD');
+                        endTime = moment().add(1, 'days').format('YYYY-MM-DD');
+                        break;
+                    case 'Sunday':
+                        startTime = moment().add(6, 'days').format('YYYY-MM-DD');
+                        endTime = moment().format('YYYY-MM-DD');
+                        break;
+                }
+                break;
+            case '上周':
+                $('#' + id).hide();
+                var prevWeek;
+                switch (moment().format('dddd')) {
+                    case 'Monday':
+                        prevWeek = 1;
+                        break;
+                    case 'Tuesday':
+                        prevWeek = 2;
+                        break;
+                    case 'Wednesday':
+                        prevWeek = 3;
+                        break;
+                    case 'Thursday':
+                        prevWeek = 4;
+                        break;
+                    case 'Friday':
+                        prevWeek = 5;
+                        break;
+                    case 'Saturday':
+                        prevWeek = 6;
+                        break;
+                    case 'Sunday':
+                        prevWeek = 7;
+                        break;
+                }
+                startTime = moment().subtract(prevWeek + 6, 'days').format('YYYY-MM-DD');
+                endTime = moment().subtract(prevWeek, 'days').format('YYYY-MM-DD');
+                break;
+            case '自定义':
+                $('#' + id).show();
+                break;
+        }
+        return {
+            startTime: startTime,
+            endTime: endTime
+        }
+    }
+
+    // $('#createTime1').daterangepicker({
+    //     applyClass: "btn-primary",
+    //     locale: {
+    //         format: 'YYYY-MM-DD',
+    //         applyLabel: '确定',
+    //         applyClass: "btn-primary",
+    //         cancelLabel: '取消',
+    //         fromLabel: '开始',
+    //         toLabel: '结束',
+    //         daysOfWeek: '日_一_二_三_四_五_六'.split('_'),
+    //         monthNames: '1月_2月_3月_4月_5月_6月_7月_8月_9月_10月_11月_12月'.split('_'),
+    //     },
+    //     startDate: moment().subtract(6, 'days'),
+    //     endDate: moment()
+    // }, function (start, end) {
+    //     log(start.format('YYYY-MM-DD') + end.format('YYYY-MM-DD'));
+    // });
+    // $('#createTime2').daterangepicker({
+    //     applyClass: "btn-primary",
+    //     locale: {
+    //         format: 'YYYY-MM-DD',
+    //         applyLabel: '确定',
+    //         applyClass: "btn-primary",
+    //         cancelLabel: '取消',
+    //         fromLabel: '开始',
+    //         toLabel: '结束',
+    //         daysOfWeek: '日_一_二_三_四_五_六'.split('_'),
+    //         monthNames: '1月_2月_3月_4月_5月_6月_7月_8月_9月_10月_11月_12月'.split('_'),
+    //     },
+    //     startDate: moment().subtract(6, 'days'),
+    //     endDate: moment()
+    // }, function (start, end) {
+    //     log(start.format('YYYY-MM-DD') + end.format('YYYY-MM-DD'));
+    // });
+
+    /**
+     * 结算筛选类
+     * @param text 时间字（比如已结算）
+     * @return num 1是全部 2是已结算 3是未结算
+     */
+    function shortFilter(text) {
+        var num;
+        switch (text) {
+            case '全部':
+                num = 1;
+                break;
+            case '已结算':
+                num = 2;
+                break;
+            case '未结算':
+                num = 3;
+                break;
+        }
+        return num;
+    }
+</script>

@@ -1,0 +1,88 @@
+{include file="public/header"}
+<blockquote class="layui-elem-quote">图片位置管理</blockquote>
+    <a href="{:url('banner/addedit_pos')}"><button type="button" class="layui-btn">添加位置</button></a>
+<table class="layui-table" style="text-align:center;">
+    <thead>
+        <tr>
+            <th style="width:70px;text-align:center;"><input type="checkbox" class="checkall" ></th>
+            <th>位置名称</th>
+            <th>描述</th>
+            <th style="width:200px;">操作</th>
+        </tr>
+    </thead>
+    <tbody>
+        <form class="" action="" class="layui-form" method="post">
+            {volist name="pos_list" id="vo"}
+                <tr>
+                    <td>
+                        <input type="checkbox" name="id[]" value="{$vo.pos_id}">
+                    </td>
+                    <td>{$vo.pos_name}</td>
+                    <td>{$vo.pos_desc}</td>
+                    <td>
+                        <div class="layui-btn-group">
+                          <a href="{:url('banner/addedit_pos','id='.$vo['pos_id'])}"><button class="layui-btn layui-btn-normal" type="button" data-id='{}' data-method="edit">编辑</button></a>
+                          <button class="layui-btn layui-btn-danger" type="button" data-method="del">删除</button>
+                        </div>
+                    </td>
+                </tr>
+            {/volist}
+        </form>
+        <tr>
+            <td><input type="checkbox" class="checkall" name=""></td><td colspan="5"><button type="button" class="layui-btn layui-btn-danger" data-method="del_all">删除全部</button></td>
+        </tr>
+    </tbody>
+</table>
+<script type="text/javascript">
+
+$('.layui-btn').on('click', function(){
+    var othis = $(this), method = othis.data('method'),id = othis.data('id');
+    active[method] ? active[method].call(this, othis) : '';
+});
+var active = {
+    del:function(){
+        var data = {};
+        data.id = $(this).data('id');
+        $.post('del_pos',data,function(msg){
+            if(msg.code == 1){
+                layer.msg(msg.msg,{icon:1});
+                location=location;
+            }else{
+                layer.msg(msg.msg,{icon:2});
+            }
+        });
+    },
+    del_all:function(){
+        var data = [];
+        var val = $("input[name='id[]']");
+        $.each(val,function(k,v){
+            if(v.checked == true){
+                data.push(v.value);
+            }
+        })
+        $.post('del_pos',{"id":data},function(msg){
+            if(msg.code == 1){
+                layer.msg(msg.msg,{icon:1});
+                location=location;
+            }else{
+                layer.msg(msg.msg,{icon:2});
+            }
+        })
+    }
+};
+$(".checkall").click(function(){
+    console.log(1);
+    var input = $("input[name='id[]']");
+    $.each(input,function(k,v){
+        v.checked = !v.checked;
+    })
+});
+    layui.use('form',function(){
+        var form = layui.form;
+        form.on('submit(formDemo)', function(data){
+           layer.msg(JSON.stringify(data.field));
+           return false;
+         });
+    })
+</script>
+{include file="public/footer"}

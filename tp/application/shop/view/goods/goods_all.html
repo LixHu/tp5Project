@@ -1,0 +1,64 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>商品列表</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="_css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="_css/all.css" />
+	</head>
+
+	<body>
+		
+	{volist name="data" id="vo"}
+		<div class="left full bcol_f driver_shop_list mt_10" id="goods_all">
+			<div class="driver_shop_listl left">
+				<img class="driver_shop_img goods_id" src="{$vo.img}" data-id="{$vo.id}"/>
+			</div>
+			<div class="driver_shop_listm left">
+				<p class="thirteen col_3 mb_0 wnobr mb_5 mt_26">{$vo.name}</p>
+				<p class="elveteen mb_0 col_c30000 wnobr_2">
+					<img style="vertical-align: middle;" src="_images/driver_gold.png" />
+					{$vo.price}
+				</p>
+			</div>
+			<div class="driver_shop_listr left">
+				<div class="driver_shop_but col_f twoteen" data-id="{$vo.id}">
+					兑换
+				</div>
+			</div>
+		</div>
+	{/volist}
+		
+		
+		<script src="_js/mui.min.js"></script>
+		<script src="_js/jquery.js"></script>
+		<script type="text/javascript">
+			mui.init()
+			mui(".full").on('tap','.index',function(){
+				location.href="{:url('Index/index')}";
+		    });
+			mui("body").on('tap','.goods_id',function(){
+				
+				var goods_id = this.getAttribute('data-id');
+				location.href="{:url('Goods/goods_list')}?id="+goods_id;
+		    });
+		    mui("body").on('tap','.twoteen',function(){
+				
+				var goods_id = this.getAttribute('data-id');
+				$.post("{:url('Goods/shop_cart')}",{id:goods_id},function(data){
+						if(data == 3) {
+							alert('操作异常');
+						}else if(data == 0) {
+							alert('操作失败');
+						}else if(data == 1) {
+							location.href="{:url('Goods/goods_pay')}";
+						}
+					})
+				// location.href="{:url('Goods/goods_pay')}?id="+goods_id;
+		    });
+		</script>
+	</body>
+
+</html>

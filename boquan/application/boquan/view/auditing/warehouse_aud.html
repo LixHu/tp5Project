@@ -1,0 +1,340 @@
+{include file="public/header" /}
+
+<link
+	href="http://cdn.bootcss.com/bootstrap-daterangepicker/2.1.25/daterangepicker.css"
+	rel="stylesheet" />
+<script
+	src="http://cdn.bootcss.com/bootstrap-daterangepicker/2.1.25/moment.min.js"></script>
+<script
+	src="http://cdn.bootcss.com/bootstrap-daterangepicker/2.1.25/daterangepicker.js"></script>
+<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+<!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+<style>
+body {
+	background-color: #eeeeee;
+}
+
+
+
+.content {
+	padding: 0 15px !important;
+}
+
+.small-box {
+	margin-bottom: 0px;
+	color: #FFFFFF;
+}
+
+.table-header-sort {
+	cursor: pointer;
+	color: black !important;
+}
+
+.tooltip>.tooltip-inner {
+	background-color: #e5e5e5;
+	color: #0c0c0c
+}
+
+.tooltip.top .tooltip-arrow {
+	border-top-color: #e5e5e5;
+}
+
+#wait {
+	background: rgba(255, 255, 255, 0.5) url("/resource/images/wait.gif")
+		center no-repeat;
+	position: fixed;
+	width: 100%;
+	height: 100%;
+	z-index: 9000;
+}
+
+.dnone {
+	display: none;
+}
+
+[v-cloak] {
+	display: none
+}
+
+.iconfont {
+	width: 50px !important;
+}
+
+.dropdown-menu>li a {
+	transition: background-color ease .3s, color ease .3s, border-color ease
+		.3s;
+}
+
+.dropdown-menu>li a:hover {
+	background-color: #3c8dbc;
+	color: white;
+	border-color: #3c8dbc;
+}
+
+.dropdown-toggle {
+	transition: background-color ease .3s, color ease .3s, border-color ease
+		.3s;
+}
+
+.dropdown-toggle:hover {
+	background-color: #3c8dbc;
+	color: white;
+	border-color: #3c8dbc;
+}
+
+.open .dropdown-toggle {
+	background-color: #3c8dbc !important;
+	color: white !important;
+	border-color: #3c8dbc !important;
+}
+
+.btn-default1 {
+	background-color: #f4f4f4;
+	color: #444;
+	border-color: #ddd;
+}
+
+.small-box .icon {
+	top: -25px !important;
+}
+
+.small-box h3 {
+	font-size: 30px !important;
+	margin: 0 0 10px 0 !important;
+	white-space: nowrap !important;
+	padding: 0 !important;
+	font-weight: normal !important;
+}
+
+.table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th,
+	.table>thead>tr>td, .table>thead>tr>th {
+	line-height: 2.4;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	overflow: hidden;
+}
+
+.nav-tabs>li>a {
+	border: 1px solid transparent;
+	border-radius: 5px;
+}
+
+.nav-tabs>li.active>a, .nav-tabs>li.active>a:focus, .nav-tabs>li.active>a:hover
+	{
+	color: #FFFFFF;
+	cursor: default;
+	background-color: #27a9e6;
+}
+
+.nav-tabs {
+	border-bottom: 0;
+}
+</style>
+<div class="" id="main">
+	<section class="content" style="min-width: 760px !important;">
+		<div class="">
+
+			
+
+			
+
+			<div id="myTabContent" class="tab-content">
+
+				<div class="tab-pane fade in active" id="settlementAll">
+				<div class="box box-solid">
+				<div class="box-body">
+					<div class="row">
+						<div class="col-md-6 col-sm-6">
+							<div class="btn-group" id="auth_delete">
+								<a href="{:url('Auditing/parts_order')}" class="btn btn-primary btn-sm checkbox-toggle">全部</a>
+								<a href="javascript:delmes()" class="btn btn-default btn-sm" style="margin-left: 10px;">删除</a>
+								
+								
+								
+							</div>
+							<!-- /.btn-group -->
+						</div>
+
+						<div class="col-md-6 col-sm-6">
+							<form id="mainForm" action="search_parts_order" method="get"
+								class="nice-validator n-default n-bootstrap"
+								novalidate="novalidate">
+								<!-- <div class="input-group">
+									<input type="text" class="form-control keyword-search criteria"
+										placeholder="请输入订单编号" value="" id="keyword" name="keyword"
+										maxlength="50"> <span class="input-group-btn">
+										<button class="btn btn-primary" type="submit" id="btnSearch">搜
+											索</button>
+									</span>
+								</div> -->
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+					<div class="box box-solid">
+						<div class="box-body no-padding">
+							<div class="table-responsive list">
+								<table class="table table-hover table-striped table-bordered"
+									id="taskTable">
+									<thead>
+										<tr>
+											<th><input type="checkbox" name="checkAll"
+												id="checkSelect" value="全选"></th>
+											<th>订单编号</th>
+											<th>订单类别</th>
+											<th>区域</th>
+											<th name="taskCustomerLinkmanPhone">供应商</th>
+											<th id="tour_1" name="taskCustomer">联系人</th>
+											<th name="taskServiceType">金额</th>
+											<th name="taskServiceType">单据日期</th>
+											<th>备注</th>
+											<th>操作</th>
+										</tr>
+									</thead>
+									<tbody id="order_all">
+                                    {if condition="$res eq false"}
+									{volist name="order_list" id="vo"}
+										<tr>
+                                        
+											<td><input type="checkbox" class="checkSelect" name="checkSelect"
+                                               
+                                               id="checkSelect_6e83e2f2-f111-11e7-9aa4-00163e12f748" value="{$vo.id}"></td>
+                                        
+											<td style="width: 13%;"><a
+												href="{:url('order_list',['id'=>$vo.id])}">{$vo.number}</a>
+											</td>
+											{if condition="$vo['sid'] eq 1"}
+											<td name="taskCustomer">采购订单</td>
+											{else}
+											<td name="taskCustomer">销售订单</td>
+											{/if}
+											
+											<td name="taskCustomerLinkmanPhone">{$vo.pid}</td>
+											<td name="taskCustomerAddress">{$vo.warehouse}</td>
+											<td name="taskCustomer">{$vo.linkman}</td>
+											<td name="taskCreateTime">{$vo.p_price}</td>
+											<td name="taskCreateUser">{$vo.ad_date}</td>
+											<td name="taskCreateTime">{$vo.content}</td>
+                                            
+                                            <td><a href="{:url('order_list',['id'=>$vo.id])}">查看详情</a></td>
+										</tr>
+                                        {/volist}
+										{else}
+					
+										<tr>
+											<td colspan="19" style="text-align: center;" >暂无相关订单信息</td>
+										</tr>
+										
+                                        {/if}
+									</tbody>
+								</table>
+							</div>
+							<!-- /.mail-box-messages -->
+						</div>
+						<!-- /.box-body -->
+						<div class="box-footer ">
+							<!-- <div class="col-lg-4 ">共  记录&nbsp; 共  页 &nbsp; &nbsp;每页显示
+								<select id="sizeSelect" >
+	                            <option value="10" selected="">10</option>
+	                            <option value="20">20</option>
+	                            <option value="50">50</option>
+		                        </select>条
+	                        </div> -->
+	                        <div class="col-lg-8 ">
+                            	<!-- <ul class="pagination pull-right" id="pagination1"></ul> -->
+                                {$page}
+                       		</div>
+							
+						</div>
+						<!-- /. box -->
+
+					</div>
+				</div>
+		</div>
+	</section>
+</div>
+{include file="public/footer" /}
+<script>
+
+
+
+
+
+    ////以下是复选框的选中
+    $("#checkSelect").change(function () {
+        if ($(this).is(':checked')) {
+            $("input[name='checkSelect']").prop("checked", "checked");
+        } else {
+            $("input[name='checkSelect']").removeAttr("checked");
+        }
+    });
+    $("input[name='checkSelect']").change(function () {
+        var flag = true;
+        $("input[name='checkSelect']").each(function () {
+            if (!$(this).is(':checked')) {
+                flag = false;
+                return false;
+            }
+        });
+        if (flag) {
+            $("#checkSelect").prop("checked", "checked");
+        } else {
+            $("#checkSelect").removeAttr("checked");
+        }
+    });
+    ////以上是复选框的选中
+    
+
+   
+
+
+
+
+   //批量删除
+  	function delmes(){
+  		//获取选中的数据id
+  		obj = document.getElementsByName("checkSelect");
+		    var mid = [];
+		    for(k in obj){
+		        if(obj[k].checked)
+		            mid.push(obj[k].value);
+		    }
+		//判断是否有选中数据
+		if (mid == '') {
+			alert('请先选择');
+		}else{
+		
+			if(confirm('你确定要删除吗？')){
+		  		$.post("{:url('Auditing/del_order')}",{id:mid},function(data){
+	                if(data == 0){
+	                    alert('删除失败');
+	                    location.reload();
+	                }else if(data == 1){
+	                    location.reload();
+	                }
+	            },'json')
+  			}
+		}
+  		
+  	}
+
+
+    //搜索框没内容处理
+    $('#btnSearch').click(function(){
+    	var keyword = $('#keyword').val();
+    	if (keyword == '') {
+    		return false;
+    	}
+    })
+
+
+    
+
+
+
+</script>

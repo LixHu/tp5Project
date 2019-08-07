@@ -1,0 +1,92 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>兑换列表</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="_css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="_css/all.css" />
+	</head>
+
+	<body>
+		
+	{volist name="data" id="vo"}
+		<div class="left full bcol_f driver_shop_list mt_10" id="goods_all">
+			<div class="driver_shop_listl left">
+				<img class="driver_shop_img goods_id" src="{$vo.img}"/>
+			</div>
+			<div class="driver_shop_listm left">
+				<div class="thirteen col_3 mb_0 wnobr mb_5" style="margin-top: 15px;">
+					<p style="margin-bottom: 3px;">{$vo.name}</p>
+					<p style="color: red;margin-bottom: 3px;">￥{$vo.price}</p>
+				</div>			
+					<p class="elveteen mb_0 wnobr_2">
+					{$vo.start_time|date="Y-m-d",###}&nbsp;至&nbsp;{$vo.end_time|date="Y-m-d",###}
+					</p>
+			</div>
+			<div class="driver_shop_listr left">
+				<div class="driver_shop_but col_f twoteen" data-id="{$vo.id}" data-cate="{$vo.cateid}">
+					兑换
+				</div>
+			</div>
+		</div>
+	{/volist}
+		
+		
+		<script src="_js/mui.min.js"></script>
+		<script src="_js/jquery.js"></script>
+		<script type="text/javascript">
+			mui.init()
+			mui("body").on('tap','.driver_head_son',function(){
+				 
+				location.href="{:url('Index/index')}";
+				
+		    });
+		    mui("body").on('tap','.twoteen',function(){
+				var cateid = this.getAttribute('data-cate');
+				var goods_id = this.getAttribute('data-id');
+				if (cateid == 9) {
+					$.post("{:url('Goods/shop_parts')}",{pid:goods_id},function(data){
+						if(data['code'] == 3) {
+							mui.alert(data['mages'], '', function(){});
+						}else if(data['code'] == 5) {
+	                		mui.alert(data['mages'], '', function(){});
+	                	}else if(data['code'] == 6) {
+	                		mui.alert(data['mages'], '', function(){});
+	                	}else if(data['code'] == 0) {
+							mui.alert(data['mages'], '', function(){});
+						}else if(data['code'] == 1) {
+							mui.alert(data['mages'], '', function(){
+								// if (data['uid']) {
+	       //          				var uid = data['uid']*2+10000;
+	       //          				location.href="{:url('Index/index')}?uid="+uid;
+	       //          			}else if(data['did']){
+	       //          				var did = data['did']*2+10000;
+	       //          				location.href="{:url('Index/index')}?did="+did;
+	       //          			}else{
+	       //          				location.href="{:url('Index/index')}";
+	       //          			}
+								
+							});
+							
+						}
+					})
+				}else{
+					$.post("{:url('Goods/shop_cart')}",{pid:goods_id},function(data){
+						if(data == 3) {
+							alert('操作异常');
+						}else if(data == 0) {
+							alert('操作失败');
+						}else if(data == 1) {
+							location.href="{:url('Goods/goods_pay')}";
+						}
+					})
+				}
+				
+				// location.href="{:url('Goods/goods_pay')}?pid="+goods_id;
+		    });
+		</script>
+	</body>
+
+</html>

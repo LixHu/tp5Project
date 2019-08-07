@@ -1,0 +1,138 @@
+{include file="public/header" /}
+<link rel="stylesheet" href="__CSS__/main.css" media="all" />
+<div style="padding:15px;">
+	<div class="panel_box row">
+		<div class="panel col">
+			<a href="javascript:;" data-url="page/message/message.html">
+				<div class="panel_icon">
+					<i class="layui-icon" data-icon="&#xe63a;">&#xe63a;</i>
+				</div>
+				<div class="panel_word newMessage">
+					<span>{$info.count}</span>
+					<cite>今日访问量</cite>
+				</div>
+			</a>
+		</div>
+		<div class="panel col">
+			<a href="/admin/admin/message" title="点击前往查看">
+				<div class="panel_icon" style="background-color:#FF5722;">
+					<i class="layui-icon" data-icon="&#xe606;">&#xe606;</i>
+				</div>
+				<div class="panel_word userAll">
+					<span>{$info.msg}</span>
+					<cite>今日新增联系信息</cite>
+				</div>
+			</a>
+		</div>
+	</div>
+	<div class="row">
+		<div class="sysNotice col">
+			<blockquote class="layui-elem-quote title">公司基本信息</blockquote>
+			<table class="layui-table">
+				<colgroup>
+					<col width="150">
+					<col>
+				</colgroup>
+				<tbody>
+					<!-- <tr>
+						<td>公司名称</td>
+						<td class="version">{$info.company.com_name}</td>
+					</tr> -->
+					<!-- <tr>
+						<td>开发作者</td>
+						<td class="author"></td>
+					</tr> -->
+					<!-- <tr>
+						<td>网站首页</td>
+						<td class="homePage"></td>
+					</tr> -->
+					<tr>
+						<td>logo</td>
+						<td class="userRights"><img src="{$info.company.logo}" width="50" height="50"></td>
+					</tr>
+					<tr>
+						<td>公司电话</td>
+						<td class="server">{$info.company.com_phone}</td>
+					</tr>
+					<tr>
+						<td>邮箱</td>
+						<td class="dataBase">{$info.company.com_email}</td>
+					</tr>
+					<tr>
+						<td>备案信息</td>
+						<td class="maxUpload">{$info.company.free}</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<div class="sysNotice col">
+			<blockquote class="layui-elem-quote title">系统基本参数</blockquote>
+			<table class="layui-table">
+				<colgroup>
+					<col width="150">
+					<col>
+				</colgroup>
+				<tbody>
+					<tr>
+						<td>Web服务器</td>
+						<td class="version">{$info.ser}</td>
+					</tr>
+					<!-- <tr>
+						<td>开发作者</td>
+						<td class="author"></td>
+					</tr> -->
+					<!-- <tr>
+						<td>网站首页</td>
+						<td class="homePage"></td>
+					</tr> -->
+					<tr>
+						<td>PHP版本</td>
+						<td class="server">{$info.php_ver}</td>
+					</tr>
+					<tr>
+						<td>MySQL版本</td>
+						<td class="dataBase">{$info.mysql_ver}</td>
+					</tr>
+					<tr>
+						<td>最大上传限制</td>
+						<td class="maxUpload">{$info.max_upload}</td>
+					</tr>
+					<tr>
+						<td>当前用户权限</td>
+						<td class="userRights">{$info.role}</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+    $('.layui-btn').on('click', function(){
+        var othis = $(this), method = othis.data('method');
+        active[method] ? active[method].call(this, othis) : '';
+    });
+    var active = {
+        share:function(){
+            layer.open({
+                type:2,
+                title:'分享邀请码',
+                closeBtn:1,
+                shadeClose:true,
+                area:['600px','600px'],
+                content:'/admin/index/share'
+            })
+        },
+		see:function(){
+			var id = $(this).data('id');
+			layer.open({
+				type:2,
+				title:"广告详情",
+				area:['800px','600px'],
+				closeBtn:1,
+				shadeClose:true,
+				content:'/admin/ad/ad_info?id='+id
+			})
+		}
+    }
+</script>
+{include file="public/footer" /}

@@ -1,0 +1,486 @@
+{include file="public/header" /}
+    <style>
+        body {
+            background-color: #eeeeee;
+        }
+
+        .content {
+            padding: 0 15px !important;
+        }
+
+        .small-box {
+            margin-bottom: 0px;
+            color: #FFFFFF;
+        }
+
+        .table-header-sort {
+            cursor: pointer;
+            color: black !important;
+        }
+
+        .tooltip > .tooltip-inner {
+            background-color: #e5e5e5;
+            color: #0c0c0c
+        }
+
+        .tooltip.top .tooltip-arrow {
+            border-top-color: #e5e5e5;
+        }
+        #wait {
+            background: rgba(255, 255, 255, 0.5) url("/") center no-repeat;
+
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            z-index: 9000;
+        }
+
+        .dnone {
+            display: none;
+        }
+        [v-cloak] {
+            display: none
+        }
+
+        .iconfont {
+            width: 50px !important;
+        }
+
+        .dropdown-menu > li a {
+            transition: background-color ease .3s,
+            color ease .3s,
+            border-color ease .3s;
+        }
+
+        .dropdown-menu > li a:hover {
+            background-color: #3c8dbc;
+            color: white;
+            border-color: #3c8dbc;
+        }
+
+        .dropdown-toggle {
+            transition: background-color ease .3s,
+            color ease .3s,
+            border-color ease .3s;
+        }
+
+        .dropdown-toggle:hover {
+            background-color: #3c8dbc;
+            color: white;
+            border-color: #3c8dbc;
+        }
+
+        .open .dropdown-toggle {
+            background-color: #3c8dbc !important;
+            color: white !important;
+            border-color: #3c8dbc !important;
+        }
+
+        .btn-default1 {
+            background-color: #f4f4f4;
+            color: #444;
+            border-color: #ddd;
+        }
+
+        .small-box .icon {
+            top: -25px !important;
+        }
+
+        .small-box h3 {
+            font-size: 30px !important;
+            margin: 0 0 10px 0 !important;
+            white-space: nowrap !important;
+            padding: 0 !important;
+            font-weight: normal !important;
+        }
+
+        .table > tbody > tr > td, .table > tbody > tr > th, .table > tfoot > tr > td, .table > tfoot > tr > th, .table > thead > tr > td, .table > thead > tr > th {
+            line-height: 2.4;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            overflow: hidden;
+        }
+    </style>
+<link href="http://cdn.bootcss.com/bootstrap-daterangepicker/2.1.25/daterangepicker.css" rel="stylesheet"/>
+<script src="http://cdn.bootcss.com/bootstrap-daterangepicker/2.1.25/moment.min.js"></script>
+<script src="http://cdn.bootcss.com/bootstrap-daterangepicker/2.1.25/daterangepicker.js"></script>
+<div class="" id="main">
+    <section class="content" style="min-width: 760px !important;">
+        <div class="">
+            <form id="mainForm" action="" method="get" class="nice-validator n-default n-bootstrap"
+                  novalidate="novalidate">
+                <input type="hidden" id="sortSeachModel" name="sortBy[taskNo]" value="false">
+                <input type="hidden" id="workTaskId" name="id" value="">
+                <!--搜索条件-->
+                <div class="box box-solid">
+                    <div class="box-body no-padding">
+                        <div class="table-responsive list">
+                            <table class="table table-hover table-striped table-bordered" id="taskTable">
+                                <thead>
+                                <tr>
+                                    <th><input type="checkbox" name="checkAll" id="checkSelect" value="全选"></th>
+                                    <th>用户名</th>
+                                    <th id="tour_1" name="taskCustomer">电话</th>
+                                    <th name="taskCustomerLinkmanPhone">客户地址</th>
+                                    <th name="taskCustomerAddress">所属公司</th>
+                                    <th name="taskProduct">区域</th>
+                                    <th name="taskPlanTime">申请时间</th>
+                                    <th>操作</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr v-for="item in Aud_list">
+                                    <td><input type="checkbox" class="checkSelect" name="checkSelect"
+                                               value="" ></td>
+                                    <td>
+                                        <a href="javascript:taskView('6e83e2f2-f111-11e7-9aa4-00163e12f748')">18010008</a>
+                                    </td>
+                                    <td name="taskCustomer">111</td>
+
+                                    <td name="taskCustomerLinkmanPhone">13112345678</td>
+                                    <td name="taskCustomerLinkmanPhone">13112345678</td>
+
+
+
+                                    <td name="taskAllotTime">13123456789</td>
+
+                                    <td name="taskAllotTime"><span class="label " style="background-color: #69b5f0">
+                                                            待指派
+                                                    </span></td>
+
+                                    <td>
+
+                                    </td>
+                                </tr>
+                                <tr v-show="Aud_list.length == 0">
+                                    <td colspan="19" style="text-align: center;">未找到相关数据</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="box-footer ">
+                        <div class="col-lg-4 ">共 {{listcount}} 记录&nbsp; 共 {{countpage}} 页 &nbsp; &nbsp;每页显示<select v-model="pagesize">
+                            <option value="10" selected="">10</option>
+                            <option value="20">20</option>
+                            <option value="50">50</option>
+                        </select>条
+                        </div>
+                        <div class="col-lg-8 ">
+                            <ul class="pagination pull-right" id="pagination1"></ul>
+                        </div>
+                    </div><!-- /. box -->
+
+                </div>
+
+            </form>
+        </div>
+    </section>
+</div>
+{include file="public/footer" /}
+<script>
+    var vm = new Vue({
+        el:"#main",
+        data:{
+            currentpage:1,
+            listcount:0,
+            pagesize:10,
+            countpage:0,
+            Aud_list:[]
+        },
+        methods:{
+            getData:function(){
+                var $this = this,
+                    data = {};
+                data.currentpage = $this.currentpage;
+                data.pagesize = $this.pagesize;
+                $.post('getAudUser',data,function(res){
+                    console.log(res);
+                    if (res.code == 1){
+                        $this.Aud_list = res.data;
+                        $this.countpage = res.countpage;
+                        $this.listcount = res.listcount;
+                    }else {
+                        $this.Aud_list = [];
+                    }
+                })
+            }
+        },
+        watch:{
+            pagesize:function(){
+                this.getData();
+            }
+        }
+    })
+    vm.getData();
+    //分页
+//     $('#pagination1').jqPaginator({
+//         totalPages: 12,//设置分页的总页数
+//         visiblePages: 5,//设置最多显示的页码数（例如有100也，当前第1页，则显示1 - 7页）
+//         currentPage: 1,//	设置当前的页码
+//         first: "<li class=\"first\"><a href=\"javascript:;\">首页</a></li>",
+//         last: "<li class=\"last\"><a href=\"javascript:;\">末页</a></li>",
+//         prev: "<li class=\"prev\"><a href=\"javascript:;\">上一页</a></li>",
+//         next: "<li class=\"next\"><a href=\"javascript:;\">下一页</a></li>",
+//         page: "<li class=\"page\" ><a href=\"javascript:;\">{{page}}</a></li>",
+//         onPageChange: function (num, type) {
+// //            alert(num);
+//         }
+//     });
+    //定义locale汉化插件
+    var locale = {
+        "format": 'YYYY-MM-DD',
+        "separator": " -222 ",
+        "applyLabel": "确定",
+        "cancelLabel": "取消",
+        "fromLabel": "起始时间",
+        "toLabel": "结束时间'",
+        "customRangeLabel": "自定义",
+        "weekLabel": "W",
+        "daysOfWeek": ["日", "一", "二", "三", "四", "五", "六"],
+        "monthNames": ["一月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "十一月", "十二月"],
+        "firstDay": 1
+    };
+    //日期控件初始化
+    $('#daterange-btn1').daterangepicker({
+            'locale': locale,
+            applyClass: "btn-primary",
+            //汉化按钮部分
+            ranges: {
+                '今日': [moment(), moment()],
+                '昨日': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+                '最近7日': [moment().subtract(6, 'days'), moment()],
+                '最近30日': [moment().subtract(29, 'days'), moment()],
+                '本月': [moment().startOf('month'), moment().endOf('month')],
+                '上月': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+            },
+            startDate: moment().subtract(6, 'days'),
+            endDate: moment()
+        },
+        function (start, end) {
+            $('#daterange-btn1 span').html(start.format('YYYY-MM-DD') + ' - ' + end.format('YYYY-MM-DD'));
+            //ajax
+        }
+    );
+    $('#daterange-btn2').daterangepicker({
+            'locale': locale,
+            applyClass: "btn-primary",
+            //汉化按钮部分
+            ranges: {
+                '今日': [moment(), moment()],
+                '昨日': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+                '最近7日': [moment().subtract(6, 'days'), moment()],
+                '最近30日': [moment().subtract(29, 'days'), moment()],
+                '本月': [moment().startOf('month'), moment().endOf('month')],
+                '上月': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+            },
+            startDate: moment().subtract(6, 'days'),
+            endDate: moment()
+        },
+        function (start, end) {
+            $('#daterange-btn2 span').html(start.format('YYYY-MM-DD') + ' - ' + end.format('YYYY-MM-DD'));
+            //ajax
+        }
+    );
+
+
+    ////以下是复选框的选中
+    $("#checkSelect").change(function () {
+        if ($(this).is(':checked')) {
+            $("input[name='checkSelect']").prop("checked", "checked");
+        } else {
+            $("input[name='checkSelect']").removeAttr("checked");
+        }
+    });
+    $("input[name='checkSelect']").change(function () {
+        var flag = true;
+        $("input[name='checkSelect']").each(function () {
+            if (!$(this).is(':checked')) {
+                flag = false;
+                return false;
+            }
+        });
+        if (flag) {
+            $("#checkSelect").prop("checked", "checked");
+        } else {
+            $("#checkSelect").removeAttr("checked");
+        }
+    });
+    ////以上是复选框的选中
+    //分别是三个筛选按钮
+    $('#documentDate .filterToBe').click(function () {
+        if (!$(this).hasClass('filterActive')) {
+            $('#documentDate .filterToBe').removeClass('filterActive');
+            $(this).addClass('filterActive');
+            var time = timeFilter($(this).text(), 'createTime1');
+            log(time.startTime + time.endTime);
+        }
+    })
+    $('#receiptDate .filterToBe').click(function () {
+        if (!$(this).hasClass('filterActive')) {
+            $('#receiptDate .filterToBe').removeClass('filterActive');
+            $(this).addClass('filterActive');
+            var time = timeFilter($(this).text(), 'createTime2');
+            log(time.startTime + time.endTime);
+        }
+    })
+    $('#settlementDate .filterToBe').click(function () {
+        if (!$(this).hasClass('filterActive')) {
+            $('#settlementDate .filterToBe').removeClass('filterActive');
+            $(this).addClass('filterActive');
+            var num = shortFilter($(this).text());
+            log(num);
+        }
+    })
+    /**
+     * 时间筛选类
+     * @param text 时间字（比如今天，本周）
+     * @param id 时间选择id，用于不同的时间选择器
+     */
+    function timeFilter(text, id) {
+        var startTime;
+        var endTime;
+        switch (text) {
+            case '全部':
+                startTime = '';
+                endTime = '';
+                $('#' + id).hide();
+                break;
+            case '今天':
+                startTime = moment().format('YYYY-MM-DD');
+                endTime = moment().format('YYYY-MM-DD');
+                $('#' + id).hide();
+                break;
+            case '昨天':
+                startTime = moment().subtract(1, 'days').format('YYYY-MM-DD');
+                endTime = moment().subtract(1, 'days').format('YYYY-MM-DD');
+                $('#' + id).hide();
+                break;
+            case '本周':
+                $('#' + id).hide();
+                switch (moment().format('dddd')) {
+                    case 'Monday':
+                        startTime = moment().format('YYYY-MM-DD');
+                        endTime = moment().add(6, 'days').format('YYYY-MM-DD');
+                        break;
+                    case 'Tuesday':
+                        startTime = moment().subtract(1, 'days').format('YYYY-MM-DD');
+                        endTime = moment().add(5, 'days').format('YYYY-MM-DD');
+                        break;
+                    case 'Wednesday':
+                        startTime = moment().subtract(2, 'days').format('YYYY-MM-DD');
+                        endTime = moment().add(4, 'days').format('YYYY-MM-DD');
+                        break;
+                    case 'Thursday':
+                        startTime = moment().subtract(3, 'days').format('YYYY-MM-DD');
+                        endTime = moment().add(3, 'days').format('YYYY-MM-DD');
+                        break;
+                    case 'Friday':
+                        startTime = moment().subtract(4, 'days').format('YYYY-MM-DD');
+                        endTime = moment().add(2, 'days').format('YYYY-MM-DD');
+                        break;
+                    case 'Saturday':
+                        startTime = moment().subtract(5, 'days').format('YYYY-MM-DD');
+                        endTime = moment().add(1, 'days').format('YYYY-MM-DD');
+                        break;
+                    case 'Sunday':
+                        startTime = moment().add(6, 'days').format('YYYY-MM-DD');
+                        endTime = moment().format('YYYY-MM-DD');
+                        break;
+                }
+                break;
+            case '上周':
+                $('#' + id).hide();
+                var prevWeek;
+                switch (moment().format('dddd')) {
+                    case 'Monday':
+                        prevWeek = 1;
+                        break;
+                    case 'Tuesday':
+                        prevWeek = 2;
+                        break;
+                    case 'Wednesday':
+                        prevWeek = 3;
+                        break;
+                    case 'Thursday':
+                        prevWeek = 4;
+                        break;
+                    case 'Friday':
+                        prevWeek = 5;
+                        break;
+                    case 'Saturday':
+                        prevWeek = 6;
+                        break;
+                    case 'Sunday':
+                        prevWeek = 7;
+                        break;
+                }
+                startTime = moment().subtract(prevWeek + 6, 'days').format('YYYY-MM-DD');
+                endTime = moment().subtract(prevWeek, 'days').format('YYYY-MM-DD');
+                break;
+            case '自定义':
+                $('#' + id).show();
+                break;
+        }
+        return {
+            startTime: startTime,
+            endTime: endTime
+        }
+    }
+
+    $('#createTime1').daterangepicker({
+        applyClass: "btn-primary",
+        locale: {
+            format: 'YYYY-MM-DD',
+            applyLabel: '确定',
+            applyClass: "btn-primary",
+            cancelLabel: '取消',
+            fromLabel: '开始',
+            toLabel: '结束',
+            daysOfWeek: '日_一_二_三_四_五_六'.split('_'),
+            monthNames: '1月_2月_3月_4月_5月_6月_7月_8月_9月_10月_11月_12月'.split('_'),
+        },
+        startDate: moment().subtract(6, 'days'),
+        endDate: moment()
+    }, function (start, end) {
+        log(start.format('YYYY-MM-DD') + end.format('YYYY-MM-DD'));
+    });
+    $('#createTime2').daterangepicker({
+        applyClass: "btn-primary",
+        locale: {
+            format: 'YYYY-MM-DD',
+            applyLabel: '确定',
+            applyClass: "btn-primary",
+            cancelLabel: '取消',
+            fromLabel: '开始',
+            toLabel: '结束',
+            daysOfWeek: '日_一_二_三_四_五_六'.split('_'),
+            monthNames: '1月_2月_3月_4月_5月_6月_7月_8月_9月_10月_11月_12月'.split('_'),
+        },
+        startDate: moment().subtract(6, 'days'),
+        endDate: moment()
+    }, function (start, end) {
+        log(start.format('YYYY-MM-DD') + end.format('YYYY-MM-DD'));
+    });
+
+    /**
+     * 结算筛选类
+     * @param text 时间字（比如已结算）
+     * @return num 1是全部 2是已结算 3是未结算
+     */
+    function shortFilter(text) {
+        var num;
+        switch (text) {
+            case '全部':
+                num = 1;
+                break;
+            case '已结算':
+                num = 2;
+                break;
+            case '未结算':
+                num = 3;
+                break;
+        }
+        return num;
+    }
+</script>

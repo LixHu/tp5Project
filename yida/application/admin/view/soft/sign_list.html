@@ -1,0 +1,122 @@
+{include file="public/header" /}
+<div style="padding:10px;">
+    <blockquote class="layui-elem-quote layui-text">
+        签约动态管理
+    </blockquote>
+    <div style="float:right;padding:10px;">
+        <button class="layui-btn layui-btn-normal" data-method="add">添加签约动态</button>
+    </div>
+    <table class="layui-table">
+        <tr>
+            <td><input type="checkbox" id="checkall" /> </td>
+            <td>描述</td>
+            <td>是否显示</td>
+            <td>操作</td>
+        </tr>
+        {volist name="sign_list" id="vo"}
+            <tr>
+                <td><input type="checkbox" name="id[]" value="{$vo.sign_id}" /></td>
+                <td>{$vo.sign_desc}</td>
+                <td>{$vo.is_show}</td>
+                <td>
+                    <div class="layui-btn-group">
+                        <button class="layui-btn layui-btn-normal" type="button"  data-method="edit" data-id="{$vo.sign_id}">编辑</button>
+                        <button type="button" data-id="{$vo.sign_id}" data-method="del" class="layui-btn layui-btn-danger">删除</button>
+                    </div>
+                </td>
+            </tr>
+        {/volist}
+        <tr>
+            <td colspan="15">
+                <div class="pagelist">{$page}</div>
+            </td>
+        </tr>
+        <tr>
+            <td><button type="button" class="layui-btn layui-btn-danger" data-method="delAll">删除</button></td>
+            <td colspan="15"></td>
+        </tr>
+    </table>
+</div>
+<script type="text/javascript">
+$('.layui-btn').on('click', function(){
+    var othis = $(this), method = othis.data('method');
+    active[method] ? active[method].call(this, othis) : '';
+});
+var active = {
+    add:function(){
+        layer.open({
+            type:2,
+            title:"添加签约动态",
+            area:['600px','200px'],
+            shadeClose:false,
+            closeBtn:1,
+            content:'addedit_sign'
+        })
+    },
+    del:function(){
+        var data = {};
+        data.id = $(this).data('id');
+        layer.confirm('确定要删除吗？',{
+            btn:['确定','取消']
+        },function(){
+            $.post('del_sign',data,function(msg){
+                msg = JSON.parse(msg);
+                if(msg.code == 1){
+                    layer.msg(msg.msg,{icon:1});
+                    setTimeout("location.reload()",2000);
+                }else{
+                    layer.msg(msg.msg,{icon:2});
+                }
+            })
+        },function(){
+            console.log('error');
+        })
+    },
+    delAll:function(){
+        var id = [];
+        $.each($("input[name='id[]']"),function(k,v){
+            if(v.checked){
+                id.push(v.value);
+            }
+        })
+        if(id.length < 1){
+            layer.msg('请选择要删除的管理员',{icon:2});
+            return false;
+        }
+        var data = {};
+        data.id = id;
+        layer.confirm('确定要删除吗？',{
+            btn:['确定','取消']
+        },function(){
+            $.post('del_sign',data,function(msg){
+                msg = JSON.parse(msg);
+                if(msg.code == 1){
+                    layer.msg(msg.msg,{icon:1});
+                    setTimeout("location.reload()",2000);
+                }else{
+                    layer.msg(msg.msg,{icon:2});
+                }
+            })
+        },function(){
+
+        })
+    },
+    edit:function(){
+        var id = $(this).data('id');
+        layer.open({
+            type:2,
+            title:"添加签约动态",
+            area:['600px','200px'],
+            shadeClose:false,
+            closeBtn:1,
+            content:'addedit_sign?id='+id
+        })
+    }
+}
+$("#checkall").click(function(){
+    $.each($("input[name='id[]']"),function(k,v){
+        v.checked = !v.checked;
+    })
+})
+</script>
+{include file="public/footer" /}

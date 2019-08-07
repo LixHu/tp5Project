@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="_css/bootstrap.css">
+    <script src="_js/bootstrap.js"></script>
+</head>
+<body style="background: #eee;">
+
+    <div class="container" style="width:30%;">
+        <div class="col-md-6 col-sm-6">
+            <!-- end of #bs-collapse  -->
+        </div>
+        <div class="col-md-12 col-sm-12">
+            <h3>数据管理</h3>
+            <div class="panel-group wrap" id="accordion" role="tablist" aria-multiselectable="true">
+                <table class="table table-hover">
+                    {volist name="tab" id="vo"}
+                        <tr>
+                            <td><a href="tabledata?tb={$vo.tb}">{$vo.tb}</a></td>
+                        </tr>
+                    {/volist}
+                </table>
+            </div>
+        </div>
+    </div>
+<script type="text/javascript">
+
+//    function getData(tbname,obj) {
+//        var data = {};
+//        data.tb = tbname;
+//        var div = $(obj).next().find('.panel-body');
+//        div.html('');
+//        $.post('Tbname',data,function (res) {
+//            $ta = $('<table class="table table-hover" style="width:100%;"></table>');
+//            var tr = '<tr>';
+//            $.each(res.col,function (k,v) {
+//                tr += '<th>'+v.Field+'</th>';
+//            })
+//            tr += '</tr>';
+//            var tr2 = '';
+//            $.each(res.list,function (k,v) {
+//                tr2 += "<tr>";
+//                $.each(v,function (key,val) {
+//                    tr2 += '<th>'+val+'</th>';
+//                })
+//                tr2 += '</tr>';
+//            })
+//            $ta.append(tr);
+//            $ta.append(tr2);
+//            div.append($ta);
+//        })
+//    }
+</script>
+</body>
+</html>

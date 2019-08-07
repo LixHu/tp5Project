@@ -1,0 +1,664 @@
+{include file="public/header" /}
+
+<link
+	href="http://cdn.bootcss.com/bootstrap-daterangepicker/2.1.25/daterangepicker.css"
+	rel="stylesheet" />
+<script
+	src="http://cdn.bootcss.com/bootstrap-daterangepicker/2.1.25/moment.min.js"></script>
+<script
+	src="http://cdn.bootcss.com/bootstrap-daterangepicker/2.1.25/daterangepicker.js"></script>
+<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+<!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+<style>
+body {
+	background-color: #eeeeee;
+}
+
+
+
+.content {
+	padding: 0 15px !important;
+}
+
+.small-box {
+	margin-bottom: 0px;
+	color: #FFFFFF;
+}
+
+.table-header-sort {
+	cursor: pointer;
+	color: black !important;
+}
+
+.tooltip>.tooltip-inner {
+	background-color: #e5e5e5;
+	color: #0c0c0c
+}
+
+.tooltip.top .tooltip-arrow {
+	border-top-color: #e5e5e5;
+}
+
+#wait {
+	background: rgba(255, 255, 255, 0.5) url("/resource/images/wait.gif")
+		center no-repeat;
+	position: fixed;
+	width: 100%;
+	height: 100%;
+	z-index: 9000;
+}
+
+.dnone {
+	display: none;
+}
+
+[v-cloak] {
+	display: none
+}
+
+.iconfont {
+	width: 50px !important;
+}
+
+.dropdown-menu>li a {
+	transition: background-color ease .3s, color ease .3s, border-color ease
+		.3s;
+}
+
+.dropdown-menu>li a:hover {
+	background-color: #3c8dbc;
+	color: white;
+	border-color: #3c8dbc;
+}
+
+.dropdown-toggle {
+	transition: background-color ease .3s, color ease .3s, border-color ease
+		.3s;
+}
+
+.dropdown-toggle:hover {
+	background-color: #3c8dbc;
+	color: white;
+	border-color: #3c8dbc;
+}
+
+.open .dropdown-toggle {
+	background-color: #3c8dbc !important;
+	color: white !important;
+	border-color: #3c8dbc !important;
+}
+
+.btn-default1 {
+	background-color: #f4f4f4;
+	color: #444;
+	border-color: #ddd;
+}
+
+.small-box .icon {
+	top: -25px !important;
+}
+
+.small-box h3 {
+	font-size: 30px !important;
+	margin: 0 0 10px 0 !important;
+	white-space: nowrap !important;
+	padding: 0 !important;
+	font-weight: normal !important;
+}
+
+.table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th,
+	.table>thead>tr>td, .table>thead>tr>th {
+	line-height: 2.4;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	overflow: hidden;
+}
+
+.nav-tabs>li>a {
+	border: 1px solid transparent;
+	border-radius: 5px;
+}
+
+.nav-tabs>li.active>a, .nav-tabs>li.active>a:focus, .nav-tabs>li.active>a:hover
+	{
+	color: #FFFFFF;
+	cursor: default;
+	background-color: #27a9e6;
+}
+
+.nav-tabs {
+	border-bottom: 0;
+}
+</style>
+<div class="" id="main">
+	<section class="content" style="min-width: 760px !important;">
+		<div class="">
+
+			
+
+			<div class="box box-solid">
+				<div class="box-body">
+					<ul id="myTab" class="nav nav-tabs">
+						
+						<li><a href="{:url('Inventorys/check_all')}" > 盘点 </a></li>
+						<li><a href="{:url('Inventorys/safety_all')}" > 安全库存 </a></li>
+						<li class="active"><a href="{:url('Inventorys/order_all')}" > 出入库记录 </a></li>
+					</ul>
+				</div>
+			</div>
+
+			<div id="myTabContent" class="tab-content">
+
+				<div class="tab-pane fade in active" id="settlementAll">
+				<div class="box box-solid">
+						<div class="box-body">
+							<div class="row">
+								
+								<div class="col-md-12 col-sm-12 mb10">
+                                        <div class="input-group" id="settlementDate2">
+                                            <span class="lh34">类型：</span>
+                                            <span class="filterToBe filterActive">全部</span>
+                                            <span class="filterToBe">出库记录</span>
+                                            <span class="filterToBe">入库记录</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 col-sm-12 mb10">
+                                        <div class="input-group" id="receiptDate">
+                                            <span class="lh34">时间：</span>
+                                            <span class="filterToBe filterActive">全部</span>
+                                            <span class="filterToBe">今天</span>
+                                            <span class="filterToBe">昨天</span>
+                                            <span class="filterToBe">本周</span>
+                                            <span class="filterToBe">上周</span>
+                                            <span class="filterToBe">自定义</span>
+                                            <span style="position: relative;">
+                                        <input type="text" id="createTime2" class="form-control"
+                                               style="position:absolute;left:0;top: -7px;width: 200px;display: none;">
+                                    </span>
+
+                                        </div>
+                                    </div>
+								
+								<div class="col-md-12 col-sm-12 mb10">
+										<div class="">
+										
+											
+										</div>
+									</span>
+								</div>
+								<div class="col-md-6 col-sm-6">
+									
+										<div class="input-group" style="width: 50%;">
+											<input type="text"
+												class="form-control keyword-search criteria"
+												placeholder="请输入订单编号" v-model="keyword" id="keyword" name="keyword"
+												maxlength="50"> <span class="input-group-btn">
+												<button class="btn btn-primary" type="submit" id="btnSearch" @click="search">搜
+													索</button>
+
+											</span>
+										</div>
+									
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="box box-solid">
+						<div class="box-body">
+							<div class="row">
+								<div class="col-md-6 col-sm-6">
+									<div class="input-group">
+										<a href="javascript:delmes();" class="btn btn-default" type="submit"
+											style="margin-left: 5px;">删 除</a>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="box box-solid">
+						<div class="box-body no-padding">
+							<div class="table-responsive list">
+								<table class="table table-hover table-striped table-bordered"
+									id="taskTable">
+									<thead>
+										<tr>
+											<th><input type="checkbox" name="checkAll"
+												id="checkSelect" value="全选"></th>
+											<th>订单编号</th>
+											<th name="taskCustomerLinkmanPhone">供应商/客户</th>
+											<th name="taskServiceType">金额</th>
+											<th name="taskServiceType">日期</th>
+											<th>操作</th>
+										</tr>
+									</thead>
+									<tbody id="order_all">
+									
+										<tr v-for="item in order_list">
+											<td><input type="checkbox" class="checkSelect" name="checkSelect"
+                                               :value="item.id"
+                                               id="checkSelect_6e83e2f2-f111-11e7-9aa4-00163e12f748"></td>
+											
+											<td style="width: 13%;"><a :href="item.url">{{item.order_number}}</a></td>
+											
+											<input type="hidden" id="oid" value="{{item.id}}">
+
+											<td name="taskCustomerLinkmanPhone">{{item.order_supplier}}{{item.order_client}}</td>
+
+
+											<td name="taskLevel">{{item.order_price}}</td>
+
+											<td name="taskLevel">{{item.order_adtime}}</td>
+
+											<td><a :href="item.url">订单详情</a></td>
+											
+										</tr>
+										
+					
+										<tr>
+											<td colspan="19" style="text-align: center;" v-show="order_list.length == 0">未找到相关数据</td>
+										</tr>
+										
+
+									</tbody>
+								</table>
+							</div>
+							<!-- /.mail-box-messages -->
+						</div>
+						<!-- /.box-body -->
+						<div class="box-footer ">
+							<div class="col-lg-4 ">共 {{total}} 记录&nbsp; 共 {{totalpage}} 页 &nbsp; &nbsp;每页显示
+								<select id="sizeSelect" v-model="pagesize">
+	                            <option value="10" selected="">10</option>
+	                            <option value="20">20</option>
+	                            <option value="50">50</option>
+		                        </select>条
+	                        </div>
+	                        <div class="col-lg-8 ">
+                            	<ul class="pagination pull-right" id="pagination1"></ul>
+                       		</div>
+							
+						</div>
+						<!-- /. box -->
+
+					</div>
+				</div>
+		</div>
+	</section>
+</div>
+{include file="public/footer" /}
+<script>
+
+  	    var vm = new Vue({
+        el:"#main",
+        data:{
+            keyword:'',
+            time:'',
+            sid:'',
+            total:0,        //总条数
+            totalpage:0,    //
+            currentpage:1,  //当前页
+            pagecount:0,    //总页数
+            pagesize:10,    //每页数量
+            order_list:[],
+        },
+        methods:{
+            search:function(){
+                this.order_all();
+            },
+            order_all:function(){
+                var data = {},
+                    _self = this;
+                data.keyword = this.keyword;
+                
+                data.time = this.time;
+                data.sid = this.sid;
+                data.currentpage = this.currentpage;
+                data.pagesize = this.pagesize;
+                $.post('order_all',data,function(res){
+                    if (res.code == 1){
+                        _self.order_list = res.data;
+                        _self.total =  res.total;
+                        _self.totalpage = res.totalpage;
+                    }else {
+                        _self.order_list = [];
+                        _self.total =  0;
+                        _self.totalpage = 0;
+                    }
+                })
+            },
+            deleteWorkTask:function () {
+
+            }
+        },
+        watch:{
+            pagesize(curval,oldval){
+                if(oldval !== curval){
+                    this.pagesize = curval;
+                    this.order_all();
+                }
+            }
+        }
+    });
+    vm.order_all();
+    //分页
+//     $('#pagination1').jqPaginator({
+//         totalPages: 12,//设置分页的总页数
+//         visiblePages: 5,//设置最多显示的页码数（例如有100也，当前第1页，则显示1 - 7页）
+//         currentPage: 1,//	设置当前的页码
+//         first: "<li class=\"first\"><a href=\"javascript:;\">首页</a></li>",
+//         last: "<li class=\"last\"><a href=\"javascript:;\">末页</a></li>",
+//         prev: "<li class=\"prev\"><a href=\"javascript:;\">上一页</a></li>",
+//         next: "<li class=\"next\"><a href=\"javascript:;\">下一页</a></li>",
+//         page: "<li class=\"page\" ><a href=\"javascript:;\">{{page}}</a></li>",
+//         onPageChange: function (num, type) {
+// //            alert(num);
+//         }
+//     });
+
+//     $('#pagination2').jqPaginator({
+//         totalPages: 12,//设置分页的总页数
+//         visiblePages: 5,//设置最多显示的页码数（例如有100也，当前第1页，则显示1 - 7页）
+//         currentPage: 1,//	设置当前的页码
+//         first: "<li class=\"first\"><a href=\"javascript:;\">首页</a></li>",
+//         last: "<li class=\"last\"><a href=\"javascript:;\">末页</a></li>",
+//         prev: "<li class=\"prev\"><a href=\"javascript:;\">上一页</a></li>",
+//         next: "<li class=\"next\"><a href=\"javascript:;\">下一页</a></li>",
+//         page: "<li class=\"page\" ><a href=\"javascript:;\">{{page}}</a></li>",
+//         onPageChange: function (num, type) {
+// //            alert(num);
+//         }
+//     });
+
+//     $('#pagination3').jqPaginator({
+//         totalPages: 12,//设置分页的总页数
+//         visiblePages: 5,//设置最多显示的页码数（例如有100也，当前第1页，则显示1 - 7页）
+//         currentPage: 1,//	设置当前的页码
+//         first: "<li class=\"first\"><a href=\"javascript:;\">首页</a></li>",
+//         last: "<li class=\"last\"><a href=\"javascript:;\">末页</a></li>",
+//         prev: "<li class=\"prev\"><a href=\"javascript:;\">上一页</a></li>",
+//         next: "<li class=\"next\"><a href=\"javascript:;\">下一页</a></li>",
+//         page: "<li class=\"page\" ><a href=\"javascript:;\">{{page}}</a></li>",
+//         onPageChange: function (num, type) {
+// //            alert(num);
+//         }
+//     });
+
+
+
+    ////以下是复选框的选中
+    $("#checkSelect").change(function () {
+        if ($(this).is(':checked')) {
+            $("input[name='checkSelect']").prop("checked", "checked");
+        } else {
+            $("input[name='checkSelect']").removeAttr("checked");
+        }
+    });
+    $("input[name='checkSelect']").change(function () {
+        var flag = true;
+        $("input[name='checkSelect']").each(function () {
+            if (!$(this).is(':checked')) {
+                flag = false;
+                return false;
+            }
+        });
+        if (flag) {
+            $("#checkSelect").prop("checked", "checked");
+        } else {
+            $("#checkSelect").removeAttr("checked");
+        }
+    });
+    ////以上是复选框的选中
+    
+    //显示新建页面,隐藏文件库页面
+    function newFile(id1, id2) {
+        $('#' + id1).hide();
+        $('#' + id2).show();
+    }
+
+   //隐藏新建页面,显示文件库页面
+    function back(id1, id2) {
+        $('#' + id1).show();
+        $('#' + id2).hide();
+        $("input,textarea").val("");
+        UE.getEditor('container').setContent('', false);
+        $("select").val(option[0]);
+        $("input:radio,input:checkbox").attr("checked",false);
+    }
+   
+   function modalShow(){
+       $('#customerFrameModal').modal('show');
+   }
+   
+
+
+
+
+   //批量删除
+  	function delmes(){
+  		//获取选中的数据id
+  		obj = document.getElementsByName("checkSelect");
+		    var mid = [];
+		    for(k in obj){
+		        if(obj[k].checked)
+		            mid.push(obj[k].value);
+		    }
+		//判断是否有选中数据
+		if (mid == '') {
+			alert('请先选择');
+		}else{
+			if(confirm('你确定要删除吗？')){
+		  		$.post("{:url('Inventorys/del_order')}",{id:mid},function(data){
+	                if(data == 0){
+	                    alert('删除失败');
+	                    location.reload();
+	                }else if(data == 1){
+	                    location.reload();
+	                }
+	            },'json')
+  			}
+		}
+  		
+  	}
+
+
+
+
+
+
+
+        
+   //点击供应商类型
+    $('#settlementDate .filterToBe').click(function () {
+        if (!$(this).hasClass('filterActive')) {
+            $('#settlementDate .filterToBe').removeClass('filterActive');
+            $(this).addClass('filterActive');
+            var num = shortFilter($(this).text());
+            log(num);
+
+        }
+    })
+    //点击出入库类型
+    $('#settlementDate2 .filterToBe').click(function () {
+        if (!$(this).hasClass('filterActive')) {
+            $('#settlementDate2 .filterToBe').removeClass('filterActive');
+            $(this).addClass('filterActive');
+            var num = shortFilter2($(this).text());
+            // log(num);
+            vm.sid = num;
+            vm.order_all();
+           
+        }
+    })
+    //点击出入库时间
+    $('#receiptDate .filterToBe').click(function () {
+        if (!$(this).hasClass('filterActive')) {
+            $('#receiptDate .filterToBe').removeClass('filterActive');
+            $(this).addClass('filterActive');
+            var time = timeFilter($(this).text(), 'createTime2');
+            // log(time.startTime + time.endTime);
+            vm.time = time.startTime + ',' + time.endTime;
+            vm.order_all();
+        }
+    })
+    function timeFilter(text, id) {
+        var startTime;
+        var endTime;
+        switch (text) {
+            case '全部':
+                startTime = '';
+                endTime = '';
+                $('#' + id).hide();
+                break;
+            case '今天':
+                startTime = moment().format('YYYY-MM-DD');
+                endTime = moment().format('YYYY-MM-DD');
+                $('#' + id).hide();
+                break;
+            case '昨天':
+                startTime = moment().subtract(1, 'days').format('YYYY-MM-DD');
+                endTime = moment().subtract(1, 'days').format('YYYY-MM-DD');
+                $('#' + id).hide();
+                break;
+            case '本周':
+                $('#' + id).hide();
+                switch (moment().format('dddd')) {
+                    case 'Monday':
+                        startTime = moment().format('YYYY-MM-DD');
+                        endTime = moment().add(6, 'days').format('YYYY-MM-DD');
+                        break;
+                    case 'Tuesday':
+                        startTime = moment().subtract(1, 'days').format('YYYY-MM-DD');
+                        endTime = moment().add(5, 'days').format('YYYY-MM-DD');
+                        break;
+                    case 'Wednesday':
+                        startTime = moment().subtract(2, 'days').format('YYYY-MM-DD');
+                        endTime = moment().add(4, 'days').format('YYYY-MM-DD');
+                        break;
+                    case 'Thursday':
+                        startTime = moment().subtract(3, 'days').format('YYYY-MM-DD');
+                        endTime = moment().add(3, 'days').format('YYYY-MM-DD');
+                        break;
+                    case 'Friday':
+                        startTime = moment().subtract(4, 'days').format('YYYY-MM-DD');
+                        endTime = moment().add(2, 'days').format('YYYY-MM-DD');
+                        break;
+                    case 'Saturday':
+                        startTime = moment().subtract(5, 'days').format('YYYY-MM-DD');
+                        endTime = moment().add(1, 'days').format('YYYY-MM-DD');
+                        break;
+                    case 'Sunday':
+                        startTime = moment().add(6, 'days').format('YYYY-MM-DD');
+                        endTime = moment().format('YYYY-MM-DD');
+                        break;
+                }
+                break;
+            case '上周':
+                $('#' + id).hide();
+                var prevWeek;
+                switch (moment().format('dddd')) {
+                    case 'Monday':
+                        prevWeek = 1;
+                        break;
+                    case 'Tuesday':
+                        prevWeek = 2;
+                        break;
+                    case 'Wednesday':
+                        prevWeek = 3;
+                        break;
+                    case 'Thursday':
+                        prevWeek = 4;
+                        break;
+                    case 'Friday':
+                        prevWeek = 5;
+                        break;
+                    case 'Saturday':
+                        prevWeek = 6;
+                        break;
+                    case 'Sunday':
+                        prevWeek = 7;
+                        break;
+                }
+                startTime = moment().subtract(prevWeek + 6, 'days').format('YYYY-MM-DD');
+                endTime = moment().subtract(prevWeek, 'days').format('YYYY-MM-DD');
+                break;
+            case '自定义':
+                $('#' + id).show();
+                break;
+        }
+        return {
+            startTime: startTime,
+            endTime: endTime
+        }
+    }
+
+    $('#createTime2').daterangepicker({
+        applyClass: "btn-primary",
+        locale: {
+            format: 'YYYY-MM-DD',
+            applyLabel: '确定',
+            applyClass: "btn-primary",
+            cancelLabel: '取消',
+            fromLabel: '开始',
+            toLabel: '结束',
+            daysOfWeek: '日_一_二_三_四_五_六'.split('_'),
+            monthNames: '1月_2月_3月_4月_5月_6月_7月_8月_9月_10月_11月_12月'.split('_'),
+        },
+        startDate: moment().subtract(6, 'days'),
+        endDate: moment()
+    }, function (start, end) {
+        log(start.format('YYYY-MM-DD') + end.format('YYYY-MM-DD'));
+    });
+    /**
+     * 结算筛选类
+     * @param text 时间字（比如已结算）
+     * @return num 1是全部 2是已结算 3是未结算
+     */
+    function shortFilter(text) {
+        var num;
+        switch (text) {
+            case '全部':
+                num = 1;
+                break;
+            case '经销商':
+                num = 2;
+                break;
+            case '代销商':
+                num = 3;
+                break;
+        }
+        return num;
+    }
+    /**
+     * 结算筛选类
+     * @param text 时间字（比如已结算）
+     * @return num 1是全部 2是已结算 3是未结算
+     */
+    function shortFilter2(text) {
+        var num;
+        switch (text) {
+            case '全部':
+                num = 0;
+                break;
+            case '出库记录':
+                num = 2;
+                break;
+            case '入库记录':
+                num = 1;
+                break;
+        }
+        return num;
+    }
+
+
+    // //搜索框没内容处理
+    // $('#btnSearch').click(function(){
+    // 	var keyword = $('#keyword').val();
+    // 	if (keyword == '') {
+    // 		return false;
+    // 	}
+    // })
+</script>

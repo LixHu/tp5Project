@@ -1,0 +1,78 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>商品详情</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="_css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="_css/all.css" />
+		<style type="text/css">
+			html,body{
+			    height: 100%;
+			    width: 100%;
+			}
+		</style>
+	</head>
+
+	<body>
+		
+		<div id="bodys" class="full left bcol_ff7b2e father">
+			<input type="hidden" name="goods_id" value="{$se['id']}">
+			<img class="fuller son driver_img1" src="_images/4.png" />
+			<img class="fuller son driver_img2" src="_images/3.png" />
+			<img class="son driver_img3" src="_images/6.png" />
+			<img class="son driver_img4" src="{$se['img']}" />
+			<div class="son driver_money bcol_e ju_mid seventeen jiacu">
+				<img style="vertical-align: middle;" src="_images/driver_gold.png"  />
+				{$se['price']}
+			</div>
+			<div class="bcol_e driver_bottom son">
+				<p class="full ju_mid elveteen col_3 mb_5 mt_5">交易说明</p>
+				<p class="full elveteen col_3 driver_p mb_5">
+					本次交易类型为商城金币结算，结算后，我们将
+					于2个工作日内发货。
+				</p>
+				<p class="full elveteen col_3 driver_p mb_5">
+					最终解释权归捷律出行APP所有
+				</p>
+				<div class="full driver_but ju_mid seventeen col_f list" data-id="{$se['id']}">
+					确认下单
+				</div>
+			</div>
+		</div>
+		<script src="_js/mui.min.js"></script>
+		<script src="_js/jquery.js"></script>
+		<script type="text/javascript">
+			mui.init()
+			
+			mui.ready(function(){
+				document.getElementById("bodys").style.height = document.body.clientHeight + "px";
+			});
+
+			mui("body").on('tap','.index',function(){
+				 
+				location.href="javascript:history.go(-1)";
+				
+		    });
+		    mui("body").on('tap','.list',function(){
+				 
+				var goods_id = this.getAttribute('data-id');
+				
+				// var goods_id = $('input[name="goods_id"]').val();
+				$.post("{:url('Goods/shop_cart')}",{id:goods_id},function(data){
+						if(data == 3) {
+							alert('操作异常');
+						}else if(data == 0) {
+							alert('操作失败');
+						}else if(data == 1) {
+							location.href="{:url('Goods/goods_pay')}";
+						}
+					})
+				
+				// location.href="{:url('Goods/goods_pay')}?id="+goods_id;
+		    });
+		</script>
+	</body>
+
+</html>

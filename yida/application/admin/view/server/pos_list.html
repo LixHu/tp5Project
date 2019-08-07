@@ -1,0 +1,101 @@
+{include file="public/header" /}
+<body style="padding:10px;">
+    <blockquote class="layui-elem-quote layui-text">
+        客服管理
+    </blockquote>
+    <div style="float:right;padding:10px;">
+        <button type="button" class="layui-btn layui-btn-normal" data-method="add" data-url="addedit_pos">添加客服位置</button>
+    </div>
+    <table class="layui-table">
+        <tr>
+            <td width="50"><input type="checkbox" id="checkall" /></td>
+            <td>位置名称</td>
+            <td width="180">操作</td>
+        </tr>
+        {volist name="list" id="vo"}
+            <tr>
+                <td><input type="checkbox" name="id[]" value="{$vo.server_pos}"> </td>
+                <td>{$vo.pos_name}</td>
+                <td>
+                    <div class="layui-btn-group">
+                        <a href="addedit_pos?id={$vo.server_pos}" class="layui-btn layui-btn-normal">编辑</a>
+                        <button type="button" class="layui-btn layui-btn-danger" data-method="del" data-id="{$vo.server_pos}">删除</button>
+                    </div>
+                </td>
+            </tr>
+        {/volist}
+        <tr>
+            <td colspan="15">
+                <div class="pagelist">{$page}</div>
+            </td>
+        </tr>
+        <tr>
+            <td><button type="button" class="layui-btn layui-btn-danger" data-method="delAll">删除</button></td>
+            <td colspan="15"></td>
+        </tr>
+    </table>
+
+    <script type="text/javascript">
+    var active = {
+    'add':function(){
+        location.href=$(this).data('url');
+    },del:function(){
+        var data = {};
+        data.id = $(this).data('id');
+        layer.confirm('确定要删除吗？',{
+            btn:['确定','取消']
+        },function(){
+            $.post('del_pos',data,function(msg){
+                msg = JSON.parse(msg);
+                if(msg.code == 1){
+                    layer.msg(msg.msg,{icon:1});
+                    setTimeout("location.reload()",2000);
+                }else{
+                    layer.msg(msg.msg,{icon:2});
+                }
+            })
+        },function(){
+            console.log('error');
+        })
+    },
+    delAll:function(){
+        var id = [];
+        $.each($("input[name='id[]']"),function(k,v){
+            if(v.checked){
+                id.push(v.value);
+            }
+        })
+        if(id.length < 1){
+            layer.msg('请选择要删除的客服',{icon:2});
+            return false;
+        }
+        var data = {};
+        data.id = id;
+        layer.confirm('确定要删除吗？',{
+            btn:['确定','取消']
+        },function(){
+            $.post('del_pos',data,function(msg){
+                msg = JSON.parse(msg);
+                if(msg.code == 1){
+                    layer.msg(msg.msg,{icon:1});
+                    setTimeout("location.reload()",2000);
+                }else{
+                    layer.msg(msg.msg,{icon:2});
+                }
+            })
+        },function(){
+
+        })
+    }
+    }
+    $("#checkall").click(function(){
+    $.each($("input[name='id[]']"),function(k,v){
+        v.checked = !v.checked;
+    })
+    })
+    $(".layui-btn").on('click',function(){
+    var othis = $(this), method = othis.data('method');
+    active[method] ? active[method].call(this, othis) : '';
+    })
+    </script>
+{include file="public/footer" /}

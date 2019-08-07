@@ -1,0 +1,87 @@
+{include file="public/head" /}
+	<div id="pageAll">
+		<div class="pageTop">
+			<div class="page">
+				<img src="__IMG__/coin02.png" /><span><a href="#">首页</a>&nbsp;-&nbsp;<a
+					href="#">管理员管理</a>&nbsp;-</span>&nbsp;修改管理员信息
+			</div>
+		</div>
+		<div class="page " style="margin-top:30px;text-align:center;">
+			<!-- 修改密码页面样式 -->
+			<form class="layui-form" action="" method="post" enctype="multipart/form-data">
+				<div class="layui-form-item">
+					<label class="layui-form-label">用户名：</label>
+					<div class="layui-input-inline">
+						<input type="text"  class="layui-input"  name="user_name" lay-verify="required" value="<?php if(!empty($info['user_name'])) echo $info['user_name']; ?>" placeholder="请输入用户名" required>
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">手机号：</label>
+					<div class="layui-input-inline">
+						<input type="text"  class="layui-input"  name="mobile" value="<?php if(!empty($info['mobile'])) echo $info['mobile']; else echo ''; ?>" autocomplete="off" placeholder="请输入手机号"required>
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">昵称：</label>
+					<div class="layui-input-inline">
+						<input type="text" name="nickname" value="<?php if(!empty($info['nickname'])) echo $info['nickname']; else echo ''; ?>"  autocomplete="off" placeholder="请输入昵称" class="layui-input">
+					</div>
+				</div>
+				<div class="layui-form-item" >
+					<label class="layui-form-label">角色：</label>
+					<div class="layui-input-inline">
+						<select name="role_id" >
+							<?php if(!empty($info['role_id'])) $rd = $info['role_id']; else $rd = ''; ?>
+							<option value="">请选择</option>
+							{volist name='role' id="vo"}
+								<option value="{$vo.role_id}" {if condition="$rd neq '' and $rd eq $vo['role_id']"} selected {/if}>{$vo.role_name}</option>
+							{/volist}
+						</select>
+					</div>
+				</div>
+				<div class="layui-form-item" >
+					<label class="layui-form-label">头像：</label>
+					<div class="layui-input-inline" style="width:300px;">
+						<div id="preview" style="float:left;">
+			              <img id="imghead" width=100 height=100 border=0 src="<?php if(!empty($info['head_img'])) echo $info['head_img']; else echo '/static/img/default.jpg' ;?>">
+			            </div>
+						<input type="button" data-method="upload" class="layui-btn" value="点击上传">
+			          	<input type="file"  style="display:none;" id="image" name="image1" style="float:left;" onchange="previewImage(this)">
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">密码：</label>
+					<div class="layui-input-inline">
+						<input type="password" name="password" autocomplete="off" placeholder="请输入密码" class="layui-input">
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">确认密码：</label>
+					<div class="layui-input-inline" >
+						<input type="password" name="password2" autocomplete="off" placeholder="请确认密码" class="layui-input">
+					</div>
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<div class="layui-input-block">
+					<button lay-submit="" class="layui-btn">提交</button>
+				</div>
+			</div>
+		</form>
+	</div>
+</body>
+<script type="text/javascript">
+layui.use('form',function(){
+	var form = layui.form;
+})
+var active = {
+	upload:function(){
+		$("#image").click();
+	}
+}
+$(".layui-btn").on('click',function(){
+	var othis = $(this), method = othis.data('method');
+	active[method] ? active[method].call(this, othis) : '';
+})
+</script>
+{include file="public/footer" /}

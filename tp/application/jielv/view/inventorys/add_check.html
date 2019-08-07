@@ -1,0 +1,368 @@
+{include file="public/header" /}
+<link rel="stylesheet" href="_css/select2.min.css">
+<script src="_js/select2.full.js"></script>
+<link
+	href="http://cdn.bootcss.com/bootstrap-daterangepicker/2.1.25/daterangepicker.css"
+	rel="stylesheet" />
+<script
+	src="http://cdn.bootcss.com/bootstrap-daterangepicker/2.1.25/moment.min.js"></script>
+<script
+	src="http://cdn.bootcss.com/bootstrap-daterangepicker/2.1.25/daterangepicker.js"></script>
+<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+<!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+<style>
+body {
+	background-color: #eeeeee;
+}
+
+.content {
+	padding: 0 15px !important;
+}
+
+.small-box {
+	margin-bottom: 0px;
+	color: #FFFFFF;
+}
+
+.table-header-sort {
+	cursor: pointer;
+	color: black !important;
+}
+
+.tooltip>.tooltip-inner {
+	background-color: #e5e5e5;
+	color: #0c0c0c
+}
+
+.tooltip.top .tooltip-arrow {
+	border-top-color: #e5e5e5;
+}
+
+#wait {
+	background: rgba(255, 255, 255, 0.5) url("/resource/images/wait.gif")
+		center no-repeat;
+	position: fixed;
+	width: 100%;
+	height: 100%;
+	z-index: 9000;
+}
+
+.dnone {
+	display: none;
+}
+
+[v-cloak] {
+	display: none
+}
+
+.iconfont {
+	width: 50px !important;
+}
+
+.dropdown-menu>li a {
+	transition: background-color ease .3s, color ease .3s, border-color ease
+		.3s;
+}
+
+.dropdown-menu>li a:hover {
+	background-color: #3c8dbc;
+	color: white;
+	border-color: #3c8dbc;
+}
+
+.dropdown-toggle {
+	transition: background-color ease .3s, color ease .3s, border-color ease
+		.3s;
+}
+
+.dropdown-toggle:hover {
+	background-color: #3c8dbc;
+	color: white;
+	border-color: #3c8dbc;
+}
+
+.open .dropdown-toggle {
+	background-color: #3c8dbc !important;
+	color: white !important;
+	border-color: #3c8dbc !important;
+}
+
+.btn-default1 {
+	background-color: #f4f4f4;
+	color: #444;
+	border-color: #ddd;
+}
+
+.small-box .icon {
+	top: -25px !important;
+}
+
+.small-box h3 {
+	font-size: 30px !important;
+	margin: 0 0 10px 0 !important;
+	white-space: nowrap !important;
+	padding: 0 !important;
+	font-weight: normal !important;
+}
+
+.table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th,
+	.table>thead>tr>td, .table>thead>tr>th {
+	line-height: 2.4;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	overflow: hidden;
+}
+
+.nav-tabs>li>a {
+	border: 1px solid transparent;
+	border-radius: 5px;
+}
+
+.nav-tabs>li.active>a, .nav-tabs>li.active>a:focus, .nav-tabs>li.active>a:hover
+	{
+	color: #FFFFFF;
+	cursor: default;
+	background-color: #27a9e6;
+}
+
+.nav-tabs {
+	border-bottom: 0;
+}
+</style>
+<div class="" id="main">
+	<section class="content" style="min-width: 760px !important;">
+		<div class="">
+
+			<input type="hidden" id="sortSeachModel" name="sortBy[taskNo]"
+				value="false"> <input type="hidden" id="workTaskId"
+				name="id" value="">
+				<div class="box box-solid">
+				<div class="box-body">
+					<ul id="myTab" class="nav nav-tabs">
+						
+						<li class="active"><a href="{:url('Inventorys/check_all')}" > 盘点 </a></li>
+						<li><a href="{:url('Inventorys/safety_all')}" > 安全库存 </a></li>
+						<li><a href="{:url('Inventorys/order_all')}" > 出入库记录 </a></li>
+					</ul>
+				</div>
+			</div>
+
+			
+
+			<div class="col-md-3 col-sm-3">
+				<div class="box box-solid">
+					<div class="box-header with-border" id="accordion">
+						<h4 class="box-title">产品类别</h4>
+						<div class="box-tools">
+							<button type="button" class="btn btn-box-tool"
+								data-toggle="collapse" data-parent="#accordion"
+								href="#collapseOne" aria-expanded="true">
+								<i class="fa fa-minus"></i>
+							</button>
+						</div>
+					</div>
+					<div class="box-body no-padding collapse in" id="collapseOne"
+						aria-expanded="true" style="">
+						<ul id="wikiTypeUL" class="nav nav-pills nav-stacked">
+							<li class=""><a href="{:url('add_check',['catename'=>0])}">
+									<i class="fa fa-file-text-o"></i> <span name="typeName">全部</span>
+
+							</a></li> 
+
+							{volist name="partscate" id="vo"}
+							{if condition="$catename eq $vo['name']"}
+							<li class="active"><a href="{:url('add_check',['catename'=>$vo.name])}"> <i class="fa fa-file-text-o"></i> 
+							<span name="typeName">{$vo.name}</span></a>
+							</li>
+							{else}
+							<li><a href="{:url('add_check',['catename'=>$vo.name])}"> <i class="fa fa-file-text-o"></i> 
+							<span name="typeName">{$vo.name}</span></a>
+							</li>
+							{/if}
+							{/volist}
+
+
+						</ul>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-9 col-sm-9">
+				<div class="box box-solid">
+					<div class="box-body">
+						
+						<div class="col-md-6 col-sm-6" style="float: right; width: 50%;">
+									<form id="search" name="search" method="get"
+										action="search_check_parts">
+										<div class="input-group" style="width: 100%;">
+											<input type="text"
+												class="form-control keyword-search criteria"
+												placeholder="请输入产品编号、名称" value="" id="keyword" name="keyword"
+												maxlength="50"> <span class="input-group-btn">
+												<button class="btn btn-primary" type="submit" id="btnSearch">搜
+													索</button>
+
+											</span>
+										</div>
+									</form>
+								</div>
+
+					</div>
+				</div>
+				<div class="box box-solid">
+					<div class="box-body no-padding">
+						<div class="table-responsive list">
+							<table class="table table-hover table-striped table-bordered"
+								id="taskTable">
+								<thead>
+									<tr>
+										
+										<th>产品编号</th>
+										<th id="tour_1" name="taskCustomer">产品名称</th>
+										<th name="taskCustomerLinkmanPhone">规格</th>
+										<th name="taskCustomerAddress">产品分类</th>
+										<!-- <th name="taskProduct">图片</th> -->
+
+										<th name="taskPlanTime">状态</th>
+
+										<th name="taskLevel">备注</th>
+
+										<th name="taskServiceType">创建时间</th>
+
+										<th>操作</th>
+									</tr>
+								</thead>
+								<tbody>
+									{if condition="$res eq false"} 
+									{volist name="parts_all" id="vo"}
+									<tr>
+										
+
+										<td><a
+											href="javascript:taskView('6e83e2f2-f111-11e7-9aa4-00163e12f748')">{$vo.product_number}</a>
+										</td>
+										<td name="taskCustomer">{$vo.name}</td>
+
+										<td name="taskCustomerLinkmanPhone">{$vo.specification}</td>
+
+										<td name="taskServiceType">{$vo.cateid}</td>
+
+										<!-- <td name="taskLevel">{$vo.images}</td> -->
+										{if $vo['status'] == 1}
+										<td name="taskLevel">已启用</td> {else}
+										<td name="taskLevel">已禁用</td> {/if}
+										<td name="taskLevel">{$vo.content}</td>
+
+										<td name="taskLevel">{$vo.ad_time|date="Y-m-d H:i",###}</td>
+
+										<td name="taskLevel"><a
+											href="{:url('Inventorys/add_check',['partsid'=>$vo.id])}"
+											onclick="modalShow();">添加</a></td>
+									</tr>
+									{/volist} {else}
+									<tr>
+										<td colspan="19" style="text-align: center;">未找到相关数据</td>
+									</tr>
+									{/if}
+
+								</tbody>
+							</table>
+						</div>
+					</div>
+					<div class="box-footer ">
+						{$page}
+					</div>
+
+				</div>
+			</div>
+	</section>
+</div>
+{include file="public/footer" /}
+<script>
+    //分页
+//     $('#pagination1').jqPaginator({
+//         totalPages: 12,//设置分页的总页数
+//         visiblePages: 5,//设置最多显示的页码数（例如有100也，当前第1页，则显示1 - 7页）
+//         currentPage: 1,//	设置当前的页码
+//         first: "<li class=\"first\"><a href=\"javascript:;\">首页</a></li>",
+//         last: "<li class=\"last\"><a href=\"javascript:;\">末页</a></li>",
+//         prev: "<li class=\"prev\"><a href=\"javascript:;\">上一页</a></li>",
+//         next: "<li class=\"next\"><a href=\"javascript:;\">下一页</a></li>",
+//         page: "<li class=\"page\" ><a href=\"javascript:;\">{{page}}</a></li>",
+//         onPageChange: function (num, type) {
+// //            alert(num);
+//         }
+//     });
+
+//     $('#pagination2').jqPaginator({
+//         totalPages: 12,//设置分页的总页数
+//         visiblePages: 5,//设置最多显示的页码数（例如有100也，当前第1页，则显示1 - 7页）
+//         currentPage: 1,//	设置当前的页码
+//         first: "<li class=\"first\"><a href=\"javascript:;\">首页</a></li>",
+//         last: "<li class=\"last\"><a href=\"javascript:;\">末页</a></li>",
+//         prev: "<li class=\"prev\"><a href=\"javascript:;\">上一页</a></li>",
+//         next: "<li class=\"next\"><a href=\"javascript:;\">下一页</a></li>",
+//         page: "<li class=\"page\" ><a href=\"javascript:;\">{{page}}</a></li>",
+//         onPageChange: function (num, type) {
+// //            alert(num);
+//         }
+//     });
+
+//     $('#pagination3').jqPaginator({
+//         totalPages: 12,//设置分页的总页数
+//         visiblePages: 5,//设置最多显示的页码数（例如有100也，当前第1页，则显示1 - 7页）
+//         currentPage: 1,//	设置当前的页码
+//         first: "<li class=\"first\"><a href=\"javascript:;\">首页</a></li>",
+//         last: "<li class=\"last\"><a href=\"javascript:;\">末页</a></li>",
+//         prev: "<li class=\"prev\"><a href=\"javascript:;\">上一页</a></li>",
+//         next: "<li class=\"next\"><a href=\"javascript:;\">下一页</a></li>",
+//         page: "<li class=\"page\" ><a href=\"javascript:;\">{{page}}</a></li>",
+//         onPageChange: function (num, type) {
+// //            alert(num);
+//         }
+//     });
+
+
+
+    ////以下是复选框的选中
+    $("#checkSelect").change(function () {
+        if ($(this).is(':checked')) {
+            $("input[name='checkSelect']").prop("checked", "checked");
+        } else {
+            $("input[name='checkSelect']").removeAttr("checked");
+        }
+    });
+    $("input[name='checkSelect']").change(function () {
+        var flag = true;
+        $("input[name='checkSelect']").each(function () {
+            if (!$(this).is(':checked')) {
+                flag = false;
+                return false;
+            }
+        });
+        if (flag) {
+            $("#checkSelect").prop("checked", "checked");
+        } else {
+            $("#checkSelect").removeAttr("checked");
+        }
+    });
+    ////以上是复选框的选中
+    
+    function modalShow(){
+		alert('确定要添加此产品吗？');
+	}
+
+
+	//搜索框没内容处理
+    $('#btnSearch').click(function(){
+    	var keyword = $('#keyword').val();
+    	if (keyword == '') {
+    		return false;
+    	}
+    })
+        
+
+</script>

@@ -1,0 +1,56 @@
+{include file="public/header" /}
+<form class="layui-form" action="" method="post"  style="padding:10px;">
+    <div class="layui-form-item">
+        <label class="layui-form-label">位置:</label>
+        <div class="layui-input-block">
+            <?php $pd = ''; if(!empty($info['page_id'])) $pd = $info['page_id']; ?>
+            <!-- <input type="text" class="layui-input" name="" value=""> -->
+            <select class="layui-input" name="page_id">
+                <option value="">请选择</option>
+                {volist name="page_list" id="vo"}
+                    <option value="{$vo.page_id}" {if $pd neq '' and $pd eq $vo['page_id']} selected {/if}>{$vo.page_name}</option>
+                {/volist}
+            </select>
+            <input type="hidden" name="info_id" id="info_id" value="{$info.info_id}">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">内容:</label>
+        <div class="layui-input-block">
+            <textarea name="info_content" id="editor" style="width:100%;height:400px;">{$info.info_content}</textarea>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label"></label>
+        <div class="layui-input-block">
+            <button type="button" class="layui-btn" data-method="sub">提交</button>
+        </div>
+    </div>
+</form>
+
+<script src="__JS__/ueditor/ueditor.config.js"></script>
+<script src="__JS__/ueditor/ueditor.all.min.js"></script>
+<script type="text/javascript">
+    var ue = UE.getEditor('editor');
+    layui.use('form',function(){
+        var form = layui.form;
+    })
+    var active = {
+        sub:function(){
+            var data = $('form').serialize();
+            $.post('addedit_page',data,function(ret){
+                if (ret.code == 1) {
+                    layer.msg(ret.msg,{icon:1});
+                    setTimeout('parent.location.reload()',2000);
+                }else {
+                    layer.msg(ret.msg,{icon:2});
+                }
+            })
+        }
+    }
+    $(".layui-btn").on('click',function(){
+        var othis = $(this), method = othis.data('method');
+        active[method] ? active[method].call(this, othis) : '';
+    })
+</script>
+{include file="public/footer" /}

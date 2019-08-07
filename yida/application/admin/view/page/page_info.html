@@ -1,0 +1,169 @@
+{include file="public/header" /}
+<div style="padding:10px;" >
+    <blockquote class="layui-elem-quote layui-text">
+        页面详情管理
+    </blockquote>
+    <div style="float:right;padding:10px;">
+        <button type="button" data-method="add" class="layui-btn layui-btn-normal">添加内容</button>
+    </div>
+    <table class="layui-table">
+        <tr>
+            <td><input type="checkbox" id="checkall"> </td>
+            <td>位置</td>
+            <td>查看内容</td>
+            <td>操作</td>
+        </tr>
+        {volist name="list" id="vo"}
+            <tr>
+                <td><input type="checkbox" name="id[]" value="{$vo.info_id}"> </td>
+                <td>{$vo.page_name}</td>
+                <td>
+                    <button type="button" class="layui-btn layui-btn-normal" data-method="edit" data-id="{$vo.info_id}">查看</button>
+                </td>
+                <td>
+                    <button type="button" class="layui-btn layui-btn-danger" data-method="del" data-id="{$vo.info_id}">删除</button>
+                </td>
+            </tr>
+        {/volist}
+        <tr>
+            <td colspan="15">
+                <div class="pagelist">{$page}</div>
+            </td>
+        </tr>
+        <tr>
+            <td><button type="button" class="layui-btn layui-btn-danger" data-method="delAll">删除</button></td>
+            <td colspan="15"></td>
+        </tr>
+    </table>
+</div>
+<div id="addedit" style="display:none;padding:10px;">
+    <form class="layui-form" action="" method="post">
+        <div class="layui-form-item">
+            <label class="layui-form-label">位置:</label>
+            <div class="layui-input-block">
+                <!-- <input type="text" class="layui-input" name="" value=""> -->
+                <select class="layui-input" name="page_id">
+                    <option value="">请选择</option>
+                    {volist name="page_list" id="vo"}
+                        <option value="{$vo.page_id}">{$vo.page_name}</option>
+                    {/volist}
+                </select>
+                <input type="text" name="info_id" id="info_id">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">内容:</label>
+            <div class="layui-input-block">
+                <textarea name="info_content" id="editor" style="width:100%;height:400px;"></textarea>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label"></label>
+            <div class="layui-input-block">
+                <button type="button" class="layui-btn" data-method="sub">提交</button>
+            </div>
+        </div>
+    </form>
+</div>
+<script src="__JS__/ueditor/ueditor.config.js"></script>
+<script src="__JS__/ueditor/ueditor.all.min.js"></script>
+<script type="text/javascript">
+    layui.use('form',function(){
+        var form = layui.form;
+    })
+    var ue = UE.getEditor('editor');
+    var active = {
+        add:function(){
+            layer.open({
+                type:1,
+                area:['50%','80%'],
+                maxmin:true,
+                title:"查看内容",
+                shadeClose:false,
+                closeBtn:1,
+                content:$("#addedit")
+            })
+        },
+        edit:function(){
+            var id = $(this).data('id');
+            layer.open({
+                type:2,
+                area:['50%','80%'],
+                maxmin:true,
+                title:"查看内容",
+                shadeClose:false,
+                closeBtn:1,
+                content:'addedit_info?id='+id
+            })
+        },
+        sub:function(){
+            var data = $('form').serialize();
+            $.post('addedit_page',data,function(ret){
+                if (ret.code == 1) {
+                    layer.msg(ret.msg,{icon:1});
+                    setTimeout('location.reload()',2000);
+                }else {
+                    layer.msg(ret.msg,{icon:2});
+                }
+            })
+        },
+        del:function(){
+            var data = {};
+            data.id = $(this).data('id');
+            layer.confirm('确定要删除吗？',{
+                btn:['确定','取消']
+            },function(){
+                $.post('del_page',data,function(msg){
+                    msg = JSON.parse(msg);
+                    if(msg.code == 1){
+                        layer.msg(msg.msg,{icon:1});
+                        setTimeout("location.reload()",2000);
+                    }else{
+                        layer.msg(msg.msg,{icon:2});
+                    }
+                })
+            },function(){
+                console.log('error');
+            })
+        },
+        delAll:function(){
+            var id = [];
+            $.each($("input[name='id[]']"),function(k,v){
+                if(v.checked){
+                    id.push(v.value);
+                }
+            })
+            if(id.length < 1){
+                layer.msg('请选择要删除的banner',{icon:2});
+                return false;
+            }
+            var data = {};
+            data.id = id;
+            layer.confirm('确定要删除吗？',{
+                btn:['确定','取消']
+            },function(){
+                $.post('del_page',data,function(msg){
+                    msg = JSON.parse(msg);
+                    if(msg.code == 1){
+                        layer.msg(msg.msg,{icon:1});
+                        setTimeout("location.reload()",2000);
+                    }else{
+                        layer.msg(msg.msg,{icon:2});
+                    }
+                })
+            },function(){
+
+            })
+        }
+    }
+    $("#checkall").click(function(){
+        $.each($("input[name='id[]']"),function(k,v){
+            v.checked = !v.checked;
+        })
+    })
+    $(".layui-btn").on('click',function(){
+        var othis = $(this), method = othis.data('method');
+        active[method] ? active[method].call(this, othis) : '';
+    })
+</script>
+{include file="public/footer" /}
